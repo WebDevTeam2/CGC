@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  margin: 0;
+  object-fit: none;
+  padding: 0;
+}
+
+/* H nextjs exei apo default kapoia styles sta video mesa sto shadowRoot. Me ayton ton tropo ta kanoume override */
+mux-player {
+  --media-object-fit: cover;
+  --media-object-position: center;
+}
+
+/* Gia na ginontai ta hover effects sto opacity otan kanoume hover oloklhro to div */
+.clip-container .clip-text{
+    opacity: 0;
+    transition: 0.7s ease-in-out;
+}
+
+.clip-container:hover .clip-text {
+    opacity: 1;
+}

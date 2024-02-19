@@ -12,6 +12,7 @@ function Games() {
       if (!isPlaying && videoRef.current) {
         videoRef.current.play();
         setisPlaying(true);
+        
       }
     }, 400);
   };
@@ -26,13 +27,13 @@ function Games() {
 
   return (
     <div
-      className="group text-6xl justify-center flex w-2/4 h-screen overflow-hidden grayscale hover:grayscale-0 transition duration-500 ease-in-out cursor-pointer"
+      className="clip-container group text-6xl justify-center flex w-2/4 h-screen overflow-hidden grayscale hover:grayscale-0 transition duration-500 ease-in-out cursor-pointer"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <h1 className="flex absolute top-2/4 text-white z-10 opacity-0">Games</h1>
+      <h1 className="clip-text flex absolute top-2/4 text-white z-10 opacity-0">Games</h1>
       <NextVideo
-        // src="/games.mp4"
+        src="/Sequence4.mp4"
         controls={false}
         ref={videoRef}
         muted

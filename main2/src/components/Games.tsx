@@ -38,7 +38,14 @@ function Games() {
       <h1 className="clip-text flex absolute top-2/4 text-white z-10 opacity-0">
         Games
       </h1>
-      <video src="/Sequence4.mp4" controls={false} ref={videoRef} muted loop />
+      <video
+        className="w-full h-screen absolute object-cover"
+        src="/Sequence4.mp4"
+        controls={false}
+        ref={videoRef}
+        muted
+        loop
+      />
     </div>
   );
 }

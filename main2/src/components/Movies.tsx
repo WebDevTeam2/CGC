@@ -40,7 +40,7 @@ const Movies = () => {
       </h1>
 
       <video
-        className="w-full h-screen absolute scale-125"
+        className="w-full h-screen absolute object-cover"
         src="/Sequence5.mp4"
         controls={false}
         ref={videoRef}

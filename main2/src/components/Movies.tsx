@@ -1,5 +1,4 @@
 "use client"; //because we use UseState
-import NextVideo from "next-video";
 import React, { useState, useRef } from "react";
 
 const Movies = () => {
@@ -40,12 +39,13 @@ const Movies = () => {
         Movies
       </h1>
 
-      <NextVideo
-        className="w-full h-screen absolute "
+      <video
+        className="w-full h-screen absolute scale-125"
         src="/Sequence5.mp4"
         controls={false}
         ref={videoRef}
         muted
+        loop
       />
     </div>
   );

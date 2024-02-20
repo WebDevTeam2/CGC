@@ -1,6 +1,6 @@
 "use client"; //because we use UseState
 import React, { useRef, useState } from "react";
-import Image from 'next/image'
+import Image from "next/legacy/image"
 
 const senuaImagePath = "/assets/images/senua.jpg";
 
@@ -44,6 +44,7 @@ function Games() {
         layout="fill"
         objectFit="cover"
         className="absolute hover:opacity-0 transition duration-1000  " 
+        priority
       >
       </Image>
       <h1 className="clip-text flex absolute top-2/4 text-white z-10 opacity-0">

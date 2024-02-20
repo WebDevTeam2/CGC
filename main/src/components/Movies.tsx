@@ -1,6 +1,6 @@
 "use client"; //because we use UseState
 import React, { useState, useRef } from "react";
-import Image from 'next/image'
+import Image from "next/legacy/image"
 
 const batManImagePath = "/assets/images/batman.jpg";
 
@@ -44,6 +44,7 @@ const Movies = () => {
         layout="fill"
         objectFit="cover"
         className="absolute hover:opacity-0 transition duration-1000  " 
+        priority
       >
         
 

@@ -1,9 +1,12 @@
 "use client"; //because we use UseState
-import React, { useState, useRef } from "react";
+import React, { useRef, useState } from "react";
+import Image from 'next/image'
 
-const Movies = () => {
+const senuaImagePath = "/assets/images/senua.jpg";
+
+function Games() {
   const [isPlaying, setisPlaying] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);  //to videoRef Kanei anafora se HTML video
   let timer: ReturnType<typeof setTimeout>;
 
   //function gia na paizoun ta video mono otan ginontai hovered
@@ -30,18 +33,25 @@ const Movies = () => {
 
   return (
     <div
-      className="clip-container group text-6xl justify-center flex w-2/4 h-screen overflow-hidden grayscale hover:grayscale-0 transition duration-500 ease-in-out cursor-pointer relative"
+      className="relative clip-container group text-6xl justify-center flex w-2/4 h-screen overflow-hidden grayscale hover:grayscale-0 transition duration-500 ease-in-out cursor-pointer"
       //Efarmozoume ta effects gia na paizoun ta video se oloklkhro to div
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <h1 className="clip-text hover:opacity-100 transition duration-700 ease-in-out flex absolute top-2/4 text-white z-10">
-        Movies
-      </h1>
 
+      <Image src = {senuaImagePath}
+        alt="Description of the image"
+        layout="fill"
+        objectFit="cover"
+        className="absolute hover:opacity-0 transition duration-1000  " 
+      >
+      </Image>
+      <h1 className="clip-text flex absolute top-2/4 text-white z-10 opacity-0">
+        Games
+      </h1>
       <video
-        className="w-full h-screen absolute object-cover"
-        src="/Sequence5.mp4"
+        className="w-full h-screen absolute object-cover -z-10"
+        src="/Sequence4.mp4"
         controls={false}
         ref={videoRef}
         muted
@@ -49,5 +59,6 @@ const Movies = () => {
       />
     </div>
   );
-};
-export default Movies;
+}
+
+export default Games;

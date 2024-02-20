@@ -40,7 +40,7 @@ const Movies = () => {
     >
 
       <Image src = {batManImagePath}
-        alt="Description of the image"
+        alt="Batman image placeholder"
         layout="fill"
         objectFit="cover"
         className="absolute hover:opacity-0 transition duration-1000  " 

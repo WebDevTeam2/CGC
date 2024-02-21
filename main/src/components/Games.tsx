@@ -48,7 +48,7 @@ function Games() {
         className="absolute hover:opacity-0 transition duration-1000  "
         priority
       ></Image>
-      <h1 className="clip-text flex absolute top-2/4 text-white z-10 opacity-0">
+      <h1 className="group-hover:opacity-100 transition duration-1000 flex absolute top-2/4 text-white z-10 opacity-0">
         Games
       </h1>
       <video

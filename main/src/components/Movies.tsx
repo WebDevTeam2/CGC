@@ -1,13 +1,13 @@
 "use client"; //because we use UseState
 import Link from "next/link";
 import React, { useState, useRef } from "react";
-import Image from "next/legacy/image"
+import Image from "next/legacy/image";
 
 const batManImagePath = "/assets/images/batman.jpg";
 
 const Movies = () => {
   const [isPlaying, setisPlaying] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);  //to videoRef Kanei anafora se HTML video
+  const videoRef = useRef<HTMLVideoElement>(null); //to videoRef Kanei anafora se HTML video
   let timer: ReturnType<typeof setTimeout>;
 
   //function gia na paizoun ta video mono otan ginontai hovered

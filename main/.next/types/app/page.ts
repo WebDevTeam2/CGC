@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // File: G:\PtyxiakhS\main\main\src\app\page.tsx
+=======
+// File: C:\Users\douga\programming\newPtyxiakh2\main\src\app\page.tsx
+>>>>>>> 34f95a19dceb76364d08ffc6e32f707fe884b5c9
 import * as entry from '../../../src/app/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

@@ -14,7 +14,21 @@
     "/Games/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
+<<<<<<< HEAD
       "static/chunks/app/Games/page.js"
+=======
+      "static/chunks/app/Movies/page.js"
+    ],
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
+    ],
+    "/Movies-trending/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/Movies-trending/page.js"
+>>>>>>> 34f95a19dceb76364d08ffc6e32f707fe884b5c9
     ]
   }
 }

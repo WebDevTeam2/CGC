@@ -48,11 +48,11 @@ const Movies = () => {
       priority
     ></Image>
     <h1 className="clip-text flex absolute top-2/4 text-white z-10 opacity-0">
-      Games
+      Movies
     </h1>
     <video
       className="w-full h-screen absolute object-cover -z-10"
-      src="/Sequence5.mp4"
+      src="/assets/videos/Sequence5.mp4"
       controls={false}
       ref={videoRef}
       muted

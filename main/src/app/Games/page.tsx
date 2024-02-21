@@ -1,3 +1,5 @@
+import SearchBar from "@/components/Game-components/SearchBar";
+
 export default function GamesHomePage() {
-    return <h1>Hello from games</h1>
+  return <SearchBar />;
 }

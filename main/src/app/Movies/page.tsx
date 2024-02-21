@@ -1,8 +1,10 @@
+import Nav from "@/components/Movie-components/Nav";
+import Main from "@/components/Movie-components/Main";
 export default function MovieHomePage() {
-    return (
-        <div>
-            <h1>hello from movies
-            </h1>
-        </div>
-    )
+  return (
+    <div>
+      <Nav />
+      <Main />
+    </div>
+  );
 }

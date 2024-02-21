@@ -17,3 +17,12 @@
   width: 600vw;
   height: 100vh;
 }
+
+/* Gia na kanei shift to content tou main otan ginetai hover to navbar sto Movies */
+nav ~ main {
+  transition: 0.7s ease-in-out;
+}
+
+nav:hover ~ main {
+  margin-left: 15rem;
+}

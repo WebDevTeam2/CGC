@@ -1,5 +1,3 @@
-"use client";
-import Link from 'next/link'
 import Games from "@/components/Games";
 import Movies from "@/components/Movies";
 

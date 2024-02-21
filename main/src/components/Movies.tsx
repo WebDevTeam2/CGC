@@ -52,7 +52,7 @@ const Movies = () => {
     </h1>
     <video
       className="w-full h-screen absolute object-cover -z-10"
-      src="/Sequence4.mp4"
+      src="/Sequence5.mp4"
       controls={false}
       ref={videoRef}
       muted

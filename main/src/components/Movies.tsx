@@ -1,12 +1,12 @@
 "use client"; //because we use UseState
 import React, { useState, useRef } from "react";
-import Image from "next/legacy/image"
+import Image from "next/legacy/image";
 
 const batManImagePath = "/assets/images/batman.jpg";
 
 const Movies = () => {
   const [isPlaying, setisPlaying] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);  //to videoRef Kanei anafora se HTML video
+  const videoRef = useRef<HTMLVideoElement>(null); //to videoRef Kanei anafora se HTML video
   let timer: ReturnType<typeof setTimeout>;
 
   //function gia na paizoun ta video mono otan ginontai hovered
@@ -38,17 +38,14 @@ const Movies = () => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-
-      <Image src = {batManImagePath}
+      <Image
+        src={batManImagePath}
         alt="Batman image placeholder"
         layout="fill"
         objectFit="cover"
-        className="absolute hover:opacity-0 transition duration-1000  " 
+        className="absolute hover:opacity-0 transition duration-1000  "
         priority
-      >
-        
-
-      </Image>
+      ></Image>
       <h1 className="clip-text hover:opacity-100 transition duration-700 ease-in-out flex absolute top-2/4 text-white z-10">
         Movies
       </h1>

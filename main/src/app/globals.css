@@ -8,22 +8,6 @@
   padding: 0;
 }
 
-/* H nextjs exei apo default kapoia styles sta video mesa sto shadowRoot. Me ayton ton tropo ta kanoume override
-mux-player {
-  --media-object-fit: cover;
-  --media-object-position: center;
-} */
-
-/* Gia na ginontai ta hover effects sto opacity otan kanoume hover oloklhro to div */
-.clip-container .clip-text {
-  opacity: 0;
-  transition: 0.7s ease-in-out;
-}
-
-.clip-container:hover .clip-text {
-  opacity: 1;
-}
-
 /* Gia na kanoun fullScreen ta video sto hover */
 .parent-container .clip-container {
   transition: 1.5s ease-in-out;
@@ -33,25 +17,3 @@ mux-player {
   width: 600vw;
   height: 100vh;
 }
-
-/* .parent-container :nth-child(1):hover {
-  width: 100vw;
-  height: 100vh;
-} */
-
-/* .parent-container:nth-child(1):hover :nth-child(2) {
-  opacity: 0;
-  pointer-events: none;
- visibility: hidden;
-} */
-
-/* .parent-container :nth-child(2):hover {
-  width: 100vw;
-  height: 100vh;
-} */
-/* 
-.parent-container:nth-child(2):hover :nth-child(1) {
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
-} */

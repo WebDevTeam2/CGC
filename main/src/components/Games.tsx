@@ -1,4 +1,5 @@
 "use client"; //because we use UseState
+import Link from "next/link";
 import React, { useRef, useState } from "react";
 import Image from "next/legacy/image";
 
@@ -32,9 +33,10 @@ function Games() {
   };
 
   return (
-    <div
+    //Link einai to a href ths next js 14
+    <Link
+      href={"/Games"}
       className="relative clip-container group text-6xl justify-center flex w-2/4 h-screen overflow-hidden grayscale hover:grayscale-0 transition duration-500 ease-in-out cursor-pointer"
-      //Efarmozoume ta effects gia na paizoun ta video se oloklkhro to div
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -50,14 +52,14 @@ function Games() {
         Games
       </h1>
       <video
-        className="w-full h-screen absolute object-cover -z-10 full-when-hovered"
+        className="w-full h-screen absolute object-cover -z-10"
         src="/Sequence4.mp4"
         controls={false}
         ref={videoRef}
         muted
         loop
       />
-    </div>
+    </Link>
   );
 }
 

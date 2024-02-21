@@ -1,4 +1,5 @@
 "use client"; //because we use UseState
+import Link from "next/link";
 import React, { useState, useRef } from "react";
 import Image from "next/legacy/image"
 
@@ -31,37 +32,33 @@ const Movies = () => {
     }
   };
 
-  return (
-    <div
-      className="relative clip-container group text-6xl justify-center flex w-2/4 h-screen overflow-hidden grayscale hover:grayscale-0 transition duration-500 ease-in-out cursor-pointer"
-      //Efarmozoume ta effects gia na paizoun ta video se oloklkhro to div
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-
-      <Image src = {batManImagePath}
-        alt="Batman image placeholder"
-        layout="fill"
-        objectFit="cover"
-        className="absolute hover:opacity-0 transition duration-1000  " 
-        priority
-      >
-        
-
-      </Image>
-      <h1 className="clip-text hover:opacity-100 transition duration-700 ease-in-out flex absolute top-2/4 text-white z-10">
-        Movies
-      </h1>
-
-      <video
-        className="w-full h-screen absolute object-cover -z-10 full-when-hovered"
-        src="/Sequence5.mp4"
-        controls={false}
-        ref={videoRef}
-        muted
-        loop
-      />
-    </div>
-  );
+  return (//Link einai to a href ths next js 14
+  <Link
+    href={"/Movies"}
+    className="relative clip-container group text-6xl justify-center flex w-2/4 h-screen overflow-hidden grayscale hover:grayscale-0 transition duration-500 ease-in-out cursor-pointer"
+    onMouseEnter={handleMouseEnter}
+    onMouseLeave={handleMouseLeave}
+  >
+    <Image
+      src={batManImagePath}
+      alt="Senua image placeholder"
+      layout="fill"
+      objectFit="cover"
+      className="absolute hover:opacity-0 transition duration-1000  "
+      priority
+    ></Image>
+    <h1 className="clip-text flex absolute top-2/4 text-white z-10 opacity-0">
+      Games
+    </h1>
+    <video
+      className="w-full h-screen absolute object-cover -z-10"
+      src="/Sequence4.mp4"
+      controls={false}
+      ref={videoRef}
+      muted
+      loop
+    />
+  </Link>
+);
 };
 export default Movies;

@@ -15,10 +15,17 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      fontFamily: {
+        'open-sans': ['Open Sans','sans-serif'],
+        'roboto': ['Roboto', 'sans-serif'],
+      },
+      boxShadow: {
+        'custom': '1px 3px 2px rgba(0, 0, 0, 0.25)'
+      },
+      scale: {
+        '110': '1.1'
+      }
     },
-    fontFamily: {
-      'open-sans': ['Open Sans','sans-serif'],
-    }
   },
   plugins: [],
 }

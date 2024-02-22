@@ -591,14 +591,44 @@ video {
 .m-0 {
   margin: 0px;
 }
-.ml-32 {
-  margin-left: 8rem;
+.mb-10 {
+  margin-bottom: 2.5rem;
 }
-.mt-6 {
-  margin-top: 1.5rem;
+.mb-20 {
+  margin-bottom: 5rem;
+}
+.ml-10 {
+  margin-left: 2.5rem;
+}
+.ml-20 {
+  margin-left: 5rem;
+}
+.ml-6 {
+  margin-left: 1.5rem;
+}
+.ml-auto {
+  margin-left: auto;
+}
+.mr-10 {
+  margin-right: 2.5rem;
+}
+.mt-10 {
+  margin-top: 2.5rem;
+}
+.mt-auto {
+  margin-top: auto;
 }
 .flex {
   display: flex;
+}
+.h-20 {
+  height: 5rem;
+}
+.h-48 {
+  height: 12rem;
+}
+.h-64 {
+  height: 16rem;
 }
 .h-full {
   height: 100%;
@@ -612,8 +642,14 @@ video {
 .w-2\/4 {
   width: 50%;
 }
-.w-40 {
-  width: 10rem;
+.w-20 {
+  width: 5rem;
+}
+.w-48 {
+  width: 12rem;
+}
+.w-64 {
+  width: 16rem;
 }
 .w-full {
   width: 100%;
@@ -640,6 +676,9 @@ video {
 .gap-2 {
   gap: 0.5rem;
 }
+.gap-4 {
+  gap: 1rem;
+}
 .overflow-hidden {
   overflow: hidden;
 }
@@ -658,6 +697,10 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(148 163 184 / var(--tw-bg-opacity));
 }
+.object-contain {
+  -o-object-fit: contain;
+     object-fit: contain;
+}
 .object-cover {
   -o-object-fit: cover;
      object-fit: cover;
@@ -665,20 +708,24 @@ video {
 .p-0 {
   padding: 0px;
 }
+.p-10 {
+  padding: 2.5rem;
+}
 .p-2 {
   padding: 0.5rem;
 }
 .p-3 {
   padding: 0.75rem;
 }
-.pb-4 {
-  padding-bottom: 1rem;
-}
 .pl-6 {
   padding-left: 1.5rem;
 }
-.pt-4 {
-  padding-top: 1rem;
+.font-open-sans {
+  font-family: Open Sans, sans-serif;
+}
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 .text-6xl {
   font-size: 3.75rem;
@@ -692,6 +739,13 @@ video {
   font-size: 1.25rem;
   line-height: 1.75rem;
 }
+.font-bold {
+  font-weight: 700;
+}
+.text-\[\#b6b6b6\] {
+  --tw-text-opacity: 1;
+  color: rgb(182 182 182 / var(--tw-text-opacity));
+}
 .text-slate-600 {
   --tw-text-opacity: 1;
   color: rgb(71 85 105 / var(--tw-text-opacity));
@@ -702,6 +756,14 @@ video {
 }
 .opacity-0 {
   opacity: 0;
+}
+.opacity-100 {
+  opacity: 1;
+}
+.shadow-custom {
+  --tw-shadow: 1px 3px 2px rgba(0, 0, 0, 0.25);
+  --tw-shadow-colored: 1px 3px 2px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 .outline-none {
   outline: 2px solid transparent;
@@ -730,6 +792,10 @@ video {
 .ease-in-out {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
+.content-none {
+  --tw-content: none;
+  content: var(--tw-content);
+}
 
 * {
   margin: 0;
@@ -749,11 +815,13 @@ video {
 }
 
 /* Gia na kanei shift to content tou main otan ginetai hover to navbar sto Movies */
-nav ~ main {
+nav ~ main,
+nav ~ .trending-page {
   transition: 0.7s ease-in-out;
 }
 
-nav:hover ~ main {
+nav:hover ~ main,
+nav:hover ~ .trending-page {
   margin-left: 15rem;
 }
 
@@ -761,18 +829,25 @@ nav:hover ~ main {
   width: 14rem;
 }
 
-.hover\:bg-\[\#13131e\]:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(19 19 30 / var(--tw-bg-opacity));
+.hover\:scale-110:hover {
+  --tw-scale-x: 1.1;
+  --tw-scale-y: 1.1;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
-.hover\:text-white:hover {
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
+.hover\:bg-\[\#6B6B6B\]:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(107 107 107 / var(--tw-bg-opacity));
 }
 
 .hover\:opacity-0:hover {
   opacity: 0;
+}
+
+.hover\:shadow-none:hover {
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 .hover\:grayscale-0:hover {
@@ -780,6 +855,12 @@ nav:hover ~ main {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
+.group:hover .group-hover\:opacity-0 {
+  opacity: 0;
+}
+
 .group:hover .group-hover\:opacity-100 {
   opacity: 1;
 }
+
+

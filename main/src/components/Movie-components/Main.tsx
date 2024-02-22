@@ -1,6 +1,6 @@
 export default function Main() {
     return (
-        <main className="ml-32">
+        <main className="ml-20">
             main content goes here
         </main>
     )

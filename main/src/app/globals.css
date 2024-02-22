@@ -29,3 +29,6 @@ nav:hover ~ .trending-page {
   margin-left: 15rem;
 }
 
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}

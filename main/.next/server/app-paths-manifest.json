@@ -1,6 +1,6 @@
 {
-  "/Movies-trending/page": "app/Movies-trending/page.js"
   "/not-found": "app/not-found.js",
-  "/Games/page": "app/Games/page.js",
-  "/page": "app/page.js"
+  "/Movies/page": "app/Movies/page.js",
+  "/page": "app/page.js",
+  "/Movies/Movies-trending/page": "app/Movies/Movies-trending/page.js"
 }

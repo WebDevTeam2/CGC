@@ -21,7 +21,7 @@ const navItems = [
   },
   {
     id: 3,
-    href: "Movies-trending",
+    href: "/Movies/Movies-trending",
     label: "Trending",
     icon: <FaFireAlt style={{margin: "0 1.5rem", flexShrink: 0}}/>,
   },

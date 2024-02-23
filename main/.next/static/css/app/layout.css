@@ -576,6 +576,9 @@ video {
 .sticky {
   position: sticky;
 }
+.left-1\/2 {
+  left: 50%;
+}
 .left-4 {
   left: 1rem;
 }
@@ -608,6 +611,9 @@ video {
 }
 .top-2\/4 {
   top: 50%;
+}
+.top-20 {
+  top: 5rem;
 }
 .top-3 {
   top: 0.75rem;
@@ -654,6 +660,9 @@ video {
 .mt-auto {
   margin-top: auto;
 }
+.block {
+  display: block;
+}
 .flex {
   display: flex;
 }
@@ -693,11 +702,21 @@ video {
 .w-64 {
   width: 16rem;
 }
+.w-\[440px\] {
+  width: 440px;
+}
 .w-full {
   width: 100%;
 }
+.-translate-x-1\/2 {
+  --tw-translate-x: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
 .-translate-y-1\/2 {
   --tw-translate-y: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 .cursor-pointer {
@@ -735,6 +754,10 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
+.bg-slate-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(30 41 59 / var(--tw-bg-opacity));
+}
 .bg-stone-400 {
   --tw-bg-opacity: 1;
   background-color: rgb(168 162 158 / var(--tw-bg-opacity));
@@ -768,6 +791,9 @@ video {
 }
 .p-3\.5 {
   padding: 0.875rem;
+}
+.p-4 {
+  padding: 1rem;
 }
 .pl-6 {
   padding-left: 1.5rem;
@@ -837,8 +863,15 @@ video {
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
+.blur {
+  --tw-blur: blur(8px);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
 .grayscale {
   --tw-grayscale: grayscale(100%);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+.filter {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 .transition {
@@ -892,13 +925,18 @@ video {
 
 /* Gia na kanei shift to content tou main otan ginetai hover to navbar sto Movies */
 nav ~ main,
-nav ~ .trending-page {
+.nav-for-hover ~ .trending-page {
   transition: 0.7s ease-in-out;
 }
 
 nav:hover ~ main,
-nav:hover ~ .trending-page {
+.nav-for-hover:hover ~ .trending-page {
   margin-left: 15rem;
+}
+
+.blurred {
+  transition: 0.6s ease-in-out;
+  filter: blur(5px);
 }
 
 input[type="search"]::-webkit-search-cancel-button {

@@ -1,18 +1,33 @@
+'use client'
+import React, { useState } from "react";
 import Nav from "@/components/Movie-components/Nav";
 import { IoMdPerson } from "react-icons/io";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import { articleData } from "../../constants/constants";
 
 export default function TrendingPage() {
+  const [searchVisible, setSearchVisible] = useState(false);
+  const [blur, setBlur] = useState(0);
+
+  const toggleSearch = () => {
+    setSearchVisible(true);
+    setBlur(5);
+
+    const focusableElements = document.querySelectorAll(".not-search");
+    focusableElements.forEach((e) => {
+      e.setAttribute("tabindex", "-1");
+    });
+  };
+
   return (
-    <div>
+    <div className="not-search" style={{ filter: `blur(${blur}px) ` }}>
       <Nav />
-      <h1 className="flex items-center justify-center font-open-sans font-bold text-2xl mb-10">
+      <h1 className="flex items-center justify-center font-open-sans font-bold text-2xl mb-10 not-search">
         TOP 10 MOST WATCHED MOVIES ACCORDING TO NETFLIX
       </h1>
 
-      <div className="flex flex-col items-center ml-[4.809rem] mr-[4.809rem] w-10/12 trending-page">
+      <div className="flex flex-col items-center ml-[4.809rem] mr-[4.809rem] w-10/12 trending-page not-search">
         {/* Kanw Link oloklhrh th kartela */}
         {articleData.map((item) => (
           <Link

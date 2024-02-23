@@ -6,25 +6,25 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/Movies/Movies-trending/page": [
+    "/Games/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/Movies/Movies-trending/page.js"
+      "static/chunks/app/Games/page.js"
     ],
     "/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/page.js"
     ],
+    "/Games/Signup/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/Games/Signup/page.js"
+    ],
     "/Movies/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/Movies/page.js"
-    ],
-    "/not-found": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/not-found.js"
     ]
   }
 }

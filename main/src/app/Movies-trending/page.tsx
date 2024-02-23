@@ -19,7 +19,7 @@ export default function TrendingPage() {
             key={item.id}
             href={item.href}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener noreferrer "
             className="flex flex-row shadow-custom hover:scale-110 transition duration-700 ease-in-out group mb-14"
           >
             {/* aristero image */}

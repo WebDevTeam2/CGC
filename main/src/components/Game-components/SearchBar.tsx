@@ -4,13 +4,13 @@ import { AiOutlineSearch } from "react-icons/ai";
 const SearchBar = () => {
   return (
     <form className="flex relative w-full justify-center">
-      <div className="relative w-1/4 p-3 text-lg">
+      <div className="relative w-3/6 transition-all duration-500 md:w-2/6 p-3 text-lg">
         <input
           type="search"
           placeholder="Type Here"
-          className="w-full p-2 outline-none rounded-full bg-slate-200 pl-6 text-slate-600"
+          className="subpixel-antialiased w-full p-2 outline-none rounded-full bg-slate-200 pl-6 pr-11 text-slate-600"
         />
-        <button className="absolute right-1 top-1/2 -translate-y-1/2 p-3 bg-slate-400 rounded-full">
+        <button className="absolute right-3 top-1/2 -translate-y-1/2 p-3.5 bg-stone-400 rounded-full hover:scale-110 transition duration-200">
           <AiOutlineSearch />
         </button>
       </div>

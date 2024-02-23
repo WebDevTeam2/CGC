@@ -12,14 +12,15 @@ export default function TrendingPage() {
         TOP 10 MOST WATCHED MOVIES ACCORDING TO NETFLIX
       </h1>
 
-      {articleData.map((item) => (
-        <div className="flex flex-col trending-page" key={item.id}>
-          {/* Kanw Link oloklhrh th kartela */}
+      <div className="flex flex-col items-center ml-[4.809rem] mr-[4.809rem] w-10/12 trending-page">
+        {/* Kanw Link oloklhrh th kartela */}
+        {articleData.map((item) => (
           <Link
+            key={item.id}
             href={item.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-row ml-20 shadow-custom hover:scale-110 hover:shadow-none transition duration-700 ease-in-out group mb-20 mr-10"
+            className="flex flex-row shadow-custom hover:scale-110 transition duration-700 ease-in-out group mb-14"
           >
             {/* aristero image */}
             <div className="w-48 h-48 p-10 relative contain content-none group-hover:opacity-0 transition duration-700 ease-in-out">
@@ -51,9 +52,7 @@ export default function TrendingPage() {
                 {item.title}
               </h2>
 
-              <p className="mt-10 ml-10 text-xl object-contain">
-                {item.desc}
-              </p>
+              <p className="mt-10 ml-10 text-xl object-contain">{item.desc}</p>
               {/* flex me tous hthopoious kai to icon */}
               <div className="flex items-center justify-center ml-auto mt-auto gap-4">
                 <IoMdPerson />
@@ -61,8 +60,8 @@ export default function TrendingPage() {
               </div>
             </div>
           </Link>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

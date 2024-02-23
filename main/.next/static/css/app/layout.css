@@ -657,6 +657,9 @@ video {
 .flex {
   display: flex;
 }
+.hidden {
+  display: none;
+}
 .h-20 {
   height: 5rem;
 }
@@ -944,6 +947,13 @@ input[type="search"]::-webkit-search-cancel-button {
 
   .md\:w-2\/6 {
     width: 33.333333%;
+  }
+}
+
+@media (min-width: 1024px) {
+
+  .lg\:block {
+    display: block;
   }
 }
 

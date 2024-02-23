@@ -627,8 +627,8 @@ video {
 .mb-10 {
   margin-bottom: 2.5rem;
 }
-.mb-20 {
-  margin-bottom: 5rem;
+.mb-14 {
+  margin-bottom: 3.5rem;
 }
 .ml-10 {
   margin-left: 2.5rem;
@@ -639,11 +639,14 @@ video {
 .ml-6 {
   margin-left: 1.5rem;
 }
+.ml-\[4\.809rem\] {
+  margin-left: 4.809rem;
+}
 .ml-auto {
   margin-left: auto;
 }
-.mr-10 {
-  margin-right: 2.5rem;
+.mr-\[4\.809rem\] {
+  margin-right: 4.809rem;
 }
 .mt-10 {
   margin-top: 2.5rem;
@@ -671,6 +674,9 @@ video {
 }
 .h-screen {
   height: 100vh;
+}
+.w-10\/12 {
+  width: 83.333333%;
 }
 .w-2\/4 {
   width: 50%;
@@ -922,12 +928,6 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .hover\:opacity-0:hover {
   opacity: 0;
-}
-
-.hover\:shadow-none:hover {
-  --tw-shadow: 0 0 #0000;
-  --tw-shadow-colored: 0 0 #0000;
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 .hover\:grayscale-0:hover {

@@ -7,21 +7,10 @@ import Link from "next/link";
 import { articleData } from "../../constants/constants";
 
 export default function TrendingPage() {
-  const [searchVisible, setSearchVisible] = useState(false);
-  const [blur, setBlur] = useState(0);
-
-  const toggleSearch = () => {
-    setSearchVisible(true);
-    setBlur(5);
-
-    const focusableElements = document.querySelectorAll(".not-search");
-    focusableElements.forEach((e) => {
-      e.setAttribute("tabindex", "-1");
-    });
-  };
+  
 
   return (
-    <div className="not-search" style={{ filter: `blur(${blur}px) ` }}>
+    <div> 
       <Nav />
       <h1 className="flex items-center justify-center font-open-sans font-bold text-2xl mb-10 not-search">
         TOP 10 MOST WATCHED MOVIES ACCORDING TO NETFLIX

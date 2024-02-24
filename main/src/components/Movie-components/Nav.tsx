@@ -43,18 +43,43 @@ const navItems = [
 
 export default function Nav() {
   const [searchVisible, setSearchVisible] = useState(false);
-  const bodyElement = document.getElementsByTagName('body')[0];
 
   const toggleSearch = () => {
-    setSearchVisible(true);
-    bodyElement.classList.add('blurred');
-    
+    setSearchVisible(true); //An kanoume click to search tote to searchbar ginetai visible
   };
 
+  //Xrhsh useEffect epeidh h react xrhsimpoioei asyncronus updates, an to blur mpei sto toggleSearch kanei to searchVisivle na einai true kai vazei to onoma ths klasshs, alla den prolavainei na kanei render ta styles kai xreiazetai kai 2o click 
+  useEffect(() => {
+    const blur = document.querySelectorAll(".not-search");
+
+    const navForHover = document.querySelector(".nav-for-hover");
+
+    if (searchVisible) {
+      navForHover ? navForHover.classList.remove("nav-for-hover") : null; //An exei epilexthei to search kanw aferw to class pou kanw target sto CSS gia ta hover effects
+
+      blur.forEach((e) => { //Dialegoume ola ta klasses me to onoma not-search kai ta dinoume mia kainourgia classh pou thn kanoume target me CSS
+        e.classList.add("blurred");
+        e.classList.add("pointer-events-none"); //Otan ginetai click gia to search theloume na mporei o xxrhsths na kanei target mono ayto        
+      });
+    }
+    //Otan den einai epilegmeno to search ta epanaferoume sto arxiko
+    else {
+      blur.forEach((e) => {
+        e.classList.remove("blurred");
+        e.classList.remove("pointer-events-none");
+      });
+      navForHover? navForHover.classList.add("nav-for-hover") : null;
+    }
+
+
+  }, [searchVisible]);
+
   return (
-    <div className="nav-for-hover block">
-      <nav className="w-20 h-screen fixed bg-[#23232e] hover:w-56 group duration-700 ease-in-out not-search"
-      style={{ filter: `blur(${blur}px)` }}>
+    // Ena wrapper div etsi wste to searchbar na mhn einai mesa sto navbar  
+    <div className="nav-for-hover">
+      <nav
+        className="w-20 h-full fixed bg-[#23232e] hover:w-56 group duration-700 ease-in-out not-search"
+      >
         <ul className="flex flex-col items-center p-0 m-0 h-full not-search">
           {navItems.map((item) =>
             item?.href ? (
@@ -94,6 +119,7 @@ export default function Nav() {
         </ul>
       </nav>
 
+      {/* ektos tou nav giati alliws to search bar emfanizetai dipla apo to li pou einai to search kai oxi sth mesh ths selidas */}
       {searchVisible && <Search />}
     </div>
   );

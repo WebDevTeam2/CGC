@@ -53,7 +53,7 @@ function Games() {
       </h1>
       <video
         className="w-full h-screen absolute object-cover -z-10"
-        src="/Sequence4.mp4"
+        src="/assets/videos/Sequence4.mp4"
         controls={false}
         ref={videoRef}
         muted

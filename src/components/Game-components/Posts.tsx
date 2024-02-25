@@ -10,7 +10,6 @@ type Post = {
   id: number;
   title: string;
   href: string;
-  timestamp: Date;
   wikipediaPage: string;
 };
 
@@ -23,23 +22,20 @@ const posts = [
   {
     id: 1,
     title: "God Of War (2018)",
-    href: "#",
-    timestamp: new Date(),
     wikipediaPage: "God_of_War_(2018_video_game)",
+    href: "#",
   },
   {
     id: 2,
-    title: "Marvel's Spider-man",
-    href: "#",
-    timestamp: new Date(),
+    title: "Marvel's Spider-Man Remastered",
     wikipediaPage: "Spider-Man_(2018_video_game)",
+    href: "#",
   },
   {
     id: 3,
     title: "Alan Wake 2",
-    href: "#",
-    timestamp: new Date(),
     wikipediaPage: "Alan_Wake_2",
+    href: "#",
   },
 ];
 
@@ -95,29 +91,29 @@ const Posts = () => {
   }, []);
 
   return (
-    <ul className="flex w-full flex-col items-center justify-center my-24 gap-12">
+    <ul className="flex my-20 w-full flex-col items-center justify-center gap-12">
       {posts.map((item) =>
         item.href ? (
           <li
             key={item.id}
-            className="text-slate-800 text-md w-1/2 hover:scale-110 transition duration-300 ease-in-out"
+            className="text-slate-800  text-md w-1/2 hover:scale-110 transition duration-300 ease-in-out"
           >
             <Link
               href={item.href}
-              className="flex flex-row border border-white rounded-md"
+              className="flex border border-white rounded-md"
             >
-              {posterUrls[item.id] && ( // Check if image URL exists
-                <img
-                  src={posterUrls[item.id]}
-                  alt={item.title}
-                  className="border border-x-4 object-cover w-64 "
-                />
-              )}
-              {descriptions[item.id] && (
-                <span className="w-full indent-11">
-                  {descriptions[item.id]}
-                </span>
-              )}
+              <div className="h-36 flex flex-row">
+                {posterUrls[item.id] && (
+                  <img
+                    src={posterUrls[item.id]}
+                    alt={item.title}
+                    className="object-contain w-64"
+                  />
+                )}
+                <div className="overflow-hidden">
+                  <span className="indent-11">{descriptions[item.id]}</span>
+                </div>
+              </div>
             </Link>
           </li>
         ) : null

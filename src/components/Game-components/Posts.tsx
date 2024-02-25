@@ -37,6 +37,18 @@ const posts = [
     wikipediaPage: "Alan_Wake_2",
     href: "#",
   },
+  {
+    id: 4,
+    title: "Cyberpunk 2077",
+    wikipediaPage: "Cyberpunk_2077",
+    href: "#",
+  },
+  {
+    id: 5,
+    title: "Ratchet & Clank: Rift Apart",
+    wikipediaPage: "Ratchet_%26_Clank:_Rift_Apart",
+    href: "#",
+  },
 ];
 
 const Posts = () => {

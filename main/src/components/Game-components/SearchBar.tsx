@@ -10,7 +10,7 @@ const SearchBar = () => {
           placeholder="Type Here"
           className="subpixel-antialiased w-full p-2 outline-none rounded-full bg-slate-200 pl-6 pr-11 text-slate-600"
         />
-        <button className="absolute right-3 top-1/2 -translate-y-1/2 p-3.5 bg-stone-400 rounded-full hover:scale-110 transition duration-200">
+        <button className="absolute right-3 top-1/2 -translate-y-1/2 p-3.5 bg-zinc-300 rounded-full hover:scale-110 transition duration-200">
           <AiOutlineSearch />
         </button>
       </div>

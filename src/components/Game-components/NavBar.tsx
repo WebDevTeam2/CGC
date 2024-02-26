@@ -14,10 +14,10 @@ interface NavBarProps {
 
 const NavBar: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
-    <nav className="w-full sticky bg-stone-700">
+    <nav className="w-full sticky bg-black">
       <div className="left-side-elements">
         <Link href="/">
-          <button className="absolute z-10 top-3.5 left-4 bg-stone-400 text-3xl text-stone-800 transition delay-50 p-1 rounded-full hover:scale-125">
+          <button className="absolute z-10 top-3.5 left-4 bg-stone-300 text-3xl text-stone-800 transition delay-50 p-1 rounded-full hover:scale-125">
             <IoReturnUpBack />
           </button>
         </Link>
@@ -35,7 +35,7 @@ const NavBar: React.FC<{ children: ReactNode }> = ({ children }) => {
           <button className="absolute z-10 top-2.5 right-52 text-3xl text-stone-200 transition delay-50 p-2 rounded-full hover:scale-125">
             <BsNintendoSwitch />
           </button>
-          <button className="absolute z-10 top-2.5 right-72 text-3xl text-stone-200 transition delay-50 p-2 rounded-full hover:scale-125">
+          <button className="absolute z-10 top-2.5 right-[18rem] text-3xl text-stone-200 transition delay-50 p-2 rounded-full hover:scale-125">
             <SiEpicgames />
           </button>
         </div>

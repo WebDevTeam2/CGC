@@ -1,0 +1,4 @@
+MOVIES:
+-Να χρησιμποιησω API για τα trendings
+-Να βρω γιατι το activeSearch.length ειναι 0
+-Να βρω γιατι γινεται true το divCheck οταν παταω μεσα στο div

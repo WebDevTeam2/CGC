@@ -114,4 +114,7 @@ export const articleData = [
 
 //Onomata tainiwn gia to search
 
-export const movieTitles = ['Harry potter', 'Lord of the Rings'];
+export const movieTitles = ["Harry potter", "Star wars", "Lord of the rings"
+
+
+];

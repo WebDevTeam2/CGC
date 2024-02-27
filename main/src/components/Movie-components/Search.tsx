@@ -10,60 +10,24 @@ interface SearchProps {
 const Search: React.FC<SearchProps> = ({ setSearchVisible }) => {
   const [activeSearch, setActiveSearch] = useState<string[]>([]); //kanoume to activesSearch na arxikopoieitai san enas kenos pinakas apo strings
   const [open, setOpen] = useState(false);
-  const searchRef = useRef<HTMLInputElement>(null);
-  const autoCompleteDivref = useRef<HTMLDivElement>(null);
-
-  let inputCheck = false;
-  let divCheck = false;
-
+  const searchRef = useRef<HTMLFormElement>(null);
   useEffect(() => {
     //Otan patame exw apo to input theloume na thwreteitai closed to searchbar
     const handler = (e: MouseEvent) => {
-      if (
-        autoCompleteDivref.current &&
-        !autoCompleteDivref.current?.contains(e.target as Node)
-      ) {
-        divCheck = true;
-        console.log(
-          `Pathses exw apo to div,     inputCheck: ${inputCheck}, divCheck: ${divCheck} activeSearch.length: ${activeSearch.length}`
-        );
-        if (inputCheck && divCheck) {
-          setOpen(false);
-          setSearchVisible(false);
-        }
-      } else divCheck = false;
+      const clickedOutsideSearch =
+        searchRef.current && !searchRef.current.contains(e.target as Node);
 
-      setTimeout(() => {
-        if (
-          searchRef.current &&
-          !searchRef.current?.contains(e.target as Node)
-        ) {
-          inputCheck = true;
-
-          //An den exei vgei to div tou autocomplete tote me click exw apo to search bar, to search bar kleinei
-          if (!autoCompleteDivref.current) divCheck = true;
-
-          console.log(
-            `Pathses exw apo to input,   inputCheck: ${inputCheck}, divCheck: ${divCheck}`
-          );
-          if (inputCheck && divCheck) {
-            setOpen(false);
-            setSearchVisible(false);
-          }
-        } else {
-          inputCheck = false;
-          console.log(
-            `Pathses mesa sto input,    inputCheck: ${inputCheck}, divCheck: ${divCheck}`
-          );
-        }
-      }, 200);
+      if (clickedOutsideSearch) {
+        setOpen(false);
+        setSearchVisible(false);
+      }
     };
 
     document.addEventListener("click", handler);
     return () => {
       document.removeEventListener("click", handler);
     };
-  }, [searchRef, autoCompleteDivref]);
+  }, [searchRef]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     //e.target.value einai to text pou grafoume sto searchbar
@@ -83,7 +47,10 @@ const Search: React.FC<SearchProps> = ({ setSearchVisible }) => {
 
   //Function gia na kanei autoComplete se periptwsh pou o xrhsths kanei click sto Span
   const handleAutoComplete = (selectedTitle: string) => {
-    setActiveSearch([]);
+    setTimeout(() => {  //Delay giati an feugei to div kateutheian kai kanw click panw se ena span, thewrei oti to click ginetai exw apo to div kai to search kleinei
+      setActiveSearch([]);
+    }, 100);
+
     const input = document.querySelector(".searchbar input");
     if (input) {
       (input as HTMLInputElement).value = selectedTitle;
@@ -91,10 +58,12 @@ const Search: React.FC<SearchProps> = ({ setSearchVisible }) => {
   };
 
   return (
-    <form className="w-[440px] flex flex-col gap-2 absolute top-20 left-1/2 transform z-10 -translate-x-1/2 transition duration-700 ease-in-out searchbar">
+    <form
+      ref={searchRef}
+      className="w-[440px] flex flex-col gap-2 absolute top-20 left-1/2 transform z-10 -translate-x-1/2 transition duration-700 ease-in-out searchbar"
+    >
       <div className="relative">
         <input
-          ref={searchRef}
           onChange={(e) => handleSearch(e)} //kaloume thn handleSearch otan allazei to input
           type="search"
           placeholder="Search..."
@@ -104,10 +73,7 @@ const Search: React.FC<SearchProps> = ({ setSearchVisible }) => {
 
       {/* An o pinakas den einai kenos tote emfanizoume ena div pou krataei mesa tis tainies pou tairiazoun me to text pou exoume grapsei sto searchbar */}
       {activeSearch.length > 0 && (
-        <div
-          className="w-full flex flex-col bg-slate-800 p-4 rounded-xl text-[#d3d3d3]"
-          ref={autoCompleteDivref}
-        >
+        <div className="w-full flex flex-col bg-slate-800 p-4 rounded-xl text-[#d3d3d3]">
           {
             activeSearch.map((s) => (
               <span

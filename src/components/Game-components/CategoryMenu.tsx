@@ -19,7 +19,7 @@ export default function CategoryMenu() {
       </DropdownTrigger>
       <DropdownMenu
         aria-label="Static Actions"
-        className="text-white text-xl bg-black rounded-lg leading-9 p-3"
+        className="text-white text-xl bg-black rounded-lg leading-9 p-3 lg:hidden block"
       >
         <DropdownItem
           key="xbox"

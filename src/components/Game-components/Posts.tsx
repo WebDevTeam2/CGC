@@ -49,6 +49,36 @@ const posts = [
     wikipediaPage: "Ratchet_%26_Clank:_Rift_Apart",
     href: "#",
   },
+  {
+    id: 6,
+    title: "Star Wars: Jedi Survivor",
+    wikipediaPage: "Star_Wars_Jedi:_Survivor",
+    href: "#",
+  },
+  {
+    id: 7,
+    title: "The Last Of Us Part 2",
+    wikipediaPage: "The_Last_of_Us_Part_II",
+    href: "#",
+  },
+  {
+    id: 8,
+    title: "Elden Ring",
+    wikipediaPage: "Elden_Ring",
+    href: "#",
+  },
+  {
+    id: 9,
+    title: "Final Fantasy VII Remake",
+    wikipediaPage: "Final_Fantasy_VII_Remake",
+    href: "#",
+  },
+  {
+    id: 10,
+    title: "Red Dead Redemption 2",
+    wikipediaPage: "Red_Dead_Redemption_2",
+    href: "#",
+  },
 ];
 
 const Posts = () => {
@@ -103,23 +133,23 @@ const Posts = () => {
   }, []);
 
   return (
-    <ul className="flex my-20 w-full flex-col items-center justify-center gap-12">
+    <ul className="flex my-36 w-full flex-col items-center justify-center gap-12">
       {posts.map((item) =>
         item.href ? (
           <li
             key={item.id}
-            className="text-slate-800  text-md w-1/2 hover:scale-110 transition duration-300 ease-in-out"
+            className="box text-slate-800 text-balance text-md w-1/2 hover:scale-110 transition duration-300 ease-in-out"
           >
             <Link
               href={item.href}
-              className="flex border border-white rounded-md"
+              className="flex border-4 h-60 border-white rounded-lg"
             >
-              <div className="h-36 flex flex-row">
+              <div className="h-54 flex flex-row gap-5">
                 {posterUrls[item.id] && (
                   <img
                     src={posterUrls[item.id]}
                     alt={item.title}
-                    className="object-contain w-64"
+                    className="object-contain w-54 border-r-8 border-double border-white"
                   />
                 )}
                 <div className="overflow-hidden">

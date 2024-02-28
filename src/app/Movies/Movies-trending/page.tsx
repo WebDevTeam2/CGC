@@ -1,22 +1,34 @@
-'use client'
-import React, { useState } from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import Nav from "@/components/Movie-components/Nav";
+import ChangeTab from "@/components/Movie-components/ChangeTab";
 import { IoMdPerson } from "react-icons/io";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { articleData } from "../../constants/constants";
+import { tabs } from "../../constants/constants";
 
 export default function TrendingPage() {
-  
+
+  const [selectedTab, setSelectedTab] = useState(0);
+
+  const getContentData = () => {
+    if (selectedTab === 0) {
+      return articleData;
+    }
+    else
+      return 'Hello world'
+  }
 
   return (
-    <div> 
+    <div>
       <Nav />
-      <h1 className="flex items-center justify-center font-open-sans font-bold text-2xl mb-10 not-search">
-        TOP 10 MOST WATCHED MOVIES ACCORDING TO NETFLIX
-      </h1>
+      <div className="sm:flex-col flex lg:flex-row gap-4 items-center justify-center font-open-sans font-bold text-2xl mb-10 not-search">
+        <ChangeTab tabs = {tabs} setSelectedTab = {setSelectedTab}/>
+        <h1>TOP 10 MOST WATCHED MOVIES ACCORDING TO NETFLIX</h1>
+      </div>
 
-      <div className="flex flex-col items-center ml-[4.809rem] mr-[4.809rem] w-10/12 trending-page not-search">
+      <div className="flex flex-col items-center ml-[8rem] mr-[4.809rem] w-10/12 trending-page not-search">
         {/* Kanw Link oloklhrh th kartela */}
         {articleData.map((item) => (
           <Link
@@ -24,30 +36,29 @@ export default function TrendingPage() {
             href={item.href}
             target="_blank"
             rel="noopener noreferrer "
-            className="flex flex-row shadow-custom hover:scale-110 transition duration-700 ease-in-out group mb-14"
+            className="flex flex-row shadow-custom lg:hover:scale-110 transition duration-700 ease-in-out group mb-14 "
           >
             {/* aristero image */}
-            <div className="w-48 h-48 p-10 relative contain content-none group-hover:opacity-0 transition duration-700 ease-in-out">
+            <div className="w-52 h-52 p-10 relative contain lg:group-hover:opacity-0 transition duration-700 ease-in-out">
               <Image
                 src={item.src}
                 alt={item.alt}
                 layout="fill"
                 objectFit="contain"
                 priority
-              ></Image>
+              />
             </div>
 
             {/* image dipla apo ta images me ta noumera */}
-            <div className="w-64 h-64 p-10 relative contain content-none">
+            <div className="sm:w-48 lg:w-64 lg:h-64 p-10 relative contain content-none">
               <Image
                 src={item.src2}
                 alt={item.alt2}
                 layout="fill"
                 objectFit="cover"
-                sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 25vw"
                 className="w-full h-full absolute"
                 priority
-              ></Image>
+              />
             </div>
 
             {/* div pou tha krataei ton titlo ths tainias kai to description */}

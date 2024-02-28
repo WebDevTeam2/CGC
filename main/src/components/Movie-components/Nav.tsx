@@ -49,9 +49,11 @@ export default function Nav() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.scrollY; //To torino scroll einai to poso scroll exei ginei apo ton xrhsth
+      const isSmallScreen = window.innerWidth < 1024; //Metavlhth pou elegxei to megethos ths othonhs
 
       //An exoume kanei scroll tote vazoume ena class hide-nav pou exei kapoia css styles
-      currentScrollPos > prevScrollPos ? document.getElementById('scroll-nav')?.classList.add('hide-nav') : document.getElementById('scroll-nav')?.classList.remove('hide-nav'); 
+      if(isSmallScreen)
+        currentScrollPos > prevScrollPos ? document.getElementById('scroll-nav')?.classList.add('hide-nav') : document.getElementById('scroll-nav')?.classList.remove('hide-nav'); 
 
       setPrevScrollPos(currentScrollPos); //Kanoume update to position tou previous scroll
     }

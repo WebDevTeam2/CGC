@@ -9,31 +9,22 @@ import { articleData } from "../../constants/constants";
 import { tabs } from "../../constants/constants";
 
 export default function TrendingPage() {
-  const [skewValues, setSkewValues] = useState({ skewX: 0, skewY: 0 });
-  useEffect(() => {
-    const handleMouseMove = (e:MouseEvent) => {
-      const { clientX, clientY } = e;
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2;
 
-      const skewX = (clientX - centerX) / 100;
-      const skewY = (clientY - centerY) / 100;
+  const [selectedTab, setSelectedTab] = useState(0);
 
-      setSkewValues({ skewX, skewY });
-    };
-
-    document.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
+  const getContentData = () => {
+    if (selectedTab === 0) {
+      return articleData;
+    }
+    else
+      return 'Hello world'
+  }
 
   return (
     <div>
       <Nav />
       <div className="sm:flex-col flex lg:flex-row gap-4 items-center justify-center font-open-sans font-bold text-2xl mb-10 not-search">
-        {/* <ChangeTab tabs = {tabs}/> */}
+        <ChangeTab tabs = {tabs} setSelectedTab = {setSelectedTab}/>
         <h1>TOP 10 MOST WATCHED MOVIES ACCORDING TO NETFLIX</h1>
       </div>
 
@@ -46,13 +37,9 @@ export default function TrendingPage() {
             target="_blank"
             rel="noopener noreferrer "
             className="flex flex-row shadow-custom lg:hover:scale-110 transition duration-700 ease-in-out group mb-14 "
-            style={{
-              transform: `perspective(1000px) rotateX(${skewValues.skewY}deg) rotateY(${-skewValues.skewX}deg)`,
-            }}
-            id="skew-effect"
           >
             {/* aristero image */}
-            <div className="w-52 h-52 p-10 relative contain content-none lg:group-hover:opacity-0 transition duration-700 ease-in-out">
+            <div className="w-52 h-52 p-10 relative contain lg:group-hover:opacity-0 transition duration-700 ease-in-out">
               <Image
                 src={item.src}
                 alt={item.alt}

@@ -1,3 +1,12 @@
+export const tabs = [
+  {
+    title: 'Movies'
+  },
+  {
+    title: 'TV Shows'
+  }
+]
+
 //Periexomeno tou Trending Component
 export const articleData = [
   {

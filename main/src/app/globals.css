@@ -24,14 +24,24 @@ body {
 }
 
 /* Gia na kanei shift to content tou main otan ginetai hover to navbar sto Movies */
-.nav-for-hover ~ main,
-.nav-for-hover ~ .trending-page {
-  transition: 0.7s ease-in-out;
+@media (min-width: 992px) {
+  .nav-for-hover ~ main,
+  .nav-for-hover ~ .trending-page {
+    transition: 0.7s ease-in-out;
+  }
+
+  .nav-for-hover:hover ~ main,
+  .nav-for-hover:hover ~ .trending-page {
+    margin-left: 15rem;
+  }
 }
 
-.nav-for-hover:hover ~ main,
-.nav-for-hover:hover ~ .trending-page {
-  margin-left: 15rem;
+/* Gia othones me mikro megethos, gia na kryvetai to navbar otan kanei o xrhsths scroll down */
+.hide-nav {
+  opacity: 0;
+  z-index: -10;
+  pointer-events: none;
+  transition: 0.7s ease-in-out;
 }
 
 /* Gia na ginetai blur olo to content ektos tou search */

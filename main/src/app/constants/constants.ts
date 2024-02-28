@@ -29,7 +29,7 @@ export const articleData = [
     alt: "number 3 image",
     src2: "/assets/images/Untold-johny-football.jpg",
     alt2: "Untold: Johnny Football image",
-    title: "Untold Johny football",
+    title: "Untold Johnny football",
     desc: `This documentary traces the meteoric rise and precipitous fall of football star Johnny Manziel via interviews with friends, coaches and Manziel himself.`,
     names: "Eric Bolling, Blake Bortles ,Erik Burkhardt",
   },

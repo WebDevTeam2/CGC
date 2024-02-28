@@ -19,17 +19,17 @@ body {
 }
 
 .parent-container .clip-container:hover {
-  width: 600vw;
+  width: 500vw;
   height: 100vh;
 }
 
 /* Gia na kanei shift to content tou main otan ginetai hover to navbar sto Movies */
-nav ~ main,
+.nav-for-hover ~ main,
 .nav-for-hover ~ .trending-page {
   transition: 0.7s ease-in-out;
 }
 
-nav:hover ~ main,
+.nav-for-hover:hover ~ main,
 .nav-for-hover:hover ~ .trending-page {
   margin-left: 15rem;
 }

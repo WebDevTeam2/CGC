@@ -7,9 +7,7 @@ export default function GamesHomePage() {
   return (
     <>
       <MainPage>
-        <NavBar>
-          <SearchBar />
-        </NavBar>
+        <NavBar />
         <Posts />
       </MainPage>
     </>

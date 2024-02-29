@@ -143,6 +143,7 @@ const Posts = () => {
             <li
               key={item.id}
               className="text-slate-800 text-balance text-md xl:w-1/2 lg:w-3/5 w-4/5 hover:scale-110 transition-all duration-500 ease-in-out"
+              // style={{ animation: "upandown 2s infinite" }}
             >
               <Link
                 href={item.href}

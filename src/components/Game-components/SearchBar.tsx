@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 // Define an interface for the structure of each post
 interface Post {
@@ -44,21 +44,25 @@ const SearchBar: React.FC<Props> = ({ posts }) => {
           onChange={handleInputChange}
           value={inputValue}
         />
-        {/* {search.length > 0 && ( */}
+
         <div
-          className="absolute pt-2 rounded-lg w-[95%] text-white bg-black"
+          className="absolute left-3 top-16 rounded-2xl w-[93%] text-white bg-black"
           style={{
-            height: search.length > 0 ? `${search.length * 2.5}rem` : "0",
+            height: search.length > 0 ? `${search.length * 2.55}rem` : "0",
             transition: "height 0.2s ease-in-out",
           }}
         >
           {search.map((result, index) => (
-            <div className="pb-2 pl-3" key={index}>
+            <Link
+              href={result.href}
+              className="py-1.5 flex flex-col pl-4 hover:scale-105 hover:text-stone-400 transition-all duration-300 ease-in-out"
+              key={index}
+            >
               {result.title}
-            </div>
+            </Link>
           ))}
         </div>
-        {/* )} */}
+
         <button className="absolute right-3 top-1/2 -translate-y-1/2 p-3.5 bg-zinc-300 rounded-full hover:scale-110 transition duration-200">
           <AiOutlineSearch />
         </button>

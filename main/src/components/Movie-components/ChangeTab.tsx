@@ -28,10 +28,11 @@ const ChangeTab: React.FC<TabsProps> = ({ tabs, setSelectedTab }) => {
               ref={index === 0 ? firstButtonRef : null}
               onClick={() => {
                 setSelectedTab(index);
+                setActiveTab(index);
               }}
               className={`${
                 index === activeTab ? "shadow-none" : "shadow-custom "
-              } transition duration-700 ease-in-out rounded-sm p-2 hover:bg-[#9c9c9c]`}
+              } transition duration-700 ease-in-out focus:bg-none rounded-sm p-2 hover:bg-[#9c9c9c]`}
             >
               {tab.title}
             </button>

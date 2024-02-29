@@ -133,27 +133,36 @@ const Posts = () => {
   }, []);
 
   return (
-    <ul className="flex my-36 w-full flex-col items-center justify-center gap-12">
+    <ul className=" flex my-36 w-full flex-col items-center justify-center gap-12">
       {posts.map((item) =>
         item.href ? (
           <li
             key={item.id}
-            className="box text-slate-800 text-balance text-md w-1/2 hover:scale-110 transition duration-300 ease-in-out"
+            className="text-slate-800 text-balance text-md w-1/2  hover:scale-110 transition duration-300 ease-in-out"
           >
             <Link
               href={item.href}
-              className="flex border-4 h-60 border-white rounded-lg"
+              className="relative flex group border-4 xl:h-52 border-white rounded-lg transition-all duration-300"
             >
-              <div className="h-54 flex flex-row gap-5">
+              <div className="bg-white flex relative flex-col xl:flex-row gap-5 transition-all duration-500">
                 {posterUrls[item.id] && (
                   <img
                     src={posterUrls[item.id]}
                     alt={item.title}
-                    className="object-contain w-54 border-r-8 border-double border-white"
+                    className="object-cover xl:border-r-8 xl:border-double border-white  transition duration-500 ease-in-out"
                   />
                 )}
-                <div className="overflow-hidden">
-                  <span className="indent-11">{descriptions[item.id]}</span>
+                <div
+                  className="h-0 opacity-0 group-hover:opacity-100 absolute flex group-hover:h-10 items-center justify-center border border-black bg-black rounded-b-xl text-md ml-3 p-1"
+                  style={{
+                    transition:
+                      "height 0.5s ease-in-out, opacity 0.5s ease-in-out",
+                  }}
+                >
+                  <span className="text-white">{item.title}</span>
+                </div>
+                <div className=" overflow-hidden pl-4">
+                  <span>{descriptions[item.id]}</span>
                 </div>
               </div>
             </Link>

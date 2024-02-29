@@ -43,7 +43,7 @@ const navItems = [
 
 export default function Nav() {
   const [searchVisible, setSearchVisible] = useState(false);
-  const [prevScrollPos, setPrevScrollPos] = useState(0);  //Metavlhth pou arxikopoiei to scroll pou kanei o xrhsths se 0
+  const [prevScrollPos, setPrevScrollPos] = useState(0); //Metavlhth pou arxikopoiei to scroll pou kanei o xrhsths se 0
 
   //Gia to control tou nav sto scroll
   useEffect(() => {
@@ -52,18 +52,20 @@ export default function Nav() {
       const isSmallScreen = window.innerWidth < 1024; //Metavlhth pou elegxei to megethos ths othonhs
 
       //An exoume kanei scroll tote vazoume ena class hide-nav pou exei kapoia css styles
-      if(isSmallScreen)
-        currentScrollPos > prevScrollPos ? document.getElementById('scroll-nav')?.classList.add('hide-nav') : document.getElementById('scroll-nav')?.classList.remove('hide-nav'); 
+      if (isSmallScreen)
+        currentScrollPos > prevScrollPos
+          ? document.getElementById("scroll-nav")?.classList.add("hide-nav")
+          : document.getElementById("scroll-nav")?.classList.remove("hide-nav");
 
       setPrevScrollPos(currentScrollPos); //Kanoume update to position tou previous scroll
-    }
+    };
 
     window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-    }
-  },[prevScrollPos]);
+    };
+  }, [prevScrollPos]);
 
   //Gia to searchbar otan to epilegei o xrhsths apo to navbar
   const toggleSearch = () => {
@@ -94,7 +96,6 @@ export default function Nav() {
 
       if (dummy) {
         dummy.classList.add("nav-for-hover");
-        
       }
     }
   }, [searchVisible]);
@@ -102,7 +103,10 @@ export default function Nav() {
   return (
     // Ena wrapper div etsi wste to searchbar na mhn einai mesa sto navbar
     <div className="nav-for-hover dummy-class">
-      <nav className="lg:w-20 lg:h-full sm:w-full fixed bg-[#23232e] sm:z-10 sm:bottom-0 lg:hover:w-56 group duration-700 ease-in-out not-search" id="scroll-nav">
+      <nav
+        className="lg:w-20 lg:h-full sm:w-full fixed bg-[#23232e] sm:z-10 sm:bottom-0 lg:hover:w-56 group duration-700 ease-in-out not-search"
+        id="scroll-nav"
+      >
         <ul className="flex sm:flex-row lg:flex-col items-center p-0 m-0 h-full not-search">
           {navItems.map((item) =>
             item?.href ? (

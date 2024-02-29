@@ -131,7 +131,7 @@ export default function Nav() {
                     onClick={() => setSearchVisible(false)}
                   >
                     {item.icon}
-                    <span className="opacity-0 group-hover:opacity-100 transition duration-700 ease-in-out ml-6 not-search">
+                    <span className="opacity-0 pointer-events-none -z-10 group-hover:opacity-100 group-hover:z-10 transition duration-700 ease-in-out ml-6 not-search">
                       {item.label}
                     </span>
                   </Link>

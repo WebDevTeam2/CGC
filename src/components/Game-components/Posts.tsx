@@ -135,7 +135,7 @@ const Posts = () => {
             // style={{ animation: "upandown 2s infinite" }}
           >
             <Link
-              href="/Games/[id]"
+              href="../../app/Games/[pageId]"
               as={`Games/${item.id}`}
               className="relative flex group border-4 xl:h-52  border-white rounded-lg transition-all duration-300"
             >

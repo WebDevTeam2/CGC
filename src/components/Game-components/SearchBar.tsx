@@ -8,7 +8,6 @@ interface Post {
   id: number;
   title: string;
   wikipediaPage: string;
-  href: string;
 }
 
 // Specify the type of the 'posts' prop using the 'Post' interface
@@ -28,7 +27,7 @@ const SearchBar: React.FC<Props> = ({ posts }) => {
     else {
       setSearch(
         posts
-          .filter((post) => post.title.toLowerCase().includes(lowercaseValue))
+          .filter((post) => post.title.toLowerCase().startsWith(lowercaseValue))
           .slice(0, 8)
       );
     } // Update search results

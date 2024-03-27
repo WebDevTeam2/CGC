@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  object-fit: none;
+  padding: 0;
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+}
+
+/* Diagrafh tou default cancel sto search */
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+/* Games */
+/* this section is for game title appearance on top of image */
+/* span.name::after {
+  bottom: 23px;
+  top: 0;
+  content: "";
+  position: absolute;
+  height: 0;
+  transition: height 0.4s ease;
+}
+
+.nameparent:hover span.name::after {
+  height: 100%;
+} */
+
+@keyframes upandown {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

@@ -32,7 +32,7 @@ const Search: React.FC<SearchProps> = ({ setSearchVisible }) => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     //e.target.value einai to text pou grafoume sto searchbar
     //An einai keno tote epistrefei false kai de vazei kati ston pinaka
-    if (e.target.value === "") {
+    if (e.target.value.trim().length === 0) {
       setActiveSearch([]);
       return false;
     }
@@ -41,7 +41,7 @@ const Search: React.FC<SearchProps> = ({ setSearchVisible }) => {
     setActiveSearch(
       movieTitles
         .filter((w) => w.toLowerCase().includes(e.target.value.toLowerCase()))
-        .slice(0, 8) //
+        .slice(0, 8)
     );
   };
 

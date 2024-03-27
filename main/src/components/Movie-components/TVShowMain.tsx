@@ -1,10 +1,10 @@
-import ChangeTab from "@/components/Movie-components/ChangeTab";
 import { IoMdPerson } from "react-icons/io";
 import Link from "next/link";
 import Image from "next/legacy/image";
+import { toDashed } from "@/app/constants/constants";
 
-interface MovieData {
-  id: number;
+interface tvShowData {
+  id: string;
   href: string;
   src: string;
   alt: string;
@@ -15,23 +15,21 @@ interface MovieData {
   names: string;
 }
 
-const getMovieData = async () => {
-  const res = await fetch("http://localhost:4000/movieData");
+const gettvshowData = async () => {
+  const res = await fetch("http://localhost:4000/tvShowData");
   return res.json();
 };
 
-const MovieMain = async () => {
-  const movieData: MovieData[] = await getMovieData();
+const TvshowMain = async () => {
+  const tvshowData: tvShowData[] = await gettvshowData();
 
   return (
-
     <div className="flex flex-col items-center ml-[8rem] mr-[4.809rem] w-10/12 trending-page not-search">
-      <ChangeTab />
       {/* Kanw Link oloklhrh th kartela */}
-      {movieData.map((item) => (
+      {tvshowData.map((item) => (
         <Link
           key={item.id}
-          href={`/Movies/${item.id}`}
+          href={`/tvshows/${toDashed(item.title)}`}
           target="_blank"
           rel="noopener noreferrer"
           className="flex flex-row shadow-custom lg:hover:scale-110 transition duration-700 ease-in-out group ml-16 mb-14 "
@@ -67,4 +65,4 @@ const MovieMain = async () => {
   );
 };
 
-export default MovieMain;
+export default TvshowMain;

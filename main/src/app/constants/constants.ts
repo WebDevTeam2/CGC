@@ -17,7 +17,7 @@ export const tvShowData = [
     alt2: "Avatar the last airbender image",
     title: "Avatar the last airbender",
     desc: "Follow Aang, the young Avatar, as he learns to master the four elements (Water, Earth, Fire, and Air) to restore balance to a world threatened by the terrifying Fire Nation.",
-    names: "Gordon Cormier, Kiawentiio, Ian Ousley"
+    names: "Gordon Cormier, Kiawentiio, Ian Ousley",
   },
   {
     id: 2,
@@ -28,7 +28,7 @@ export const tvShowData = [
     alt2: "One Day image",
     title: "One Day ",
     desc: `Emma and Dexter meet for the first time on the night of their graduation. Tomorrow they must go their separate ways.`,
-    names: "Leo Woodall, Ampika Mod, Amber Grappy"
+    names: "Leo Woodall, Ampika Mod, Amber Grappy",
   },
   {
     id: 3,
@@ -39,7 +39,7 @@ export const tvShowData = [
     alt2: "Love is Blind image",
     title: "Love is Blind",
     desc: `Singles who want to be loved for who they are, rather than what they look like, have signed up for a less-conventional approach to modern dating.`,
-    names: "Nick Lachey, Vanessa Lachey ,Bartise Bowden"
+    names: "Nick Lachey, Vanessa Lachey ,Bartise Bowden",
   },
   {
     id: 4,
@@ -50,7 +50,7 @@ export const tvShowData = [
     alt2: "Can I Tell You A Secret?: Limited Series image",
     title: "Can I Tell You A Secret?: Limited Series",
     desc: `Three women's lives are changed forever when a prolific stalker infiltrates their social media accounts. And they're only a fraction of his many victims.`,
-    names: "Savannah Gracey"
+    names: "Savannah Gracey",
   },
   {
     id: 5,
@@ -61,7 +61,7 @@ export const tvShowData = [
     alt2: "Griselda image",
     title: "Griselda",
     desc: `Fleeing from Medellín to Miami, Griselda Blanco creates one of the most ruthless cartels in history.`,
-    names: "Sofía Vergara, Alberto Guerra, Juliana Aidén Martinez"
+    names: "Sofía Vergara, Alberto Guerra, Juliana Aidén Martinez",
   },
   {
     id: 6,
@@ -72,7 +72,7 @@ export const tvShowData = [
     alt2: "Warrior image",
     title: "Warrior",
     desc: `During the Tong Wars in the late 1800s, Ah Sahm, a martial arts prodigy from China, immigrates to San Francisco and becomes a hatchet man for the most powerful tong in Chinatown.`,
-    names: "Andrew Koji, Olivia Cheng, Jason Tobin"
+    names: "Andrew Koji, Olivia Cheng, Jason Tobin",
   },
   {
     id: 7,
@@ -83,7 +83,7 @@ export const tvShowData = [
     alt2: "Mike Epps image ",
     title: "Mike Epps: Ready to Sell Out",
     desc: `Mike Epps reflects on his career success and personal struggles, touching on financial issues, relationships, and his signature comedic takes on life in the streets.`,
-    names: "Mike Epps"
+    names: "Mike Epps",
   },
   {
     id: 8,
@@ -94,7 +94,7 @@ export const tvShowData = [
     alt2: "Formula 1: Drive to Survive image",
     title: "Formula 1: Drive to Survive",
     desc: `Docuseries following the FIA Formula One World Championship across multiple seasons.`,
-    names: "Will Buxton, Jack Nicholls, Daniel Ricciardo"
+    names: "Will Buxton, Jack Nicholls, Daniel Ricciardo",
   },
   {
     id: 9,
@@ -237,3 +237,9 @@ export const movieData = [
 //Onomata tainiwn gia to search
 
 export const movieTitles = ["Harry potter", "Star wars", "Lord of the rings"];
+
+
+//Function pou xrhsimopoieitai gia na kanoume tous titlous twn tainiwn na mpainoun me dashes sto url
+export const toDashed = (str: String) => {
+  return str.split(" ").join("-");
+};

@@ -1,46 +1,29 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import Link from "next/link";
+import { useState, useEffect } from "react";
 
-interface Tab {
-  title: string;
-}
-
-interface TabsProps {
-  tabs: Tab[];
-  setSelectedTab: React.Dispatch<React.SetStateAction<number>>;
-}
-
-const ChangeTab: React.FC<TabsProps> = ({ tabs, setSelectedTab }) => {
-  const [activeTab, setActiveTab] = useState(0);
-  const firstButtonRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    setActiveTab(0);
-  }, []);
+const changeTabs = () => {
+  const [displayText, setDisplayText] = useState(
+    "TOP 10 MOVIES ACCORDING TO NETFLIX"
+  );
 
   return (
-    <div className="flex gap-2 lg:mr-32">
-      <div className="mt-2">
-        <div className="flex">
-          {tabs.map((tab: Tab, index: number) => (
-            <button
-              key={index}
-              ref={index === 0 ? firstButtonRef : null}
-              onClick={() => {
-                setSelectedTab(index);
-                setActiveTab(index);
-              }}
-              className={`${
-                index === activeTab ? "shadow-none" : "shadow-custom "
-              } transition duration-700 ease-in-out focus:bg-none rounded-sm p-2 hover:bg-[#9c9c9c]`}
-            >
-              {tab.title}
-            </button>
-          ))}
-        </div>
-      </div>
+    <div className="sm:flex-col flex lg:flex-row gap-4 items-center justify-center font-open-sans font-bold text-2xl mb-10 not-search">
+      <Link
+        href={"/Movies"}
+        onClick={() => setDisplayText("TOP 10 MOVIES ACCORDING TO NETFLIX")}
+      >
+        <button>Movies</button>
+      </Link>
+      <Link
+        href={"/Movies/TVShows"}
+        onClick={() => setDisplayText("TOP 10 TV SHOWS ACCORDING TO NETFLIX")}
+      >
+        <button>TVShows</button>
+      </Link>
+      <h1>{displayText}</h1>
     </div>
   );
 };
 
-export default ChangeTab;
+export default changeTabs;

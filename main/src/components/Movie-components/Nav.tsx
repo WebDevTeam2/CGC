@@ -6,6 +6,7 @@ import { FaFireAlt } from "react-icons/fa";
 import { FaHouse, FaMagnifyingGlass } from "react-icons/fa6";
 import { TiArrowShuffle } from "react-icons/ti";
 import Search from "@/components/Movie-components/Search";
+import ChangeTheme from "@/components/Movie-components/ChangeTheme";
 
 //Ena array apo objects me diaforetiko id gia na mhn epanalamvanetai o kwdikas polles fores
 const navItems = [
@@ -17,7 +18,7 @@ const navItems = [
   },
   {
     id: 2,
-    href: "Movies",
+    href: "/Movies",
     label: "Movies home",
     icon: <FaHouse style={{ margin: "0 1.5rem", flexShrink: 0 }} />,
   },
@@ -35,6 +36,12 @@ const navItems = [
   },
   {
     id: 5,
+    href: "#",
+    label: "Random",
+    icon: <TiArrowShuffle style={{ margin: "0 1.5rem", flexShrink: 0 }} />,
+  },
+  {
+    id: 6,
     href: "#",
     label: "Random",
     icon: <TiArrowShuffle style={{ margin: "0 1.5rem", flexShrink: 0 }} />,
@@ -82,7 +89,7 @@ export default function Nav() {
       navForHover ? navForHover.classList.remove("nav-for-hover") : null; //An exei epilexthei to search aferw to class pou kanw target sto CSS gia ta hover effects
 
       blur.forEach((e) => {
-        //Dialegoume ola ta klasses me to onoma not-search kai ta dinoume mia kainourgia classh pou thn kanoume target me CSS
+        //Dialegoume ola ta classes me to onoma not-search kai ta dinoume mia kainourgia classh pou thn kanoume target me CSS
         e.classList.add("blurred");
         e.classList.add("pointer-events-none"); //Otan ginetai click gia to search theloume na mporei o xxrhsths na kanei target mono ayto
       });
@@ -94,9 +101,7 @@ export default function Nav() {
         e.classList.remove("pointer-events-none");
       });
 
-      if (dummy) {
-        dummy.classList.add("nav-for-hover");
-      }
+      dummy ? dummy.classList.add("nav-for-hover") : null; //An to dummy class yparxei prothetoume xana to nav-for-hover
     }
   }, [searchVisible]);
 
@@ -112,34 +117,40 @@ export default function Nav() {
             item?.href ? (
               <li
                 key={item.id}
-                className="text-[#b6b6b6] text-xl w-full hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search"
+                className="text-[#b6b6b6] text-xl w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none"
               >
                 {/* Gia to koumpi tou search sto navbar*/}
                 {/* An to label einai to search tote mesa sto Link pername th leitourgikothta tou search (search component)  */}
-                {item.label === "Search" ? (
-                  <Link
-                    href={item.href}
-                    className="flex flex-row items-center h-20 gap-2 not-search"
-                    onClick={toggleSearch}
-                  >
-                    {item.icon}
-                    <span className="opacity-0 group-hover:opacity-100 transition duration-700 ease-in-out ml-6 not-search">
-                      {item.label}
-                    </span>
-                  </Link>
-                ) : (
-                  // gia ola ta alla stoixeia sto navbar
-                  <Link
-                    href={item.href}
-                    className="flex flex-row items-center h-20 gap-2 not-search"
-                    onClick={() => setSearchVisible(false)}
-                  >
-                    {item.icon}
-                    <span className="opacity-0 pointer-events-none -z-10 group-hover:opacity-100 group-hover:z-10 transition duration-700 ease-in-out ml-6 not-search">
-                      {item.label}
-                    </span>
-                  </Link>
-                )}
+                {
+                  item.label === "Search" ? (
+                    <Link
+                      href={item.href}
+                      className="flex flex-row items-center h-20 gap-2 not-search"
+                      onClick={toggleSearch}
+                    >
+                      {item.icon}
+                      <span className="opacity-0 group-hover:opacity-100 transition duration-700 ease-in-out ml-6 not-search">
+                        {item.label}
+                      </span>
+                    </Link>
+                  ) : item.id === 6 ? (
+                    <ChangeTheme />
+                  ) : (
+                    // gia ola ta alla stoixeia sto navbar
+                    <Link
+                      href={item.href}
+                      className="flex flex-row items-center h-20 gap-2 not-search"
+                      onClick={() => setSearchVisible(false)}
+                    >
+                      {item.icon}
+                      <span className="opacity-0 pointer-events-none -z-10 group-hover:opacity-100 group-hover:z-10 transition duration-700 ease-in-out ml-6 not-search">
+                        {item.label}
+                      </span>
+                    </Link>
+                  )
+
+                  // an to label einai to changeTheme tote einai last child kai exei alla style effects
+                }
               </li>
             ) : null
           )}

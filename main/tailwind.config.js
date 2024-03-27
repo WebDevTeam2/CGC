@@ -20,7 +20,8 @@ module.exports = {
         'roboto': ['Roboto', 'sans-serif'],
       },
       boxShadow: {
-        'custom': '1px 3px 2px rgba(0, 0, 0, 0.25)'
+        'custom': '1px 3px 2px rgba(0, 0, 0, 0.25)',
+        'changeTheme': '0 8px 40px rgba(0, 0, 0, 0.2)'
       },
       scale: {
         '110': '1.1'

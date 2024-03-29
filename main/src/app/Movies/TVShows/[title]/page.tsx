@@ -14,7 +14,7 @@ interface TVShowData {
 }
 
 const getTVShowDetails = async (title: string) => {
-  const res = await fetch("http://localhost:4000/movieData/" + title);
+  const res = await fetch("http://localhost:4000/tvShowData/" + title);
 
   return res.json();
 };

@@ -10,12 +10,10 @@
 
 /* Gia na kanei shift to content tou main otan ginetai hover to navbar sto Movies */
 @media (min-width: 992px) {
-  .nav-for-hover ~ .main-page,
   .nav-for-hover ~ .trending-page {
     transition: 0.7s ease-in-out;
   }
 
-  .nav-for-hover:hover ~ .main-page,
   .nav-for-hover:hover ~ .trending-page {
     margin-left: 5rem;
   }

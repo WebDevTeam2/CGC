@@ -1,70 +1,89 @@
 import ChangeTab from "@/components/Movie-components/ChangeTab";
-import { IoMdPerson } from "react-icons/io";
 import Link from "next/link";
 import Image from "next/legacy/image";
 
-interface MovieData {
-  id: number;
-  href: string;
-  src: string;
-  alt: string;
-  src2: string;
-  alt2: string;
-  title: string;
-  dec: string;
-  names: string;
+const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
+const baseUrl = "https://api.themoviedb.org/3/";
+const ApiURL = baseUrl + "movie/popular?&" + apiKey;
+const imageURL = "https://image.tmdb.org/t/p/w500";
+
+interface Movie {
+  page: number;
+  results: MovieResult[];
 }
 
-const getMovieData = async () => {
-  const res = await fetch("http://localhost:4000/movieData");
-  return res.json();
+interface MovieResult {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
+
+const getMovieData = async (url: string) => {
+  const res = await fetch(url);
+  const data = await res.json();
+  return data;
 };
+
+const getVotecolor = (vote:number) => {
+  if (vote >= 8) {
+    return "text-green-500";
+  } else if (vote >= 6) {
+    return "text-yellow-500";
+  } else {
+    return "text-red-500";
+  }
+}
 
 const MovieMain = async () => {
-  const movieData: MovieData[] = await getMovieData();
+  const movieData: Movie = await getMovieData(ApiURL);
 
-  return (
+    return (
+      <div>
+        <ChangeTab />
+        <div className="grid grid-cols-4 gap-8 w-3/4 ml-64 h-full not-search">
+          {/* Kanw Link oloklhrh th kartela */}
+          {movieData.results.map((item) => (
+            <Link
+              key={item.id}
+              href={`/Movies/${item.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="lg:hover:scale-110 w-full transition duration-700 ease-in-out mb-6 "
+            >
+              {/* image dipla apo ta images me ta noumera */}
+              <div className="lg:w-full lg:h-96 p-10 relative">
+                <Image
+                  src={`${imageURL}${item.poster_path}`}
+                  alt={item.title}
+                  layout="fill"
+                  objectFit="cover"
+                  className="w-full h-full absolute"
+                  priority
+                />
+              </div>
+              <div className="bg-[#0000008e] h-44 gap-4">
+                <div className="flex ml-4 text-white">
+                  <h2 className="">{item.title}</h2>
+                  <span className={`${getVotecolor(item.vote_average)} ml-auto mr-5 mt-11`}>{item.vote_average}</span>  
+                </div>
+                <p className = "mt-4 ml-4 text-white">{item.overview.slice(0, 40)}...</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
-    <div className="flex flex-col items-center ml-[8rem] mr-[4.809rem] w-10/12 trending-page not-search">
-      <ChangeTab />
-      {/* Kanw Link oloklhrh th kartela */}
-      {movieData.map((item) => (
-        <Link
-          key={item.id}
-          href={`/Movies/${item.id}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex flex-row shadow-custom lg:hover:scale-110 transition duration-700 ease-in-out group ml-16 mb-14 "
-        >
-          {/* image dipla apo ta images me ta noumera */}
-          <div className="sm:w-48 lg:w-64 lg:h-64 p-10 relative contain content-none">
-            <Image
-              src={item.src2}
-              alt={item.alt2}
-              layout="fill"
-              objectFit="cover"
-              className="w-full h-full absolute"
-              priority
-            />
-          </div>
-
-          {/* div pou tha krataei ton titlo ths tainias kai to description */}
-          <div className="flex flex-col gap-2">
-            <h2 className="font-bold text-2xl font-open-sans flex items-center justify-center">
-              {item.title}
-            </h2>
-
-            <p className="mt-10 ml-10 text-xl object-contain">{item.dec}</p>
-            {/* flex me tous hthopoious kai to icon */}
-            <div className="flex items-center justify-center ml-auto mt-auto gap-4">
-              <IoMdPerson />
-              <span>{item.names}</span>
-            </div>
-          </div>
-        </Link>
-      ))}
-    </div>
-  );
-};
-
-export default MovieMain;
+  export default MovieMain;

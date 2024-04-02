@@ -50,9 +50,6 @@ const MovieDetails = async ({ params }: { params: MovieDetails }) => {
         </h2>
 
         <p className="mt-10 ml-10 text-xl object-contain">{movie.overview}</p>
-        {/* flex me tous hthopoious kai to icon */}
-        <div className="flex items-center justify-center ml-auto mt-auto gap-4">
-        </div>
       </div>
     </div>
   );

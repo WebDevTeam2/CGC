@@ -1,3 +1,7 @@
+body {
+  background-color: #EEE3CB
+}
+
 /* Gia na kanoun fullScreen ta video sto hover */
 .parent-container .clip-container {
   transition: 1.5s ease-in-out;

@@ -1,59 +1,61 @@
+"use client";
+import { useState } from "react";
 import { CiSun } from "react-icons/ci";
 import { IoMoon } from "react-icons/io5";
 
 const changeTheme = () => {
   let counter = 0;
-  let isDark = false;
+  const [isDark, setIsDark] = useState(false);
   const toggleDarkTheme = () => {
-    const body = document.querySelector("body");
-    const animated = document.querySelector(".animated");
-    const darkMode = document.querySelector(".theme-button");
-
-    animated
-      ? (animated.className += "rotate-360 transition transform ease-in-out")
-      : null;
+  const body = document.querySelector("body") as HTMLBodyElement; 
+  const cards = document.querySelectorAll('.cards') as NodeListOf<HTMLElement>  
 
     if (!isDark) {
       if (body) {
-
-        counter < 1 ? body.className += " transition duration-200 ease-in-out text-white animated " : (body.classList.add("text-white"), body.classList.remove("text-black"));
-        body.style.backgroundColor = "black";
-        
-
-        setTimeout(() => {
-          if (body) {
-            body.classList.remove("animated");
-          }
-        }, 100);
-        isDark = true;
+        counter < 1
+          ? (body.className +=
+              " transition duration-200 ease-in-out text-white")
+          : (body.classList.add("text-white"),
+            body.classList.remove("text-black"));
+        body.style.backgroundColor = "#49243E";
+        cards.forEach((card) => {
+          card.style.backgroundColor = "#704264";
+        });
+        setIsDark(true);
       }
     } else {
       if (body) {
         body.classList.remove("text-white");
         body.classList.add("text-black");
-        body.style.backgroundColor = "white";
+        body.style.backgroundColor = "#EEE3CB";
+        cards.forEach((card) => {
+          card.style.backgroundColor = "#4c545b";
+        });
       }
-      isDark = false;
+      setIsDark(false);
     }
     counter++;
   };
 
   return (
-    <button
-      onClick={toggleDarkTheme}
-      className="bg-[#9a9a9a] rounded-full flex items-center justify-center min-w-16 cursor-pointer m-3 h-[5vh] theme-button"
-    >
-      <div className="bg-[#9a9a9a] transition transform duration-300 ease-in-out p-1 shadow-changeTheme mr-auto rounded-full ">
-        <div className="w-full h-full flex items-center justify-center">
-          <CiSun
-            style={{
-              color: "yellow",
-              visibility: "visible",
-              fontSize: "1.5rem",
-            }}
-          />
-        </div>
-      </div>
+    <button className="ml-6 mb-6" onClick={toggleDarkTheme}>
+      {!isDark ? (
+        <CiSun
+          style={{
+            color: "#d5d532",
+            visibility: "visible",
+            fontSize: "2rem",
+          }}
+        />
+      ) : (
+        <IoMoon
+          style={{
+            color: "#b6b6b6",
+            visibility: "visible",
+            fontSize: "2rem",
+          }}
+        />
+      )}
     </button>
   );
 };

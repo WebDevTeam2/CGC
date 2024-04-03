@@ -8,6 +8,7 @@ interface Post {
   id: number;
   title: string;
   wikipediaPage: string;
+  href: string;
 }
 
 // Specify the type of the 'posts' prop using the 'Post' interface

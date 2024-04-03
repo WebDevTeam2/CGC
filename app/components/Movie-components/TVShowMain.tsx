@@ -1,4 +1,4 @@
-import ChangeTab from "@/components/Movie-components/ChangeTab";
+import ChangeTab from "./ChangeTab";
 import Link from "next/link";
 import Image from "next/legacy/image";
 
@@ -29,7 +29,7 @@ interface MovieResult {
   vote_count: number;
 }
 
-const getMovieData = async (url: string) => {
+const getTVShowData = async (url: string) => {
   const res = await fetch(url);
   const data = await res.json();
   return data;
@@ -45,8 +45,8 @@ const getVotecolor = (vote:number) => {
   }
 }
 
-const MovieMain = async () => {
-  const movieData: Movie = await getMovieData(ApiURL);
+const TVShowMain = async () => {
+  const movieData: Movie = await getTVShowData(ApiURL);
 
     return (
       <div>
@@ -86,4 +86,4 @@ const MovieMain = async () => {
     );
   };
 
-  export default MovieMain;
+  export default TVShowMain;

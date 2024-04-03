@@ -1,5 +1,5 @@
 //Components
-import Nav from '@/components/Movie-components/Nav'
+import Nav from '../components/Movie-components/Nav'
 
 //layout
 import type { Metadata } from "next";

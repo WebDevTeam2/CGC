@@ -5,8 +5,8 @@ import { BsHouseFill } from "react-icons/bs";
 import { FaFireAlt } from "react-icons/fa";
 import { FaHouse, FaMagnifyingGlass } from "react-icons/fa6";
 import { TiArrowShuffle } from "react-icons/ti";
-import Search from "@/components/Movie-components/Search";
-import ChangeTheme from "@/components/Movie-components/ChangeTheme";
+import Search from "./Search";
+import ChangeTheme from "./ChangeTheme";
 
 //Ena array apo objects me diaforetiko id gia na mhn epanalamvanetai o kwdikas polles fores
 const navItems = [
@@ -111,6 +111,7 @@ export default function Nav() {
       <nav
         className="lg:w-20 lg:h-full sm:w-full fixed bg-[#23232e] sm:z-10 sm:bottom-0 lg:hover:w-56 group duration-700 ease-in-out not-search"
         id="scroll-nav"
+        style={{ overflowX: "auto" }} // Add styles for scrollbar
       >
         <ul className="flex sm:flex-row lg:flex-col items-center p-0 m-0 h-full not-search">
           {navItems.map((item) =>

@@ -1,171 +1,103 @@
-"use client";
-import React, { useEffect, useState } from "react";
+// Import necessary dependencies
 import Link from "next/link";
+import Image from "next/image";
 
-//JS library to handle HTTP requests,enabling the application
-//to retrieve data from external sources(API's)
-import axios from "axios";
-import SearchBar from "./SearchBar";
+// const apiWikiUrl = "https://en.wikipedia.org/w/api.php";
+// Define types for PostResult and PostData
+const basePosterUrl = `https://api.rawg.io/api/games`;
+const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
+const apiPosterUrl = basePosterUrl + "?page_size=40&" + apiPosterKey;
 
-type Post = {
+interface Post {
+  page: number;
+  results: PostResult[];
+}
+interface PostResult {
   id: number;
-  title: string;
-  // href: string;
-  wikipediaPage: string;
+  slug: string;
+  name: string;
+  // released: string;
+  // tba: boolean;
+  background_image: string;
+  rating: number;
+  rating_top: number;
+  description: string;
+}
+
+//this function uses regex to replace html tags inside the description
+const stripHtmlTags = (html: string) => {
+  const regex = /(<([^>]+)>)/gi;
+  return html.replace(regex, "");
 };
 
-// descriptions will be a dictionary-like object where keys are
-// numbers(post Ids) and values are strings(post descriptions)
-// Record is used when keys and values are of 2 different types
-type DescriptionsData = Record<number, string>;
+const getGameData = async (url: string) => {
+  const res = await fetch(url);
+  const data = await res.json();
+  //this command iterates over the array of game results fetched from url
+  //for each game it creates a promise that fetched additional data about each game like its description
+  const gameDetailsPromises = data.results.map(async (game: PostResult) => {
+    const gameRes = await fetch(`${basePosterUrl}/${game.id}?${apiPosterKey}`);
+    const gameData = await gameRes.json();
+    const strippedDescription = stripHtmlTags(gameData.description);
+    //this return command is used to get the original game details plus its description
+    return { ...game, description: strippedDescription };
+  });
+  // This ensures that all game details are fetched before proceeding.
+  const gameDetails = await Promise.all(gameDetailsPromises);
+  // this line returns an object with the original data fetched from (data) with the updated results property, where each game now includes an description.
+  return { ...data, results: gameDetails };
+};
 
-export const posts = [
-  {
-    id: 1,
-    title: "God Of War (2018)",
-    wikipediaPage: "God_of_War_(2018_video_game)",
-  },
-  {
-    id: 2,
-    title: "Marvel's Spider-Man Remastered",
-    wikipediaPage: "Spider-Man_(2018_video_game)",
-  },
-  {
-    id: 3,
-    title: "Alan Wake 2",
-    wikipediaPage: "Alan_Wake_2",
-  },
-  {
-    id: 4,
-    title: "Cyberpunk 2077",
-    wikipediaPage: "Cyberpunk_2077",
-  },
-  {
-    id: 5,
-    title: "Ratchet & Clank: Rift Apart",
-    wikipediaPage: "Ratchet_%26_Clank:_Rift_Apart",
-  },
-  {
-    id: 6,
-    title: "Star Wars: Jedi Survivor",
-    wikipediaPage: "Star_Wars_Jedi:_Survivor",
-  },
-  {
-    id: 7,
-    title: "The Last Of Us Part 2",
-    wikipediaPage: "The_Last_of_Us_Part_II",
-  },
-  {
-    id: 8,
-    title: "Elden Ring",
-    wikipediaPage: "Elden_Ring",
-  },
-  {
-    id: 9,
-    title: "Final Fantasy VII Remake",
-    wikipediaPage: "Final_Fantasy_VII_Remake",
-  },
-  {
-    id: 10,
-    title: "Red Dead Redemption 2",
-    wikipediaPage: "Red_Dead_Redemption_2",
-  },
-];
-
-const Posts = () => {
-  //({}) initializes an empty object
-  const [descriptions, setDescriptions] = useState<DescriptionsData>({});
-  const [posterUrls, setPosterUrls] = useState<DescriptionsData>({});
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const descriptionsData: DescriptionsData = {};
-      const urls: DescriptionsData = {};
-
-      for (const post of posts) {
-        try {
-          // Fetch description from Wikipedia
-          const response = await axios.get(
-            `https://en.wikipedia.org/api/rest_v1/page/summary/${post.wikipediaPage}`
-          );
-
-          //takes the response from the wikipedia API and assigns it to
-          //each post based on its id
-          descriptionsData[post.id] = response.data.extract;
-
-          // Fetch image from RAWG API
-          const rawgResponse = await axios.get(
-            `https://api.rawg.io/api/games`,
-            {
-              params: {
-                search: post.title,
-                key: "f0e283f3b0da46e394e48ae406935d25",
-              },
-            }
-          );
-
-          const imageUrl =
-            rawgResponse.data.results.length > 0
-              ? rawgResponse.data.results[0].background_image
-              : ""; // If no image found, set empty string
-
-          urls[post.id] = imageUrl;
-        } catch (error) {
-          console.error(`Error fetching data for ${post.title}:`);
-          descriptionsData[post.id] = "Description not available.";
-          urls[post.id] = ""; // Set empty string if there's an error
-        }
-      }
-
-      setDescriptions(descriptionsData);
-      setPosterUrls(urls);
-    };
-
-    fetchData();
-  }, []);
-
-  return (
-    <>
-      <SearchBar posts={posts} />
-      <ul className=" flex my-36 w-full flex-col items-center justify-center gap-12">
-        {posts.map((item) => (
-          <li
-            key={item.id}
-            className="text-slate-800 text-balance text-md xl:w-1/2 lg:w-3/5 w-4/5 hover:scale-110 transition-all duration-500 ease-in-out"
-            // style={{ animation: "upandown 2s infinite" }}
-          >
-            <Link
-              href="../../app/Games/[pageId]"
-              as={`Games/${item.id}`}
-              className="relative flex group border-4 xl:h-52  border-white rounded-lg transition-all duration-300"
+const Posts = async () => {
+  try {
+    const gameData: Post = await getGameData(apiPosterUrl);
+    // Render the component
+    return (
+      <div>
+        <ul className="relative flex mt-36 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
+          {gameData.results.map((item) => (
+            <li
+              key={item.id}
+              className="text-slate-800 text-balance text-md 2xl:w-1/2 xl:hover:scale-110 xl:w-3/5 w-4/5 lg:hover:scale-105 hover:scale-105  transition-all duration-500 ease-in-out"
             >
-              <div className="bg-white relative flex flex-col xl:flex-row gap-5 transition-all duration-400">
-                {posterUrls[item.id] && (
-                  <img
-                    src={posterUrls[item.id]}
-                    alt={item.title}
-                    className="object-cover xl:border-r-8 xl:border-double border-white  transition duration-500 ease-in-out"
-                  />
-                )}
-                <div
-                  className="h-0 opacity-0 group-hover:opacity-100 absolute flex group-hover:h-10 items-center justify-center border border-black bg-black rounded-b-xl text-md ml-3 p-1"
-                  style={{
-                    transition:
-                      "height 0.5s ease-in-out, opacity 0.5s ease-in-out",
-                  }}
-                >
-                  <span className="text-white">{item.title}</span>
+              <Link
+                href={`/Games/${item.name.replace(/ /g, "_")}`}
+                className="relative flex group border-4 md:h-60 h-[33rem] border-white rounded-lg transition-all duration-300"
+              >
+                <div className="bg-white relative flex flex-col md:flex-row md:gap-0 gap-2 transition-all duration-400">
+                  <div className="relative overflow-hidden md:pb-56 pb-72 md:pr-96">
+                    <Image
+                      src={item.background_image}
+                      alt={item.name}
+                      priority={true}
+                      fill={true}
+                      style={{ objectFit: "cover" }}
+                      className="xl:border-r-8 xl:border-double border-white transition duration-500 ease-in-out"
+                    />
+                  </div>
+                  <div
+                    className="h-0 opacity-0 group-hover:opacity-100 absolute flex group-hover:h-10 items-center justify-center border border-black bg-black rounded-b-xl text-md ml-3 p-1"
+                    style={{
+                      transition:
+                        "height 0.5s ease-in-out, opacity 0.5s ease-in-out",
+                    }}
+                  >
+                    <span className="text-white">{item.name}</span>
+                  </div>
+                  <div className="overflow-hidden pl-4 leading-7">
+                    <span>{item.description}</span>
+                  </div>
                 </div>
-                <div className="overflow-hidden pl-4 leading-7">
-                  <span>{descriptions[item.id]}</span>
-                </div>
-              </div>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </>
-  );
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  } catch (error) {
+    console.log("Error fetching game data:", error);
+    return <div>Error fetching game data</div>;
+  }
 };
-
+// Export the Posts component
 export default Posts;

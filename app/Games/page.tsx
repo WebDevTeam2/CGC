@@ -1,9 +1,8 @@
-import MainPage from "@/components/Game-components/MainPage";
-import NavBar from "@/components/Game-components/NavBar";
-import Posts from "@/components/Game-components/Posts";
-import SearchBar from "@/components/Game-components/SearchBar";
+import MainPage from "../components/Game-components/MainPage";
+import NavBar from "../components/Game-components/NavBar";
+import Posts from "../components/Game-components/Posts";
 
-export default function GamesHomePage() {
+const GamesHomePage = () => {
   return (
     <>
       <MainPage>
@@ -12,4 +11,5 @@ export default function GamesHomePage() {
       </MainPage>
     </>
   );
-}
+};
+export default GamesHomePage;

@@ -61,8 +61,6 @@ export default function Nav() {
       //An exoume kanei scroll tote vazoume ena class hide-nav pou exei kapoia css styles
       if (isSmallScreen)
         currentScrollPos > prevScrollPos
-          ? document.getElementById("scroll-nav")?.classList.add("hide-nav")
-          : document.getElementById("scroll-nav")?.classList.remove("hide-nav");
 
       setPrevScrollPos(currentScrollPos); //Kanoume update to position tou previous scroll
     };
@@ -110,8 +108,6 @@ export default function Nav() {
     <div className="nav-for-hover dummy-class">
       <nav
         className="lg:w-20 lg:h-full sm:w-full fixed bg-[#23232e] sm:z-10 sm:bottom-0 lg:hover:w-56 group duration-700 ease-in-out not-search"
-        id="scroll-nav"
-        style={{ overflowX: "auto" }} // Add styles for scrollbar
       >
         <ul className="flex sm:flex-row lg:flex-col items-center p-0 m-0 h-full not-search">
           {navItems.map((item) =>

@@ -1,5 +1,5 @@
 //Components
-import Nav from '../components/Movie-components/Nav'
+import Nav from '@/app/components/Movie-components/Nav'
 
 //layout
 import type { Metadata } from "next";
@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className}`}>
+      <body className={`bg-[#EEE3CB] ${inter.className}`}>
         <Nav />
         {children}</body>
     </html>

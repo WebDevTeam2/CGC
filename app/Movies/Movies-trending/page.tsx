@@ -1,4 +1,4 @@
-import Trending from "@/components/Movie-components/Trending";
+import Trending from "@/app/components/Movie-components/Trending";
 
 export default async function TrendingPage() {
   return (

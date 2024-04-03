@@ -1,5 +1,4 @@
 import Image from "next/legacy/image";
-
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/movie/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
@@ -31,7 +30,7 @@ const MovieDetails = async ({ params }: { params: MovieDetails }) => {
   const movie: MovieDetails = await getMovieDetails(params.id.toString());
 
   return (
-    <div className="flex flex-col items-center ml-[8rem] mr-[4.809rem] w-10/12 trending-page not-search">
+    <div className="flex flex-col items-center ml-[8rem] mr-[4.809rem] w-10/12 not-search">
       <div className="sm:w-48 lg:w-64 lg:h-64 p-10 relative contain content-none">
         <Image
           src={`${imageURL}${movie.poster_path}`}

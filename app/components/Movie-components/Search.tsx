@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
-import { movieTitles } from "../../constants/constants";
+import { movieTitles } from "@/app/constants/constants";
 
 interface SearchProps {
   setSearchVisible: React.Dispatch<React.SetStateAction<boolean>>; //boolean

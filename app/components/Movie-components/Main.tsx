@@ -4,7 +4,7 @@ import Image from "next/legacy/image";
 
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/";
-const ApiURL = baseUrl + "movie/popular?&" + apiKey;
+const ApiURL = baseUrl + "movie/" + apiKey;
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
 interface Movie {
@@ -51,7 +51,7 @@ const MovieMain = async () => {
     return (
       <div>
         <ChangeTab />
-        <div className="grid grid-cols-4 gap-8 w-3/4 ml-64 h-full not-search">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-64 h-full not-search">
           {/* Kanw Link oloklhrh th kartela */}
           {movieData.results.map((item) => (
             <Link
@@ -59,10 +59,10 @@ const MovieMain = async () => {
               href={`/Movies/${item.id}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="lg:hover:scale-110 w-full transition duration-700 ease-in-out mb-6 "
+              className="lg:hover:scale-110 w-full transition duration-700 ease-in-out mb-6 card-link"
             >
               {/* image dipla apo ta images me ta noumera */}
-              <div className="lg:w-full lg:h-96 p-10 relative">
+              <div className="sm:w-full sm:h-56 lg:w-full lg:h-96 p-10 relative image-div">
                 <Image
                   src={`${imageURL}${item.poster_path}`}
                   alt={item.title}

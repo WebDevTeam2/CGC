@@ -4,9 +4,11 @@ import Nav from '@/app/components/Movie-components/Nav'
 //layout
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Roboto } from "next/font/google"
 import "./movieStyles.css";
 
 const inter = Inter({ subsets: ["latin"] });
+const roboto = Roboto({ weight: ['400', '700'] , subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
   title: "Movies",
@@ -20,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`bg-[#EEE3CB] ${inter.className}`}>
+      <body className={`bg-[#EEE3CB] ${roboto.className}`}>
         <Nav />
         {children}</body>
     </html>

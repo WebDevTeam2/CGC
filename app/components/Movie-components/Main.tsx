@@ -1,10 +1,11 @@
 import ChangeTab from "./ChangeTab";
+import Pages from '@/app/components/Movie-components/Pages'
 import Link from "next/link";
 import Image from "next/legacy/image";
 
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/";
-const ApiURL = baseUrl + "movie/" + apiKey;
+const ApiURL = baseUrl + "discover/movie?&" + apiKey;
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
 interface Movie {
@@ -81,6 +82,10 @@ const MovieMain = async () => {
               </div>
             </Link>
           ))}
+        </div>
+        <div className="">
+          <Pages />
+
         </div>
       </div>
     );

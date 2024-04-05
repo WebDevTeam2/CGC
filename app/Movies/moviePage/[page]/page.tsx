@@ -1,11 +1,9 @@
-import ChangeTab from "./ChangeTab";
-import Pages from "@/app/components/Movie-components/Pages";
-import Link from "next/link";
 import Image from "next/legacy/image";
-
+import Link from "next/link";
+import ChangeTab from "@/app/components/Movie-components/ChangeTab";
+import Pages from "@/app/components/Movie-components/Pages";
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/";
-const ApiURL = baseUrl + "discover/movie?&" + apiKey;
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
 interface Movie {
@@ -30,11 +28,12 @@ interface MovieResult {
   vote_count: number;
 }
 
-const getMovieData = async (url: string) => {
-  const res = await fetch(url);
+const getMovieData = async (page: string) => {
+  const res = await fetch(`${baseUrl}/discover/movie?page=${page}&${apiKey}`);
   const data = await res.json();
   return data;
 };
+
 
 const getVotecolor = (vote: number) => {
   if (vote >= 8) {
@@ -46,8 +45,8 @@ const getVotecolor = (vote: number) => {
   }
 };
 
-const MovieMain = async () => {
-  const movieData: Movie = await getMovieData(ApiURL);
+const Page = async ({ params }: { params: Movie }) => {
+  const movieData: Movie = await getMovieData(`${params.page.toString()}`);
 
   return (
     <div>
@@ -84,30 +83,18 @@ const MovieMain = async () => {
                   {item.vote_average.toString().slice(0, 3)}
                 </span>
               </div>
-              <div className="bg-[#4c545b] h-44 gap-4 cards">
-                <div className="flex ml-4 text-white">
-                  <h2 className="">{item.title}</h2>
-                  <span
-                    className={`${getVotecolor(
-                      item.vote_average
-                    )} ml-auto mr-5 mt-11`}
-                  >
-                    {item.vote_average.toString().slice(0, 3)}
-                  </span>
-                </div>
-                <p className="mt-4 ml-4 text-white">
-                  {item.overview.slice(0, 40)}...
-                </p>
-              </div>
+              <p className="mt-4 ml-4 text-white">
+                {item.overview.slice(0, 40)}...
+              </p>
             </div>
           </Link>
         ))}
-        <div className="">
-          <Pages />
-        </div>
+      </div>
+      <div className="">
+        <Pages />
       </div>
     </div>
   );
 };
 
-export default MovieMain;
+export default Page;

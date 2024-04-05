@@ -16,8 +16,8 @@ interface PostResult {
   id: number;
   slug: string;
   name: string;
-  // released: string;
-  // tba: boolean;
+  released: string;
+  tba: boolean;
   background_image: string;
   rating: number;
   rating_top: number;
@@ -33,14 +33,28 @@ const stripHtmlTags = (html: string) => {
 const getGameData = async (url: string) => {
   const res = await fetch(url);
   const data = await res.json();
+  // https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
+
   //this command iterates over the array of game results fetched from url
   //for each game it creates a promise that fetched additional data about each game like its description
   const gameDetailsPromises = data.results.map(async (game: PostResult) => {
-    const gameRes = await fetch(`${basePosterUrl}/${game.id}?${apiPosterKey}`);
-    const gameData = await gameRes.json();
+    // const gameRes = await fetch(`${basePosterUrl}/${game.id}?${apiPosterKey}`);
+    const [gameRes, trailerRes] = await Promise.all([
+      fetch(`${basePosterUrl}/${game.id}?${apiPosterKey}`),
+      fetch(`${basePosterUrl}/${game.id}/movies?${apiPosterKey}`),
+    ]);
+    const [gameData, trailerData] = await Promise.all([
+      gameRes.json(),
+      trailerRes.json(),
+    ]);
+    //https://api.rawg.io/api/games/3498?key=f0e283f3b0da46e394e48ae406935d25
+
+    // const gameData = await gameRes.json();
     const strippedDescription = stripHtmlTags(gameData.description);
+    const trailerUrl =
+      trailerData.results.length > 0 ? trailerData.results[0].data.max : null;
     //this return command is used to get the original game details plus its description
-    return { ...game, description: strippedDescription };
+    return { ...game, description: strippedDescription, trailerUrl };
   });
   // This ensures that all game details are fetched before proceeding.
   const gameDetails = await Promise.all(gameDetailsPromises);
@@ -77,7 +91,7 @@ const Posts = async () => {
                       priority={true}
                       fill={true}
                       style={{ objectFit: "cover" }}
-                      className="xl:border-r-8 xl:border-double border-white transition duration-500 ease-in-out"
+                      className="xl:border-r-8  xl:border-double border-white transition duration-500 ease-in-out"
                     />
                   </div>
                   <div

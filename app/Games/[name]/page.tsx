@@ -1,36 +1,50 @@
 import Image from "next/image";
+import "../style.css";
 const basePosterUrl = `https://api.rawg.io/api/games/`;
 const apiPosterKey = "?key=f0e283f3b0da46e394e48ae406935d25";
 
-type PostPage = {
+interface Post {
+  page: number;
+  results: PostPage[];
+}
+interface PostPage {
   id: number;
   slug: string;
   name: string;
-  // released: string;
-  // tba: boolean;
+  count: number;
+  next: null;
+  previous: null;
+  results: [
+    {
+      id: number;
+      name: string;
+      preview: string;
+      data: {
+        480: string;
+        max: string;
+      };
+    }
+  ];
+  released: string;
+  tba: boolean;
   background_image: string;
+  background_image_additional: string;
   rating: number;
   rating_top: number;
   description: string;
-};
+}
 
 const getGame = async (name: string) => {
   const res = await fetch(basePosterUrl + name + apiPosterKey);
+  // https://api.rawg.io/api/games/grand-theft-auto-v?key=f0e283f3b0da46e394e48ae406935d25
   const data = await res.json();
   return data;
-  //this command iterates over the array of game results fetched from url
-  //for each game it creates a promise that fetched additional data about each game like its description
-  //   const gameDetailsPromises = data.results.map(async (game: PostResult) => {
-  //     const gameRes = await fetch(`${basePosterUrl}/${game.id}?${apiPosterKey}`);
-  //     const gameData = await gameRes.json();
-  //     const strippedDescription = stripHtmlTags(gameData.description);
-  //     //this return command is used to get the original game details plus its description
-  //     return { ...game, description: strippedDescription };
-  //   });
-  //   // This ensures that all game details are fetched before proceeding.
-  //   const gameDetails = await Promise.all(gameDetailsPromises);
-  //   // this line returns an object with the original data fetched from (data) with the updated results property, where each game now includes an description.
-  //   return { ...data, results: gameDetails };
+};
+
+//this function uses regex to replace html tags inside the description
+const stripHtmlTags = (html: string) => {
+  const regex = /(<([^>]+)>)/gi;
+  return html.replace(regex, "");
 };
 
 export default async function Games({ params }: { params: PostPage }) {
@@ -38,14 +52,12 @@ export default async function Games({ params }: { params: PostPage }) {
 
   return (
     <div>
-      <h2>Game Details</h2>
-      <h3>{game.name}</h3>
-      <Image
-        src={game.background_image}
-        alt={game.name + " Background Image"}
-        layout="fill"
-        objectFit="cover"
-      ></Image>
+      <div className="bg-slate-700 fixed h-screen w-full"></div>
+      <div className="flex pt-10 flex-col items-center justify-center">
+        <span className="font-inter leading-8 border relative 2xl:w-1/2 xl:w-4/6 w-5/6 bg-stone-900/60 p-6 rounded-2xl text-balance text-white text-xl transition-[width] ease-in-out duration-300">
+          {stripHtmlTags(game.description)}
+        </span>
+      </div>
     </div>
   );
 }

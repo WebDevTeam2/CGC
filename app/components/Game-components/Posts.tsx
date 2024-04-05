@@ -6,7 +6,7 @@ import Image from "next/image";
 // Define types for PostResult and PostData
 const basePosterUrl = `https://api.rawg.io/api/games`;
 const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
-const apiPosterUrl = basePosterUrl + "?page_size=40&" + apiPosterKey;
+const apiPosterUrl = basePosterUrl + "?page_size=10&" + apiPosterKey;
 
 interface Post {
   page: number;
@@ -61,7 +61,12 @@ const Posts = async () => {
               className="text-slate-800 text-balance text-md 2xl:w-1/2 xl:hover:scale-110 xl:w-3/5 w-4/5 lg:hover:scale-105 hover:scale-105  transition-all duration-500 ease-in-out"
             >
               <Link
-                href={`/Games/${item.name.replace(/ /g, "_")}`}
+                href={`/Games/${item.name
+                  .toLowerCase()
+                  .replace(/ /g, "-")
+                  .replace(/:/g, "")
+                  .replace(/\([^)]*\)/g, "")
+                  .replace(/-+$/g, "")}`}
                 className="relative flex group border-4 md:h-60 h-[33rem] border-white rounded-lg transition-all duration-300"
               >
                 <div className="bg-white relative flex flex-col md:flex-row md:gap-0 gap-2 transition-all duration-400">

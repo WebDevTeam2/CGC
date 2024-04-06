@@ -61,7 +61,7 @@ export default async function Games({ params }: { params: PostPage }) {
   return (
     <div>
       <div className="bg-slate-700 fixed h-screen w-full"></div>
-      <div className="flex flex-row pt-10 justify-evenly">
+      <div className="flex flex-row pt-10 justify-evenly items-center">
         <div className="flex flex-col relative pt-24">
           <Image
             src={game.background_image}
@@ -80,7 +80,7 @@ export default async function Games({ params }: { params: PostPage }) {
                 Platforms:{" "}
                 {game.platforms.map(
                   (platform: { platform: { name: string } }, index: number) => (
-                    <span key={index} className="">
+                    <span key={index}>
                       {index > 0 && ","}{" "}
                       {/* Add slash if not the first platform */}
                       {platform.platform.name}
@@ -91,7 +91,7 @@ export default async function Games({ params }: { params: PostPage }) {
             </div>
           </div>
         </div>
-        <span className="font-inter leading-8 border relative 2xl:w-1/2 xl:w-4/6 w-5/6 bg-stone-900/60 p-6 rounded-2xl text-balance text-white text-xl transition-[width] ease-in-out duration-300">
+        <span className="font-inter leading-8 border relative h-1/2 2xl:w-1/2 xl:w-4/6 w-5/6 bg-stone-900/60 p-6 rounded-2xl text-balance text-white text-xl transition-[width] ease-in-out duration-300">
           {stripHtmlTags(game.description)}
         </span>
       </div>

@@ -17,3 +17,13 @@ body {
 input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;
 }
+
+.fade-bottom {
+  height: 3rem;
+  background-image: linear-gradient(
+    180deg,
+    transparent,
+    rgba(26, 26, 26, 0.61),
+    black
+  );
+}

@@ -60,9 +60,9 @@ export default async function Games({ params }: { params: PostPage }) {
 
   return (
     <div>
-      <div className="bg-slate-700 fixed h-screen w-full"></div>
-      <div className="flex flex-row pt-10 justify-evenly items-center">
-        <div className="flex flex-col relative pt-24">
+      <div className="bg-slate-700 fixed h-screen w-screen"></div>
+      <div className="flex flex-row pt-20 justify-evenly">
+        <div className="flex flex-col relative pt-0">
           <Image
             src={game.background_image}
             alt={game.name}
@@ -71,7 +71,7 @@ export default async function Games({ params }: { params: PostPage }) {
           />
           <div className="relative flex flex-col -top-10">
             <div className="fade-bottom"></div>
-            <div className="flex flex-col gap-2 text-lg items-center pt-6 border-0 text-center font-inter text-white bg-black rounded-b-xl h-[22vw]">
+            <div className="flex flex-col  gap-2 text-lg items-center pt-6 border-0 text-center font-inter text-white bg-black rounded-b-xl h-[22rem]">
               <span>
                 Rating: {game.rating} / {game.rating_top}
               </span>
@@ -91,7 +91,7 @@ export default async function Games({ params }: { params: PostPage }) {
             </div>
           </div>
         </div>
-        <span className="font-inter leading-8 border relative h-1/2 2xl:w-1/2 xl:w-4/6 w-5/6 bg-stone-900/60 p-6 rounded-2xl text-balance text-white text-xl transition-[width] ease-in-out duration-300">
+        <span className="font-inter leading-8 border relative w-1/2 h-full bg-stone-900/60 p-6 rounded-2xl text-balance text-white text-xl transition-[width] ease-in-out duration-300">
           {stripHtmlTags(game.description)}
         </span>
       </div>

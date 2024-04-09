@@ -1,5 +1,7 @@
 import Image from "next/image";
 import "../style.css";
+import { IoStarSharp } from "react-icons/io5";
+import { stringify } from "querystring";
 const basePosterUrl = `https://api.rawg.io/api/games/`;
 const apiPosterKey = "?key=f0e283f3b0da46e394e48ae406935d25";
 
@@ -33,6 +35,13 @@ interface PostPage {
       };
     }
   ];
+  genres: [
+    {
+      id: number;
+      name: string;
+      slug: string;
+    }
+  ];
   released: string;
   tba: boolean;
   background_image: string;
@@ -55,6 +64,21 @@ const stripHtmlTags = (html: string) => {
   return html.replace(regex, "");
 };
 
+const convertToStars = (rating: number) => {
+  const newR: JSX.Element[] = [];
+  // const whole = Math.floor(rating);
+  // const remainder = rating - whole;
+
+  for (let i = 0; i < rating; i++) {
+    newR.push(<IoStarSharp key={i} />);
+  }
+
+  return newR;
+};
+{
+  /* <IoStarSharp /> */
+}
+
 export default async function Games({ params }: { params: PostPage }) {
   const game = await getGame(params.name);
 
@@ -62,7 +86,7 @@ export default async function Games({ params }: { params: PostPage }) {
     <div>
       <div className="bg-slate-700 fixed h-screen w-screen"></div>
       <div className="flex flex-row pt-20 justify-evenly">
-        <div className="flex flex-col relative pt-0">
+        <div className="flex w-[37rem] flex-col relative pt-0">
           <Image
             src={game.background_image}
             alt={game.name}
@@ -71,23 +95,47 @@ export default async function Games({ params }: { params: PostPage }) {
           />
           <div className="relative flex flex-col -top-10">
             <div className="fade-bottom"></div>
-            <div className="flex flex-col  gap-2 text-lg items-center pt-6 border-0 text-center font-inter text-white bg-black rounded-b-xl h-[22rem]">
-              <span>
-                Rating: {game.rating} / {game.rating_top}
-              </span>
-              <span>Release date: {game.released}</span>
-              <span className="w-[35rem]">
-                Platforms:{" "}
-                {game.platforms.map(
-                  (platform: { platform: { name: string } }, index: number) => (
+            <div className="flex flex-col gap-2 text-lg px-24 py-10 border-0 text-center font-inter text-white bg-black rounded-b-xl h-[22rem]">
+              <div className="flex flex-row justify-between">
+                <span className="font-bold">Rating:</span>
+                <span className="flex text-green-700">
+                  {/* {game.rating} / {game.rating_top} */}
+                  {convertToStars(game.rating)} {game.rating}
+                </span>
+              </div>
+              <div className="flex flex-row justify-between">
+                <span className="font-bold">Release date: </span>
+                <span>{game.released}</span>
+              </div>
+              <div className="flex flex-row justify-between">
+                <span className="font-bold">Genres:</span>
+                <span className="text-balance">
+                  {game.genres.map((genre: { name: string }, index: number) => (
                     <span key={index}>
                       {index > 0 && ","}{" "}
                       {/* Add slash if not the first platform */}
-                      {platform.platform.name}
+                      {genre.name}
                     </span>
-                  )
-                )}
-              </span>
+                  ))}
+                </span>
+              </div>
+              <div className="flex flex-row justify-between gap-16">
+                <span className="font-bold">Platforms: </span>
+                <span className="text-end">
+                  {game.platforms.map(
+                    (
+                      platform: { platform: { name: string } },
+                      index: number
+                    ) => (
+                      <span key={index}>
+                        {index > 0 && ","}{" "}
+                        {/* Add slash if not the first platform */}
+                        {platform.platform.name}
+                      </span>
+                    )
+                  )}
+                </span>
+              </div>
             </div>
           </div>
         </div>

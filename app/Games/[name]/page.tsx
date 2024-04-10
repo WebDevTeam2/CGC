@@ -66,11 +66,38 @@ const stripHtmlTags = (html: string) => {
 
 const convertToStars = (rating: number) => {
   const newR: JSX.Element[] = [];
-  // const whole = Math.floor(rating);
-  // const remainder = rating - whole;
+  const whole = Math.floor(rating);
+  const remainder = rating - whole;
+  const rest = 1 - remainder;
+  let percentage_r = remainder * 100 + "%";
+  let rest_r = rest * 100 + "%";
 
-  for (let i = 0; i < rating; i++) {
-    newR.push(<IoStarSharp key={i} />);
+  console.log(percentage_r);
+  console.log(rest_r);
+  for (let i = 0; i < whole; i++) {
+    newR.push(
+      <IoStarSharp
+        key={i}
+        style={{
+          background: "darkgreen",
+          fontSize: "26px",
+          padding: "2px",
+        }}
+      />
+    );
+  }
+
+  if (remainder > 0) {
+    newR.push(
+      <IoStarSharp
+        key="rest"
+        style={{
+          background: `linear-gradient(to right, darkgreen ${percentage_r}, grey 15%)`,
+          fontSize: "26px",
+          padding: "2px",
+        }}
+      />
+    );
   }
 
   return newR;
@@ -81,7 +108,6 @@ const convertToStars = (rating: number) => {
 
 export default async function Games({ params }: { params: PostPage }) {
   const game = await getGame(params.name);
-
   return (
     <div>
       <div className="bg-slate-700 fixed h-screen w-screen"></div>
@@ -98,9 +124,8 @@ export default async function Games({ params }: { params: PostPage }) {
             <div className="flex flex-col gap-2 text-lg px-24 py-10 border-0 text-center font-inter text-white bg-black rounded-b-xl h-[22rem]">
               <div className="flex flex-row justify-between">
                 <span className="font-bold">Rating:</span>
-                <span className="flex text-green-700">
-                  {/* {game.rating} / {game.rating_top} */}
-                  {convertToStars(game.rating)} {game.rating}
+                <span className="flex gap-1 text-white">
+                  {convertToStars(game.rating)}
                 </span>
               </div>
               <div className="flex flex-row justify-between">

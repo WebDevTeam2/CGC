@@ -1,5 +1,7 @@
 import Image from "next/image";
 import "../style.css";
+import { IoStarSharp } from "react-icons/io5";
+import { stringify } from "querystring";
 const basePosterUrl = `https://api.rawg.io/api/games/`;
 const apiPosterKey = "?key=f0e283f3b0da46e394e48ae406935d25";
 
@@ -33,6 +35,13 @@ interface PostPage {
       };
     }
   ];
+  genres: [
+    {
+      id: number;
+      name: string;
+      slug: string;
+    }
+  ];
   released: string;
   tba: boolean;
   background_image: string;
@@ -55,14 +64,55 @@ const stripHtmlTags = (html: string) => {
   return html.replace(regex, "");
 };
 
+const convertToStars = (rating: number) => {
+  const newR: JSX.Element[] = [];
+  const whole = Math.floor(rating);
+  const remainder = rating - whole;
+  const rest = 1 - remainder;
+  let percentage_r = remainder * 100 + "%";
+  let rest_r = rest * 100 + "%";
+
+  console.log(percentage_r);
+  console.log(rest_r);
+  for (let i = 0; i < whole; i++) {
+    newR.push(
+      <IoStarSharp
+        key={i}
+        style={{
+          background: "darkgreen",
+          fontSize: "26px",
+          padding: "2px",
+        }}
+      />
+    );
+  }
+
+  if (remainder > 0) {
+    newR.push(
+      <IoStarSharp
+        key="rest"
+        style={{
+          background: `linear-gradient(to right, darkgreen ${percentage_r}, grey 15%)`,
+          fontSize: "26px",
+          padding: "2px",
+        }}
+      />
+    );
+  }
+
+  return newR;
+};
+{
+  /* <IoStarSharp /> */
+}
+
 export default async function Games({ params }: { params: PostPage }) {
   const game = await getGame(params.name);
-
   return (
     <div>
-      <div className="bg-slate-700 fixed h-screen w-full"></div>
-      <div className="flex flex-row pt-10 justify-evenly items-center">
-        <div className="flex flex-col relative pt-24">
+      <div className="bg-slate-700 fixed h-screen w-screen"></div>
+      <div className="flex flex-row pt-20 justify-evenly">
+        <div className="flex w-[37rem] flex-col relative pt-0">
           <Image
             src={game.background_image}
             alt={game.name}
@@ -71,27 +121,50 @@ export default async function Games({ params }: { params: PostPage }) {
           />
           <div className="relative flex flex-col -top-10">
             <div className="fade-bottom"></div>
-            <div className="flex flex-col gap-2 text-lg items-center pt-6 border-0 text-center font-inter text-white bg-black rounded-b-xl h-[22vw]">
-              <span>
-                Rating: {game.rating} / {game.rating_top}
-              </span>
-              <span>Release date: {game.released}</span>
-              <span className="w-[35rem]">
-                Platforms:{" "}
-                {game.platforms.map(
-                  (platform: { platform: { name: string } }, index: number) => (
+            <div className="flex flex-col gap-2 text-lg px-24 py-10 border-0 text-center font-inter text-white bg-black rounded-b-xl h-[22rem]">
+              <div className="flex flex-row justify-between">
+                <span className="font-bold">Rating:</span>
+                <span className="flex gap-1 text-white">
+                  {convertToStars(game.rating)}
+                </span>
+              </div>
+              <div className="flex flex-row justify-between">
+                <span className="font-bold">Release date: </span>
+                <span>{game.released}</span>
+              </div>
+              <div className="flex flex-row justify-between">
+                <span className="font-bold">Genres:</span>
+                <span className="text-balance">
+                  {game.genres.map((genre: { name: string }, index: number) => (
                     <span key={index}>
                       {index > 0 && ","}{" "}
                       {/* Add slash if not the first platform */}
-                      {platform.platform.name}
+                      {genre.name}
                     </span>
-                  )
-                )}
-              </span>
+                  ))}
+                </span>
+              </div>
+              <div className="flex flex-row justify-between gap-16">
+                <span className="font-bold">Platforms: </span>
+                <span className="text-end">
+                  {game.platforms.map(
+                    (
+                      platform: { platform: { name: string } },
+                      index: number
+                    ) => (
+                      <span key={index}>
+                        {index > 0 && ","}{" "}
+                        {/* Add slash if not the first platform */}
+                        {platform.platform.name}
+                      </span>
+                    )
+                  )}
+                </span>
+              </div>
             </div>
           </div>
         </div>
-        <span className="font-inter leading-8 border relative h-1/2 2xl:w-1/2 xl:w-4/6 w-5/6 bg-stone-900/60 p-6 rounded-2xl text-balance text-white text-xl transition-[width] ease-in-out duration-300">
+        <span className="font-inter leading-8 border relative w-1/2 h-full bg-stone-900/60 p-6 rounded-2xl text-balance text-white text-xl transition-[width] ease-in-out duration-300">
           {stripHtmlTags(game.description)}
         </span>
       </div>

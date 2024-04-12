@@ -6,7 +6,7 @@ const Pages = () => {
   return (
     <div className="flex flex-row ml-20">
         {pages.map((page) => (
-            <Link href={`/Movies/moviePage/${page}`}>{page}</Link>
+            <Link key={page} href={`/Movies/moviePage/${page}`}>{page}</Link>
         ))}
       
     </div>

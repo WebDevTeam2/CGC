@@ -1,5 +1,5 @@
-import TVShowMain from "@/components/Movie-components/TVShowMain";
-import ChangeTab from "@/components/Movie-components/ChangeTab";
+import TVShowMain from "@/app/components/Movie-components/TVShowMain";
+import ChangeTab from "@/app/components/Movie-components/ChangeTab";
 
 const mainTvShowsPage = async () => {
   return (

@@ -84,21 +84,10 @@ const MovieMain = async () => {
                   {item.vote_average.toString().slice(0, 3)}
                 </span>
               </div>
-              <div className="bg-[#4c545b] h-44 gap-4 cards">
-                <div className="flex ml-4 text-white">
-                  <h2 className="">{item.title}</h2>
-                  <span
-                    className={`${getVotecolor(
-                      item.vote_average
-                    )} ml-auto mr-5 mt-11`}
-                  >
-                    {item.vote_average.toString().slice(0, 3)}
-                  </span>
-                </div>
-                <p className="mt-4 ml-4 text-white">
-                  {item.overview.slice(0, 40)}...
-                </p>
-              </div>
+
+              <p className="mt-4 ml-4 text-white">
+                {item.overview.slice(0, 40)}...
+              </p>
             </div>
           </Link>
         ))}

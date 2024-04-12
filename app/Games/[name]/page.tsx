@@ -1,7 +1,7 @@
 import Image from "next/image";
 import "../style.css";
 import { IoStarSharp } from "react-icons/io5";
-import { stringify } from "querystring";
+
 const basePosterUrl = `https://api.rawg.io/api/games/`;
 const apiPosterKey = "?key=f0e283f3b0da46e394e48ae406935d25";
 

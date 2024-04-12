@@ -1,30 +1,86 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useRef, useEffect, useState } from "react";
+const basePosterUrl = `https://api.rawg.io/api/games`;
+const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
+const apiPosterUrl = basePosterUrl + "?page_size=10&" + apiPosterKey;
 
-// Define an interface for the structure of each post
 interface Post {
+  page: number;
+  results: PostResult[];
+}
+//  onSearch: (postTitle: string) => void;
+interface PostResult {
   id: number;
-  title: string;
-  background: string;
-  inlineImage: string;
-  inlineFrame: string;
-  wikipediaPage: string;
+  slug: string;
+  name: string;
+  released: string;
+  tba: boolean;
+  background_image: string;
+  rating: number;
+  rating_top: number;
+  description: string;
 }
 
-// Specify the type of the 'posts' prop using the 'Post' interface
-interface Props {
-  posts: Post[];
-  //  onSearch: (postTitle: string) => void;
-}
+const stripHtmlTags = (html: string) => {
+  const regex = /(<([^>]+)>)/gi;
+  return html.replace(regex, "");
+};
 
-const SearchBar: React.FC<Props> = ({ posts }) => {
-  const [search, setSearch] = useState<Post[]>([]);
+const getGameData = async (url: string) => {
+  const res = await fetch(url);
+  const data = await res.json();
+  // https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
+
+  //this command iterates over the array of game results fetched from url
+  //for each game it creates a promise that fetched additional data about each game like its description
+  const gameDetailsPromises = data.results.map(async (game: PostResult) => {
+    // const gameRes = await fetch(`${basePosterUrl}/${game.id}?${apiPosterKey}`);
+    const [gameRes, trailerRes] = await Promise.all([
+      fetch(`${basePosterUrl}/${game.id}?${apiPosterKey}`),
+      fetch(`${basePosterUrl}/${game.id}/movies?${apiPosterKey}`),
+    ]);
+    const [gameData, trailerData] = await Promise.all([
+      gameRes.json(),
+      trailerRes.json(),
+    ]);
+    //https://api.rawg.io/api/games/3498?key=f0e283f3b0da46e394e48ae406935d25
+
+    // const gameData = await gameRes.json();
+    const strippedDescription = stripHtmlTags(gameData.description);
+    const trailerUrl =
+      trailerData.results.length > 0 ? trailerData.results[0].data.max : null;
+    //this return command is used to get the original game details plus its description
+    return { ...game, description: strippedDescription, trailerUrl };
+  });
+  // This ensures that all game details are fetched before proceeding.
+  const gameDetails = await Promise.all(gameDetailsPromises);
+  // this line returns an object with the original data fetched from (data) with the updated results property, where each game now includes an description.
+  return { ...data, results: gameDetails };
+};
+
+const SearchBar = () => {
+  const [search, setSearch] = useState<PostResult[]>([]);
   const [inputValue, setInputValue] = useState(""); // State to manage input value // State to manage input value
   const [visible, setVisible] = useState(false);
   const resultsRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(apiPosterUrl);
+        const data = await res.json();
+        setSearch(data.results);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    //if clicked outside of input container
     const mouseHandler = (e: MouseEvent) => {
       if (
         resultsRef.current &&
@@ -35,7 +91,6 @@ const SearchBar: React.FC<Props> = ({ posts }) => {
         }, 50);
       }
     };
-
     document.addEventListener("mousedown", mouseHandler);
     return () => {
       document.removeEventListener("mousedown", mouseHandler);
@@ -48,7 +103,7 @@ const SearchBar: React.FC<Props> = ({ posts }) => {
       if (e.key === "ArrowDown" && selectedIndex < search.length - 1)
         selectedIndex++;
       else if (e.key === "ArrowUp" && selectedIndex > 0) selectedIndex--;
-      if (selectedIndex !== -1) setInputValue(search[selectedIndex].title);
+      if (selectedIndex !== -1) setInputValue(search[selectedIndex].name);
     };
     const inputElement = document.querySelector(
       'input[type="search"]'
@@ -69,10 +124,11 @@ const SearchBar: React.FC<Props> = ({ posts }) => {
       setSearch([]);
     } else {
       setSearch(
-        posts
-          .filter((post) => post.title.toLowerCase().startsWith(lowercaseValue))
+        search
+          .filter((post) => post.name.toLowerCase().startsWith(lowercaseValue))
           .slice(0, 8)
       );
+      console.log(search);
     } // Update search results
   };
 
@@ -115,9 +171,9 @@ const SearchBar: React.FC<Props> = ({ posts }) => {
             <span
               className="py-1.5 cursor-pointer flex flex-col pl-6 hover:scale-105 hover:text-stone-400 transition-all duration-300 ease-in-out"
               key={index}
-              onClick={() => handleAutoComplete(result.title)}
+              onClick={() => handleAutoComplete(result.name)}
             >
-              {result.title}
+              {result.name}
             </span>
           ))}
         </div>

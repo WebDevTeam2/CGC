@@ -1,6 +1,9 @@
 "use client";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useRef, useEffect, useState } from "react";
+
+// urls for the api
+// https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
 const basePosterUrl = `https://api.rawg.io/api/games`;
 const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
 const apiPosterUrl = basePosterUrl + "?page_size=10&" + apiPosterKey;
@@ -22,46 +25,11 @@ interface PostResult {
   description: string;
 }
 
-const stripHtmlTags = (html: string) => {
-  const regex = /(<([^>]+)>)/gi;
-  return html.replace(regex, "");
-};
-
-const getGameData = async (url: string) => {
-  const res = await fetch(url);
-  const data = await res.json();
-  // https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
-
-  //this command iterates over the array of game results fetched from url
-  //for each game it creates a promise that fetched additional data about each game like its description
-  const gameDetailsPromises = data.results.map(async (game: PostResult) => {
-    // const gameRes = await fetch(`${basePosterUrl}/${game.id}?${apiPosterKey}`);
-    const [gameRes, trailerRes] = await Promise.all([
-      fetch(`${basePosterUrl}/${game.id}?${apiPosterKey}`),
-      fetch(`${basePosterUrl}/${game.id}/movies?${apiPosterKey}`),
-    ]);
-    const [gameData, trailerData] = await Promise.all([
-      gameRes.json(),
-      trailerRes.json(),
-    ]);
-    //https://api.rawg.io/api/games/3498?key=f0e283f3b0da46e394e48ae406935d25
-
-    // const gameData = await gameRes.json();
-    const strippedDescription = stripHtmlTags(gameData.description);
-    const trailerUrl =
-      trailerData.results.length > 0 ? trailerData.results[0].data.max : null;
-    //this return command is used to get the original game details plus its description
-    return { ...game, description: strippedDescription, trailerUrl };
-  });
-  // This ensures that all game details are fetched before proceeding.
-  const gameDetails = await Promise.all(gameDetailsPromises);
-  // this line returns an object with the original data fetched from (data) with the updated results property, where each game now includes an description.
-  return { ...data, results: gameDetails };
-};
-
 const SearchBar = () => {
   const [search, setSearch] = useState<PostResult[]>([]);
+  const [originalSearch, setOriginalSearch] = useState<PostResult[]>([]);
   const [inputValue, setInputValue] = useState(""); // State to manage input value // State to manage input value
+  // const [selectedIndex, setSelectedIndex] = useState<number>(-1);
   const [visible, setVisible] = useState(false);
   const resultsRef = useRef<HTMLFormElement>(null);
 
@@ -70,14 +38,31 @@ const SearchBar = () => {
       try {
         const res = await fetch(apiPosterUrl);
         const data = await res.json();
-        setSearch(data.results);
+        setOriginalSearch(data.results);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
   }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setInputValue(value);
+    setVisible(true);
+    const lowercaseValue = value.toLowerCase();
+    if (lowercaseValue === "") {
+      setSearch([]);
+    } else {
+      setSearch(
+        originalSearch
+          .filter((post) => post.name.toLowerCase().startsWith(lowercaseValue))
+          .slice(0, 8)
+      );
+      // setSelectedIndex(-1); //reset
+      console.log(search);
+    } // Update search results
+  };
 
   useEffect(() => {
     //if clicked outside of input container
@@ -97,40 +82,43 @@ const SearchBar = () => {
     };
   }, []);
 
+  // keys functionality when rendering results
   useEffect(() => {
     let selectedIndex = -1;
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowDown" && selectedIndex < search.length - 1)
         selectedIndex++;
+      // setSelectedIndex(selectedIndex + 1);
       else if (e.key === "ArrowUp" && selectedIndex > 0) selectedIndex--;
-      if (selectedIndex !== -1) setInputValue(search[selectedIndex].name);
+      // setSelectedIndex(selectedIndex - 1);
+      if (selectedIndex !== -1) {
+        setInputValue(search[selectedIndex].name);
+      }
     };
+
     const inputElement = document.querySelector(
       'input[type="search"]'
     ) as HTMLInputElement;
-    inputElement.addEventListener("keydown", handleKey);
+
+    const spans = document.querySelectorAll(".search-result");
+    spans.forEach((span, index) => {
+      if (index === selectedIndex) {
+        span.classList.add("text-stone-400");
+      } else {
+        span.classList.remove("text-stone-400");
+      }
+    });
+
+    if (inputElement) {
+      inputElement.addEventListener("keydown", handleKey);
+    }
 
     return () => {
-      inputElement.removeEventListener("keydown", handleKey);
+      if (inputElement) {
+        inputElement.removeEventListener("keydown", handleKey);
+      }
     };
   }, [search]);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setInputValue(value);
-    setVisible(true);
-    const lowercaseValue = value.toLowerCase();
-    if (lowercaseValue === "") {
-      setSearch([]);
-    } else {
-      setSearch(
-        search
-          .filter((post) => post.name.toLowerCase().startsWith(lowercaseValue))
-          .slice(0, 8)
-      );
-      console.log(search);
-    } // Update search results
-  };
 
   //function to auto complete the input if user clicks on title
   const handleAutoComplete = (selected: string) => {
@@ -169,9 +157,9 @@ const SearchBar = () => {
         >
           {search.map((result, index) => (
             <span
-              className="py-1.5 cursor-pointer flex flex-col pl-6 hover:scale-105 hover:text-stone-400 transition-all duration-300 ease-in-out"
               key={index}
               onClick={() => handleAutoComplete(result.name)}
+              className="py-1.5 cursor-pointer flex flex-col pl-6 hover:scale-105 hover:text-stone-400 transition-all duration-300 ease-in-out"
             >
               {result.name}
             </span>

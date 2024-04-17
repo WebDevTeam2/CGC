@@ -2,8 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-// const apiWikiUrl = "https://en.wikipedia.org/w/api.php";
-// Define types for PostResult and PostData
+// https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
 const basePosterUrl = `https://api.rawg.io/api/games`;
 const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
 const apiPosterUrl = basePosterUrl + "?page_size=10&" + apiPosterKey;
@@ -33,28 +32,14 @@ const stripHtmlTags = (html: string) => {
 const getGameData = async (url: string) => {
   const res = await fetch(url);
   const data = await res.json();
-  // https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
-
   //this command iterates over the array of game results fetched from url
   //for each game it creates a promise that fetched additional data about each game like its description
   const gameDetailsPromises = data.results.map(async (game: PostResult) => {
-    // const gameRes = await fetch(`${basePosterUrl}/${game.id}?${apiPosterKey}`);
-    const [gameRes, trailerRes] = await Promise.all([
-      fetch(`${basePosterUrl}/${game.id}?${apiPosterKey}`),
-      fetch(`${basePosterUrl}/${game.id}/movies?${apiPosterKey}`),
-    ]);
-    const [gameData, trailerData] = await Promise.all([
-      gameRes.json(),
-      trailerRes.json(),
-    ]);
-    //https://api.rawg.io/api/games/3498?key=f0e283f3b0da46e394e48ae406935d25
-
-    // const gameData = await gameRes.json();
+    const gameRes = await fetch(`${basePosterUrl}/${game.id}?${apiPosterKey}`);
+    const gameData = await gameRes.json();
     const strippedDescription = stripHtmlTags(gameData.description);
-    const trailerUrl =
-      trailerData.results.length > 0 ? trailerData.results[0].data.max : null;
     //this return command is used to get the original game details plus its description
-    return { ...game, description: strippedDescription, trailerUrl };
+    return { ...game, description: strippedDescription };
   });
   // This ensures that all game details are fetched before proceeding.
   const gameDetails = await Promise.all(gameDetailsPromises);

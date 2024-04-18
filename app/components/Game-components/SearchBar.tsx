@@ -8,11 +8,9 @@ const basePosterUrl = `https://api.rawg.io/api/games`;
 const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
 const apiPosterUrl = basePosterUrl + "?page_size=10&" + apiPosterKey;
 
-interface Post {
-  page: number;
-  results: PostResult[];
+interface Props {
+  onSearch: (name: string) => void;
 }
-//  onSearch: (postTitle: string) => void;
 interface PostResult {
   id: number;
   slug: string;
@@ -25,11 +23,10 @@ interface PostResult {
   description: string;
 }
 
-const SearchBar = () => {
+const SearchBar: React.FC<Props> = ({ onSearch }) => {
   const [search, setSearch] = useState<PostResult[]>([]);
   const [originalSearch, setOriginalSearch] = useState<PostResult[]>([]);
   const [inputValue, setInputValue] = useState(""); // State to manage input value // State to manage input value
-  // const [selectedIndex, setSelectedIndex] = useState<number>(-1);
   const [visible, setVisible] = useState(false);
   const resultsRef = useRef<HTMLFormElement>(null);
 
@@ -59,7 +56,6 @@ const SearchBar = () => {
           .filter((post) => post.name.toLowerCase().startsWith(lowercaseValue))
           .slice(0, 8)
       );
-      // setSelectedIndex(-1); //reset
       console.log(search);
     } // Update search results
   };
@@ -85,12 +81,33 @@ const SearchBar = () => {
   // keys functionality when rendering results
   useEffect(() => {
     let selectedIndex = -1;
+    const spans = document.querySelectorAll(".search-result");
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowDown" && selectedIndex < search.length - 1)
+      if (e.key === "ArrowDown" && selectedIndex < search.length - 1) {
         selectedIndex++;
-      // setSelectedIndex(selectedIndex + 1);
-      else if (e.key === "ArrowUp" && selectedIndex > 0) selectedIndex--;
-      // setSelectedIndex(selectedIndex - 1);
+        //adding color for each selection
+        spans.forEach((span, index) => {
+          if (index === selectedIndex) {
+            span.classList.add("text-stone-400");
+          } else {
+            span.classList.remove("text-stone-400");
+          }
+        });
+        // console.log("arrow moved down, index: ", selectedIndex);
+        // console.log("added color");
+      } else if (e.key === "ArrowUp" && selectedIndex > 0) {
+        selectedIndex--;
+        //adding color for each selection
+        spans.forEach((span, index) => {
+          if (index === selectedIndex) {
+            span.classList.add("text-stone-400");
+          } else {
+            span.classList.remove("text-stone-400");
+          }
+        });
+        // console.log("arrow moved up, index: ", selectedIndex);
+        // console.log("added color");
+      }
       if (selectedIndex !== -1) {
         setInputValue(search[selectedIndex].name);
       }
@@ -99,15 +116,6 @@ const SearchBar = () => {
     const inputElement = document.querySelector(
       'input[type="search"]'
     ) as HTMLInputElement;
-
-    const spans = document.querySelectorAll(".search-result");
-    spans.forEach((span, index) => {
-      if (index === selectedIndex) {
-        span.classList.add("text-stone-400");
-      } else {
-        span.classList.remove("text-stone-400");
-      }
-    });
 
     if (inputElement) {
       inputElement.addEventListener("keydown", handleKey);
@@ -127,7 +135,8 @@ const SearchBar = () => {
   };
 
   const handleClick = () => {
-    // onSearch(inputValue);
+    console.log(inputValue);
+    onSearch(inputValue);
   };
 
   return (
@@ -159,7 +168,7 @@ const SearchBar = () => {
             <span
               key={index}
               onClick={() => handleAutoComplete(result.name)}
-              className="py-1.5 cursor-pointer flex flex-col pl-6 hover:scale-105 hover:text-stone-400 transition-all duration-300 ease-in-out"
+              className="search-result py-1.5 cursor-pointer flex flex-col pl-6 hover:scale-105 hover:text-stone-400 transition-all duration-300 ease-in-out"
             >
               {result.name}
             </span>

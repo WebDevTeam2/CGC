@@ -72,8 +72,6 @@ const convertToStars = (rating: number) => {
   let percentage_r = remainder * 100 + "%";
   let rest_r = rest * 100 + "%";
 
-  console.log(percentage_r);
-  console.log(rest_r);
   for (let i = 0; i < whole; i++) {
     newR.push(
       <IoStarSharp

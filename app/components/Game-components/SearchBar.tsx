@@ -6,7 +6,7 @@ import { useRef, useEffect, useState } from "react";
 // https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
 const basePosterUrl = `https://api.rawg.io/api/games`;
 const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
-const apiPosterUrl = basePosterUrl + "?page_size=10&" + apiPosterKey;
+const apiPosterUrl = basePosterUrl + "?" + apiPosterKey;
 
 interface Props {
   onSearch: (name: string) => void;
@@ -93,8 +93,6 @@ const SearchBar: React.FC<Props> = ({ onSearch }) => {
             span.classList.remove("text-stone-400");
           }
         });
-        // console.log("arrow moved down, index: ", selectedIndex);
-        // console.log("added color");
       } else if (e.key === "ArrowUp" && selectedIndex > 0) {
         selectedIndex--;
         //adding color for each selection
@@ -105,8 +103,6 @@ const SearchBar: React.FC<Props> = ({ onSearch }) => {
             span.classList.remove("text-stone-400");
           }
         });
-        // console.log("arrow moved up, index: ", selectedIndex);
-        // console.log("added color");
       }
       if (selectedIndex !== -1) {
         setInputValue(search[selectedIndex].name);

@@ -27,31 +27,11 @@ interface Genre {
   id: number;
   name: string;
 }
-const getRandomMovie = () => {
-  const randomId = Math.floor(Math.random() * 1000000);
-
-  return randomId;
-};
-
 
 const getMovieDetails = async (id: string) => {
-  try {
     const res = await fetch(`${baseUrl}${id}?include_adult=false&release_date.lte=${TODAY}&${apiKey}`);
-    if (res.ok && res.status !== 34) {
       const data = await res.json();
-      console.log('Petyxe me thn prwth')
       return data; // Return movie details if it exists
-    } else {
-      const randomId = getRandomMovie();
-      const res = await fetch(`${baseUrl}${randomId}?include_adult=false&release_date.lte=${TODAY}&${apiKey}`);
-      const data = await res.json();
-      console.log('mphke sto else')
-      return data; // Throw an error if the movie doesn't exist
-    }
-  } catch (error) {
-    console.error("Error fetching movie details:", error);
-    throw error; // Rethrow the error to be caught by the caller
-  }
 };
 
 

@@ -33,12 +33,14 @@ const Pages = () => {
   }, [page]);
 
   return (
-    <div className="flex flex-row ml-[25rem] gap-2 text-lg">
+    <div className="flex flex-row mb-2 ml-[40rem] gap-4 text-lg">
+      
       {pages.map((pageNumber) => (
         <div key={pageNumber}>
           <Link
             onClick={() => goToPage(pageNumber)}
             href={`/Movies/moviePage/${pageNumber}`}
+            className={`${pageNumber === page ? 'current-page p-1 text-white rounded-full bg-[#4c545b]' : 'other'} hover:opacity-[0.5] transition duration-200`} //Kanoume target me styles to page pou vrisketai o xrhsrhs
           >
             {pageNumber}
           </Link>

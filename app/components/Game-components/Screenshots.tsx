@@ -49,10 +49,6 @@ const Screenshots = ({ params }: { params: PostPage }) => {
     fetchScreenshots();
   }, []);
 
-  useEffect(() => {
-    console.log("Name:", params.name);
-  }, [params.name]);
-
   // useEffect(() => {
   //   console.log(
   //     "URLS:",
@@ -70,7 +66,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
               <li key={itemIndex} role="button" tabIndex={0}>
                 <Image
                   alt="game_screenshots"
-                  src={item.name} // Using the image URL as src
+                  src={item.image} // Using the image URL as src
                   width={300}
                   height={300}
                 />

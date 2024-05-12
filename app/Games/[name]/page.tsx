@@ -1,6 +1,8 @@
 import Image from "next/image";
 import "../style.css";
 import { IoStarSharp } from "react-icons/io5";
+import Loader from "@/app/components/Game-components/Loader";
+import Screenshots from "@/app/components/Game-components/Screenshots";
 
 const basePosterUrl = `https://api.rawg.io/api/games/`;
 const apiPosterKey = "?key=f0e283f3b0da46e394e48ae406935d25";
@@ -13,12 +15,13 @@ interface PostPage {
   id: number;
   slug: string;
   name: string;
-  count: number;
-  next: null;
-  previous: null;
   results: [
     {
       id: number;
+      image: string;
+      width: number;
+      height: number;
+      is_deleted: boolean;
       name: string;
       preview: string;
       data: {
@@ -58,6 +61,12 @@ const getGame = async (name: string) => {
   return data;
 };
 
+// const getScreenshots = async (name: string) => {
+//   const res = await fetch(basePosterUrl + name + "/screenshots" + apiPosterKey);
+//   const data = await res.json();
+//   return data;
+// };
+
 //this function uses regex to replace html tags inside the description
 const stripHtmlTags = (html: string) => {
   const regex = /(<([^>]+)>)/gi;
@@ -70,10 +79,8 @@ const convertToStars = (rating: number) => {
   const remainder = rating - whole;
   const rest = 1 - remainder;
   let percentage_r = remainder * 100 + "%";
-  let rest_r = rest * 100 + "%";
+  // let rest_r = rest * 100 + "%";
 
-  console.log(percentage_r);
-  console.log(rest_r);
   for (let i = 0; i < whole; i++) {
     newR.push(
       <IoStarSharp
@@ -102,26 +109,27 @@ const convertToStars = (rating: number) => {
 
   return newR;
 };
-{
-  /* <IoStarSharp /> */
-}
 
 export default async function Games({ params }: { params: PostPage }) {
   const game = await getGame(params.name);
+  // const screens = await getScreenshots(params.name);
+
   return (
     <div>
-      <div className="bg-slate-700 fixed h-screen w-screen"></div>
-      <div className="flex flex-row pt-20 justify-evenly">
-        <div className="flex w-[37rem] flex-col relative pt-0">
-          <Image
-            src={game.background_image}
-            alt={game.name}
-            width={600}
-            height={600}
-          />
+      <div className="bg-black fixed h-screen w-screen"></div>
+      <div className="flex flex-col tablet:flex-row tablet:items-stretch items-center pt-[10vh] h-[88vh] justify-evenly">
+        <div className="flex tablet:w-[38vw] w-[85vw] flex-col relative pt-0">
+          <div className="relative h-[45vh] w-full">
+            <Image
+              src={game.background_image}
+              alt={game.name}
+              fill={true}
+              objectFit="cover"
+            />
+          </div>
           <div className="relative flex flex-col -top-10">
             <div className="fade-bottom"></div>
-            <div className="flex flex-col gap-2 text-lg px-24 py-10 border-0 text-center font-inter text-white bg-black rounded-b-xl h-[22rem]">
+            <div className="flex flex-col gap-2 text-lg px-16 py-10 text-center font-inter text-white bg-black rounded-b-xl h-full">
               <div className="flex flex-row justify-between">
                 <span className="font-bold">Rating:</span>
                 <span className="flex gap-1 text-white">
@@ -144,7 +152,7 @@ export default async function Games({ params }: { params: PostPage }) {
                   ))}
                 </span>
               </div>
-              <div className="flex flex-row justify-between gap-16">
+              <div className="flex flex-row justify-between ">
                 <span className="font-bold">Platforms: </span>
                 <span className="text-end">
                   {game.platforms.map(
@@ -164,10 +172,13 @@ export default async function Games({ params }: { params: PostPage }) {
             </div>
           </div>
         </div>
-        <span className="font-inter leading-8 border relative w-1/2 h-full bg-stone-900/60 p-6 rounded-2xl text-balance text-white text-xl transition-[width] ease-in-out duration-300">
+        <span className="font-inter leading-8 border shadow-xl shadow-gray-600 relative tablet:w-1/2 w-4/5 tablet:h-[78vh] h-auto bg-stone-900/60 p-6 rounded-2xl text-balance text-white text-xl transition-[width] tablet:overflow-hidden tablet:overflow-y-visible overflow-visible ease-in-out duration-300">
           {stripHtmlTags(game.description)}
         </span>
       </div>
+      <Loader />
+      {/* button functionality here */}
+      {/* <Screenshots params={params.results} /> */}
     </div>
   );
 }

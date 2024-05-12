@@ -2,11 +2,6 @@
 import Link from "next/link";
 import Image from "next/image";
 
-// https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
-const basePosterUrl = `https://api.rawg.io/api/games`;
-const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
-const apiPosterUrl = basePosterUrl + "?page_size=10&" + apiPosterKey;
-
 interface Post {
   page: number;
   results: PostResult[];
@@ -22,6 +17,14 @@ interface PostResult {
   rating_top: number;
   description: string;
 }
+// https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
+const basePosterUrl = `https://api.rawg.io/api/games`;
+const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
+const apiPosterUrl = basePosterUrl + "?" + apiPosterKey;
+
+// const singlePosterUrl = `https://api.rawg.io/api/games`;
+// const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
+// const apiPosterUrl = basePosterUrl + "?" + apiPosterKey;
 
 //this function uses regex to replace html tags inside the description
 const stripHtmlTags = (html: string) => {
@@ -47,9 +50,16 @@ const getGameData = async (url: string) => {
   return { ...data, results: gameDetails };
 };
 
+const getSingleGameData = async (url: string) => {
+  const res = await fetch(url);
+  const data = await res.json();
+  return data;
+};
+
 const Posts = async () => {
   try {
     const gameData: Post = await getGameData(apiPosterUrl);
+    const singleGameData: Post = await getSingleGameData(apiPosterUrl);
     // Render the component
     return (
       <div>
@@ -57,7 +67,7 @@ const Posts = async () => {
           {gameData.results.map((item) => (
             <li
               key={item.id}
-              className="text-slate-800 text-balance text-md 2xl:w-1/2 xl:hover:scale-110 xl:w-3/5 w-4/5 lg:hover:scale-105 hover:scale-105  transition-all duration-500 ease-in-out"
+              className="text-slate-800 text-balance text-md hover:scale-110 xl:w-3/5 w-4/5  transition-all duration-500 ease-in-out"
             >
               <Link
                 href={`/Games/${item.name

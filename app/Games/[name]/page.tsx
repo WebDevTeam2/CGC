@@ -117,9 +117,9 @@ export default async function Games({ params }: { params: PostPage }) {
   return (
     <div>
       <div className="bg-black fixed h-screen w-screen"></div>
-      <div className="flex flex-col tablet:flex-row tablet:items-stretch items-center pt-[10vh] h-[88vh] justify-evenly">
-        <div className="flex tablet:w-[38vw] w-[85vw] flex-col relative pt-0">
-          <div className="relative h-[45vh] w-full">
+      <div className="flex items-center md:items-stretch flex-col md:flex-row pt-[10vh] h-[88vh] justify-evenly">
+        <div className="flex md:w-[38vw] w-[85vw] flex-col relative pt-0">
+          <div className="relative md:h-[45vh] h-[35vh] w-full">
             <Image
               src={game.background_image}
               alt={game.name}
@@ -129,19 +129,21 @@ export default async function Games({ params }: { params: PostPage }) {
           </div>
           <div className="relative flex flex-col -top-10">
             <div className="fade-bottom"></div>
-            <div className="flex flex-col gap-2 text-lg px-16 py-10 text-center font-inter text-white bg-black rounded-b-xl h-full">
-              <div className="flex flex-row justify-between">
-                <span className="font-bold">Rating:</span>
+            <div className="flex md:flex-col flex-row md:gap-2 gap-8 text-lg md:px-4 px-0 py-6 text-center font-inter text-white bg-black rounded-b-xl h-full">
+              <div className="flex md:flex-row md:items-stretch items-center flex-col md:justify-between justify-normal">
+                <span className="lg:text-lg text-2xl font-bold">Rating:</span>
                 <span className="flex gap-1 text-white">
                   {convertToStars(game.rating)}
                 </span>
               </div>
-              <div className="flex flex-row justify-between">
-                <span className="font-bold">Release date: </span>
+              <div className="flex md:flex-row md:items-stretch items-center flex-col md:justify-between justify-normal">
+                <span className="lg:text-lg text-2xl font-bold">
+                  Release date:{" "}
+                </span>
                 <span>{game.released}</span>
               </div>
-              <div className="flex flex-row justify-between">
-                <span className="font-bold">Genres:</span>
+              <div className="flex md:flex-row md:items-stretch items-center flex-col md:justify-between justify-normal">
+                <span className="lg:text-lg text-2xl font-bold">Genres:</span>
                 <span className="text-balance">
                   {game.genres.map((genre: { name: string }, index: number) => (
                     <span key={index}>
@@ -152,9 +154,11 @@ export default async function Games({ params }: { params: PostPage }) {
                   ))}
                 </span>
               </div>
-              <div className="flex flex-row justify-between ">
-                <span className="font-bold">Platforms: </span>
-                <span className="text-end">
+              <div className="flex md:flex-row md:items-stretch items-center flex-col md:justify-between justify-normal">
+                <span className="lg:text-lg text-2xl font-bold">
+                  Platforms:{" "}
+                </span>
+                <span className="md:text-end ">
                   {game.platforms.map(
                     (
                       platform: { platform: { name: string } },
@@ -172,13 +176,13 @@ export default async function Games({ params }: { params: PostPage }) {
             </div>
           </div>
         </div>
-        <span className="font-inter leading-8 border shadow-xl shadow-gray-600 relative tablet:w-1/2 w-4/5 tablet:h-[78vh] h-auto bg-stone-900/60 p-6 rounded-2xl text-balance text-white text-xl transition-[width] tablet:overflow-hidden tablet:overflow-y-visible overflow-visible ease-in-out duration-300">
+        <span className="font-inter leading-8 border shadow-xl shadow-gray-600 relative md:w-1/2 w-4/5 md:h-[78vh] h-auto bg-stone-900/60 p-6 rounded-2xl md:text-balance text-center text-white text-xl transition-[width] md:overflow-hidden md:overflow-y-visible overflow-visible ease-in-out duration-300">
           {stripHtmlTags(game.description)}
         </span>
       </div>
       <Loader />
+      <Screenshots params={params} />
       {/* button functionality here */}
-      {/* <Screenshots params={params.results} /> */}
     </div>
   );
 }

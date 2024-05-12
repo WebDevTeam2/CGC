@@ -40,15 +40,25 @@ const Screenshots = ({ params }: { params: PostPage }) => {
           `${basePosterUrl}${params.name}/screenshots${apiPosterKey}`
         );
         const data: Post = await res.json();
+        console.log("screenshots data: ", data);
         setScreenshots(data.results);
-        // setWrapper(data);
       } catch (error) {
         console.error("Error fetching screenshots:", error);
       }
     };
-
     fetchScreenshots();
   }, []);
+
+  useEffect(() => {
+    console.log("Name:", params.name);
+  }, [params.name]);
+
+  // useEffect(() => {
+  //   console.log(
+  //     "URLS:",
+  //     screenshots.map((screen) => screen.results.map((item) => item.name))
+  //   );
+  // }, [screenshots]);
 
   return (
     <div className="relative flex flex-col gap-2 pt-12">
@@ -60,7 +70,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
               <li key={itemIndex} role="button" tabIndex={0}>
                 <Image
                   alt="game_screenshots"
-                  src={item.image}
+                  src={item.name} // Using the image URL as src
                   width={300}
                   height={300}
                 />

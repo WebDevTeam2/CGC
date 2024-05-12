@@ -9,7 +9,7 @@ const handleClick = () => {
 
 const Loader = () => {
   return (
-    <div className="relative w-full tablet:flex justify-center pt-[6.2vh] hidden">
+    <div className="relative w-full md:flex justify-center pt-[6.2vh] hidden">
       <button
         onClick={handleClick}
         className="load mix-blend-screen flex border-none rounded-t-full bg-slate-500 text-white text-lg justify-center items-center px-[2vw] py-[1vh] gap-1"

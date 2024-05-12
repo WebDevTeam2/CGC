@@ -67,7 +67,7 @@ const Posts = async () => {
           {gameData.results.map((item) => (
             <li
               key={item.id}
-              className="text-slate-800 text-balance text-md 2xl:w-1/2 xl:hover:scale-110 xl:w-3/5 w-4/5 lg:hover:scale-105 hover:scale-105  transition-all duration-500 ease-in-out"
+              className="text-slate-800 text-balance text-md hover:scale-110 xl:w-3/5 w-4/5  transition-all duration-500 ease-in-out"
             >
               <Link
                 href={`/Games/${item.name

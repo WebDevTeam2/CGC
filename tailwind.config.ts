@@ -15,9 +15,9 @@ const config: Config = {
       },
     },
     fontFamily: {
-      'sans': ['open-sans','sans-serif'],
-      'roboto': ['Roboto', 'sans-serif'],
-    }
+      sans: ["open-sans", "sans-serif"],
+      roboto: ["Roboto", "sans-serif"],
+    },
   },
   plugins: [],
 };

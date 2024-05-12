@@ -31,48 +31,39 @@ interface PostPage {
 }
 
 const Screenshots = ({ params }: { params: PostPage }) => {
-  const [screenshots, setScreenshots] = useState<PostPage[]>([]);
+  //parsing specifically elements of the results array so that i can say item.image
+  const [screenshots, setScreenshots] = useState<PostPage["results"]>();
 
   useEffect(() => {
-    const fetchScreenshots = async () => {
+    const fetchScreenshots = async (name: string) => {
       try {
         const res = await fetch(
-          `${basePosterUrl}${params.name}/screenshots${apiPosterKey}`
+          basePosterUrl + name + "/screenshots" + apiPosterKey
         );
-        const data: Post = await res.json();
-        console.log("screenshots data: ", data);
+        const data = await res.json();
+
+        // Store only the results array
         setScreenshots(data.results);
       } catch (error) {
         console.error("Error fetching screenshots:", error);
       }
     };
-    fetchScreenshots();
+    fetchScreenshots(params.name);
   }, []);
-
-  // useEffect(() => {
-  //   console.log(
-  //     "URLS:",
-  //     screenshots.map((screen) => screen.results.map((item) => item.name))
-  //   );
-  // }, [screenshots]);
 
   return (
     <div className="relative flex flex-col gap-2 pt-12">
       <span className="font-bold text-white text-3xl">Screenshots:</span>
       <div className="flex overflow-hidden overflow-x-visible flex-row gap-2 text-balance text-white">
-        {screenshots.map((screen: PostPage, index: number) => (
-          <ul key={index}>
-            {screen.results.map((item, itemIndex) => (
-              <li key={itemIndex} role="button" tabIndex={0}>
-                <Image
-                  alt="game_screenshots"
-                  src={item.image} // Using the image URL as src
-                  width={300}
-                  height={300}
-                />
-              </li>
-            ))}
-          </ul>
+        {screenshots?.map((item, index) => (
+          <Image
+            key={index}
+            role="button"
+            alt={`game_screenshot_${index}`}
+            src={item.image}
+            width={300}
+            height={300}
+          />
         ))}
       </div>
     </div>

@@ -1,7 +1,6 @@
 import Image from "next/image";
 import "../style.css";
 import { IoStarSharp } from "react-icons/io5";
-import Loader from "@/app/components/Game-components/Loader";
 import Screenshots from "@/app/components/Game-components/Screenshots";
 
 const basePosterUrl = `https://api.rawg.io/api/games/`;
@@ -61,11 +60,11 @@ const getGame = async (name: string) => {
   return data;
 };
 
-// const getScreenshots = async (name: string) => {
-//   const res = await fetch(basePosterUrl + name + "/screenshots" + apiPosterKey);
-//   const data = await res.json();
-//   return data;
-// };
+const getScreenshots = async (name: string) => {
+  const res = await fetch(basePosterUrl + name + "/screenshots" + apiPosterKey);
+  const data = await res.json();
+  return data;
+};
 
 //this function uses regex to replace html tags inside the description
 const stripHtmlTags = (html: string) => {
@@ -112,7 +111,7 @@ const convertToStars = (rating: number) => {
 
 export default async function Games({ params }: { params: PostPage }) {
   const game = await getGame(params.name);
-  // const screens = await getScreenshots(params.name);
+  const screens = await getScreenshots(params.name);
 
   return (
     <div>
@@ -180,8 +179,23 @@ export default async function Games({ params }: { params: PostPage }) {
           {stripHtmlTags(game.description)}
         </span>
       </div>
+      {/* <div className="relative flex flex-col gap-2 pt-12">
+        <span className="font-bold text-white text-3xl">Screenshots:</span>
+        <div className="flex overflow-hidden overflow-x-visible flex-row gap-2 text-balance text-white">
+          {screens.results.map((item: { image: string }, index: number) => (
+            <Image
+              key={index}
+              role="button"
+              alt={`game_screenshot_${index}`}
+              src={item.image}
+              width={300}
+              height={300}
+            />
+          ))}
+        </div>
+      </div> */}
       {/* <Loader /> */}
-      {/* <Screenshots params={params} /> */}
+      <Screenshots params={params} />
       {/* button functionality here */}
     </div>
   );

@@ -180,8 +180,8 @@ export default async function Games({ params }: { params: PostPage }) {
           {stripHtmlTags(game.description)}
         </span>
       </div>
-      <Loader />
-      <Screenshots params={params} />
+      {/* <Loader /> */}
+      {/* <Screenshots params={params} /> */}
       {/* button functionality here */}
     </div>
   );

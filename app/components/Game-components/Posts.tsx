@@ -63,11 +63,11 @@ const Posts = async () => {
     // Render the component
     return (
       <div>
-        <ul className="relative flex mt-36 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
+        <ul className="relative flex mt-[26vh] mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
           {gameData.results.map((item) => (
             <li
               key={item.id}
-              className="text-slate-800 text-balance text-md hover:scale-110 xl:w-3/5 w-4/5  transition-all duration-500 ease-in-out"
+              className="text-slate-200 text-balance text-xl hover:scale-110 xl:w-3/5 w-4/5  transition-all duration-500 ease-in-out"
             >
               <Link
                 href={`/Games/${item.name
@@ -76,9 +76,9 @@ const Posts = async () => {
                   .replace(/:/g, "")
                   .replace(/\([^)]*\)/g, "")
                   .replace(/-+$/g, "")}`}
-                className="relative flex group border-4 md:h-60 h-[33rem] border-white rounded-lg transition-all duration-300"
+                className="relative flex group border-2 md:h-60 h-[33rem] border-white rounded-lg transition-all duration-300"
               >
-                <div className="bg-white relative flex flex-col md:flex-row md:gap-0 gap-2 transition-all duration-400">
+                <div className="bg-black rounded-lg bg-opacity-[.7] relative flex flex-col md:flex-row md:gap-0 gap-2 transition-all duration-400">
                   <div className="relative overflow-hidden md:pb-56 pb-72 md:pr-96">
                     <Image
                       src={item.background_image}
@@ -86,7 +86,7 @@ const Posts = async () => {
                       priority={true}
                       fill={true}
                       style={{ objectFit: "cover" }}
-                      className="xl:border-r-8  xl:border-double border-white transition duration-500 ease-in-out"
+                      className="border-r-4 rounded-l-lg border-white transition duration-500 ease-in-out"
                     />
                   </div>
                   <div
@@ -98,7 +98,7 @@ const Posts = async () => {
                   >
                     <span className="text-white">{item.name}</span>
                   </div>
-                  <div className="overflow-hidden pl-4 leading-7">
+                  <div className="overflow-hidden pl-4 leading-9 ">
                     <span>{item.description}</span>
                   </div>
                 </div>

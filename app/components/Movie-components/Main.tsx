@@ -91,9 +91,7 @@ const MovieMain = async () => {
             </div>
           </Link>
         ))}
-        <div className="">
           <Pages />
-        </div>
       </div>
     </div>
   );

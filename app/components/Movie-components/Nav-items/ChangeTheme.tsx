@@ -9,6 +9,7 @@ const changeTheme = () => {
   const toggleDarkTheme = () => {
   const body = document.querySelector("body") as HTMLBodyElement; 
   const cards = document.querySelectorAll('.cards') as NodeListOf<HTMLElement>  
+  const currentPageIndincator = document.querySelector(".current-page") as HTMLElement;
 
     if (!isDark) {
       if (body) {
@@ -21,6 +22,8 @@ const changeTheme = () => {
         cards.forEach((card) => {
           card.style.backgroundColor = "#704264";
         });
+        currentPageIndincator.style.backgroundColor = "#704264";
+        
         setIsDark(true);
       }
     } else {
@@ -31,6 +34,7 @@ const changeTheme = () => {
         cards.forEach((card) => {
           card.style.backgroundColor = "#4c545b";
         });
+        currentPageIndincator.style.backgroundColor = "#4c545b";
       }
       setIsDark(false);
     }

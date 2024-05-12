@@ -5,6 +5,7 @@ import HomePage from "@/app/components/Movie-components/Nav-items/HomePage";
 import Random from "@/app/components/Movie-components/Nav-items/Random";
 import Trending from "@/app/components/Movie-components/Nav-items/Trending";
 import MovieHomePage from "@/app/components/Movie-components/Nav-items/MovieHomePage";
+import Recommended from "@/app/components/Movie-components/Nav-items/Recommended";
 import ChangeTheme from "./Nav-items/ChangeTheme";
 import Search from "./Nav-items/Search";
 
@@ -80,30 +81,33 @@ export default function Nav() {
         className="lg:w-20 lg:h-full sm:w-full fixed bg-[#23232e] sm:z-10 sm:bottom-0 lg:hover:w-56 group duration-700 ease-in-out not-search navbar"
       >
         <ul className="flex sm:flex-row lg:flex-col items-center p-0 m-0 h-full not-search">
-          <li className="text-[#b6b6b6] text-xl w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
+          <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
             <HomePage />
           </li>
-          <li className="text-[#b6b6b6] text-xl w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
+          <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
             <MovieHomePage />
           </li>
-          <li className="text-[#b6b6b6] text-xl w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
+          <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
             <Trending />
           </li>
           <li
             onClick={toggleSearch}
-            className="text-[#b6b6b6] text-xl w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none"
+            className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none"
           >
             <Link href = {'#'} className="flex flex-row items-center h-20 gap-2 not-search">
               <FaMagnifyingGlass
                 style={{ margin: "0 1.5rem", flexShrink: 0 }}
               />
-              <span className="opacity-0 group-hover:opacity-100 transition duration-700 ease-in-out ml-6 not-search"> Search</span>
+              <span className="opacity-0 group-hover:opacity-100 transition duration-700 ease-in-out ml-2 not-search"> Search</span>
             </Link>
           </li>
-          <li className="text-[#b6b6b6] text-xl w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
+          <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
+            <Recommended />
+          </li>
+          <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
             <Random />  
           </li>
-          <li className="text-[#b6b6b6] text-xl w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
+          <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
             <ChangeTheme />  
           </li>
         </ul>

@@ -22,7 +22,10 @@ const changeTheme = () => {
         cards.forEach((card) => {
           card.style.backgroundColor = "#704264";
         });
-        currentPageIndincator.style.backgroundColor = "#704264";
+
+        //Elegxos giati den yparxei pantou to current page indicator
+        if(currentPageIndincator)
+          currentPageIndincator.style.backgroundColor = "#704264";
         
         setIsDark(true);
       }
@@ -34,7 +37,10 @@ const changeTheme = () => {
         cards.forEach((card) => {
           card.style.backgroundColor = "#4c545b";
         });
-        currentPageIndincator.style.backgroundColor = "#4c545b";
+
+        //Elegxos giati den yparxei pantou to current page indicator
+        if(currentPageIndincator)
+          currentPageIndincator.style.backgroundColor = "#4c545b";
       }
       setIsDark(false);
     }

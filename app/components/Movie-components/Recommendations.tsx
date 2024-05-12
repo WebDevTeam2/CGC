@@ -1,10 +1,11 @@
+
 import ChangeTab from "./ChangeTab";
 import Link from "next/link";
 import Image from "next/legacy/image";
 
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/";
-const ApiURL = baseUrl + "trending/movie/day?language=en-US?&" + apiKey;
+const ApiURL = baseUrl + "movie/1011985/recommendations?adult=false&language=en-US&page=1?&" + apiKey;
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
 
@@ -46,7 +47,7 @@ const getVotecolor = (vote:number) => {
   }
 }
 
-const Trending = async () => {
+const Recommendations = async () => {
   const movieData: Movie = await getMovieData(ApiURL);
 
     return (
@@ -87,4 +88,4 @@ const Trending = async () => {
     );
   };
 
-  export default Trending;
+  export default Recommendations;

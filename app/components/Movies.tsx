@@ -35,7 +35,7 @@ const Movies = () => {
   return (
     //Link einai to a href ths next js 14
     <Link
-      href={"/Movies"}
+      href={"/Movies/moviePage/1"}
       className="relative clip-container group text-6xl justify-center flex lg:w-2/4 w-full h-screen lg:hover:scale-100  hover:scale-105 overflow-hidden grayscale hover:grayscale-0 transition duration-500 ease-in-out cursor-pointer"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

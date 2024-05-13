@@ -1,6 +1,8 @@
 // Import necessary dependencies
 import Link from "next/link";
 import Image from "next/image";
+import React from "react";
+import Sort from "./Sort";
 
 interface Post {
   page: number;
@@ -20,7 +22,8 @@ interface PostResult {
 // https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
 const basePosterUrl = `https://api.rawg.io/api/games`;
 const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
-const apiPosterUrl = basePosterUrl + "?" + apiPosterKey;
+const apiPosterUrl =
+  basePosterUrl + "?" + apiPosterKey + "&dates=2023-01-01,2024-05-13";
 
 // const singlePosterUrl = `https://api.rawg.io/api/games`;
 // const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
@@ -63,7 +66,8 @@ const Posts = async () => {
     // Render the component
     return (
       <div>
-        <ul className="relative flex mt-[26vh] mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
+        <Sort />
+        <ul className="relative flex mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
           {gameData.results.map((item) => (
             <li
               key={item.id}

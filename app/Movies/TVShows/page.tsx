@@ -1,10 +1,9 @@
 import TVShowMain from "@/app/components/Movie-components/TVShowMain";
-import ChangeTab from "@/app/components/Movie-components/ChangeTab";
 
 const mainTvShowsPage = async () => {
   return (
     <div>
-        <ChangeTab />
+        <h1 className="ml-[48rem] font-bold text-2xl font-roboto mb-2">TV SHOWS</h1>
         <TVShowMain/>
     </div>
   );

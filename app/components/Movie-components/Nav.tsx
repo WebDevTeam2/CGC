@@ -5,7 +5,6 @@ import HomePage from "@/app/components/Movie-components/Nav-items/HomePage";
 import Random from "@/app/components/Movie-components/Nav-items/Random";
 import Trending from "@/app/components/Movie-components/Nav-items/Trending";
 import MovieHomePage from "@/app/components/Movie-components/Nav-items/MovieHomePage";
-import Recommended from "@/app/components/Movie-components/Nav-items/Recommended";
 import ChangeTheme from "./Nav-items/ChangeTheme";
 import Search from "./Nav-items/Search";
 
@@ -100,9 +99,6 @@ export default function Nav() {
               />
               <span className="opacity-0 group-hover:opacity-100 transition duration-700 ease-in-out ml-2 not-search"> Search</span>
             </Link>
-          </li>
-          <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
-            <Recommended />
           </li>
           <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
             <Random />  

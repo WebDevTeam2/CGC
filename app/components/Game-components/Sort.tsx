@@ -1,45 +1,66 @@
 "use client";
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
+import Link from "next/link";
 
-import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  Button,
-} from "@nextui-org/react";
-
-export default function Sort() {
-  const [selectedKeys, setSelectedKeys] = React.useState(new Set(["text"]));
-
-  const selectedValue = React.useMemo(
-    () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
-    [selectedKeys]
-  );
-
+const Sort = () => {
   return (
-    <div className="flex items-center justify-center h-10 text-xl text-white">
-      <Dropdown>
-        <DropdownTrigger>
-          <Button variant="bordered" className="capitalize w-[12vw]">
-            {selectedValue}
-          </Button>
-        </DropdownTrigger>
-        <DropdownMenu
-          aria-label="Single selection example"
-          variant="flat"
-          disallowEmptySelection
-          selectionMode="single"
-          selectedKeys={selectedKeys}
-          onSelectionChange={setSelectedKeys}
+    <div className="justify-center grid mt-12">
+      {/* sort by */}
+      <button
+        id="dropdownDelayButton"
+        data-dropdown-toggle="dropdownDelay"
+        data-dropdown-delay="200"
+        data-dropdown-trigger="hover"
+        className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700"
+        type="button"
+      >
+        Dropdown hover
+        <svg
+          className="w-2.5 h-2.5 ms-3"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 10 6"
         >
-          <DropdownItem key="text">Text</DropdownItem>
-          <DropdownItem key="number">Number</DropdownItem>
-          <DropdownItem key="date">Date</DropdownItem>
-          <DropdownItem key="single_date">Single Date</DropdownItem>
-          <DropdownItem key="iteration">Iteration</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m1 1 4 4 4-4"
+          />
+        </svg>
+      </button>
+      {/* <!-- Dropdown menu --> */}
+      <div
+        id="dropdownDelay"
+        className=" bg-white rounded-lg shadow w-44 dark:bg-gray-700"
+      >
+        <ul
+          className="py-2 divide-y text-sm text-gray-700 dark:text-gray-200"
+          aria-labelledby="dropdownDelayButton"
+        >
+          <li>
+            <Link
+              href="#"
+              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+            >
+              Dashboard
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="#"
+              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+            >
+              Settings
+            </Link>
+          </li>
+        </ul>
+      </div>
+      {/* end of sort by */}
     </div>
   );
-}
+};
+
+export default Sort;

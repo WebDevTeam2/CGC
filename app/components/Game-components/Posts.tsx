@@ -67,7 +67,8 @@ const Posts = async () => {
     return (
       <div>
         <Sort />
-        <ul className="relative flex mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
+        <div className=""></div>
+        <ul className="relative flex mt-[10vh] mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
           {gameData.results.map((item) => (
             <li
               key={item.id}

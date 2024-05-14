@@ -137,17 +137,17 @@ const SearchBar: React.FC<Props> = ({ onSearch }) => {
 
   return (
     <form
-      className="flex relative items-center justify-center z-10"
+      className="fixed top-0 h-[10vh] w-[30vw] mx-[35vw] z-10"
       ref={resultsRef}
       onSubmit={(e) => {
         e.preventDefault();
       }}
     >
-      <div className="fixed top-0 w-3/6 transition-all duration-500 md:w-2/6 p-3 text-lg">
+      <div className="sticky top-4 w-full text-lg">
         <input
           type="search"
           placeholder="Type Here"
-          className="subpixel-antialiased w-full p-2 outline-none rounded-full bg-slate-200 pl-6 pr-11 text-slate-600"
+          className="subpixel-antialiased h-[6vh] w-full outline-none rounded-full bg-slate-200 pl-6 pr-11 text-slate-600"
           onChange={handleInputChange}
           value={inputValue}
         />
@@ -171,7 +171,7 @@ const SearchBar: React.FC<Props> = ({ onSearch }) => {
           ))}
         </div>
         <button
-          className="absolute right-3 top-1/2 -translate-y-1/2 p-3.5 bg-zinc-300 rounded-full hover:scale-110 transition duration-200"
+          className="absolute right-0 top-1/2 -translate-y-1/2 p-3.5 bg-zinc-300 rounded-full hover:scale-110 transition duration-200"
           onClick={handleClick}
         >
           <AiOutlineSearch />

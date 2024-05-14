@@ -57,12 +57,7 @@ const getGame = async (name: string) => {
   const res = await fetch(basePosterUrl + name + apiPosterKey);
   // https://api.rawg.io/api/games/grand-theft-auto-v?key=f0e283f3b0da46e394e48ae406935d25
   const data = await res.json();
-  return data;
-};
-
-const getScreenshots = async (name: string) => {
-  const res = await fetch(basePosterUrl + name + "/screenshots" + apiPosterKey);
-  const data = await res.json();
+  console.log(data);
   return data;
 };
 
@@ -111,7 +106,6 @@ const convertToStars = (rating: number) => {
 
 export default async function Games({ params }: { params: PostPage }) {
   const game = await getGame(params.name);
-  const screens = await getScreenshots(params.name);
 
   return (
     <div>
@@ -144,39 +138,45 @@ export default async function Games({ params }: { params: PostPage }) {
               <div className="flex md:flex-row md:items-stretch items-center flex-col md:justify-between justify-normal">
                 <span className="lg:text-lg text-2xl font-bold">Genres:</span>
                 <span className="text-balance">
-                  {game.genres.map((genre: { name: string }, index: number) => (
-                    <span key={index}>
-                      {index > 0 && ","}{" "}
-                      {/* Add slash if not the first platform */}
-                      {genre.name}
-                    </span>
-                  ))}
+                  {game.genres &&
+                    game.genres.length > 0 &&
+                    game.genres.map(
+                      (genre: { name: string }, index: number) => (
+                        <span key={index}>
+                          {index > 0 && ","}{" "}
+                          {/* Add slash if not the first platform */}
+                          {genre.name}
+                        </span>
+                      )
+                    )}
                 </span>
               </div>
               <div className="flex md:flex-row md:items-stretch items-center flex-col md:justify-between justify-normal">
                 <span className="lg:text-lg text-2xl font-bold">
-                  Platforms:{" "}
+                  Platforms:
                 </span>
                 <span className="md:text-end ">
-                  {game.platforms.map(
-                    (
-                      platform: { platform: { name: string } },
-                      index: number
-                    ) => (
-                      <span key={index}>
-                        {index > 0 && ","}{" "}
-                        {/* Add slash if not the first platform */}
-                        {platform.platform.name}
-                      </span>
-                    )
-                  )}
+                  {game.platforms &&
+                    game.platforms.length > 0 &&
+                    game.platforms.map(
+                      (
+                        platform: { platform: { name: string } },
+                        index: number
+                      ) => (
+                        <span key={index}>
+                          {index > 0 && ","}{" "}
+                          {/* Add slash if not the first platform */}
+                          {platform.platform.name}
+                        </span>
+                      )
+                    )}
                 </span>
               </div>
             </div>
           </div>
         </div>
         <span className="font-inter leading-8 border shadow-xl shadow-gray-600 relative md:w-1/2 w-4/5 md:h-[78vh] h-auto bg-stone-900/60 p-6 rounded-2xl md:text-balance text-center text-white text-xl transition-[width] md:overflow-hidden md:overflow-y-visible overflow-visible ease-in-out duration-300">
-          {stripHtmlTags(game.description)}
+          {game.description && stripHtmlTags(game.description)}
         </span>
       </div>
       {/* <div className="relative flex flex-col gap-2 pt-12">

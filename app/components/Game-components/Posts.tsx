@@ -1,6 +1,8 @@
 // Import necessary dependencies
 import Link from "next/link";
 import Image from "next/image";
+import React from "react";
+import Sort from "./Sort";
 
 interface Post {
   page: number;
@@ -20,7 +22,8 @@ interface PostResult {
 // https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
 const basePosterUrl = `https://api.rawg.io/api/games`;
 const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
-const apiPosterUrl = basePosterUrl + "?" + apiPosterKey;
+const apiPosterUrl =
+  basePosterUrl + "?" + apiPosterKey + "&dates=2023-01-01,2024-05-13";
 
 // const singlePosterUrl = `https://api.rawg.io/api/games`;
 // const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
@@ -63,19 +66,44 @@ const Posts = async () => {
     // Render the component
     return (
       <div>
-        <ul className="relative flex mt-[26vh] mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
+        <Sort />
+        <div className=""></div>
+        <ul className="relative flex mt-[10vh] mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
           {gameData.results.map((item) => (
             <li
               key={item.id}
               className="text-slate-200 text-balance text-xl hover:scale-110 xl:w-3/5 w-4/5  transition-all duration-500 ease-in-out"
             >
               <Link
-                href={`/Games/${item.name
-                  .toLowerCase()
-                  .replace(/ /g, "-")
-                  .replace(/:/g, "")
-                  .replace(/\([^)]*\)/g, "")
-                  .replace(/-+$/g, "")}`}
+                href={`/Games/${
+                  item.slug
+                  // .toLowerCase()
+                  // .replace(/ /g, "-")
+                  // .replace(/:/g, "")
+                  // .replace(/'/g, "")
+                  // .replace(/\([^)]*\)/g, "")
+                  // .replace(/-+$/g, "")
+                  // .replace(/(I{1,3}|IV|V|IX|X{1,3})/g, (match) => {
+                  //   switch (match) {
+                  //     case "i":
+                  //       return "1";
+                  //     case "ii":
+                  //       return "2";
+                  //     case "iii":
+                  //       return "3";
+                  //     case "iv":
+                  //       return "4";
+                  //     case "v":
+                  //       return "5";
+                  //     case "ix":
+                  //       return "9";
+                  //     case "x":
+                  //       return "10";
+                  //     default:
+                  //       return match; // If the match is not a Roman numeral, return the original match
+                  //   }
+                  // })
+                }`}
                 className="relative flex group border-2 md:h-60 h-[33rem] border-white rounded-lg transition-all duration-300"
               >
                 <div className="bg-black rounded-lg bg-opacity-[.7] relative flex flex-col md:flex-row md:gap-0 gap-2 transition-all duration-400">

@@ -1,10 +1,9 @@
-import ChangeTab from "./ChangeTab";
 import Link from "next/link";
 import Image from "next/legacy/image";
 
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/";
-const ApiURL = baseUrl + "movie/popular?&" + apiKey;
+const ApiURL = `${baseUrl}/discover/tv?page=1?&${apiKey}`;
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
 interface Movie {
@@ -50,7 +49,6 @@ const TVShowMain = async () => {
 
     return (
       <div>
-        <ChangeTab />
         <div className="grid grid-cols-4 gap-8 w-3/4 ml-64 h-full not-search">
           {/* Kanw Link oloklhrh th kartela */}
           {movieData.results.map((item) => (

@@ -4,7 +4,7 @@ import Image from "next/legacy/image";
 
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/";
-const ApiURL = baseUrl + "trending/movie/day?language=en-US?&" + apiKey;
+const ApiURL = baseUrl + "trending/movie/day?page=1&language=en-US&" + apiKey;
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
 

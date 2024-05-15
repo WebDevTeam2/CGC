@@ -10,6 +10,7 @@ const changeTheme = () => {
   const body = document.querySelector("body") as HTMLBodyElement; 
   const cards = document.querySelectorAll('.cards') as NodeListOf<HTMLElement>  
   const currentPageIndincator = document.querySelector(".current-page") as HTMLElement;
+  const recommendationsButton = document.querySelector(".rec-button") as HTMLElement;
 
     if (!isDark) {
       if (body) {
@@ -26,6 +27,13 @@ const changeTheme = () => {
         //Elegxos giati den yparxei pantou to current page indicator
         if(currentPageIndincator)
           currentPageIndincator.style.backgroundColor = "#704264";
+        //Elegxos giati den yparxei pantou to koumpi gia ta recommendations
+        if(recommendationsButton) {
+          recommendationsButton.style.backgroundColor = "#704264";
+          recommendationsButton.classList.add('isDark');
+          recommendationsButton.classList.remove('isLight');
+
+        }
         
         setIsDark(true);
       }
@@ -41,6 +49,13 @@ const changeTheme = () => {
         //Elegxos giati den yparxei pantou to current page indicator
         if(currentPageIndincator)
           currentPageIndincator.style.backgroundColor = "#4c545b";
+        //Elegxos giati den yparxei pantou to koumpi gia ta recommendations
+        if(recommendationsButton) {
+          recommendationsButton.style.backgroundColor = "#4c545b";
+          recommendationsButton.classList.add('isLight');
+          recommendationsButton.classList.remove('isDark');
+
+        }
       }
       setIsDark(false);
     }

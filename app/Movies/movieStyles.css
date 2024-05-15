@@ -63,3 +63,10 @@ body {
   filter: blur(5px);
 }
 
+.rec-button .isDark {
+  transition: 0.5s ease-in-out;
+}
+
+.rec-button:hover .isDark {
+  background-color: #54324b;
+}

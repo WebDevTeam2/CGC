@@ -60,7 +60,7 @@ const MovieDetails = async ({ params }: { params: MovieDetails }) => {
   const movie: MovieDetails = await getMovieDetails(params.id.toString());
 
   return (
-    <main className="font-roboto ">
+    <main className="font-roboto not-search">
       <h1 className="ml-[20rem] my-10 font-medium text-4xl">{movie.title}</h1>
       <div className="flex flex-row ml-[20rem] mt-[2rem] gap-4">
         <Image

@@ -9,6 +9,7 @@ const changeTheme = () => {
     const body = document.querySelector("body") as HTMLBodyElement;
 
     if (!isDark) {
+      //An eimaste se light theme molis o xrhsths pataei to koumpi tote ginetai dark theme kai mpainoun ta antistoixa styles sto body
       if (body) {
         body.classList.add("text-white");
         body.classList.add("body-dark");
@@ -19,6 +20,7 @@ const changeTheme = () => {
         setIsDark(true);
       }
     } else {
+      //An eimaste se dark theme molis o xrhsths pataei to koumpi tote ginetai light theme kai mpainoun ta antistoixa styles sto body
       if (body) {
         body.classList.add("text-black");
         body.classList.add("body-light");

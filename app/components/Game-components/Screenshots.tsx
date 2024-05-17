@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { GrNext, GrPrevious } from "react-icons/gr";
 import React, { useEffect, useState } from "react";
 
 const basePosterUrl = `https://api.rawg.io/api/games/`;
@@ -51,10 +52,28 @@ const Screenshots = ({ params }: { params: PostPage }) => {
     fetchScreenshots(params.name);
   }, []);
 
+  const handleClick = () => {
+    console.log("clicked me");
+  };
+
   return (
     <div className="relative flex flex-col gap-2 pt-12">
       <span className="font-bold text-white text-3xl">Screenshots:</span>
-      <div className="flex overflow-hidden overflow-x-visible flex-row gap-2 text-balance text-white">
+      <div className="flex z-10 overflow-x-hidden overflow-x-visible flex-row gap-2 text-balance text-white">
+        <div className="arrows z-20 pointer-events-none flex absolute w-full h-[168px] items-center justify-between text-white text-4xl">
+          <button
+            className="border pointer-events-auto rounded-full p-2 bg-slate-900"
+            onClick={handleClick}
+          >
+            <GrPrevious />
+          </button>
+          <button
+            className="border pointer-events-auto rounded-full p-2 bg-slate-900"
+            onClick={handleClick}
+          >
+            <GrNext />
+          </button>
+        </div>
         {screenshots?.map((item, index) => (
           <Image
             key={index}
@@ -63,6 +82,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
             src={item.image}
             width={300}
             height={300}
+            className="hover:scale-110 transition-smooth duration-200 ease-in-out"
           />
         ))}
       </div>

@@ -4,62 +4,30 @@ import { CiSun } from "react-icons/ci";
 import { IoMoon } from "react-icons/io5";
 
 const changeTheme = () => {
-  let counter = 0;
   const [isDark, setIsDark] = useState(false);
   const toggleDarkTheme = () => {
-  const body = document.querySelector("body") as HTMLBodyElement; 
-  const cards = document.querySelectorAll('.cards') as NodeListOf<HTMLElement>  
-  const currentPageIndincator = document.querySelector(".current-page") as HTMLElement;
-  const recommendationsButton = document.querySelector(".rec-button") as HTMLElement;
+    const body = document.querySelector("body") as HTMLBodyElement;
 
     if (!isDark) {
       if (body) {
-        counter < 1
-          ? (body.className +=
-              " transition duration-200 ease-in-out text-white")
-          : (body.classList.add("text-white"),
-            body.classList.remove("text-black"));
+        body.classList.add("text-white");
+        body.classList.add("body-dark");
+        body.classList.remove("text-black");
+        body.classList.remove("body-light");
         body.style.backgroundColor = "#49243E";
-        cards.forEach((card) => {
-          card.style.backgroundColor = "#704264";
-        });
 
-        //Elegxos giati den yparxei pantou to current page indicator
-        if(currentPageIndincator)
-          currentPageIndincator.style.backgroundColor = "#704264";
-        //Elegxos giati den yparxei pantou to koumpi gia ta recommendations
-        if(recommendationsButton) {
-          recommendationsButton.style.backgroundColor = "#704264";
-          recommendationsButton.classList.add('isDark');
-          recommendationsButton.classList.remove('isLight');
-
-        }
-        
         setIsDark(true);
       }
     } else {
       if (body) {
-        body.classList.remove("text-white");
         body.classList.add("text-black");
+        body.classList.add("body-light");
+        body.classList.remove("text-white");
+        body.classList.remove("body-dark");
         body.style.backgroundColor = "#EEE3CB";
-        cards.forEach((card) => {
-          card.style.backgroundColor = "#4c545b";
-        });
-
-        //Elegxos giati den yparxei pantou to current page indicator
-        if(currentPageIndincator)
-          currentPageIndincator.style.backgroundColor = "#4c545b";
-        //Elegxos giati den yparxei pantou to koumpi gia ta recommendations
-        if(recommendationsButton) {
-          recommendationsButton.style.backgroundColor = "#4c545b";
-          recommendationsButton.classList.add('isLight');
-          recommendationsButton.classList.remove('isDark');
-
-        }
       }
       setIsDark(false);
     }
-    counter++;
   };
 
   return (

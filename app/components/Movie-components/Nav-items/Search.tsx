@@ -1,24 +1,29 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
-import { movieTitles } from "@/app/constants/constants";
+import Image from "next/legacy/image";
+import Link from "next/link";
+
+const apiKey = "a48ad289c60fd0bb3fc9cc3663937d7b";
+const baseUrl = "https://api.themoviedb.org/3/search/movie";
 
 interface SearchProps {
-  setSearchVisible: React.Dispatch<React.SetStateAction<boolean>>; //boolean
+  setSearchVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-//Pernaw to setSearchVisible pou xrhsimpoiei to nav san props sto search
-const Search: React.FC<SearchProps> = ({ setSearchVisible }) => {
-  const [activeSearch, setActiveSearch] = useState<string[]>([]); //kanoume to activesSearch na arxikopoieitai san enas kenos pinakas apo strings
-  const [open, setOpen] = useState(false);
-  const searchRef = useRef<HTMLFormElement>(null);
-  useEffect(() => {
-    //Otan patame exw apo to input theloume na thwreteitai closed to searchbar
-    const handler = (e: MouseEvent) => {
-      const clickedOutsideSearch =
-        searchRef.current && !searchRef.current.contains(e.target as Node);
+const getMovies = async (query: string) => {
+  const res = await fetch(`${baseUrl}?query=${query}&api_key=${apiKey}`);
+  const data = await res.json();
+  return data.results;
+};
 
-      if (clickedOutsideSearch) {
-        setOpen(false);
+const Search: React.FC<SearchProps> = ({ setSearchVisible }) => {
+  const [movies, setMovies] = useState<any[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const searchRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
         setSearchVisible(false);
       }
     };
@@ -27,64 +32,73 @@ const Search: React.FC<SearchProps> = ({ setSearchVisible }) => {
     return () => {
       document.removeEventListener("click", handler);
     };
-  }, [searchRef]);
+  }, [searchRef, setSearchVisible]);
+
+  useEffect(() => {
+    if (searchTerm.trim()) {
+      const fetchMovies = async () => {
+        const results = await getMovies(searchTerm);
+        setMovies(results);
+      };
+
+      fetchMovies();
+    } else {
+      setMovies([]);
+    }
+  }, [searchTerm]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //e.target.value einai to text pou grafoume sto searchbar
-    //An einai keno tote epistrefei false kai de vazei kati ston pinaka
-    if (e.target.value.trim().length === 0) {
-      setActiveSearch([]);
-      return false;
-    }
-
-    //Gemizoume ton pinaka me titlous tainiwn pou perilamvanoun to text pou grafoume sto searchbar kai epitrefoume ta 8 prwta apotelesmata
-    setActiveSearch(
-      movieTitles
-        .filter((w) => w.toLowerCase().includes(e.target.value.toLowerCase()))
-        .slice(0, 8)
-    );
+    const value = e.target.value;
+    setSearchTerm(value);
   };
 
-  //Function gia na kanei autoComplete se periptwsh pou o xrhsths kanei click sto Span
-  const handleAutoComplete = (selectedTitle: string) => {
-    setTimeout(() => {  //Delay giati an feugei to div kateutheian kai kanw click panw se ena span, thewrei oti to click ginetai exw apo to div kai to search kleinei
-      setActiveSearch([]);
-    }, 100);
-
-    const input = document.querySelector(".searchbar input");
-    if (input) {
-      (input as HTMLInputElement).value = selectedTitle;
-    }
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("Form submitted, searchTerm:", searchTerm);
+    // The fetchMovies function is already handled by useEffect when searchTerm changes
   };
 
   return (
     <form
       ref={searchRef}
       className="w-[440px] flex flex-col gap-2 absolute top-20 left-1/2 transform z-10 -translate-x-1/2 transition duration-700 ease-in-out searchbar"
+      onSubmit={handleSubmit}
     >
       <div className="relative">
         <input
-          onChange={(e) => handleSearch(e)} //kaloume thn handleSearch otan allazei to input
           type="search"
           placeholder="Search..."
-          className="w-full rounded-full text-[#d3d3d3] p-4 bg-slate-800"
+          className="w-full rounded-full text-[#d3d3d3] p-4 bg-slate-800 search"
+          value={searchTerm}
+          onChange={handleSearch}
         />
       </div>
 
-      {/* An o pinakas den einai kenos tote emfanizoume ena div pou krataei mesa tis tainies pou tairiazoun me to text pou exoume grapsei sto searchbar */}
-      {activeSearch.length > 0 && (
-        <div className="w-full flex flex-col bg-slate-800 p-4 rounded-xl text-[#d3d3d3]">
-          {
-            activeSearch.map((s) => (
-              <span
-                key={s}
-                onClick={() => handleAutoComplete(s)}
-                className="hover:bg-[#6B6B6B] transition duration-700 ease-in-out cursor-pointer"
-              >
-                {s}
-              </span>
-            )) //Ta kanoume map kai vazoume ta apotelesmata mesa se xexwrista span. Kaloume sta span to autocomplete
-          }
+      {movies.length > 0 && (
+        <div className="w-full flex flex-col bg-slate-800 p-4 rounded-xl text-[#d3d3d3] mt-4">
+          {movies.slice(0, 6).map((movie) => (
+            <Link
+              key={movie.id}
+              href={`/Movies/${movie.id}`}
+              onClick={() => setSearchVisible(false)}
+              className="p-2 border-b flex flex-row border-gray-700"
+            >
+              <div className="mr-4">
+                {movie.poster_path && (
+                  <Image
+                    src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+                    alt={movie.title}
+                    width={64}
+                    height={96}
+                    objectFit="cover"
+                  />
+                )}
+              </div>
+              <div>
+                <h2 className="text-lg">{movie.title}</h2>
+              </div>
+            </Link>
+          ))}
         </div>
       )}
     </form>

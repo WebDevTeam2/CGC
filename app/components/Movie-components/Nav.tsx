@@ -51,10 +51,11 @@ export default function Nav() {
     const blur = document.querySelectorAll(".not-search");
     const navForHover = document.querySelector(".nav-for-hover");
     const dummy = document.querySelector(".dummy-class");
+    const body = document.querySelector("body") as HTMLBodyElement;
 
     if (searchVisible) {
       navForHover ? navForHover.classList.remove("nav-for-hover") : null; //An exei epilexthei to search aferw to class pou kanw target sto CSS gia ta hover effects
-
+      
       blur.forEach((e) => {
         //Dialegoume ola ta classes me to onoma not-search kai ta dinoume mia kainourgia classh pou thn kanoume target me CSS
         e.classList.add("blurred");

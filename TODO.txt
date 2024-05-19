@@ -1,5 +1,4 @@
 MOVIES:
-    1) Να φτιαξω το dark theme ετσι ωστε οταν αλλαζει ο χρηστης σελιδα να ειναι μενει ολο το content ιδιο χρωμα
-    2) Να φτιαξω το funtionality του search
-    3) Να βαλω στο navbar κατω απο το Random την κατηγορια ACCOUNT
-    4) Να βαλω στο account 2 επιλογες: sign in, create account
+    1) Να φτιαξω το funtionality του search (UPDATE: το περισσοτερο ολοκληηρωθηκε, πρεπει να φτιαχτει ακομα το content που θα εμφανιζεται οταν γινεται το submit)
+    2) Να βαλω στο navbar κατω απο το Random την κατηγορια ACCOUNT
+    3) Να βαλω στο account 2 επιλογες: sign in, create account

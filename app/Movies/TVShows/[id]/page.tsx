@@ -1,48 +1,49 @@
 import Image from "next/legacy/image";
-import Recommendations from "@/app/components/Movie-components/Recommendations";
+import TVShowsRecommendations from "@/app/components/Movie-components/TVShowsRecommendations";
 import { FaStar } from "react-icons/fa6";
 
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
-const baseUrl = "https://api.themoviedb.org/3/movie/";
+const baseUrl = "https://api.themoviedb.org/3/tv/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
-interface Movies {
+interface TVShows {
   page: number;
-  results: MovieResult[];
+  results: TVResult[];
 }
 
-interface MovieResult {
+interface TVResult {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
   id: number;
   original_language: string;
-  original_title: string;
+  original_name: string;
   overview: string;
   popularity: number;
   poster_path: string;
-  release_date: string;
-  title: string;
+  air_date: string;
+  name: string;
   video: boolean;
   vote_average: number;
   vote_count: number;
 }
 
-interface MovieDetails {
+interface TVDetails {
   adult: boolean;
   backdrop_path: string;
   genres: Genre[];
   id: number;
   original_language: string;
-  original_title: string;
+  original_name: string;
   overview: string;
   popularity: number;
   poster_path: string;
-  release_date: string;
-  title: string;
+  air_date: string;
+  name: string;
   video: boolean;
   vote_average: number;
   vote_count: number;
+  seasons: Seasons[];
 }
 
 interface Genre {
@@ -50,40 +51,58 @@ interface Genre {
   name: string;
 }
 
-const getMovieDetails = async (id: string) => {
+interface Seasons {
+  air_date: string;
+  episode_count: number;
+  id: number;
+  name: string;
+  overview: string;
+  poster_path: string;
+  season_number: number;
+  vote_average: number;
+}
+
+const getTVDetails = async (id: string) => {
   const res = await fetch(`${baseUrl}${id}?${apiKey}`);
   const data = await res.json();
   return data;
 };
 
-const MovieDetails = async ({ params }: { params: MovieDetails }) => {
-  const movie: MovieDetails = await getMovieDetails(params.id.toString());
+const TVShowDetails = async ({ params }: { params: TVDetails }) => {
+  const tvShow: TVDetails = await getTVDetails(params.id.toString());
 
   return (
     <main className="font-roboto not-search">
-      <h1 className="ml-[20rem] my-10 font-medium text-4xl">{movie.title}</h1>
+      <h1 className="ml-[20rem] my-10 font-medium text-4xl">{tvShow.name}</h1>
       <div className="flex flex-row ml-[20rem] mt-[2rem] gap-4">
         <Image
-          src={`${imageURL}${movie.poster_path}`}
-          alt={`${movie.title} poster`}
+          src={`${imageURL}${tvShow.poster_path}`}
+          alt={`${tvShow.name} poster`}
           width={300}
           height={450}
-          objectFit="cover"
           priority
         />
 
         <div className="ml-40 flex flex-col text-[18px] gap-3">
           <h2 className="font-bold">Movie title: </h2>
-          <p className="">{movie.title}</p>
+          <p className="">{tvShow.name}</p>
           <h2 className="font-bold">Original title: </h2>
-          <p className="">{movie.original_title}</p>
-          <h2 className="font-bold">Release Date: </h2>
-          <p className="">{movie.release_date}</p>
-          {movie.genres && movie.genres.length > 0 && (
+          <p className="">{tvShow.original_name}</p>
+          <h2 className="font-bold">Seasons: </h2>
+          <div className="">
+            {tvShow.seasons.map((season) => (
+              <div className="flex flex-row gap-3">
+                <p key={season.id}>Season {season.season_number}</p>
+                <p>Episodes: </p>
+                <p>{season.episode_count}</p>
+              </div>
+            ))}
+          </div>
+          {tvShow.genres && tvShow.genres.length > 0 && (
             <div>
               <h2 className="font-bold">Genre: </h2>
               <p className="">
-                {movie.genres.map((genre) => {
+                {tvShow.genres.map((genre) => {
                   return genre.name + ", ";
                 })}
               </p>
@@ -92,7 +111,8 @@ const MovieDetails = async ({ params }: { params: MovieDetails }) => {
           <h2 className="font-bold">Rating: </h2>
           <div className="flex flex-row gap-2">
             <p>
-              {movie.vote_average.toString().slice(0, 3)}/10 ({movie.vote_count})
+              {tvShow.vote_average.toString().slice(0, 3)}/10 (
+              {tvShow.vote_count})
             </p>
             <FaStar className="mt-[2.5px]" />
           </div>
@@ -100,11 +120,11 @@ const MovieDetails = async ({ params }: { params: MovieDetails }) => {
       </div>
       <div className="ml-[20rem] mt-10 text-[18px]">
         <h2 className="font-bold">Overview:</h2>
-        <p>{movie.overview}</p>
+        <p>{tvShow.overview}</p>
       </div>
-      <Recommendations movieId={params.id.toString()} />
+      <TVShowsRecommendations tvShowID={params.id.toString()} />
     </main>
   );
 };
 
-export default MovieDetails;
+export default TVShowDetails;

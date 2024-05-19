@@ -92,9 +92,13 @@ const TVShowDetails = async ({ params }: { params: TVDetails }) => {
           <div className="">
             {tvShow.seasons.map((season) => (
               <div className="flex flex-row gap-3">
-                <p key={season.id}>Season {season.season_number}</p>
-                <p>Episodes: </p>
-                <p>{season.episode_count}</p>
+                {season.season_number > 0 && season.air_date < "2024-05-19" && (
+                  <div className="flex flex-row gap-3">
+                    <p key={season.id}>Season {season.season_number}</p>
+                    <p>Episodes: </p>
+                    <p>{season.episode_count}</p>
+                  </div>
+                )}
               </div>
             ))}
           </div>

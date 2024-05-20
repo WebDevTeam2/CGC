@@ -70,12 +70,7 @@ const Posts = async () => {
               className="text-slate-200 text-balance text-xl hover:scale-110 xl:w-3/5 w-4/5  transition-all duration-500 ease-in-out"
             >
               <Link
-                href={`/Games/${item.name
-                  .toLowerCase()
-                  .replace(/ /g, "-")
-                  .replace(/:/g, "")
-                  .replace(/\([^)]*\)/g, "")
-                  .replace(/-+$/g, "")}`}
+                href={`/Games/${item.slug}`}
                 className="relative flex group border-2 md:h-60 h-[33rem] border-white rounded-lg transition-all duration-300"
               >
                 <div className="bg-black rounded-lg bg-opacity-[.7] relative flex flex-col md:flex-row md:gap-0 gap-2 transition-all duration-400">

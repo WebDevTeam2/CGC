@@ -1,7 +1,8 @@
 "use client";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, use } from "react";
 import Image from "next/legacy/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation"; // Updated import
 
 const apiKey = "a48ad289c60fd0bb3fc9cc3663937d7b";
 const movieSearchUrl = "https://api.themoviedb.org/3/search/movie";
@@ -15,20 +16,23 @@ interface Result {
   id: number;
   title?: string; // Movies have 'title'
   name?: string; // TV shows have 'name'
-  media_type: 'movie' | 'tv';
+  media_type: "movie" | "tv";
   poster_path?: string;
 }
 
 const getMovies = async (query: string): Promise<Result[]> => {
   const res = await fetch(`${movieSearchUrl}?query=${query}&api_key=${apiKey}`);
   const data = await res.json();
-  return data.results.map((result: any) => ({ ...result, media_type: 'movie' }));
+  return data.results.map((result: any) => ({
+    ...result,
+    media_type: "movie",
+  }));
 };
 
 const getTVShows = async (query: string): Promise<Result[]> => {
   const res = await fetch(`${tvSearchUrl}?query=${query}&api_key=${apiKey}`);
   const data = await res.json();
-  return data.results.map((result: any) => ({ ...result, media_type: 'tv' }));
+  return data.results.map((result: any) => ({ ...result, media_type: "tv" }));
 };
 
 const Search: React.FC<SearchProps> = ({ setSearchVisible }) => {
@@ -36,6 +40,7 @@ const Search: React.FC<SearchProps> = ({ setSearchVisible }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const searchRef = useRef<HTMLFormElement>(null);
   const [submitContent, setSubmitContent] = useState<string>("");
+  const router = useRouter();
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -62,8 +67,8 @@ const Search: React.FC<SearchProps> = ({ setSearchVisible }) => {
           const aTitle = (a.title || a.name || "").toLowerCase();
           const bTitle = (b.title || b.name || "").toLowerCase();
 
-          if(a.poster_path && !b.poster_path) return -1;
-          if(!a.poster_path &&  b.poster_path) return 1;
+          if (a.poster_path && !b.poster_path) return -1;
+          if (!a.poster_path && b.poster_path) return 1;
 
           if (aTitle === query) return -1;
           if (bTitle === query) return 1;
@@ -87,7 +92,11 @@ const Search: React.FC<SearchProps> = ({ setSearchVisible }) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitContent(searchTerm);
+    if (searchTerm.trim()) {
+      router.push(`/Movies/Search/${searchTerm}`);
+      setSubmitContent(searchTerm);
+      setSearchVisible(false);
+    }
     // The fetchMovies function is already handled by useEffect when searchTerm changes
   };
 
@@ -105,15 +114,16 @@ const Search: React.FC<SearchProps> = ({ setSearchVisible }) => {
           value={searchTerm}
           onChange={handleSearch}
         />
-        <Link href={`/Movies/Search/${submitContent}`}>click</Link>
       </div>
 
       {results.length > 0 && (
         <div className="w-full flex flex-col bg-slate-800 p-4 rounded-xl text-[#d3d3d3] mt-4">
-          {results.slice(0, 11).map((result) => (
+          {results.slice(0, 6).map((result) => (
             <Link
               key={result.id}
-              href={`/${result.media_type === 'movie' ? 'Movies' : 'Movies/TVShows'}/${result.id}`}
+              href={`/${
+                result.media_type === "movie" ? "Movies" : "Movies/TVShows"
+              }/${result.id}`}
               onClick={() => setSearchVisible(false)}
               className="p-1 flex flex-row border-gray-700 transition duration-200 hover:bg-[#4c545b]"
             >

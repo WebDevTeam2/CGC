@@ -4,12 +4,12 @@ import Image from "next/legacy/image";
 import { useState, useEffect } from "react";
 
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
-const baseUrl = "https://api.themoviedb.org/3/movie/";
+const baseUrl = "https://api.themoviedb.org/3/tv/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
-interface RecommendedMovie {
+interface RecommendedShow {
   id: number;
-  title: string;
+  name: string;
   poster_path: string;
   vote_average: number;
   overview: string;
@@ -25,8 +25,8 @@ const getVotecolor = (vote: number) => {
   }
 };
 
-//Function pou pairnei recommended movies apo to API
-const getRecommendedMovies = async (id: string) => {
+//Function pou pairnei recommended tv shows apo to API
+const getRecommendedShows = async (id: string) => {
   const res = await fetch(
     `${baseUrl}${id}/recommendations?include_adult=false&language=en-US&page=1&${apiKey}`
   );
@@ -35,8 +35,8 @@ const getRecommendedMovies = async (id: string) => {
 };
 
 //To component ayto pairnei to id ths tainias san props etsi wste na pairnei kathe fora to id ths kathe tainias xexwrista
-const Recommendations = ({ movieId }: {movieId: string}) => {
-  const [recommendedMovies, setRecommendedMovies] = useState<RecommendedMovie[]>([]);
+const TVShowsRecommendations = ({ tvShowID }: {tvShowID: string}) => {
+  const [recommendedShows, setRecommendedShows] = useState<RecommendedShow[]>([]);
   const [visible, setVisible] = useState(4);    //4 tainies einai recommended kathe fora    
   const [counter,setCounter] = useState(0);     // Metraei to poses fores tha emfanistei to button
   
@@ -44,11 +44,11 @@ const Recommendations = ({ movieId }: {movieId: string}) => {
   //Pairnoume ta recommendations kai ta vazoume sto reccomendedMovies array
   useEffect(() => {
     const fetchRecommendations = async () => {
-      const recommendations = await getRecommendedMovies(movieId);
-      setRecommendedMovies(recommendations);
+      const recommendations = await getRecommendedShows(tvShowID);
+      setRecommendedShows(recommendations);
     };
     fetchRecommendations();
-  }, [movieId]);
+  }, [tvShowID]);
 
   const getMoreRecommendations = () => {
     setVisible((previousIndex) => previousIndex + 4);
@@ -57,13 +57,13 @@ const Recommendations = ({ movieId }: {movieId: string}) => {
   return (
     <div>
       <h2 className="ml-[20rem] mt-10 text-[18px] font-bold">
-        Recommended Movies:{" "}
+        Recommended TV Shows:{" "}
       </h2>
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-[20rem] h-full not-search">
-        {recommendedMovies.slice(0, visible).map((item) => (
+        {recommendedShows.slice(0, visible).map((item) => (
           <Link
             key={item.id}
-            href={`/Movies/${item.id}`}
+            href={`/Movies/TVShows/${item.id}`}
             target="_blank"
             rel="noopener noreferrer"
             className="lg:hover:scale-110 w-full transition duration-700 ease-in-out mb-6"
@@ -71,7 +71,7 @@ const Recommendations = ({ movieId }: {movieId: string}) => {
             <div className="sm:w-full sm:h-56 lg:w-full lg:h-96 p-10 relative">
               <Image
                 src={`${imageURL}${item.poster_path}`}
-                alt={item.title}
+                alt={item.name}
                 layout="fill"
                 objectFit="cover"
                 className="w-full h-full absolute"
@@ -80,7 +80,7 @@ const Recommendations = ({ movieId }: {movieId: string}) => {
             </div>
             <div className="bg-[#4c545b] h-44 gap-4 cards">
               <div className="flex ml-4 text-white">
-                <h2 className="">{item.title}</h2>
+                <h2 className="">{item.name}</h2>
                 <span
                   className={`${getVotecolor(
                     item.vote_average
@@ -106,4 +106,4 @@ const Recommendations = ({ movieId }: {movieId: string}) => {
   );
 };
 
-export default Recommendations;
+export default TVShowsRecommendations;

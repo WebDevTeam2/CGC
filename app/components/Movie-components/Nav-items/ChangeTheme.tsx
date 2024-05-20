@@ -4,47 +4,32 @@ import { CiSun } from "react-icons/ci";
 import { IoMoon } from "react-icons/io5";
 
 const changeTheme = () => {
-  let counter = 0;
   const [isDark, setIsDark] = useState(false);
   const toggleDarkTheme = () => {
-  const body = document.querySelector("body") as HTMLBodyElement; 
-  const cards = document.querySelectorAll('.cards') as NodeListOf<HTMLElement>  
-  const currentPageIndincator = document.querySelector(".current-page") as HTMLElement;
+    const body = document.querySelector("body") as HTMLBodyElement;
 
     if (!isDark) {
+      //An eimaste se light theme molis o xrhsths pataei to koumpi tote ginetai dark theme kai mpainoun ta antistoixa styles sto body
       if (body) {
-        counter < 1
-          ? (body.className +=
-              " transition duration-200 ease-in-out text-white")
-          : (body.classList.add("text-white"),
-            body.classList.remove("text-black"));
+        body.classList.add("text-white");
+        body.classList.add("body-dark");
+        body.classList.remove("text-black");
+        body.classList.remove("body-light");
         body.style.backgroundColor = "#49243E";
-        cards.forEach((card) => {
-          card.style.backgroundColor = "#704264";
-        });
 
-        //Elegxos giati den yparxei pantou to current page indicator
-        if(currentPageIndincator)
-          currentPageIndincator.style.backgroundColor = "#704264";
-        
         setIsDark(true);
       }
     } else {
+      //An eimaste se dark theme molis o xrhsths pataei to koumpi tote ginetai light theme kai mpainoun ta antistoixa styles sto body
       if (body) {
-        body.classList.remove("text-white");
         body.classList.add("text-black");
+        body.classList.add("body-light");
+        body.classList.remove("text-white");
+        body.classList.remove("body-dark");
         body.style.backgroundColor = "#EEE3CB";
-        cards.forEach((card) => {
-          card.style.backgroundColor = "#4c545b";
-        });
-
-        //Elegxos giati den yparxei pantou to current page indicator
-        if(currentPageIndincator)
-          currentPageIndincator.style.backgroundColor = "#4c545b";
       }
       setIsDark(false);
     }
-    counter++;
   };
 
   return (

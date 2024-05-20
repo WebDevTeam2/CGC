@@ -1,32 +1,66 @@
-import ChangeTab from "./ChangeTab";
 import Link from "next/link";
 import Image from "next/legacy/image";
 
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/";
-const ApiURL = baseUrl + "movie/popular?&" + apiKey;
+const ApiURL = `${baseUrl}/discover/tv?page=1?&${apiKey}`;
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
-interface Movie {
+
+interface TVShows {
   page: number;
-  results: MovieResult[];
+  results: TVResult[];
 }
 
-interface MovieResult {
+interface TVResult {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
   id: number;
   original_language: string;
-  original_title: string;
+  original_name: string;
   overview: string;
   popularity: number;
   poster_path: string;
-  release_date: string;
-  title: string;
+  air_date: string;
+  name: string;
   video: boolean;
   vote_average: number;
   vote_count: number;
+}
+
+interface TVDetails {
+  adult: boolean;
+  backdrop_path: string;
+  genres: Genre[];
+  id: number;
+  original_language: string;
+  original_name: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  air_date: string;
+  name: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+  seasons: Seasons[];
+}
+
+interface Genre {
+  id: number;
+  name: string;
+}
+
+interface Seasons {
+  air_date: string;
+  episode_count: number;
+  id: number;
+  name: string;
+  overview: string;
+  poster_path: string;
+  season_number: number;
+  vote_average: number;
 }
 
 const getTVShowData = async (url: string) => {
@@ -46,17 +80,16 @@ const getVotecolor = (vote:number) => {
 }
 
 const TVShowMain = async () => {
-  const movieData: Movie = await getTVShowData(ApiURL);
+  const movieData: TVShows = await getTVShowData(ApiURL);
 
     return (
       <div>
-        <ChangeTab />
         <div className="grid grid-cols-4 gap-8 w-3/4 ml-64 h-full not-search">
           {/* Kanw Link oloklhrh th kartela */}
           {movieData.results.map((item) => (
             <Link
               key={item.id}
-              href={`/Movies/${item.id}`}
+              href={`/Movies/TVShows/${item.id}`}
               target="_blank"
               rel="noopener noreferrer"
               className="lg:hover:scale-110 w-full transition duration-700 ease-in-out mb-6 "
@@ -65,7 +98,7 @@ const TVShowMain = async () => {
               <div className="lg:w-full lg:h-96 p-10 relative">
                 <Image
                   src={`${imageURL}${item.poster_path}`}
-                  alt={item.title}
+                  alt={item.name}
                   layout="fill"
                   objectFit="cover"
                   className="w-full h-full absolute"
@@ -74,7 +107,7 @@ const TVShowMain = async () => {
               </div>
               <div className="bg-[#4c545b] h-44 gap-4 cards">
                 <div className="flex ml-4 text-white">
-                  <h2 className="">{item.title}</h2>
+                  <h2 className="">{item.name}</h2>
                   <span className={`${getVotecolor(item.vote_average)} ml-auto mr-5 mt-11`}>{item.vote_average.toString().slice(0,3)}</span>  
                 </div>
                 <p className = "mt-4 ml-4 text-white">{item.overview.slice(0, 40)}...</p>

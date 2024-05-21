@@ -1,49 +1,55 @@
 "use client";
-import React, { useEffect, useState, useRef, use } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Image from "next/legacy/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // Updated import
+import { useRouter } from "next/navigation";
 
 const apiKey = "a48ad289c60fd0bb3fc9cc3663937d7b";
 const movieSearchUrl = "https://api.themoviedb.org/3/search/movie";
 const tvSearchUrl = "https://api.themoviedb.org/3/search/tv";
 
 interface SearchProps {
-  setSearchVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setSearchVisible: (visible: boolean) => void;
 }
 
 interface Result {
   id: number;
-  title?: string; // Movies have 'title'
-  name?: string; // TV shows have 'name'
+  title?: string; // Oi tainies exoun title
+  name?: string; // Oi seires exoun name
   media_type: "movie" | "tv";
   poster_path?: string;
 }
 
+//fetch tis tainies, to function epistrefei ena Promise apo Results
 const getMovies = async (query: string): Promise<Result[]> => {
   const res = await fetch(`${movieSearchUrl}?query=${query}&api_key=${apiKey}`);
   const data = await res.json();
+  //dinw stis tainies ena media_type
   return data.results.map((result: any) => ({
     ...result,
     media_type: "movie",
   }));
 };
 
+//fetch tis seires, to function epistrefei ena Promise apo Results
 const getTVShows = async (query: string): Promise<Result[]> => {
   const res = await fetch(`${tvSearchUrl}?query=${query}&api_key=${apiKey}`);
   const data = await res.json();
+  //dinw stis seires ena media_type
   return data.results.map((result: any) => ({ ...result, media_type: "tv" }));
 };
 
-const Search: React.FC<SearchProps> = ({ setSearchVisible }) => {
-  const [results, setResults] = useState<Result[]>([]);
-  const [searchTerm, setSearchTerm] = useState<string>("");
+const Search = ({ setSearchVisible }: SearchProps) => {
+  const [results, setResults] = useState<Result[]>([]); //Array pou exei mesa kai tainies kai seires
+  const [searchTerm, setSearchTerm] = useState<string>(""); //SearchTerm einai to text pou grafei o xrhsths sto input
   const searchRef = useRef<HTMLFormElement>(null);
-  const [submitContent, setSubmitContent] = useState<string>("");
+  const [focusedIndex, setFocusedIndex] = useState<number>(-1); //Gia na mporei na epileksei o xrhsths kapoio apotelesma apo ta results me ta velakia
   const router = useRouter();
 
   useEffect(() => {
+    //An kanoume click opoudhpote ektos tou form to search den einai pleon visible kai kleinei
     const handler = (e: MouseEvent) => {
+      //An to search einai anoixto kai to click ginei ektos twn oroiwn tou tote to search kleinei
       if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
         setSearchVisible(false);
       }
@@ -53,51 +59,85 @@ const Search: React.FC<SearchProps> = ({ setSearchVisible }) => {
     return () => {
       document.removeEventListener("click", handler);
     };
-  }, [searchRef, setSearchVisible]);
+  }, [searchRef]); //kathe fora pou allazei to form(searchRef) kaleitai to handler
 
+  //Kathe fora pou allazei to searchTerm kanw fetch apo to API ta apotelesmata pou tairiazoun me to content pou grafei o xrhsths
   useEffect(() => {
     if (searchTerm.trim()) {
       const fetchResults = async () => {
         const movieResults = await getMovies(searchTerm);
         const tvResults = await getTVShows(searchTerm);
-        const allResults = [...movieResults, ...tvResults];
+        const allResults = [...movieResults, ...tvResults]; //Vazw sto allResults ola ta periexomena apo to fetch
 
+        //Kanw sort ta apotelesmata
         const sortedResults = allResults.sort((a, b) => {
           const query = searchTerm.toLowerCase();
           const aTitle = (a.title || a.name || "").toLowerCase();
           const bTitle = (b.title || b.name || "").toLowerCase();
 
+          //Proteraiothta sta results pou exoun eikona
           if (a.poster_path && !b.poster_path) return -1;
           if (!a.poster_path && b.poster_path) return 1;
 
+          //Proteraiothta sta results pou tairiazoun akrivws me to ti exei grapsei o xrhsths
           if (aTitle === query) return -1;
           if (bTitle === query) return 1;
+          //Proteraiothta sta results pou xekinane me to ti exei grapsei o xrhsths
           if (aTitle.startsWith(query)) return -1;
           if (bTitle.startsWith(query)) return 1;
+
           return 0;
         });
 
         setResults(sortedResults);
+        setFocusedIndex(-1); //kanoume reset to focusedIndex otan allazoun ta results
       };
 
       fetchResults();
-    } else {
-      setResults([]);
     }
+    //An to input tou xrhsth einai keno tote kanoume keno kai to results
+    else 
+      setResults([]);
   }, [searchTerm]);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowDown") 
+        setFocusedIndex(focusedIndex + 1);
+      else if (e.key === "ArrowUp") 
+        setFocusedIndex(focusedIndex - 1);
+      else if (e.key === "Enter" && focusedIndex >= 0) {
+        e.preventDefault();
+        router.push(
+          `/${
+            results[focusedIndex].media_type === "movie"
+              ? "Movies"
+              : "Movies/TVShows"
+          }/${results[focusedIndex].id}`
+        );
+        setSearchVisible(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [focusedIndex, results, router, setSearchVisible]);
+
+  //Dinoume timh sto searchTerm na einai to input 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
+  //Otan patame to enter kanoume submit
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (searchTerm.trim()) {
-      router.push(`/Movies/Search/${searchTerm}`);
-      setSubmitContent(searchTerm);
-      setSearchVisible(false);
+      router.push(`/Movies/Search/${searchTerm}`); //An ginei submit kanoume redirect ton xrhsth sto dynamiko page gia ta apotelesmata tou search
+      setSearchVisible(false); //kai kleinoume to search
     }
-    // The fetchMovies function is already handled by useEffect when searchTerm changes
+    //To fetch kaleitai aytomata kathe fora pou allazei to searchTerm
   };
 
   return (
@@ -109,7 +149,7 @@ const Search: React.FC<SearchProps> = ({ setSearchVisible }) => {
       <div className="relative flex flex-row">
         <input
           type="search"
-          placeholder="Search..."
+          placeholder="Search... (press enter to submit your search)"
           className="w-full rounded-full text-[#d3d3d3] p-4 bg-slate-800 search"
           value={searchTerm}
           onChange={handleSearch}
@@ -118,31 +158,37 @@ const Search: React.FC<SearchProps> = ({ setSearchVisible }) => {
 
       {results.length > 0 && (
         <div className="w-full flex flex-col bg-slate-800 p-4 rounded-xl text-[#d3d3d3] mt-4">
-          {results.slice(0, 6).map((result) => (
-            <Link
-              key={result.id}
-              href={`/${
-                result.media_type === "movie" ? "Movies" : "Movies/TVShows"
-              }/${result.id}`}
-              onClick={() => setSearchVisible(false)}
-              className="p-1 flex flex-row border-gray-700 transition duration-200 hover:bg-[#4c545b]"
-            >
-              <div className="mr-4">
-                {result.poster_path && (
-                  <Image
-                    src={`https://image.tmdb.org/t/p/w200${result.poster_path}`}
-                    alt={result.title || result.name}
-                    width={64}
-                    height={96}
-                    objectFit="cover"
-                  />
-                )}
-              </div>
-              <div>
-                <h2 className="text-lg">{result.title || result.name}</h2>
-              </div>
-            </Link>
-          ))}
+          {
+            //Theloume sto search na emfanizontai mono 6 apotelesmata apo ton pinaka tou results kai meta ta emfanizoume
+            results.slice(0, 6).map((result, index) => (
+              <Link
+                key={result.id}
+                href={`/${
+                  result.media_type === "movie" ? "Movies" : "Movies/TVShows" //An einai tainia tote to path einai to /Movies/result.id an einai seira tote to path einai Movies/TVShows/result.id
+                }/${result.id}`}
+                onClick={() => setSearchVisible(false)}
+                onMouseEnter={() => setFocusedIndex(index)} // Update focusedIndex on hover
+                className={`p-1 flex flex-row border-gray-700 transition duration-200 hover:bg-[#4c545b] ${
+                  focusedIndex === index ? "bg-[#4c545b]" : ""
+                }`}
+              >
+                <div className="mr-4">
+                  {result.poster_path && (
+                    <Image
+                      src={`https://image.tmdb.org/t/p/w200${result.poster_path}`}
+                      alt={result.title || result.name}
+                      width={64}
+                      height={96}
+                      objectFit="cover"
+                    />
+                  )}
+                </div>
+                <div>
+                  <h2 className="text-lg">{result.title || result.name}</h2>
+                </div>
+              </Link>
+            ))
+          }
         </div>
       )}
     </form>

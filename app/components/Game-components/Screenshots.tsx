@@ -14,6 +14,9 @@ interface PostPage {
   id: number;
   slug: string;
   name: string;
+  next: string;
+  previous: string;
+  count: number;
   results: [
     {
       id: number;
@@ -34,17 +37,22 @@ interface PostPage {
 const Screenshots = ({ params }: { params: PostPage }) => {
   //parsing specifically elements of the results array so that i can say item.image
   const [screenshots, setScreenshots] = useState<PostPage["results"]>();
+  const [next, setNext] = useState<string | null>(null);
+  const [count, setCount] = useState<number>(0);
 
   useEffect(() => {
-    const fetchScreenshots = async (name: string) => {
+    const fetchScreenshots = async (slug: string) => {
       try {
         const res = await fetch(
-          basePosterUrl + name + "/screenshots" + apiPosterKey
+          basePosterUrl + slug + "/screenshots" + apiPosterKey
         );
         const data = await res.json();
 
         // Store only the results array
         setScreenshots(data.results);
+        setNext(data.next);
+
+        setCount(data.results.length);
       } catch (error) {
         console.error("Error fetching screenshots:", error);
       }
@@ -52,13 +60,19 @@ const Screenshots = ({ params }: { params: PostPage }) => {
     fetchScreenshots(params.name);
   }, []);
 
+  useEffect(() => {
+    if (next) console.log("hello");
+  }, [next]);
+
   const handleClick = () => {
     console.log("clicked me");
   };
 
   return (
     <div className="relative flex flex-col gap-2 pt-12">
-      <span className="font-bold text-white text-3xl">Screenshots:</span>
+      <span className="font-bold text-white text-3xl">
+        Screenshots ({count}):
+      </span>
       <div className="flex z-10 overflow-x-hidden overflow-x-visible flex-row gap-2 text-balance text-white">
         <div className="arrows z-20 pointer-events-none flex absolute w-full h-[168px] items-center justify-between text-white text-4xl">
           <button
@@ -67,10 +81,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
           >
             <GrPrevious />
           </button>
-          <button
-            className="border pointer-events-auto rounded-full p-2 bg-slate-900"
-            onClick={handleClick}
-          >
+          <button className="border pointer-events-auto rounded-full p-2 bg-slate-900">
             <GrNext />
           </button>
         </div>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 import Sort from "./Sort";
+import Buttons from "./Buttons";
 
 interface Post {
   page: number;
@@ -75,35 +76,7 @@ const Posts = async () => {
               className="text-slate-200 text-balance text-xl hover:scale-110 xl:w-3/5 w-4/5  transition-all duration-500 ease-in-out"
             >
               <Link
-                href={`/Games/${
-                  item.slug
-                  // .toLowerCase()
-                  // .replace(/ /g, "-")
-                  // .replace(/:/g, "")
-                  // .replace(/'/g, "")
-                  // .replace(/\([^)]*\)/g, "")
-                  // .replace(/-+$/g, "")
-                  // .replace(/(I{1,3}|IV|V|IX|X{1,3})/g, (match) => {
-                  //   switch (match) {
-                  //     case "i":
-                  //       return "1";
-                  //     case "ii":
-                  //       return "2";
-                  //     case "iii":
-                  //       return "3";
-                  //     case "iv":
-                  //       return "4";
-                  //     case "v":
-                  //       return "5";
-                  //     case "ix":
-                  //       return "9";
-                  //     case "x":
-                  //       return "10";
-                  //     default:
-                  //       return match; // If the match is not a Roman numeral, return the original match
-                  //   }
-                  // })
-                }`}
+                href={`/Games/${item.slug}`}
                 className="relative flex group border-2 md:h-60 h-[33rem] border-white rounded-lg transition-all duration-300"
               >
                 <div className="bg-black rounded-lg bg-opacity-[.7] relative flex flex-col md:flex-row md:gap-0 gap-2 transition-all duration-400">
@@ -134,6 +107,7 @@ const Posts = async () => {
             </li>
           ))}
         </ul>
+        <Buttons />
       </div>
     );
   } catch (error) {

@@ -34,7 +34,7 @@ function Games() {
 
   return (
     <Link
-      href={"/Games"}
+      href={`/Games/page/1`}
       className="relative clip-container group text-6xl justify-center flex lg:w-2/4 w-full h-screen lg:hover:scale-100  hover:scale-105 overflow-hidden transition duration-500 ease-in-out cursor-pointer"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

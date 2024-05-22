@@ -14,6 +14,9 @@ interface PostPage {
   id: number;
   slug: string;
   name: string;
+  next: string;
+  previous: string;
+  count: number;
   results: [
     {
       id: number;
@@ -179,21 +182,6 @@ export default async function Games({ params }: { params: PostPage }) {
           {game.description && stripHtmlTags(game.description)}
         </span>
       </div>
-      {/* <div className="relative flex flex-col gap-2 pt-12">
-        <span className="font-bold text-white text-3xl">Screenshots:</span>
-        <div className="flex overflow-hidden overflow-x-visible flex-row gap-2 text-balance text-white">
-          {screens.results.map((item: { image: string }, index: number) => (
-            <Image
-              key={index}
-              role="button"
-              alt={`game_screenshot_${index}`}
-              src={item.image}
-              width={300}
-              height={300}
-            />
-          ))}
-        </div>
-      </div> */}
       {/* <Loader /> */}
       <Screenshots params={params} />
       {/* button functionality here */}

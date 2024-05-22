@@ -25,16 +25,11 @@ const Buttons = () => {
     if (pathname) {
       const currentPage = parseInt(pathname.split("/").pop() || ""); //Gia na paroume to page number apo to url
       //An to currentPage yparxei tote kanoume set to page
-      if (
-        !isNaN(currentPage) &&
-        currentPage >= 1 &&
-        currentPage <= 5 &&
-        currentPage !== page
-      ) {
+      if (!isNaN(currentPage) && currentPage !== page) {
         setPage(currentPage);
       }
     }
-  }, [page]);
+  }, []);
 
   return (
     <div className="relative text-white my-5 flex flex-row items-center justify-center gap-4 transition-all duration-200">
@@ -49,10 +44,14 @@ const Buttons = () => {
         </button>
       </Link>
       {buttons.map((item, index) => (
-        <Link href={`${item.page}`} key={index}>
-          <button className="hover:scale-110 transition-all duration-200 border-2 p-1.5 rounded-md  bg-stone-600 border-stone-600">
-            {item.icon}
-          </button>
+        <Link
+          href={`${item.page}`}
+          key={index}
+          className={`hover:scale-110 transition-all duration-200 border-none p-2.5 rounded-md  bg-stone-600 ${
+            item.page === page ? "bg-stone-800" : ""
+          }`}
+        >
+          {item.icon}
         </Link>
       ))}
       <Link href={`${Math.min(page + 1, 5)}`}>

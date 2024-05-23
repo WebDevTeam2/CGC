@@ -84,7 +84,7 @@ const Page = async ({ params }: { params: TVShows }) => {
 
   return (
     <div>
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-64 mt-2 h-full not-search">
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-64 mt-4 h-full not-search">
         {/* Kanw Link oloklhrh th kartela */}
         {tvShowData.results.map((item) => (
           <Link

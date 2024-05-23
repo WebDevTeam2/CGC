@@ -1,6 +1,5 @@
 import Image from "next/legacy/image";
 import Link from "next/link";
-import ChangeTab from "@/app/components/Movie-components/ChangeTab";
 import Pages from "@/app/components/Movie-components/Pages";
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/";
@@ -50,8 +49,7 @@ const Page = async ({ params }: { params: Movie }) => {
 
   return (
     <div>
-      <ChangeTab />
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-64 h-full not-search">
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-64 mt-4 h-full not-search">
         {/* Kanw Link oloklhrh th kartela */}
         {movieData.results.map((item) => (
           <Link

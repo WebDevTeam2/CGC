@@ -27,8 +27,7 @@ interface PostResult {
 // https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
 const basePosterUrl = `https://api.rawg.io/api/games`;
 const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
-const apiPosterUrl =
-  basePosterUrl + "?" + apiPosterKey + "&dates=2023-01-01,2024-05-13";
+const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}&ordering=-metacritic`;
 
 //this function uses regex to replace html tags inside the description
 const stripHtmlTags = (html: string) => {
@@ -37,7 +36,7 @@ const stripHtmlTags = (html: string) => {
 };
 
 const getGameData = async (url: string, page: number) => {
-  const res = await fetch(`${url}&page=${page}`);
+  const res = await fetch(`${url}&page=${page}&platforms=4,18,187,186`);
   const data = await res.json();
   //this command iterates over the array of game results fetched from url
   //for each game it creates a promise that fetched additional data about each game like its description

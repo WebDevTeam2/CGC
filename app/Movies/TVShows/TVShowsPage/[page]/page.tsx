@@ -1,38 +1,73 @@
 import Image from "next/legacy/image";
 import Link from "next/link";
-import Pages from "@/app/components/Movie-components/Pages";
+import TvShowPages from "@/app/components/Movie-components/TvShowPages";
+
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/";
+const ApiURL = `${baseUrl}/discover/tv?page=1?&${apiKey}`;
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
-interface Movie {
+interface TVShows {
   page: number;
-  results: MovieResult[];
+  results: TVResult[];
 }
 
-interface MovieResult {
+interface TVResult {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
   id: number;
   original_language: string;
-  original_title: string;
+  original_name: string;
   overview: string;
   popularity: number;
   poster_path: string;
-  release_date: string;
-  title: string;
+  air_date: string;
+  name: string;
   video: boolean;
   vote_average: number;
   vote_count: number;
 }
 
-const getMovieData = async (page: string) => {
-  const res = await fetch(`${baseUrl}discover/movie?include_adult=false&page=${page}&${apiKey}`);
+interface TVDetails {
+  adult: boolean;
+  backdrop_path: string;
+  genres: Genre[];
+  id: number;
+  original_language: string;
+  original_name: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  air_date: string;
+  name: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+  seasons: Seasons[];
+}
+
+interface Genre {
+  id: number;
+  name: string;
+}
+
+interface Seasons {
+  air_date: string;
+  episode_count: number;
+  id: number;
+  name: string;
+  overview: string;
+  poster_path: string;
+  season_number: number;
+  vote_average: number;
+}
+
+const getTVShowData = async (page: string) => {
+  const res = await fetch(`${baseUrl}discover/tv?include_adult=false&page=${page}&${apiKey}`);
   const data = await res.json();
   return data;
 };
-
 
 const getVotecolor = (vote: number) => {
   if (vote >= 8) {
@@ -44,17 +79,17 @@ const getVotecolor = (vote: number) => {
   }
 };
 
-const Page = async ({ params }: { params: Movie }) => {
-  const movieData: Movie = await getMovieData(`${params.page.toString()}`);
+const Page = async ({ params }: { params: TVShows }) => {
+  const tvShowData: TVShows = await getTVShowData(`${params.page.toString()}`);
 
   return (
     <div>
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-64 mt-4 h-full not-search">
         {/* Kanw Link oloklhrh th kartela */}
-        {movieData.results.map((item) => (
+        {tvShowData.results.map((item) => (
           <Link
             key={item.id}
-            href={`/Movies/${item.id}`}
+            href={`/Movies/TVShows/${item.id}`}
             target="_blank"
             rel="noopener noreferrer"
             className="lg:hover:scale-110 w-full transition duration-700 ease-in-out mb-6 card-link"
@@ -63,7 +98,7 @@ const Page = async ({ params }: { params: Movie }) => {
             <div className="sm:w-full sm:h-56 lg:w-full lg:h-96 p-10 relative image-div">
               <Image
                 src={`${imageURL}${item.poster_path}`}
-                alt={item.title}
+                alt={item.name}
                 layout="fill"
                 objectFit="cover"
                 className="w-full h-full absolute"
@@ -72,7 +107,7 @@ const Page = async ({ params }: { params: Movie }) => {
             </div>
             <div className="bg-[#4c545b] h-44 gap-4 cards">
               <div className="flex ml-4 text-white">
-                <h2 className="">{item.title}</h2>
+                <h2 className="">{item.name}</h2>
                 <span
                   className={`${getVotecolor(
                     item.vote_average
@@ -89,7 +124,7 @@ const Page = async ({ params }: { params: Movie }) => {
         ))}
       </div>
       <div className="">
-        <Pages />
+        <TvShowPages />
       </div>
     </div>
   );

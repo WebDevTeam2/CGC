@@ -7,6 +7,10 @@ import {
   RiNumber3,
   RiNumber4,
   RiNumber5,
+  RiNumber6,
+  RiNumber7,
+  RiNumber8,
+  RiNumber9,
 } from "react-icons/ri";
 
 const buttons = [
@@ -15,6 +19,10 @@ const buttons = [
   { icon: <RiNumber3 />, page: 3 },
   { icon: <RiNumber4 />, page: 4 },
   { icon: <RiNumber5 />, page: 5 },
+  { icon: <RiNumber6 />, page: 6 },
+  { icon: <RiNumber7 />, page: 7 },
+  { icon: <RiNumber8 />, page: 8 },
+  { icon: <RiNumber9 />, page: 9 },
 ];
 
 const Buttons = () => {
@@ -54,12 +62,12 @@ const Buttons = () => {
           {item.icon}
         </Link>
       ))}
-      <Link href={`${Math.min(page + 1, 5)}`}>
+      <Link href={`${Math.min(page + 1, 9)}`}>
         <button className="hover:scale-110 transition-all duration-200 border-2 px-2 py-[0.2rem] rounded-md  bg-stone-600 border-stone-600">
           {">"}
         </button>
       </Link>
-      <Link href={`5`}>
+      <Link href={`9`}>
         <button className="hover:scale-110 transition-all duration-200 border-2 px-2 py-[0.2rem] rounded-md  bg-stone-600 border-stone-600">
           {">>"}
         </button>

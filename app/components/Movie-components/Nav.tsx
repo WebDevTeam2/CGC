@@ -7,6 +7,7 @@ import Trending from "@/app/components/Movie-components/Nav-items/Trending";
 import MovieHomePage from "@/app/components/Movie-components/Nav-items/MovieHomePage";
 import ChangeTheme from "./Nav-items/ChangeTheme";
 import Search from "./Nav-items/Search";
+import TVShowHomePage from "@/app/components/Movie-components/Nav-items/TVShowsHomePage";
 
 //utils and icons
 import React, { useEffect, useState } from "react";
@@ -86,6 +87,9 @@ export default function Nav() {
           </li>
           <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
             <MovieHomePage />
+          </li>
+          <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none"> 
+            <TVShowHomePage />
           </li>
           <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
             <Trending />

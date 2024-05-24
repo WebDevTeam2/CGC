@@ -70,14 +70,14 @@ const getGame = async (name: string) => {
   const res = await fetch(basePosterUrl + name + apiPosterKey);
   // https://api.rawg.io/api/games/grand-theft-auto-v?key=f0e283f3b0da46e394e48ae406935d25
   const data = await res.json();
-  // console.log(data);
   return data;
 };
 
 //this function uses regex to replace html tags inside the description
 const stripHtmlTags = (html: string) => {
   const regex = /(<([^>]+)>)/gi;
-  return html.replace(regex, "");
+  const stripped = html.replace(regex, "");
+  return stripped;
 };
 
 const convertToStars = (rating: number) => {
@@ -162,20 +162,6 @@ export default async function Games({ params }: { params: PostPage }) {
                         </span>
                       )
                     )}
-                </span>
-              </div>
-              <div className="flex md:flex-row md:items-stretch items-center flex-col md:justify-between justify-normal">
-                <span className="lg:text-lg text-2xl font-bold">Tags:</span>
-                <span className="text-balance">
-                  {game.tags &&
-                    game.tags.length > 0 &&
-                    game.tags.map((tag: { name: string }, index: number) => (
-                      <span key={index}>
-                        {index > 0 && ","}{" "}
-                        {/* Add slash if not the first platform */}
-                        {tag.name}
-                      </span>
-                    ))}
                 </span>
               </div>
               <div className="flex md:flex-row md:items-stretch items-center flex-col md:justify-between justify-normal">

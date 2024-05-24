@@ -117,7 +117,7 @@ const Posts = async ({ params }: { params: Post }) => {
           <NavBar />
           <SearchBar onSearch={params.onSearch} />
           <Sort />
-          <ul className="relative flex mt-[10vh] mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
+          <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
             {paginatedGames.map((item) => (
               <li
                 key={item.id}

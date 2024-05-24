@@ -11,7 +11,7 @@ const Sort = () => {
         data-dropdown-toggle="dropdownDelay"
         data-dropdown-delay="200"
         data-dropdown-trigger="hover"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700"
+        className=" text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700"
         type="button"
       >
         Sort By:
@@ -34,7 +34,7 @@ const Sort = () => {
       {/* <!-- Dropdown menu --> */}
       <div
         id="dropdownDelay"
-        className=" bg-white rounded-lg shadow w-44 dark:bg-gray-700"
+        className="group-hover:block hidden bg-white rounded-lg shadow w-44 dark:bg-gray-700"
       >
         <ul
           className="py-2 divide-y text-sm text-gray-700 dark:text-gray-200"
@@ -43,17 +43,17 @@ const Sort = () => {
           <li>
             <Link
               href="#"
-              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
             >
-              Dashboard
+              Rating
             </Link>
           </li>
           <li>
             <Link
               href="#"
-              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              className=" px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
             >
-              Settings
+              Release Date
             </Link>
           </li>
         </ul>

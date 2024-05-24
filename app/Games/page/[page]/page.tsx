@@ -27,7 +27,7 @@ interface PostResult {
 // https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
 const basePosterUrl = `https://api.rawg.io/api/games`;
 const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
-const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}&ordering=-metacritic`;
+const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}&platforms=1,4,7,18,187,186`;
 
 //this function uses regex to replace html tags inside the description
 const stripHtmlTags = (html: string) => {
@@ -36,26 +36,75 @@ const stripHtmlTags = (html: string) => {
 };
 
 const getGameData = async (url: string, page: number) => {
-  const res = await fetch(`${url}&page=${page}&platforms=4,18,187,186`);
-  const data = await res.json();
-  //this command iterates over the array of game results fetched from url
-  //for each game it creates a promise that fetched additional data about each game like its description
-  const gameDetailsPromises = data.results.map(async (game: PostResult) => {
-    const gameRes = await fetch(`${basePosterUrl}/${game.id}?${apiPosterKey}`);
-    const gameData = await gameRes.json();
-    const strippedDescription = stripHtmlTags(gameData.description);
-    //this return command is used to get the original game details plus its description
-    return { ...game, description: strippedDescription };
+  try {
+    const res = await fetch(`${url}&page=${page}`);
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    const data = await res.json();
+    if (!data || !data.results) {
+      throw new Error("Invalid data structure");
+    }
+
+    const gameDetailsPromises = data.results.map(async (game: PostResult) => {
+      const gameRes = await fetch(
+        `${basePosterUrl}/${game.id}?${apiPosterKey}`
+      );
+      if (!gameRes.ok) {
+        throw new Error(`HTTP error! status: ${gameRes.status}`);
+      }
+      const gameData = await gameRes.json();
+      const strippedDescription = stripHtmlTags(gameData.description);
+      return { ...game, description: strippedDescription };
+    });
+
+    const gameDetails = await Promise.all(gameDetailsPromises);
+    return { ...data, results: gameDetails };
+  } catch (error) {
+    console.error("Error fetching game data:", error);
+    throw error;
+  }
+};
+
+//function to sort the games based on their rating
+const sortGamesByRating = (games: PostResult[]) => {
+  return games.sort((a, b) => b.rating - a.rating);
+};
+
+//function to sort the games based on their release
+const sortGamesByRelease = (games: PostResult[]) => {
+  return games.sort((a, b) => {
+    const dateA = new Date(a.released);
+    const dateB = new Date(b.released);
+    return dateB.getTime() - dateA.getTime();
   });
-  // This ensures that all game details are fetched before proceeding.
-  const gameDetails = await Promise.all(gameDetailsPromises);
-  // this line returns an object with the original data fetched from (data) with the updated results property, where each game now includes an description.
-  return { ...data, results: gameDetails };
+};
+
+//mapping through all games to create a sorting order
+const fetchAndCombineData = async () => {
+  const pages = 9;
+  const allGames = [];
+
+  for (let i = 1; i <= pages; i++) {
+    const gameData: Post = await getGameData(apiPosterUrl, i);
+    allGames.push(...gameData.results);
+  }
+
+  return sortGamesByRelease(allGames);
+};
+
+//specifying the page size for the page results
+const paginateGames = (games: PostResult[], page: number, pageSize: number) => {
+  const start = (page - 1) * pageSize;
+  const end = start + pageSize;
+  return games.slice(start, end);
 };
 
 const Posts = async ({ params }: { params: Post }) => {
   try {
-    const gameData: Post = await getGameData(apiPosterUrl, params.page);
+    const gameData = await fetchAndCombineData();
+    const pageSize = 15;
+    const paginatedGames = paginateGames(gameData, params.page, pageSize);
 
     // Render the component
     return (
@@ -65,7 +114,7 @@ const Posts = async ({ params }: { params: Post }) => {
           <SearchBar onSearch={params.onSearch} />
           <Sort />
           <ul className="relative flex mt-[10vh] mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
-            {gameData.results.map((item) => (
+            {paginatedGames.map((item) => (
               <li
                 key={item.id}
                 className="text-slate-200 text-balance text-xl hover:scale-110 xl:w-3/5 w-4/5  transition-all duration-500 ease-in-out"

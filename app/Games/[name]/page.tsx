@@ -47,6 +47,16 @@ interface PostPage {
       slug: string;
     }
   ];
+  tags: [
+    {
+      id: number;
+      name: string;
+      slug: string;
+      language: string;
+      games_count: number;
+      image_background: string;
+    }
+  ];
   released: string;
   tba: boolean;
   background_image: string;
@@ -152,6 +162,20 @@ export default async function Games({ params }: { params: PostPage }) {
                         </span>
                       )
                     )}
+                </span>
+              </div>
+              <div className="flex md:flex-row md:items-stretch items-center flex-col md:justify-between justify-normal">
+                <span className="lg:text-lg text-2xl font-bold">Tags:</span>
+                <span className="text-balance">
+                  {game.tags &&
+                    game.tags.length > 0 &&
+                    game.tags.map((tag: { name: string }, index: number) => (
+                      <span key={index}>
+                        {index > 0 && ","}{" "}
+                        {/* Add slash if not the first platform */}
+                        {tag.name}
+                      </span>
+                    ))}
                 </span>
               </div>
               <div className="flex md:flex-row md:items-stretch items-center flex-col md:justify-between justify-normal">

@@ -80,17 +80,21 @@ const sortGamesByRelease = (games: PostResult[]) => {
   });
 };
 
-//mapping through all games to create a sorting order
+//mapping through all games to render the most known ones
 const fetchAndCombineData = async () => {
-  const pages = 9;
-  const allGames = [];
+  const currentYear = new Date().getFullYear();
+  const startYear = 2005; // Starting year
+  const endYear = currentYear; // Ending year
+  const topGamesPerYear = [];
 
-  for (let i = 1; i <= pages; i++) {
-    const gameData: Post = await getGameData(apiPosterUrl, i);
-    allGames.push(...gameData.results);
+  for (let year = endYear; year >= startYear; year--) {
+    const yearUrl = `${apiPosterUrl}&dates=${year}-01-01,${year}-12-31`;
+    const gameData: Post = await getGameData(yearUrl, 1);
+    const top5Games = gameData.results.slice(0, 10);
+    topGamesPerYear.push(...top5Games);
   }
 
-  return sortGamesByRelease(allGames);
+  return topGamesPerYear;
 };
 
 //specifying the page size for the page results

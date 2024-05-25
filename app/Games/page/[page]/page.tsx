@@ -23,6 +23,7 @@ interface PostResult {
   rating: number;
   rating_top: number;
   description: string;
+  description_raw: string;
 }
 // https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
 const basePosterUrl = `https://api.rawg.io/api/games`;
@@ -32,7 +33,8 @@ const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}&platforms=1,4,7,18,187,18
 //this function uses regex to replace html tags inside the description
 const stripHtmlTags = (html: string) => {
   const regex = /(<([^>]+)>)/gi;
-  return html.replace(regex, "");
+  const regex2 = /&#?\w+;/gi;
+  return html.replace(regex, "").replace(regex2, "'");
 };
 
 const getGameData = async (url: string, page: number) => {
@@ -54,8 +56,8 @@ const getGameData = async (url: string, page: number) => {
         throw new Error(`HTTP error! status: ${gameRes.status}`);
       }
       const gameData = await gameRes.json();
-      const strippedDescription = stripHtmlTags(gameData.description);
-      return { ...game, description: strippedDescription };
+      // const strippedDescription = stripHtmlTags(gameData.description);
+      return { ...game, description_raw: gameData.description_raw };
     });
 
     const gameDetails = await Promise.all(gameDetailsPromises);
@@ -115,7 +117,7 @@ const Posts = async ({ params }: { params: Post }) => {
       <div>
         <MainPage>
           <NavBar />
-          <SearchBar onSearch={params.onSearch} />
+          <SearchBar />
           <Sort />
           <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
             {paginatedGames.map((item) => (
@@ -149,7 +151,7 @@ const Posts = async ({ params }: { params: Post }) => {
                       <span className="text-white truncate">{item.name}</span>
                     </div>
                     <div className="overflow-hidden pl-4 pt-3 leading-9 ">
-                      <span className="">{item.description}</span>
+                      <span className="">{item.description_raw}</span>
                     </div>
                   </div>
                 </Link>

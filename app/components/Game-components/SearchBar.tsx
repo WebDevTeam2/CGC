@@ -6,10 +6,11 @@ import { useRef, useEffect, useState } from "react";
 // https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
 const basePosterUrl = `https://api.rawg.io/api/games`;
 const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
-const apiPosterUrl = basePosterUrl + "?" + apiPosterKey;
+const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}&platforms=1,4,7,18,187,186`;
 
-interface Props {
-  onSearch: (name: string) => void;
+interface Post {
+  page: number;
+  // onSearch: (name: string) => void;
 }
 interface PostResult {
   id: number;
@@ -23,7 +24,7 @@ interface PostResult {
   description: string;
 }
 
-const SearchBar: React.FC<Props> = ({ onSearch }) => {
+const SearchBar = () => {
   const [search, setSearch] = useState<PostResult[]>([]);
   const [originalSearch, setOriginalSearch] = useState<PostResult[]>([]);
   const [inputValue, setInputValue] = useState(""); // State to manage input value // State to manage input value
@@ -33,9 +34,28 @@ const SearchBar: React.FC<Props> = ({ onSearch }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(apiPosterUrl);
-        const data = await res.json();
-        setOriginalSearch(data.results);
+        const startYear = 2005; // Starting year
+        const endYear = 2024; // Ending year
+
+        // Function to fetch data for a single year
+        const fetchYearData = (year: number) => {
+          return fetch(
+            `${apiPosterUrl}&dates=${year}-01-01,${year}-12-31`
+          ).then((res) => res.json());
+        };
+
+        // Create an array of promises for each year
+        const fetchPromises = [];
+        for (let year = startYear; year <= endYear; year++) {
+          fetchPromises.push(fetchYearData(year));
+        }
+
+        // Wait for all promises to resolve
+        const allResults = await Promise.all(fetchPromises);
+        // Flatten the results array
+        const flattenedResults = allResults.flatMap((result) => result.results);
+
+        setOriginalSearch(flattenedResults);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -132,7 +152,7 @@ const SearchBar: React.FC<Props> = ({ onSearch }) => {
 
   const handleClick = () => {
     console.log(inputValue);
-    onSearch(inputValue);
+    // onSearch(inputValue);
   };
 
   return (
@@ -161,13 +181,13 @@ const SearchBar: React.FC<Props> = ({ onSearch }) => {
           }}
         >
           {search.map((result, index) => (
-            <span
+            <div
               key={index}
               onClick={() => handleAutoComplete(result.name)}
               className="search-result py-1.5 cursor-pointer flex flex-col pl-6 hover:scale-105 hover:text-stone-400 transition-all duration-300 ease-in-out"
             >
               {result.name}
-            </span>
+            </div>
           ))}
         </div>
         <button

@@ -63,7 +63,7 @@ interface PostPage {
   background_image_additional: string;
   rating: number;
   rating_top: number;
-  description: string;
+  description_raw: string;
 }
 
 const getGame = async (name: string) => {
@@ -189,7 +189,7 @@ export default async function Games({ params }: { params: PostPage }) {
           </div>
         </div>
         <span className="font-inter leading-8 border shadow-xl shadow-gray-600 relative md:w-1/2 w-4/5 md:h-[78vh] h-auto bg-stone-900/60 p-6 rounded-2xl md:text-balance text-center text-white text-xl transition-[width] md:overflow-hidden md:overflow-y-visible overflow-visible ease-in-out duration-300">
-          {game.description && stripHtmlTags(game.description)}
+          {game.description_raw && game.description_raw}
         </span>
       </div>
       {/* <Loader /> */}

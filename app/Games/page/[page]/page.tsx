@@ -138,14 +138,15 @@ const Posts = async ({ params }: { params: Post }) => {
                         className="border-r-4 rounded-l-lg border-white transition duration-500 ease-in-out"
                       />
                     </div>
+                    {/* item name on hover */}
                     <div
-                      className="h-0 opacity-0 group-hover:opacity-100 absolute flex group-hover:h-10 items-center justify-center border border-black bg-black rounded-b-xl text-md ml-3 p-1"
+                      className="h-0 opacity-0 group-hover:opacity-100 absolute flex group-hover:h-10 max-w-80 items-center border border-black bg-black rounded-b-xl text-md ml-3 p-1"
                       style={{
                         transition:
                           "height 0.5s ease-in-out, opacity 0.5s ease-in-out",
                       }}
                     >
-                      <span className="text-white">{item.name}</span>
+                      <span className="text-white truncate">{item.name}</span>
                     </div>
                     <div className="overflow-hidden pl-4 leading-9 ">
                       <span>{item.description}</span>

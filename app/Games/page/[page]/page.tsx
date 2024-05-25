@@ -132,8 +132,8 @@ const Posts = async ({ params }: { params: Post }) => {
                       <Image
                         src={item.background_image}
                         alt={item.name}
-                        priority={true}
                         fill={true}
+                        loading="lazy"
                         style={{ objectFit: "cover" }}
                         className="border-r-4 rounded-l-lg border-white transition duration-500 ease-in-out"
                       />
@@ -148,8 +148,8 @@ const Posts = async ({ params }: { params: Post }) => {
                     >
                       <span className="text-white truncate">{item.name}</span>
                     </div>
-                    <div className="overflow-hidden pl-4 leading-9 ">
-                      <span>{item.description}</span>
+                    <div className="overflow-hidden pl-4 pt-3 leading-9 ">
+                      <span className="">{item.description}</span>
                     </div>
                   </div>
                 </Link>

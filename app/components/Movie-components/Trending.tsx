@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/legacy/image";
-import TrendingToggleButton from "@/app/components/Movie-components/TrendingToggleButton";
 import { GiFilmProjector } from "react-icons/gi";
 
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";

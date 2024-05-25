@@ -98,3 +98,11 @@ body {
 .body-dark .rec-button:hover {
   background-color: #683e5e;
 }
+
+.body-light .trending-button {
+  background-color: #4c545b;
+}
+
+.body-dark .trending-button {
+  background-color: #683e5e;
+}

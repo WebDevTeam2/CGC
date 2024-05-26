@@ -1,31 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import {
-  RiNumber1,
-  RiNumber2,
-  RiNumber3,
-  RiNumber4,
-  RiNumber5,
-  RiNumber6,
-  RiNumber7,
-  RiNumber8,
-  RiNumber9,
-} from "react-icons/ri";
-
-const buttons = [
-  { icon: <RiNumber1 />, page: 1 },
-  { icon: <RiNumber2 />, page: 2 },
-  { icon: <RiNumber3 />, page: 3 },
-  { icon: <RiNumber4 />, page: 4 },
-  { icon: <RiNumber5 />, page: 5 },
-  { icon: <RiNumber6 />, page: 6 },
-  { icon: <RiNumber7 />, page: 7 },
-  { icon: <RiNumber8 />, page: 8 },
-  { icon: <RiNumber9 />, page: 9 },
-];
 
 const Buttons = () => {
+  const buttons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
   const [page, setPage] = useState(1);
   //Xrhsimopoioume ayto to useEffect gia na paroume to page number mesa apo to URL
   useEffect(() => {
@@ -53,13 +31,13 @@ const Buttons = () => {
       </Link>
       {buttons.map((item, index) => (
         <Link
-          href={`${item.page}`}
+          href={`${item}`}
           key={index}
-          className={`hover:scale-110 transition-all duration-200 border-none p-2.5 rounded-md  bg-stone-600 ${
-            item.page === page ? "bg-stone-800" : ""
+          className={`hover:scale-110 transition-all duration-200 border-none py-1.5 px-3 rounded-md  bg-stone-600 ${
+            item === page ? "bg-stone-800" : ""
           }`}
         >
-          {item.icon}
+          {item}
         </Link>
       ))}
       <Link href={`${Math.min(page + 1, 9)}`}>
@@ -67,7 +45,7 @@ const Buttons = () => {
           {">"}
         </button>
       </Link>
-      <Link href={`9`}>
+      <Link href={`14`}>
         <button className="hover:scale-110 transition-all duration-200 border-2 px-2 py-[0.2rem] rounded-md  bg-stone-600 border-stone-600">
           {">>"}
         </button>

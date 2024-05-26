@@ -92,8 +92,8 @@ const fetchAndCombineData = async () => {
   for (let year = endYear; year >= startYear; year--) {
     const yearUrl = `${apiPosterUrl}&dates=${year}-01-01,${year}-12-31`;
     const gameData: Post = await getGameData(yearUrl, 1);
-    const top5Games = gameData.results.slice(0, 10);
-    topGamesPerYear.push(...top5Games);
+    const top10Games = gameData.results.slice(0, 10);
+    topGamesPerYear.push(...top10Games);
   }
 
   return topGamesPerYear;
@@ -117,7 +117,7 @@ const Posts = async ({ params }: { params: Post }) => {
       <div>
         <MainPage>
           <NavBar />
-          <SearchBar />
+          <SearchBar games={gameData} />
           <Sort />
           <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
             {paginatedGames.map((item) => (

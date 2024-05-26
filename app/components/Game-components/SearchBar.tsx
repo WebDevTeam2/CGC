@@ -1,17 +1,14 @@
 "use client";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useRef, useEffect, useState } from "react";
+import Link from "next/link";
 
 // urls for the api
 // https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
-const basePosterUrl = `https://api.rawg.io/api/games`;
-const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
-const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}&platforms=1,4,7,18,187,186`;
+// const basePosterUrl = `https://api.rawg.io/api/games`;
+// const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
+// const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}&platforms=1,4,7,18,187,186`;
 
-interface Post {
-  page: number;
-  // onSearch: (name: string) => void;
-}
 interface PostResult {
   id: number;
   slug: string;
@@ -24,45 +21,14 @@ interface PostResult {
   description: string;
 }
 
-const SearchBar = () => {
+const SearchBar = ({ games }: { games: PostResult[] }) => {
   const [search, setSearch] = useState<PostResult[]>([]);
-  const [originalSearch, setOriginalSearch] = useState<PostResult[]>([]);
   const [inputValue, setInputValue] = useState(""); // State to manage input value // State to manage input value
   const [visible, setVisible] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1); // State to manage the selected index
   const resultsRef = useRef<HTMLFormElement>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const startYear = 2005; // Starting year
-        const endYear = 2024; // Ending year
-
-        // Function to fetch data for a single year
-        const fetchYearData = (year: number) => {
-          return fetch(
-            `${apiPosterUrl}&dates=${year}-01-01,${year}-12-31`
-          ).then((res) => res.json());
-        };
-
-        // Create an array of promises for each year
-        const fetchPromises = [];
-        for (let year = startYear; year <= endYear; year++) {
-          fetchPromises.push(fetchYearData(year));
-        }
-
-        // Wait for all promises to resolve
-        const allResults = await Promise.all(fetchPromises);
-        // Flatten the results array
-        const flattenedResults = allResults.flatMap((result) => result.results);
-
-        setOriginalSearch(flattenedResults);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, []);
-
+  //handle case as you are writting in the search
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setInputValue(value);
@@ -70,18 +36,25 @@ const SearchBar = () => {
     const lowercaseValue = value.toLowerCase();
     if (lowercaseValue === "") {
       setSearch([]);
+      setSelectedIndex(-1);
     } else {
-      setSearch(
-        originalSearch
-          .filter((post) => post.name.toLowerCase().startsWith(lowercaseValue))
-          .slice(0, 8)
-      );
-      console.log(search);
+      const filteredGames = games
+        .filter((game) =>
+          game.name
+            .toLowerCase()
+            .replaceAll(".", "")
+            .replaceAll("'", "")
+            .startsWith(lowercaseValue)
+        )
+        .slice(0, 8);
+
+      setSearch(filteredGames);
+      setSelectedIndex(-1);
     } // Update search results
   };
 
+  //check if clicked outside of input container
   useEffect(() => {
-    //if clicked outside of input container
     const mouseHandler = (e: MouseEvent) => {
       if (
         resultsRef.current &&
@@ -98,7 +71,7 @@ const SearchBar = () => {
     };
   }, []);
 
-  // keys functionality when rendering results
+  // keys and enter functionality when rendering results
   useEffect(() => {
     let selectedIndex = -1;
     const spans = document.querySelectorAll(".search-result");
@@ -123,6 +96,12 @@ const SearchBar = () => {
             span.classList.remove("text-stone-400");
           }
         });
+      } else if (e.key === "Enter" && selectedIndex >= 0) {
+        e.preventDefault(); // Prevent form submission
+        const selectedResult = search[selectedIndex];
+        if (selectedResult) {
+          window.location.href = `/Games/${selectedResult.slug}`;
+        }
       }
       if (selectedIndex !== -1) {
         setInputValue(search[selectedIndex].name);
@@ -142,32 +121,33 @@ const SearchBar = () => {
         inputElement.removeEventListener("keydown", handleKey);
       }
     };
-  }, [search]);
+  }, [search, selectedIndex]);
 
   //function to auto complete the input if user clicks on title
   const handleAutoComplete = (selected: string) => {
     setSearch([]);
     setInputValue(selected);
+    setSelectedIndex(-1);
   };
 
-  const handleClick = () => {
-    console.log(inputValue);
-    // onSearch(inputValue);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (selectedIndex >= 0 && search[selectedIndex]) {
+      window.location.href = `/Games/${search[selectedIndex].slug}`;
+    }
   };
 
   return (
     <form
       className="fixed top-0 h-[10vh] w-[30vw] mx-[35vw] z-10"
       ref={resultsRef}
-      onSubmit={(e) => {
-        e.preventDefault();
-      }}
+      onSubmit={handleSubmit}
     >
       <div className="sticky top-4 w-full text-lg">
         <input
           type="search"
           placeholder="Type Here"
-          className="subpixel-antialiased h-[6vh] w-full outline-none rounded-full bg-slate-200 pl-6 pr-11 text-slate-600"
+          className="subpixel-antialiased h-[6vh] w-full outline-none rounded-full bg-slate-200 pl-10 pr-11 text-slate-600"
           onChange={handleInputChange}
           value={inputValue}
         />
@@ -181,19 +161,17 @@ const SearchBar = () => {
           }}
         >
           {search.map((result, index) => (
-            <div
-              key={index}
-              onClick={() => handleAutoComplete(result.name)}
-              className="search-result py-1.5 cursor-pointer flex flex-col pl-6 hover:scale-105 hover:text-stone-400 transition-all duration-300 ease-in-out"
-            >
-              {result.name}
-            </div>
+            <Link key={index} href={`/Games/${result.slug}`}>
+              <div
+                onClick={() => handleAutoComplete(result.name)}
+                className="search-result py-1.5 cursor-pointer flex flex-col pl-6 hover:scale-105 hover:text-stone-400 transition-all duration-300 ease-in-out"
+              >
+                {result.name}
+              </div>
+            </Link>
           ))}
         </div>
-        <button
-          className="absolute right-0 top-1/2 -translate-y-1/2 p-3.5 bg-zinc-300 rounded-full hover:scale-110 transition duration-200"
-          onClick={handleClick}
-        >
+        <button className="absolute left-3 top-1/2 -translate-y-1/2 p-1 bg-slate-200 pointer-events-none">
           <AiOutlineSearch />
         </button>
       </div>

@@ -17,19 +17,47 @@ const Buttons = () => {
     }
   }, []);
 
+  // Determine the range of page buttons to display
+  const getPageRange = () => {
+    // returning 3 first pages
+    if (page === 1) {
+      return buttons.slice(0, 3);
+    }
+    // returning 4 first
+    else if (page === 2) {
+      return buttons.slice(0, 4);
+    }
+    // returning 3 last pages
+    else if (page === buttons.length) {
+      return buttons.slice(-3);
+    }
+    // returning 4 last
+    else if (page > buttons.length - 2) {
+      return buttons.slice(buttons.length - 4);
+    } else {
+      return [page - 2, page - 1, page, page + 1, page + 2];
+    }
+  };
+
+  const pageRange = getPageRange();
+
   return (
     <div className="relative text-white my-5 flex flex-row items-center justify-center gap-4 transition-all duration-200">
-      <Link href={`1`}>
-        <button className="hover:scale-110 transition-all duration-200 border-2 px-2 py-[0.2rem] rounded-md  bg-stone-600 border-stone-600">
-          {"<<"}
-        </button>
-      </Link>
-      <Link href={`${Math.max(page - 1, 1)}`}>
-        <button className="hover:scale-110 transition-all duration-200 border-2 px-2 py-[0.2rem] rounded-md  bg-stone-600 border-stone-600">
-          {"<"}
-        </button>
-      </Link>
-      {buttons.map((item, index) => (
+      {page > 3 && (
+        <Link href="1">
+          <button className="hover:scale-110 transition-all duration-200 border-2 px-2 py-[0.2rem] rounded-md bg-stone-600 border-stone-600">
+            {"<<"}
+          </button>
+        </Link>
+      )}
+      {page > 1 && (
+        <Link href={`${Math.max(page - 1, 1)}`}>
+          <button className="hover:scale-110 transition-all duration-200 border-2 px-2 py-[0.2rem] rounded-md bg-stone-600 border-stone-600">
+            {"<"}
+          </button>
+        </Link>
+      )}
+      {pageRange.map((item, index) => (
         <Link
           href={`${item}`}
           key={index}
@@ -40,16 +68,20 @@ const Buttons = () => {
           {item}
         </Link>
       ))}
-      <Link href={`${Math.min(page + 1, 9)}`}>
-        <button className="hover:scale-110 transition-all duration-200 border-2 px-2 py-[0.2rem] rounded-md  bg-stone-600 border-stone-600">
-          {">"}
-        </button>
-      </Link>
-      <Link href={`14`}>
-        <button className="hover:scale-110 transition-all duration-200 border-2 px-2 py-[0.2rem] rounded-md  bg-stone-600 border-stone-600">
-          {">>"}
-        </button>
-      </Link>
+      {page < 14 && (
+        <Link href={`${Math.min(page + 1, 14)}`}>
+          <button className="hover:scale-110 transition-all duration-200 border-2 px-2 py-[0.2rem] rounded-md  bg-stone-600 border-stone-600">
+            {">"}
+          </button>
+        </Link>
+      )}
+      {page < 12 && (
+        <Link href={`14`}>
+          <button className="hover:scale-110 transition-all duration-200 border-2 px-2 py-[0.2rem] rounded-md  bg-stone-600 border-stone-600">
+            {">>"}
+          </button>
+        </Link>
+      )}
     </div>
   );
 };

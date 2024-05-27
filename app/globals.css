@@ -27,3 +27,12 @@ input[type="search"]::-webkit-search-cancel-button {
     black
   );
 }
+/* .fade-bottom-s {
+  height: 5rem;
+  background-image: linear-gradient(
+    180deg,
+    transparent,
+    rgba(26, 26, 26, 0.61),
+    black
+  );
+} */

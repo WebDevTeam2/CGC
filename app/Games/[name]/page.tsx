@@ -86,6 +86,7 @@ const stripHtmlTags = (html: string) => {
 const roundNum = (rating_count: number) => {
   let newNum;
   if (rating_count >= 1000) newNum = (rating_count / 1000).toFixed(1) + "K";
+  else return rating_count;
   return newNum;
 };
 
@@ -132,9 +133,12 @@ export default async function Games({ params }: { params: PostPage }) {
   return (
     <div>
       <div className="bg-black fixed h-screen w-screen"></div>
-      <div className="flex items-center md:items-stretch flex-col md:flex-row pt-[10vh] h-[88vh] justify-evenly">
-        <div className="flex md:w-[38vw] w-[85vw] flex-col relative pt-0">
-          <div className="relative md:h-[45vh] h-[35vh] w-full">
+      <h1 className="text-white text-4xl pt-16 pb-14 relative h-12 flex items-center justify-center">
+        {game.name}
+      </h1>
+      <div className="flex items-center md:items-stretch flex-col md:flex-row h-[88vh] justify-evenly gap-20 pl-0">
+        <div className="flex md:w-[50vw] h-[75vh] w-[85vw] flex-col relative pl-10">
+          <div className="relative h-[35vh] w-full">
             <Image
               src={game.background_image}
               alt={game.name}
@@ -225,9 +229,8 @@ export default async function Games({ params }: { params: PostPage }) {
         ) : (
           <span>---</span>
         )}
+        <Screenshots params={params} />
       </div>
-      {/* <Loader /> */}
-      <Screenshots params={params} />
       {/* button functionality here */}
     </div>
   );

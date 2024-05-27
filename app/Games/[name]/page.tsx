@@ -86,7 +86,7 @@ const stripHtmlTags = (html: string) => {
 const roundNum = (rating_count: number) => {
   let newNum;
   if (rating_count >= 1000) newNum = (rating_count / 1000).toFixed(1) + "K";
-  return rating_count;
+  return newNum;
 };
 
 const convertToStars = (rating: number) => {

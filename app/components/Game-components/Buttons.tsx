@@ -1,10 +1,27 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { pageSize } from "@/app/constants/constants";
 
-const Buttons = () => {
+const Buttons = ({ gamesLength }: { gamesLength: number }) => {
   const buttons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
   const [page, setPage] = useState(1);
+  const startingYear = 2022;
+  let currentYear = new Date().getFullYear();
+  let yearsPassed = currentYear - startingYear;
+
+  console.log(gamesLength);
+  // Calculate the total number of pages
+  const totalPages = Math.ceil(gamesLength / pageSize);
+  //204/15 = 13.33 = 14
+
+  // Add a new button for each year that has passed
+  for (let i = 0; i < yearsPassed; i++) {
+    if (buttons.length < totalPages) {
+      buttons.push(buttons.length + 1);
+    }
+  }
+  console.log(buttons.length);
   //Xrhsimopoioume ayto to useEffect gia na paroume to page number mesa apo to URL
   useEffect(() => {
     const pathname = window.location.pathname;
@@ -38,7 +55,6 @@ const Buttons = () => {
       return [page - 2, page - 1, page, page + 1, page + 2];
     }
   };
-
   const pageRange = getPageRange();
 
   return (
@@ -68,15 +84,15 @@ const Buttons = () => {
           {item}
         </Link>
       ))}
-      {page < 14 && (
-        <Link href={`${Math.min(page + 1, 14)}`}>
+      {page < buttons.length && (
+        <Link href={`${Math.min(page + 1, buttons.length)}`}>
           <button className="hover:scale-110 transition-all duration-200 border-2 px-2 py-[0.2rem] rounded-md  bg-stone-600 border-stone-600">
             {">"}
           </button>
         </Link>
       )}
-      {page < 12 && (
-        <Link href={`14`}>
+      {page < buttons.length - 2 && (
+        <Link href={`${buttons.length}`}>
           <button className="hover:scale-110 transition-all duration-200 border-2 px-2 py-[0.2rem] rounded-md  bg-stone-600 border-stone-600">
             {">>"}
           </button>

@@ -17,6 +17,9 @@ interface PostPage {
   next: string;
   previous: string;
   count: number;
+  playtime: number;
+  reddit_logo: string;
+  ratings_count: number;
   results: [
     {
       id: number;
@@ -80,6 +83,12 @@ const stripHtmlTags = (html: string) => {
   return stripped;
 };
 
+const roundNum = (rating_count: number) => {
+  let newNum;
+  if (rating_count >= 1000) newNum = (rating_count / 1000).toFixed(1) + "K";
+  return rating_count;
+};
+
 const convertToStars = (rating: number) => {
   const newR: JSX.Element[] = [];
   const whole = Math.floor(rating);
@@ -138,21 +147,29 @@ export default async function Games({ params }: { params: PostPage }) {
             <div className="flex md:flex-col flex-row md:gap-2 gap-8 text-lg md:px-4 px-0 py-6 text-center font-inter text-white bg-black rounded-b-xl h-full">
               <div className="flex md:flex-row md:items-stretch items-center flex-col md:justify-between justify-normal">
                 <span className="lg:text-lg text-2xl font-bold">Rating:</span>
-                <span className="flex gap-1 text-white">
-                  {convertToStars(game.rating)}
-                </span>
+                {game.rating > 0 ? (
+                  <span className="flex gap-1 text-white">
+                    {convertToStars(game.rating)}({roundNum(game.ratings_count)}
+                    )
+                  </span>
+                ) : (
+                  <span>---</span>
+                )}
               </div>
               <div className="flex md:flex-row md:items-stretch items-center flex-col md:justify-between justify-normal">
                 <span className="lg:text-lg text-2xl font-bold">
                   Release date:{" "}
                 </span>
-                <span>{game.released}</span>
+                {game.released ? (
+                  <span className="flex gap-1 text-white">{game.released}</span>
+                ) : (
+                  <span>TBA</span>
+                )}
               </div>
               <div className="flex md:flex-row md:items-stretch items-center flex-col md:justify-between justify-normal">
                 <span className="lg:text-lg text-2xl font-bold">Genres:</span>
                 <span className="text-balance">
-                  {game.genres &&
-                    game.genres.length > 0 &&
+                  {game.genres && game.genres.length > 0 ? (
                     game.genres.map(
                       (genre: { name: string }, index: number) => (
                         <span key={index}>
@@ -161,7 +178,10 @@ export default async function Games({ params }: { params: PostPage }) {
                           {genre.name}
                         </span>
                       )
-                    )}
+                    )
+                  ) : (
+                    <span>---</span>
+                  )}
                 </span>
               </div>
               <div className="flex md:flex-row md:items-stretch items-center flex-col md:justify-between justify-normal">
@@ -169,8 +189,7 @@ export default async function Games({ params }: { params: PostPage }) {
                   Platforms:
                 </span>
                 <span className="md:text-end ">
-                  {game.platforms &&
-                    game.platforms.length > 0 &&
+                  {game.platforms && game.platforms.length > 0 ? (
                     game.platforms.map(
                       (
                         platform: { platform: { name: string } },
@@ -182,15 +201,30 @@ export default async function Games({ params }: { params: PostPage }) {
                           {platform.platform.name}
                         </span>
                       )
-                    )}
+                    )
+                  ) : (
+                    <span>---</span>
+                  )}
                 </span>
+              </div>
+              <div className="flex md:flex-row md:items-stretch items-center flex-col md:justify-between justify-normal">
+                <span className="lg:text-lg text-2xl font-bold">Playtime:</span>
+                {game.playtime > 0 ? (
+                  <span>about {game.playtime}h</span>
+                ) : (
+                  <span>---</span>
+                )}
               </div>
             </div>
           </div>
         </div>
-        <span className="font-inter leading-8 border shadow-xl shadow-gray-600 relative md:w-1/2 w-4/5 md:h-[78vh] h-auto bg-stone-900/60 p-6 rounded-2xl md:text-balance text-center text-white text-xl transition-[width] md:overflow-hidden md:overflow-y-visible overflow-visible ease-in-out duration-300">
-          {game.description_raw && game.description_raw}
-        </span>
+        {game.description_raw ? (
+          <span className="font-inter leading-8 border shadow-xl shadow-gray-600 relative md:w-1/2 w-4/5 md:h-[78vh] h-auto bg-stone-900/60 p-6 rounded-2xl md:text-balance text-center text-white text-xl transition-[width] md:overflow-hidden md:overflow-y-visible overflow-visible ease-in-out duration-300">
+            {game.description_raw}
+          </span>
+        ) : (
+          <span>---</span>
+        )}
       </div>
       {/* <Loader /> */}
       <Screenshots params={params} />

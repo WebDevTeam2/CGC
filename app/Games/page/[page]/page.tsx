@@ -7,6 +7,7 @@ import Buttons from "@/app/components/Game-components/Buttons";
 import MainPage from "@/app/components/Game-components/MainPage";
 import NavBar from "@/app/components/Game-components/NavBar";
 import SearchBar from "@/app/components/Game-components/SearchBar";
+import { pageSize } from "@/app/constants/constants";
 
 interface Post {
   page: number;
@@ -109,7 +110,6 @@ const paginateGames = (games: PostResult[], page: number, pageSize: number) => {
 const Posts = async ({ params }: { params: Post }) => {
   try {
     const gameData = await fetchAndCombineData();
-    const pageSize = 15;
     const paginatedGames = paginateGames(gameData, params.page, pageSize);
 
     // Render the component
@@ -158,7 +158,7 @@ const Posts = async ({ params }: { params: Post }) => {
               </li>
             ))}
           </ul>
-          <Buttons />
+          <Buttons gamesLength={gameData.length} />
         </MainPage>
       </div>
     );

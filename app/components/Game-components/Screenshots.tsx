@@ -53,18 +53,24 @@ const Screenshots = ({ params }: { params: PostPage }) => {
   return (
     <div className="relative w-1/3 flex flex-col gap-2 pt-12">
       <span className="font-bold text-white text-3xl">Screenshots</span>
-      <div className="grid grid-cols-2 gap-2 text-balance transition-all duration-200 text-white">
-        {screenshots?.map((item, index) => (
-          <Image
-            key={index}
-            role="button"
-            alt={`game_screenshot_${index}`}
-            src={item.image}
-            width={300}
-            height={300}
-            className={`hover:scale-105 transition-smooth hover:-translate-y-2 duration-200 ease-in-out`}
-          />
-        ))}
+      <div className="grid grid-cols-1 gap-2 text-balance transition-all duration-200 text-white">
+        {screenshots && screenshots.length > 0 ? (
+          screenshots.map((item, index) => (
+            <Image
+              key={index}
+              role="button"
+              alt={`game_screenshot_${index}`}
+              src={item.image}
+              width={300}
+              height={300}
+              className="transition-smooth hover:translate-x-4 duration-200 ease-in-out"
+            />
+          ))
+        ) : (
+          <span className="text-xl border-2 text-slate-200 text-center bg-slate-900 rounded-full p-4 w-64">
+            No Screenshots found for this game
+          </span>
+        )}
       </div>
     </div>
   );

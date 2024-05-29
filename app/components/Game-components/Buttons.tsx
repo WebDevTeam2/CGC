@@ -4,9 +4,11 @@ import Link from "next/link";
 import { pageSize } from "@/app/constants/constants";
 
 const Buttons = ({ gamesLength }: { gamesLength: number }) => {
-  const buttons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+  const buttons = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+  ];
   const [page, setPage] = useState(1);
-  const startingYear = 2022;
+  const startingYear = 2024;
   let currentYear = new Date().getFullYear();
   let yearsPassed = currentYear - startingYear;
 

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import "../style.css";
 import { IoStarSharp } from "react-icons/io5";
 import Screenshots from "@/app/components/Game-components/Screenshots";
 
@@ -133,7 +132,7 @@ export default async function Games({ params }: { params: PostPage }) {
   return (
     <div>
       <div className="bg-black fixed h-screen w-screen"></div>
-      <h1 className="text-white text-4xl pt-16 pb-14 relative h-12 flex items-center justify-center">
+      <h1 className="text-white font-inter text-4xl pt-16 pb-20 relative h-12 flex items-center justify-center">
         {game.name}
       </h1>
       <div className="flex items-center md:items-stretch flex-col md:flex-row h-[88vh] justify-evenly gap-20 pl-0">

@@ -1,9 +1,9 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
-import { FaArrowCircleDown } from "react-icons/fa";
 const basePosterUrl = `https://api.rawg.io/api/games/`;
 const apiPosterKey = "?key=f0e283f3b0da46e394e48ae406935d25";
+import styles from "../../Games/style.module.css";
 
 interface PostPage {
   id: number;
@@ -32,13 +32,6 @@ interface PostPage {
 const Screenshots = ({ params }: { params: PostPage }) => {
   //parsing specifically elements of the results array so that i can say item.image
   const [screenshots, setScreenshots] = useState<PostPage["results"]>();
-  const containerRef = useRef<HTMLDivElement | null>(null);
-
-  // const scrollDown = () => {
-  //   if (containerRef.current) {
-  //     containerRef.current.scrollBy({ top: 200, behavior: "smooth" });
-  //   }
-  // };
 
   useEffect(() => {
     const fetchScreenshots = async (slug: string) => {
@@ -58,9 +51,25 @@ const Screenshots = ({ params }: { params: PostPage }) => {
   }, []);
 
   return (
-    <div className="relative w-96 flex items-center flex-col gap-2 pr-12">
-      <span className="font-bold text-white text-3xl">Screenshots</span>
-      <div className="grid grid-cols-1 h-[72vh] overflow-hidden gap-2 text-balance transition-all duration-200 text-white">
+    <div className="relative w-[30vw] h-[80vh] -translate-y-4 flex items-center flex-col gap-2 pr-12">
+      <style jsx>{`
+        ::-webkit-scrollbar {
+          width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+          background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+          background: #888;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+          background: #555;
+        }
+      `}</style>
+      <span className="font-bold text-white text-3xl pb-2">Screenshots</span>
+      <div
+        className={`grid ${styles.scrollbar} overflow-hidden overflow-y-auto grid-cols-1 gap-2 text-balance transition-all duration-200 text-white`}
+      >
         {screenshots && screenshots.length > 0 ? (
           screenshots.map((item, index) => (
             <Image
@@ -78,11 +87,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
             Loading...
           </span>
         )}
-        <div className="absolute bottom-24 left-0 w-full h-20 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
       </div>
-      <button className="absolute bottom-20 left-26 text-white bg-black bg-opacity-50 text-4xl rounded-full">
-        <FaArrowCircleDown />
-      </button>
     </div>
   );
 };

@@ -93,7 +93,7 @@ const fetchAndCombineData = async () => {
   for (let year = endYear; year >= startYear; year--) {
     const yearUrl = `${apiPosterUrl}&dates=${year}-01-01,${year}-12-31`;
     const gameData: Post = await getGameData(yearUrl, 1);
-    const top10Games = gameData.results.slice(0, 10);
+    const top10Games = gameData.results.slice(0, 15);
     topGamesPerYear.push(...top10Games);
   }
 

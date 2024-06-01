@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { IoStarSharp } from "react-icons/io5";
 import Screenshots from "@/app/components/Game-components/Screenshots";
+import FullScreen from "@/app/components/Game-components/FullScreen";
 
 const basePosterUrl = `https://api.rawg.io/api/games/`;
 const apiPosterKey = "?key=f0e283f3b0da46e394e48ae406935d25";
@@ -131,7 +132,8 @@ export default async function Games({ params }: { params: PostPage }) {
 
   return (
     <div>
-      <div className="bg-black fixed h-screen w-screen"></div>
+      <FullScreen params={params} />
+      <div className="bg-black fixed h-screen w-screen "></div>
       <h1 className="text-white font-inter text-4xl pt-16 pb-20 relative h-12 flex items-center justify-center">
         {game.name}
       </h1>
@@ -230,6 +232,7 @@ export default async function Games({ params }: { params: PostPage }) {
         )}
         <Screenshots params={params} />
       </div>
+
       {/* button functionality here */}
     </div>
   );

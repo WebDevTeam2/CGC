@@ -40,7 +40,6 @@ interface TVShowResult {
 const getTVShowData = async (url: string) => {
   const res = await fetch(url, options);
   const data = await res.json();
-  console.log(url);
   return data;
 };
 

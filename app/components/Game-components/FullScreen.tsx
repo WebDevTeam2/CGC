@@ -32,6 +32,18 @@ interface PostPage {
 
 const FullScreen = ({ params }: { params: PostPage }) => {
   const [screenshots, setScreenshots] = useState<PostPage["results"]>();
+  const [startIndex, setStartIndex] = useState(0);
+  const [endIndex, setEndIndex] = useState(1);
+
+  const nextImage = () => {
+    setStartIndex(startIndex + 1);
+    setEndIndex(endIndex + 1);
+  };
+  const previousImage = () => {
+    setStartIndex(startIndex - 1);
+    setEndIndex(endIndex - 1);
+  };
+
   useEffect(() => {
     const fetchScreenshots = async (slug: string) => {
       try {
@@ -51,32 +63,47 @@ const FullScreen = ({ params }: { params: PostPage }) => {
 
   return (
     <div className="fixed w-full h-screen bg-black bg-opacity-75 flex justify-center items-center z-30">
-      <div className="transition-all duration-200 text-white">
+      <div className="relative h-full w-1/2 transition-all duration-200 text-white">
         {screenshots && screenshots.length > 0 ? (
-          screenshots.slice(0, 1).map((item, index) => (
-            <Image
-              key={index}
-              role="button"
-              alt={`game_screenshot_${index}`}
-              src={item.image}
-              width={800}
-              height={800}
-              className="transition-smooth duration-200 ease-in-out"
-              // onClick={() => openModal(item.image)}
-            />
-          ))
+          screenshots
+            .slice(startIndex, endIndex)
+            .map((item, index) => (
+              <Image
+                key={index}
+                role="button"
+                alt={`game_screenshot_${index}`}
+                src={item.image}
+                fill={true}
+                objectFit="contain"
+                className="transition-smooth duration-200 ease-in-out"
+              />
+            ))
         ) : (
           <span className="text-xl text-white text-center w-64">
             Loading...
           </span>
         )}
-        <div className="flex absolute w-96 pointer-events-none justify-between">
-          <button className="pointer-events-auto">
-            <GrFormPrevious />
-          </button>
-          <button className="pointer-events-auto">
-            <GrFormNext />
-          </button>
+        <div className="flex w-full translate-y-[50vh] text-4xl opacity-[.8] px-2 pointer-events-none justify-between">
+          {screenshots && startIndex > 0 ? (
+            <button
+              className="pointer-events-auto bg-black rounded-full"
+              onClick={previousImage}
+            >
+              <GrFormPrevious />
+            </button>
+          ) : (
+            <span className="invisible"></span>
+          )}
+          {screenshots && endIndex < screenshots.length ? (
+            <button
+              className="pointer-events-auto bg-black rounded-full"
+              onClick={nextImage}
+            >
+              <GrFormNext />
+            </button>
+          ) : (
+            <span className="invisible"></span>
+          )}
         </div>
       </div>
     </div>

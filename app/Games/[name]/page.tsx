@@ -132,12 +132,12 @@ export default async function Games({ params }: { params: PostPage }) {
 
   return (
     <div>
-      <FullScreen params={params} />
+      {/* <FullScreen params={params} /> */}
       <div className="bg-black fixed h-screen w-screen "></div>
       <h1 className="text-white font-inter text-4xl pt-16 pb-20 relative h-12 flex items-center justify-center">
         {game.name}
       </h1>
-      <div className="flex items-center md:items-stretch flex-col md:flex-row h-[88vh] justify-evenly gap-20 pl-0">
+      <div className="flex items-center md:items-stretch flex-col md:flex-row h-[75vh] justify-evenly gap-20 pl-0">
         <div className="flex md:w-[50vw] h-[75vh] w-[85vw] flex-col relative pl-10">
           <div className="relative h-[35vh] w-full">
             <Image

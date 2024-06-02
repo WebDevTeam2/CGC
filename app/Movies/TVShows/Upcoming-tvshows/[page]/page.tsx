@@ -1,44 +1,48 @@
-import Link from "next/link";
 import Image from "next/legacy/image";
-import { ImTv } from "react-icons/im";
+import { GiFilmProjector } from "react-icons/gi";
+import Link from "next/link";
+import UpComingTvShowsPages from "@/app/components/Movie-components/UpcomingTvShowsPages";
 
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/";
-const ApiURL = baseUrl + "trending/movie/day?page=1&language=en-US&" + apiKey;
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
 const options = {
-  method: 'GET',
+  method: "GET",
   headers: {
-    accept: 'application/json',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNDhhZDI4OWM2MGZkMGJiM2ZjOWNjMzY2MzkzN2Q3YiIsInN1YiI6IjY1ZTAzYzE3Zjg1OTU4MDE4NjRlZDFhNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.K9v9OEoLELW62sfz4qnwX7lhqTrmT6AipOjL0UlI5vY'
-  }
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNDhhZDI4OWM2MGZkMGJiM2ZjOWNjMzY2MzkzN2Q3YiIsInN1YiI6IjY1ZTAzYzE3Zjg1OTU4MDE4NjRlZDFhNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.K9v9OEoLELW62sfz4qnwX7lhqTrmT6AipOjL0UlI5vY",
+  },
 };
 
-interface Movie {
-  page: number;
-  results: MovieResult[];
-}
-
-interface MovieResult {
+interface TVResult {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
   id: number;
   original_language: string;
-  original_title: string;
+  original_name: string;
   overview: string;
   popularity: number;
   poster_path: string;
-  release_date: string;
-  title: string;
+  first_air_date: string;
+  name: string;
   video: boolean;
   vote_average: number;
   vote_count: number;
 }
 
-const getMovieData = async (url: string) => {
-  const res = await fetch(url, options);
+interface TVShows {
+  page: number;
+  results: TVResult[];
+}
+
+const getTvShowData = async (page: string) => {
+  const res = await fetch(
+    `${baseUrl}tv/airing_today?include_adult=false&page=${page}&${apiKey}`,
+    options
+  );
   const data = await res.json();
   return data;
 };
@@ -53,37 +57,31 @@ const getVotecolor = (vote: number) => {
   }
 };
 
-const Trending = async () => {
-  const movieData: Movie = await getMovieData(ApiURL);
-  const currentDate = new Date().toISOString().split('T')[0];
-
+const UpComing = async ({ params }: { params: { page: string } }) => {
+  const showData: TVShows = await getTvShowData(params.page.toString());
 
   return (
     <div>
       <div className="flex justify-end mr-10 mt-2">
         <Link
-          href={"/Movies/TVShows/Trending"}
+          href={"/Movies/Upcoming-Movies/1"}
           className="flex flex-row gap-2 mt-2 items-center justify-end p-2 rounded hover:opacity-85 transition duration-200 bg-[#4c545b] cursor-pointer text-[#d1d1d1] not-search trending-button"
         >
-          <ImTv style={{ flexShrink: 0, fontSize: "1.4rem" }} />
+          <GiFilmProjector style={{ flexShrink: 0, fontSize: "1.4rem" }} />
           <span>Movies</span>
         </Link>
       </div>
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-64 h-full mt-4 not-search">
-        {/* Check gia ama exei kykloforisei h tainia akoma */}
-        {movieData.results.filter((item) => item.release_date <= currentDate).map((item) => item.overview && (
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-64 mt-4 h-full not-search">
+        {showData.results.map((item) => (
           <Link
             key={item.id}
-            href={`/Movies/${item.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="lg:hover:scale-110 w-full transition duration-700 ease-in-out mb-6 "
+            href={`/Movies/TVShows/${item.id}`}
+            className="lg:hover:scale-110 w-full transition duration-700 ease-in-out mb-6 card-link"
           >
-            {/* image dipla apo ta images me ta noumera */}
-            <div className="sm:w-full sm:h-56 lg:w-full lg:h-96 p-10 relative">
+            <div className="sm:w-full sm:h-56 lg:w-full lg:h-96 p-10 relative image-div">
               <Image
                 src={`${imageURL}${item.poster_path}`}
-                alt={item.title}
+                alt={item.name}
                 layout="fill"
                 objectFit="cover"
                 className="w-full h-full absolute"
@@ -92,7 +90,7 @@ const Trending = async () => {
             </div>
             <div className="bg-[#4c545b] h-44 gap-4 cards">
               <div className="flex ml-4 text-white">
-                <h2 className="">{item.title}</h2>
+                <h2 className="">{item.name}</h2>
                 <span
                   className={`${getVotecolor(
                     item.vote_average
@@ -108,8 +106,11 @@ const Trending = async () => {
           </Link>
         ))}
       </div>
+      <div>
+        <UpComingTvShowsPages />
+      </div>
     </div>
   );
 };
 
-export default Trending;
+export default UpComing;

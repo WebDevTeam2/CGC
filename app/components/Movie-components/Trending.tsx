@@ -66,7 +66,7 @@ const Trending = async () => {
           className="flex flex-row gap-2 mt-2 items-center justify-end p-2 rounded hover:opacity-85 transition duration-200 bg-[#4c545b] cursor-pointer text-[#d1d1d1] not-search trending-button"
         >
           <ImTv style={{ flexShrink: 0, fontSize: "1.4rem" }} />
-          <span>Movies</span>
+          <span>TV Shows</span>
         </Link>
       </div>
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-64 h-full mt-4 not-search">
@@ -75,8 +75,6 @@ const Trending = async () => {
           <Link
             key={item.id}
             href={`/Movies/${item.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
             className="lg:hover:scale-110 w-full transition duration-700 ease-in-out mb-6 "
           >
             {/* image dipla apo ta images me ta noumera */}

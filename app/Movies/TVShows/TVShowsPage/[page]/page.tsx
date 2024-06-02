@@ -30,7 +30,7 @@ interface TVResult {
   overview: string;
   popularity: number;
   poster_path: string;
-  air_date: string;
+  first_air_date: string;
   name: string;
   video: boolean;
   vote_average: number;
@@ -95,12 +95,10 @@ const Page = async ({ params }: { params: TVShows }) => {
     <div>
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-64 mt-4 h-full not-search">
         {/* Kanw Link oloklhrh th kartela */}
-        {tvShowData.results.filter(item => item.air_date <= currentDate ).map((item) => (
+        {tvShowData.results.filter(item => item.first_air_date <= currentDate ).map((item) => (
           <Link
             key={item.id}
-            href={`/Movies/TVShows/${item.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={`/Movies/TVShows/${item.id}`}            
             className="lg:hover:scale-110 w-full transition duration-700 ease-in-out mb-6 card-link"
           >
             {/* image dipla apo ta images me ta noumera */}

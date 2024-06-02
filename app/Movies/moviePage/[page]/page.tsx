@@ -68,9 +68,7 @@ const Page = async ({ params }: { params: Movie }) => {
           .map((item) => (
             <Link
               key={item.id}
-              href={`/Movies/${item.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={`/Movies/${item.id}`}              
               className="lg:hover:scale-110 w-full transition duration-700 ease-in-out mb-6 card-link"
             >
               {/* image dipla apo ta images me ta noumera */}

@@ -4,8 +4,16 @@ import TvShowPages from "@/app/components/Movie-components/TvShowPages";
 
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/";
-const ApiURL = `${baseUrl}/discover/tv?page=1?&${apiKey}`;
 const imageURL = "https://image.tmdb.org/t/p/w500";
+
+const options = {
+  method: 'GET',
+  headers: {
+    accept: 'application/json',
+    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNDhhZDI4OWM2MGZkMGJiM2ZjOWNjMzY2MzkzN2Q3YiIsInN1YiI6IjY1ZTAzYzE3Zjg1OTU4MDE4NjRlZDFhNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.K9v9OEoLELW62sfz4qnwX7lhqTrmT6AipOjL0UlI5vY'
+  }
+};
+
 
 interface TVShows {
   page: number;
@@ -64,7 +72,7 @@ interface Seasons {
 }
 
 const getTVShowData = async (page: string) => {
-  const res = await fetch(`${baseUrl}discover/tv?include_adult=false&page=${page}&${apiKey}`);
+  const res = await fetch(`${baseUrl}discover/tv?include_adult=false&page=${page}&${apiKey}`, options);
   const data = await res.json();
   return data;
 };
@@ -81,12 +89,13 @@ const getVotecolor = (vote: number) => {
 
 const Page = async ({ params }: { params: TVShows }) => {
   const tvShowData: TVShows = await getTVShowData(`${params.page.toString()}`);
+  const currentDate = new Date().toISOString().split('T')[0];
 
   return (
     <div>
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-64 mt-4 h-full not-search">
         {/* Kanw Link oloklhrh th kartela */}
-        {tvShowData.results.map((item) => (
+        {tvShowData.results.filter(item => item.air_date <= currentDate ).map((item) => (
           <Link
             key={item.id}
             href={`/Movies/TVShows/${item.id}`}

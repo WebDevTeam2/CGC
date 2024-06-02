@@ -7,6 +7,14 @@ const baseUrl = "https://api.themoviedb.org/3/";
 const ApiURL = baseUrl + "trending/movie/day?page=1&language=en-US&" + apiKey;
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
+const options = {
+  method: 'GET',
+  headers: {
+    accept: 'application/json',
+    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNDhhZDI4OWM2MGZkMGJiM2ZjOWNjMzY2MzkzN2Q3YiIsInN1YiI6IjY1ZTAzYzE3Zjg1OTU4MDE4NjRlZDFhNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.K9v9OEoLELW62sfz4qnwX7lhqTrmT6AipOjL0UlI5vY'
+  }
+};
+
 interface Movie {
   page: number;
   results: MovieResult[];
@@ -30,7 +38,7 @@ interface MovieResult {
 }
 
 const getMovieData = async (url: string) => {
-  const res = await fetch(url);
+  const res = await fetch(url, options);
   const data = await res.json();
   return data;
 };
@@ -47,6 +55,8 @@ const getVotecolor = (vote: number) => {
 
 const Trending = async () => {
   const movieData: Movie = await getMovieData(ApiURL);
+  const currentDate = new Date().toISOString().split('T')[0];
+
 
   return (
     <div>
@@ -60,8 +70,8 @@ const Trending = async () => {
         </Link>
       </div>
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-64 h-full mt-4 not-search">
-        {/* Kanw Link oloklhrh th kartela */}
-        {movieData.results.map((item) => (
+        {/* Check gia ama exei kykloforisei h tainia akoma */}
+        {movieData.results.filter((item) => item.release_date <= currentDate).map((item) => item.overview && (
           <Link
             key={item.id}
             href={`/Movies/${item.id}`}

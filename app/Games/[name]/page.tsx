@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { IoStarSharp } from "react-icons/io5";
 import Screenshots from "@/app/components/Game-components/Screenshots";
-import FullScreen from "@/app/components/Game-components/FullScreen";
 
 const basePosterUrl = `https://api.rawg.io/api/games/`;
 const apiPosterKey = "?key=f0e283f3b0da46e394e48ae406935d25";
@@ -76,13 +75,6 @@ const getGame = async (name: string) => {
   return data;
 };
 
-//this function uses regex to replace html tags inside the description
-const stripHtmlTags = (html: string) => {
-  const regex = /(<([^>]+)>)/gi;
-  const stripped = html.replace(regex, "");
-  return stripped;
-};
-
 const roundNum = (rating_count: number) => {
   let newNum;
   if (rating_count >= 1000) newNum = (rating_count / 1000).toFixed(1) + "K";
@@ -132,9 +124,8 @@ export default async function Games({ params }: { params: PostPage }) {
 
   return (
     <div>
-      {/* <FullScreen params={params} /> */}
       <div className="bg-black fixed h-screen w-screen "></div>
-      <h1 className="text-white font-inter text-4xl pt-16 pb-20 relative h-12 flex items-center justify-center">
+      <h1 className="text-white font-inter text-4xl pt-16 pb-16 relative h-12 flex items-center justify-center">
         {game.name}
       </h1>
       <div className="flex items-center md:items-stretch flex-col md:flex-row h-[75vh] justify-evenly gap-20 pl-0">

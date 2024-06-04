@@ -3,12 +3,6 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 
-// urls for the api
-// https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
-// const basePosterUrl = `https://api.rawg.io/api/games`;
-// const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
-// const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}&platforms=1,4,7,18,187,186`;
-
 interface PostResult {
   id: number;
   slug: string;
@@ -46,7 +40,7 @@ const SearchBar = ({ games }: { games: PostResult[] }) => {
             .replaceAll("'", "")
             .startsWith(lowercaseValue)
         )
-        .slice(0, 8);
+        .slice(0, 12);
 
       setSearch(filteredGames);
       setSelectedIndex(-1);

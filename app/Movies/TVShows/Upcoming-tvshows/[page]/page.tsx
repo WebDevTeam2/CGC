@@ -1,24 +1,20 @@
 import Image from "next/legacy/image";
+import { GiFilmProjector } from "react-icons/gi";
 import Link from "next/link";
-import TvShowPages from "@/app/components/Movie-components/TvShowPages";
+import UpComingTvShowsPages from "@/app/components/Movie-components/UpcomingTvShowsPages";
 
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
 const options = {
-  method: 'GET',
+  method: "GET",
   headers: {
-    accept: 'application/json',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNDhhZDI4OWM2MGZkMGJiM2ZjOWNjMzY2MzkzN2Q3YiIsInN1YiI6IjY1ZTAzYzE3Zjg1OTU4MDE4NjRlZDFhNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.K9v9OEoLELW62sfz4qnwX7lhqTrmT6AipOjL0UlI5vY'
-  }
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNDhhZDI4OWM2MGZkMGJiM2ZjOWNjMzY2MzkzN2Q3YiIsInN1YiI6IjY1ZTAzYzE3Zjg1OTU4MDE4NjRlZDFhNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.K9v9OEoLELW62sfz4qnwX7lhqTrmT6AipOjL0UlI5vY",
+  },
 };
-
-
-interface TVShows {
-  page: number;
-  results: TVResult[];
-}
 
 interface TVResult {
   adult: boolean;
@@ -37,42 +33,16 @@ interface TVResult {
   vote_count: number;
 }
 
-interface TVDetails {
-  adult: boolean;
-  backdrop_path: string;
-  genres: Genre[];
-  id: number;
-  original_language: string;
-  original_name: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  air_date: string;
-  name: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-  seasons: Seasons[];
+interface TVShows {
+  page: number;
+  results: TVResult[];
 }
 
-interface Genre {
-  id: number;
-  name: string;
-}
-
-interface Seasons {
-  air_date: string;
-  episode_count: number;
-  id: number;
-  name: string;
-  overview: string;
-  poster_path: string;
-  season_number: number;
-  vote_average: number;
-}
-
-const getTVShowData = async (page: string) => {
-  const res = await fetch(`${baseUrl}discover/tv?include_adult=false&page=${page}&${apiKey}`, options);
+const getTvShowData = async (page: string) => {
+  const res = await fetch(
+    `${baseUrl}tv/airing_today?include_adult=false&page=${page}&${apiKey}`,
+    options
+  );
   const data = await res.json();
   return data;
 };
@@ -87,21 +57,27 @@ const getVotecolor = (vote: number) => {
   }
 };
 
-const Page = async ({ params }: { params: TVShows }) => {
-  const tvShowData: TVShows = await getTVShowData(`${params.page.toString()}`);
-  const currentDate = new Date().toISOString().split('T')[0];
+const UpComing = async ({ params }: { params: { page: string } }) => {
+  const showData: TVShows = await getTvShowData(params.page.toString());
 
   return (
     <div>
+      <div className="flex justify-end mr-10 mt-2">
+        <Link
+          href={"/Movies/Upcoming-Movies/1"}
+          className="flex flex-row gap-2 mt-2 items-center justify-end p-2 rounded hover:opacity-85 transition duration-200 bg-[#4c545b] cursor-pointer text-[#d1d1d1] not-search trending-button"
+        >
+          <GiFilmProjector style={{ flexShrink: 0, fontSize: "1.4rem" }} />
+          <span>Movies</span>
+        </Link>
+      </div>
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-64 mt-4 h-full not-search">
-        {/* Kanw Link oloklhrh th kartela */}
-        {tvShowData.results.filter(item => item.first_air_date <= currentDate ).map((item) => (
+        {showData.results.map((item) => (
           <Link
             key={item.id}
-            href={`/Movies/TVShows/${item.id}`}            
+            href={`/Movies/TVShows/${item.id}`}
             className="lg:hover:scale-110 w-full transition duration-700 ease-in-out mb-6 card-link"
           >
-            {/* image dipla apo ta images me ta noumera */}
             <div className="sm:w-full sm:h-56 lg:w-full lg:h-96 p-10 relative image-div">
               <Image
                 src={`${imageURL}${item.poster_path}`}
@@ -130,11 +106,11 @@ const Page = async ({ params }: { params: TVShows }) => {
           </Link>
         ))}
       </div>
-      <div className="">
-        <TvShowPages />
+      <div>
+        <UpComingTvShowsPages />
       </div>
     </div>
   );
 };
 
-export default Page;
+export default UpComing;

@@ -70,9 +70,7 @@ const searchPage = async ({ params }: any) => {
             key={item.id}
             href={`/${item.media_type === "tv" ? "Movies/TVShows" : "Movies"}/${
               item.id
-            }`}
-            target="_blank"
-            rel="noopener noreferrer"
+            }`}            
             className="lg:hover:scale-110 w-full transition duration-700 ease-in-out mb-6 card-link"
           >
             {/* image dipla apo ta images me ta noumera */}

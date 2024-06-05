@@ -1,3 +1,18 @@
+// 187 = Playstation 5
+// 18 = Playstation 4
+// 19 = PS-Vita
+// 17 = PSP
+// 16 = Playstation 3
+// 15 = Playstation 2
+// // Check if the game is available on PlayStation platforms
+//
+
+// if (isPlayStationAvailable) {
+//   return { ...game, description_raw: gameData.description_raw };
+// }
+// return null;
+// Import necessary dependencies
+
 // Import necessary dependencies
 import Link from "next/link";
 import Image from "next/image";
@@ -15,15 +30,6 @@ interface Post {
   onSearch: (name: string) => void;
 }
 interface PostResult {
-  platforms: [
-    {
-      platform: {
-        id: number;
-        name: string;
-        slug: string;
-      };
-    }
-  ];
   id: number;
   slug: string;
   name: string;
@@ -38,11 +44,11 @@ interface PostResult {
 // https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
 const basePosterUrl = `https://api.rawg.io/api/games`;
 const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
-const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}`;
+const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}&platforms=1,4,7,18,187,186`;
 
-const getGameData = async (url: string, platform: string, page: number) => {
+const getGameData = async (url: string, page: number) => {
   try {
-    const res = await fetch(`${url}&platforms=${platform}&page=${page}`);
+    const res = await fetch(`${url}&page=${page}`);
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
@@ -59,24 +65,26 @@ const getGameData = async (url: string, platform: string, page: number) => {
         throw new Error(`HTTP error! status: ${gameRes.status}`);
       }
       const gameData = await gameRes.json();
-      // Filter games that are only on PlayStation platforms
+
+      // Check if the game is available on PlayStation platforms
       const platformIds = gameData.platforms.map(
         (p: { platform: { id: number } }) => p.platform.id
       );
-      const isExclusive = platformIds.every((id: number) =>
-        [18, 16, 15, 27, 19, 167, 169].includes(id)
+      const isPlayStationAvailable = platformIds.some((id: number) =>
+        [15, 16, 17, 18, 19, 187].includes(id)
       );
 
-      if (isExclusive) {
+      if (isPlayStationAvailable) {
         return { ...game, description_raw: gameData.description_raw };
       }
       return null;
     });
 
     const gameDetails = await Promise.all(gameDetailsPromises);
+
     return {
       ...data,
-      results: gameDetails.filter((game: PostResult | null) => game !== null),
+      results: gameDetails.filter((game: PostResult) => game !== null),
     };
   } catch (error) {
     console.error("Error fetching game data:", error);
@@ -107,11 +115,7 @@ const fetchAndCombineData = async () => {
 
   for (let year = endYear; year >= startYear; year--) {
     const yearUrl = `${apiPosterUrl}&dates=${year}-01-01,${year}-12-31`;
-    const gameData: Post = await getGameData(
-      yearUrl,
-      "167,18,16,15,19,169,27",
-      1
-    );
+    const gameData: Post = await getGameData(yearUrl, 1);
     const top10Games = gameData.results.slice(0, 15);
     topGamesPerYear.push(...top10Games);
   }

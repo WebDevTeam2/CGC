@@ -5,13 +5,25 @@
 // 16 = Playstation 3
 // 15 = Playstation 2
 // // Check if the game is available on PlayStation platforms
-//
 
-// if (isPlayStationAvailable) {
-//   return { ...game, description_raw: gameData.description_raw };
-// }
-// return null;
-// Import necessary dependencies
+// 1 = pc
+// 2 = playstation
+// 3 = xbox
+// 7 = nintendo
+
+// Platform IDs
+// Function to extract the platform from the URL
+const extractPlatformFromUrl = (url: string): number | null => {
+  const platformMap: { [key: string]: number } = {
+    pc: 1,
+    playstation: 2,
+    xbox: 3,
+    nintendo: 7,
+  };
+  const platformMatch = url.match(/\/Games\/([^/]+)\//);
+  const platform = platformMatch ? platformMatch[1] : null;
+  return platform ? platformMap[platform] : null;
+};
 
 // Import necessary dependencies
 import Link from "next/link";
@@ -24,11 +36,21 @@ import NavBar from "@/app/components/Game-components/NavBar";
 import SearchBar from "@/app/components/Game-components/SearchBar";
 import { pageSize } from "@/app/constants/constants";
 
+interface Platform {
+  platform: {
+    id: number;
+    name: string;
+    slug: string;
+  };
+}
+
 interface Post {
+  url: string;
   page: number;
   results: PostResult[];
   onSearch: (name: string) => void;
 }
+
 interface PostResult {
   id: number;
   slug: string;
@@ -40,13 +62,18 @@ interface PostResult {
   rating_top: number;
   description: string;
   description_raw: string;
+  parent_platforms: Platform[];
 }
 // https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
 const basePosterUrl = `https://api.rawg.io/api/games`;
-const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
-const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}&platforms=1,4,7,18,187,186`;
+const apiPosterKey = "key=8829ad858fa54d269d117a637dbae7c6";
+const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}`;
 
-const getGameData = async (url: string, page: number) => {
+const getGameData = async (
+  url: string,
+  page: number,
+  platformId: number | null
+) => {
   try {
     const res = await fetch(`${url}&page=${page}`);
     if (!res.ok) {
@@ -67,14 +94,13 @@ const getGameData = async (url: string, page: number) => {
       const gameData = await gameRes.json();
 
       // Check if the game is available on PlayStation platforms
-      const platformIds = gameData.platforms.map(
+      const platformIds = gameData.parent_platforms.map(
         (p: { platform: { id: number } }) => p.platform.id
       );
-      const isPlayStationAvailable = platformIds.some((id: number) =>
-        [15, 16, 17, 18, 19, 187].includes(id)
-      );
+      const isAvailable =
+        platformId !== null && platformIds.includes(platformId);
 
-      if (isPlayStationAvailable) {
+      if (isAvailable) {
         return { ...game, description_raw: gameData.description_raw };
       }
       return null;
@@ -107,7 +133,7 @@ const sortGamesByRelease = (games: PostResult[]) => {
 };
 
 //mapping through all games to render the most known ones
-const fetchAndCombineData = async () => {
+const fetchAndCombineData = async (platformId: number | null) => {
   const currentYear = new Date().getFullYear();
   const startYear = 2005; // Starting year
   const endYear = currentYear; // Ending year
@@ -115,7 +141,7 @@ const fetchAndCombineData = async () => {
 
   for (let year = endYear; year >= startYear; year--) {
     const yearUrl = `${apiPosterUrl}&dates=${year}-01-01,${year}-12-31`;
-    const gameData: Post = await getGameData(yearUrl, 1);
+    const gameData: Post = await getGameData(yearUrl, 1, platformId);
     const top10Games = gameData.results.slice(0, 15);
     topGamesPerYear.push(...top10Games);
   }
@@ -131,15 +157,27 @@ const paginateGames = (games: PostResult[], page: number, pageSize: number) => {
 };
 
 const Posts = async ({ params }: { params: Post }) => {
+  // Extract platform from the URL
   try {
-    const gameData = await fetchAndCombineData();
+    const platformId = extractPlatformFromUrl(params.url);
+    const gameData = await fetchAndCombineData(platformId);
     const paginatedGames = paginateGames(gameData, params.page, pageSize);
-
+    // console.log(gameData.length);
     // Render the component
+
+    // Extract and flatten platforms, ensuring they are unique
+    const platforms = Array.from(
+      new Set(
+        gameData.flatMap((game) =>
+          game.parent_platforms.map((p) => JSON.stringify(p.platform))
+        )
+      )
+    ).map((str) => ({ platform: JSON.parse(str) }));
+    // console.log(platforms);
     return (
       <div>
         <MainPage>
-          <NavBar />
+          <NavBar parent_platforms={platforms} />
           <SearchBar games={gameData} />
           <Sort />
           <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">

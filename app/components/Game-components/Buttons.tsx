@@ -4,17 +4,15 @@ import Link from "next/link";
 import { pageSize } from "@/app/constants/constants";
 
 const Buttons = ({ gamesLength }: { gamesLength: number }) => {
-  const buttons = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-  ];
+  const totalPages = Math.ceil(gamesLength / pageSize);
+  let buttons = Array.from({ length: totalPages }, (_, i) => i + 1);
   const [page, setPage] = useState(1);
   const startingYear = 2024;
   let currentYear = new Date().getFullYear();
   let yearsPassed = currentYear - startingYear;
 
-  console.log(gamesLength);
+  // console.log(gamesLength);
   // Calculate the total number of pages
-  const totalPages = Math.ceil(gamesLength / pageSize);
   //204/15 = 13.33 = 14
 
   // Add a new button for each year that has passed
@@ -23,7 +21,7 @@ const Buttons = ({ gamesLength }: { gamesLength: number }) => {
       buttons.push(buttons.length + 1);
     }
   }
-  console.log(buttons.length);
+  // console.log(buttons.length);
   //Xrhsimopoioume ayto to useEffect gia na paroume to page number mesa apo to URL
   useEffect(() => {
     const pathname = window.location.pathname;

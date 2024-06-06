@@ -6,7 +6,25 @@ import { BsNintendoSwitch } from "react-icons/bs";
 import { SiEpicgames } from "react-icons/si";
 import Link from "next/link";
 
-const NavBar = () => {
+interface Platform {
+  platform: {
+    id: number;
+    name: string;
+    slug: string;
+  };
+}
+interface PostPage {
+  parent_platforms: Platform[];
+}
+
+const logos = [
+  { component: <FaXbox />, key: "xbox", slug: "xbox" },
+  { component: <FaPlaystation />, key: "playstation", slug: "playstation" },
+  { component: <BsNintendoSwitch />, key: "nintendo", slug: "nintendo" },
+  { component: <SiEpicgames />, key: "epicgames", slug: "pc" },
+];
+
+const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
   return (
     <nav className="w-full flex justify-between px-3 sticky top-0 bg-black h-[10vh] z-10">
       <div className="left-side-elements h-full">
@@ -18,18 +36,24 @@ const NavBar = () => {
       </div>
       <div className="right-side-elements h-full">
         <div className="lg:flex h-full text-4xl items-center hidden gap-3">
-          <button className="text-stone-200 transition delay-50 p-2 rounded-full hover:scale-125">
-            <FaXbox />
-          </button>
-          <button className="text-stone-200 transition delay-50 p-2 rounded-full hover:scale-125">
-            <FaPlaystation />
-          </button>
-          <button className="text-stone-200 transition delay-50 p-2 rounded-full hover:scale-125">
-            <BsNintendoSwitch />
-          </button>
-          <button className="text-stone-200 transition delay-50 p-2 rounded-full hover:scale-125">
-            <SiEpicgames />
-          </button>
+          {parent_platforms.length > 0 &&
+            parent_platforms.map((platform, index) => {
+              const logo = logos.find(
+                (logo) => logo.slug === platform.platform.slug
+              );
+              return (
+                logo && (
+                  <Link
+                    href={`/Games/${platform.platform.slug}/page/1`}
+                    key={index}
+                  >
+                    <button className="text-stone-200 transition delay-50 p-2 rounded-full hover:scale-125">
+                      {logo.component}
+                    </button>
+                  </Link>
+                )
+              );
+            })}
           <Link href={"Games/Signup"}>
             <button className="text-stone-200 transition delay-50 p-2 rounded-full hover:scale-125">
               <IoIosLogIn />
@@ -40,5 +64,5 @@ const NavBar = () => {
     </nav>
   );
 };
-
+//
 export default NavBar;

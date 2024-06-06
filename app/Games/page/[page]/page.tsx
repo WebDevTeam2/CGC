@@ -9,11 +9,20 @@ import NavBar from "@/app/components/Game-components/NavBar";
 import SearchBar from "@/app/components/Game-components/SearchBar";
 import { pageSize } from "@/app/constants/constants";
 
+interface Platform {
+  platform: {
+    id: number;
+    name: string;
+    slug: string;
+  };
+}
+
 interface Post {
   page: number;
   results: PostResult[];
   onSearch: (name: string) => void;
 }
+
 interface PostResult {
   id: number;
   slug: string;
@@ -25,10 +34,11 @@ interface PostResult {
   rating_top: number;
   description: string;
   description_raw: string;
+  parent_platforms: Platform[];
 }
 // https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
 const basePosterUrl = `https://api.rawg.io/api/games`;
-const apiPosterKey = "key=f0e283f3b0da46e394e48ae406935d25";
+const apiPosterKey = "key=8829ad858fa54d269d117a637dbae7c6";
 const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}&platforms=1,4,7,18,187,186`;
 
 const getGameData = async (url: string, page: number) => {
@@ -104,12 +114,19 @@ const Posts = async ({ params }: { params: Post }) => {
   try {
     const gameData = await fetchAndCombineData();
     const paginatedGames = paginateGames(gameData, params.page, pageSize);
+    // console.log(gameData.length);
 
-    // Render the component
+    const platforms = Array.from(
+      new Set(
+        gameData.flatMap((game) =>
+          game.parent_platforms.map((p) => JSON.stringify(p.platform))
+        )
+      )
+    ).map((str) => ({ platform: JSON.parse(str) }));
     return (
       <div>
         <MainPage>
-          <NavBar />
+          <NavBar parent_platforms={platforms} />
           <SearchBar games={gameData} />
           <Sort />
           <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">

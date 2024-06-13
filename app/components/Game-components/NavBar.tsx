@@ -13,15 +13,12 @@ interface Platform {
     slug: string;
   };
 }
-interface PostPage {
-  parent_platforms: Platform[];
-}
 
 const logos = [
-  { component: <FaXbox />, key: "xbox", slug: "xbox" },
-  { component: <FaPlaystation />, key: "playstation", slug: "playstation" },
-  { component: <BsNintendoSwitch />, key: "nintendo", slug: "nintendo" },
-  { component: <SiEpicgames />, key: "epicgames", slug: "pc" },
+  { component: <FaXbox />, key: 3, slug: "xbox" },
+  { component: <FaPlaystation />, key: 2, slug: "playstation" },
+  { component: <BsNintendoSwitch />, key: 7, slug: "nintendo" },
+  { component: <SiEpicgames />, key: 1, slug: "pc" },
 ];
 
 const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
@@ -64,5 +61,5 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
     </nav>
   );
 };
-//
+
 export default NavBar;

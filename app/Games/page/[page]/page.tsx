@@ -1,4 +1,3 @@
-// Import necessary dependencies
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
@@ -8,7 +7,6 @@ import MainPage from "@/app/components/Game-components/MainPage";
 import NavBar from "@/app/components/Game-components/NavBar";
 import SearchBar from "@/app/components/Game-components/SearchBar";
 import { pageSize } from "@/app/constants/constants";
-
 interface Platform {
   platform: {
     id: number;
@@ -16,7 +14,6 @@ interface Platform {
     slug: string;
   };
 }
-
 interface Post {
   page: number;
   results: PostResult[];
@@ -38,7 +35,7 @@ interface PostResult {
 }
 // https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
 const basePosterUrl = `https://api.rawg.io/api/games`;
-const apiPosterKey = "key=8829ad858fa54d269d117a637dbae7c6";
+const apiPosterKey = "key=076eda7a1c0e441eac147a3b0fe9b586";
 const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}&platforms=1,4,7,18,187,186`;
 
 const getGameData = async (url: string, page: number) => {
@@ -86,21 +83,38 @@ const sortGamesByRelease = (games: PostResult[]) => {
   });
 };
 
-//mapping through all games to render the most known ones
-const fetchAndCombineData = async () => {
-  const currentYear = new Date().getFullYear();
-  const startYear = 2005; // Starting year
-  const endYear = currentYear; // Ending year
-  const topGamesPerYear = [];
+// Function to shuffle an array
+// T is used for any type
+const shuffleArray = <T,>(array: T[]): void => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+};
 
-  for (let year = endYear; year >= startYear; year--) {
-    const yearUrl = `${apiPosterUrl}&dates=${year}-01-01,${year}-12-31`;
-    const gameData: Post = await getGameData(yearUrl, 1);
-    const top10Games = gameData.results.slice(0, 15);
-    topGamesPerYear.push(...top10Games);
+// Function to fetch and combine data in random year order
+const fetchAndCombineData = async () => {
+  const currentYear: number = new Date().getFullYear();
+  const startYear: number = 2005; // Starting year
+  const endYear: number = currentYear; // Ending year
+  const allGames: PostResult[] = [];
+
+  // Create an array of years and shuffle it
+  const years: number[] = [];
+  for (let year = startYear; year <= endYear; year++) {
+    years.push(year);
   }
 
-  return topGamesPerYear;
+  // Fetch and combine data for each year
+  for (const year of years) {
+    const yearUrl: string = `${apiPosterUrl}&dates=${year}-01-01,${year}-12-31`;
+    const gameData: Post = await getGameData(yearUrl, 1);
+    allGames.push(...gameData.results);
+  }
+
+  shuffleArray(allGames);
+  // sortGamesByRelease(allGames);
+  return allGames;
 };
 
 //specifying the page size for the page results
@@ -123,12 +137,23 @@ const Posts = async ({ params }: { params: Post }) => {
         )
       )
     ).map((str) => ({ platform: JSON.parse(str) }));
+
+    const handleSort = (sortFunc: (games: PostResult[]) => PostResult[]) => {
+      const sortedGames = sortFunc([...gameData]);
+      const updatedPaginatedGames = paginateGames(
+        sortedGames,
+        params.page,
+        pageSize
+      );
+      return updatedPaginatedGames;
+    };
+
     return (
       <div>
         <MainPage>
           <NavBar parent_platforms={platforms} />
           <SearchBar games={gameData} />
-          <Sort />
+          <Sort onSort={handleSort} />
           <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
             {paginatedGames.map((item) => (
               <li

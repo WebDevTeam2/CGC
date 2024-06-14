@@ -1,8 +1,46 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 
-const Sort = () => {
+interface Platform {
+  platform: {
+    id: number;
+    name: string;
+    slug: string;
+  };
+}
+
+interface PostResult {
+  id: number;
+  slug: string;
+  name: string;
+  released: string;
+  tba: boolean;
+  background_image: string;
+  rating: number;
+  rating_top: number;
+  description: string;
+  description_raw: string;
+  parent_platforms: Platform[];
+}
+
+interface SortProps {
+  onSort: (sortFunc: (games: PostResult[]) => PostResult[]) => void;
+}
+
+const sortGamesByRating = (games: PostResult[]) => {
+  return games.sort((a, b) => b.rating - a.rating);
+};
+
+const sortGamesByRelease = (games: PostResult[]) => {
+  return games.sort((a, b) => {
+    const dateA = new Date(a.released);
+    const dateB = new Date(b.released);
+    return dateB.getTime() - dateA.getTime();
+  });
+};
+
+const Sort = ({ onSort }: SortProps) => {
   return (
     <div className="justify-center grid mt-12">
       {/* sort by */}
@@ -45,6 +83,7 @@ const Sort = () => {
               <Link
                 href="#"
                 className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                onClick={() => onSort(sortGamesByRating)}
               >
                 Rating
               </Link>
@@ -53,6 +92,7 @@ const Sort = () => {
               <Link
                 href="#"
                 className=" px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                onClick={() => onSort(sortGamesByRelease)}
               >
                 Release Date
               </Link>

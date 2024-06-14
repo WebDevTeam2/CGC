@@ -3,7 +3,7 @@ import { IoStarSharp } from "react-icons/io5";
 import Screenshots from "@/app/components/Game-components/Screenshots";
 
 const basePosterUrl = `https://api.rawg.io/api/games/`;
-const apiPosterKey = "?key=8829ad858fa54d269d117a637dbae7c6";
+const apiPosterKey = "?key=076eda7a1c0e441eac147a3b0fe9b586";
 
 interface PostPage {
   id: number;

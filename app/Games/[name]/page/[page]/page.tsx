@@ -49,10 +49,11 @@ interface PostResult {
 
 const Posts = async ({ params }: { params: Post }) => {
   // this part uses headers to get the current url
-  const headersList = headers();
-  // read the custom x-url header
-  const pathname = headersList.get("x-url") || "";
-  console.log(pathname);
+  // const headersList = headers();
+  // // read the custom x-url header
+  // const pathname = headersList.get("x-url") || "";
+  // console.log(pathname);
+  const pathname = "http://localhost:3000/Games/playstation/page/1";
   const value = extractPlatformFromUrl(pathname);
   console.log(value);
 

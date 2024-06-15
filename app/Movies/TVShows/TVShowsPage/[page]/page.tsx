@@ -37,24 +37,6 @@ interface TVResult {
   vote_count: number;
 }
 
-interface TVDetails {
-  adult: boolean;
-  backdrop_path: string;
-  genres: Genre[];
-  id: number;
-  original_language: string;
-  original_name: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  air_date: string;
-  name: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-  seasons: Seasons[];
-}
-
 interface Genre {
   id: number;
   name: string;

@@ -1,10 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-
-const basePosterUrl = `https://api.rawg.io/api/games`;
-const apiPosterKey = "key=076eda7a1c0e441eac147a3b0fe9b586";
-const combinedUrl = basePosterUrl + "?" + apiPosterKey;
 
 interface Platform {
   platform: {
@@ -40,33 +36,22 @@ const sortGamesByRelease = (games: PostResult[]) => {
   });
 };
 
-const Sort = () => {
-  const [games, setGames] = useState<PostResult[]>([]);
-
+const Sort = ({
+  games,
+  onSorted,
+}: {
+  games: PostResult[];
+  onSorted: (sortedGames: PostResult[]) => void;
+}) => {
   const handleRelease = () => {
-    const sortedGames = sortGamesByRelease(games);
-    setGames(sortedGames);
-    // console.log(games);
+    const sortedGames = sortGamesByRelease([...games]);
+    onSorted(sortedGames);
   };
 
   const handleRating = () => {
-    const sortedGames = sortGamesByRating(games);
-    setGames(sortedGames);
+    const sortedGames = sortGamesByRating([...games]);
+    onSorted(sortedGames);
   };
-  useEffect(() => {
-    const fetchGames = async () => {
-      try {
-        const res = await fetch(combinedUrl);
-        const data = await res.json();
-
-        // Store only the results array
-        setGames(data.results);
-      } catch (error) {
-        console.error("Error fetching screenshots:", error);
-      }
-    };
-    fetchGames();
-  }, []);
 
   return (
     <div className="justify-center grid mt-12">

@@ -64,8 +64,6 @@ const Recommendations = ({ movieId }: {movieId: string}) => {
           <Link
             key={item.id}
             href={`/Movies/${item.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
             className="lg:hover:scale-110 w-full transition duration-700 ease-in-out mb-6"
           >
             <div className="sm:w-full sm:h-56 lg:w-full lg:h-96 p-10 relative">

@@ -8,7 +8,6 @@ import {
   fetchAndCombineData,
   paginateGames,
 } from "@/app/utils/heplers";
-import { headers } from "next/headers";
 import Link from "next/link";
 import Image from "next/image";
 import Sort from "@/app/components/Game-components/Sort";
@@ -72,7 +71,7 @@ const Posts = async ({ params }: { params: Post }) => {
       <MainPage>
         <NavBar parent_platforms={platforms} />
         <SearchBar games={gameData} />
-        <Sort />
+        {/* <Sort /> */}
         <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
           {paginatedGames.map((item) => (
             <li
@@ -89,7 +88,7 @@ const Posts = async ({ params }: { params: Post }) => {
                       src={item.background_image}
                       alt={item.name}
                       fill={true}
-                      loading="lazy"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       style={{ objectFit: "cover" }}
                       className="border-r-4 rounded-l-lg border-white transition duration-500 ease-in-out"
                     />

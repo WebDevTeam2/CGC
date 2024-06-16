@@ -3,7 +3,7 @@ import { IoStarSharp } from "react-icons/io5";
 import Screenshots from "@/app/components/Game-components/Screenshots";
 
 const basePosterUrl = `https://api.rawg.io/api/games/`;
-const apiPosterKey = "?key=076eda7a1c0e441eac147a3b0fe9b586";
+const apiPosterKey = `key=076eda7a1c0e441eac147a3b0fe9b586`;
 
 interface PostPage {
   id: number;
@@ -65,7 +65,7 @@ interface PostPage {
 }
 
 const getGame = async (name: string) => {
-  const res = await fetch(basePosterUrl + name + apiPosterKey);
+  const res = await fetch(basePosterUrl + name + "?" + apiPosterKey);
   // https://api.rawg.io/api/games/grand-theft-auto-v?key=f0e283f3b0da46e394e48ae406935d25
   const data = await res.json();
   return data;
@@ -131,6 +131,7 @@ export default async function Games({ params }: { params: PostPage }) {
               src={game.background_image}
               alt={game.name}
               fill={true}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               objectFit="cover"
             />
           </div>

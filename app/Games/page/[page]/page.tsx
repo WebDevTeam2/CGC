@@ -153,7 +153,7 @@ const Posts = async ({ params }: { params: Post }) => {
         <MainPage>
           <NavBar parent_platforms={platforms} />
           <SearchBar games={gameData} />
-          <Sort onSort={handleSort} />
+          {/* <Sort onSort={handleSort} /> */}
           <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
             {paginatedGames.map((item) => (
               <li
@@ -170,8 +170,8 @@ const Posts = async ({ params }: { params: Post }) => {
                         src={item.background_image}
                         alt={item.name}
                         fill={true}
-                        loading="lazy"
                         style={{ objectFit: "cover" }}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="border-r-4 rounded-l-lg border-white transition duration-500 ease-in-out"
                       />
                     </div>

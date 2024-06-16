@@ -69,20 +69,6 @@ const getGameData = async (url: string, page: number) => {
   }
 };
 
-//function to sort the games based on their rating
-const sortGamesByRating = (games: PostResult[]) => {
-  return games.sort((a, b) => b.rating - a.rating);
-};
-
-//function to sort the games based on their release
-const sortGamesByRelease = (games: PostResult[]) => {
-  return games.sort((a, b) => {
-    const dateA = new Date(a.released);
-    const dateB = new Date(b.released);
-    return dateB.getTime() - dateA.getTime();
-  });
-};
-
 // Function to shuffle an array
 // T is used for any type
 const shuffleArray = <T,>(array: T[]): void => {
@@ -138,22 +124,12 @@ const Posts = async ({ params }: { params: Post }) => {
       )
     ).map((str) => ({ platform: JSON.parse(str) }));
 
-    const handleSort = (sortFunc: (games: PostResult[]) => PostResult[]) => {
-      const sortedGames = sortFunc([...gameData]);
-      const updatedPaginatedGames = paginateGames(
-        sortedGames,
-        params.page,
-        pageSize
-      );
-      return updatedPaginatedGames;
-    };
-
     return (
       <div>
         <MainPage>
           <NavBar parent_platforms={platforms} />
           <SearchBar games={gameData} />
-          {/* <Sort onSort={handleSort} /> */}
+          <Sort />
           <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
             {paginatedGames.map((item) => (
               <li

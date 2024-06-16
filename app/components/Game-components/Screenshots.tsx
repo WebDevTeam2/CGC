@@ -130,6 +130,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
                       alt={`game_screenshot_${index}`}
                       src={item.image}
                       fill={true}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       objectFit="contain"
                       className="transition-smooth duration-200 ease-in-out"
                     />
@@ -164,7 +165,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
               )}
             </div>
             <button
-              className="absolute translate-y-4 rounded-full top-3 px-3 py-0.5 opacity-[.8] bg-black right-2 text-white text-2xl transition-all duration-200 hover:bg-slate-300 hover:text-black"
+              className="absolute translate-y-16 rounded-full  px-3 py-0.5 opacity-[.8] bg-black right-2 text-white text-2xl transition-all duration-200 hover:bg-slate-300 hover:text-black"
               onClick={handleClose}
             >
               x

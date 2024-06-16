@@ -1,19 +1,11 @@
 import Image from "next/legacy/image";
 import Link from "next/link";
-import Pages from "@/app/components/Movie-components/Pages";
+import GenrePages from "@/app/components/Movie-components/GenrePages";
 import Filter from "@/app/components/Movie-components/Filter";
+
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
-
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNDhhZDI4OWM2MGZkMGJiM2ZjOWNjMzY2MzkzN2Q3YiIsInN1YiI6IjY1ZTAzYzE3Zjg1OTU4MDE4NjRlZDFhNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.K9v9OEoLELW62sfz4qnwX7lhqTrmT6AipOjL0UlI5vY",
-  },
-};
 
 interface Movie {
   page: number;
@@ -37,15 +29,23 @@ interface MovieResult {
   vote_count: number;
 }
 
-const getMovieData = async (page: string) => {
+const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNDhhZDI4OWM2MGZkMGJiM2ZjOWNjMzY2MzkzN2Q3YiIsInN1YiI6IjY1ZTAzYzE3Zjg1OTU4MDE4NjRlZDFhNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.K9v9OEoLELW62sfz4qnwX7lhqTrmT6AipOjL0UlI5vY",
+  },
+};
+
+const getMovieData = async (page: string, genre: string) => {
   const res = await fetch(
-    `${baseUrl}discover/movie?include_adult=false&page=${page}&${apiKey}`,
+    `${baseUrl}discover/movie?include_adult=false&page=${page}&with_genres=${genre}&${apiKey}`,
     options
   );
   const data = await res.json();
   return data;
 };
-
 const getVotecolor = (vote: number) => {
   if (vote >= 7) {
     return "text-green-500";
@@ -56,13 +56,17 @@ const getVotecolor = (vote: number) => {
   }
 };
 
-const Page = async ({ params }: { params: Movie }) => {
-  const movieData: Movie = await getMovieData(`${params.page.toString()}`);
+const FilteredByGenre = async ({
+  params,
+}: {
+  params: { genre: string; page: string };
+}) => {
+  const movieData: Movie = await getMovieData(`${params.page}`, params.genre);
   const currentDate = new Date().toISOString().split("T")[0];
 
   return (
     <div>
-      <Filter/>
+      <Filter />
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-64 mt-4 h-full not-search">
         {/* Kanw Link oloklhrh th kartela */}
         {movieData.results
@@ -103,10 +107,10 @@ const Page = async ({ params }: { params: Movie }) => {
           ))}
       </div>
       <div className="">
-        <Pages />
+        <GenrePages />
       </div>
     </div>
   );
 };
 
-export default Page;
+export default FilteredByGenre;

@@ -4,9 +4,9 @@
 // 7 = nintendo
 // Import necessary dependencies
 import {
-  extractPlatformFromUrl,
   fetchAndCombineData,
   paginateGames,
+  getGameDetails,
 } from "@/app/utils/heplers";
 import Link from "next/link";
 import Image from "next/image";
@@ -48,15 +48,10 @@ interface PostResult {
 
 const Posts = async ({ params }: { params: Post }) => {
   // this part uses headers to get the current url
-  // const headersList = headers();
-  // // read the custom x-url header
-  // const pathname = headersList.get("x-url") || "";
-  // console.log(pathname);
-  const pathname = "http://localhost:3000/Games/playstation/page/1";
-  const value = extractPlatformFromUrl(pathname);
-  console.log(value);
+  // const pathname = "http://localhost:3000/Games/playstation/page/1";
+  const platformID = 2;
 
-  const gameData = await fetchAndCombineData(value);
+  const gameData = await fetchAndCombineData();
   const paginatedGames = paginateGames(gameData, params.page, pageSize);
   // Extract and flatten platforms, ensuring they are unique
   const platforms = Array.from(
@@ -66,6 +61,12 @@ const Posts = async ({ params }: { params: Post }) => {
       )
     )
   ).map((str) => ({ platform: JSON.parse(str) }));
+
+  //fetch game description only for the paginated games not for all the games
+  const detailedGames = await Promise.all(
+    paginatedGames.map((item) => getGameDetails(item, platformID))
+  );
+
   return (
     <div>
       <MainPage>
@@ -73,7 +74,7 @@ const Posts = async ({ params }: { params: Post }) => {
         <SearchBar games={gameData} />
         {/* <Sort /> */}
         <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
-          {paginatedGames.map((item) => (
+          {detailedGames.map((item) => (
             <li
               key={item.id}
               className="text-slate-200 text-balance text-xl hover:scale-110 xl:w-3/5 w-4/5  transition-all duration-500 ease-in-out"

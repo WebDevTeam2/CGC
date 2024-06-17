@@ -64,13 +64,6 @@ interface PostPage {
   description_raw: string;
 }
 
-const getGame = async (name: string) => {
-  const res = await fetch(basePosterUrl + name + "?" + apiPosterKey);
-  // https://api.rawg.io/api/games/grand-theft-auto-v?key=f0e283f3b0da46e394e48ae406935d25
-  const data = await res.json();
-  return data;
-};
-
 const roundNum = (rating_count: number) => {
   let newNum;
   if (rating_count >= 1000) newNum = (rating_count / 1000).toFixed(1) + "K";
@@ -115,8 +108,26 @@ const convertToStars = (rating: number) => {
   return newR;
 };
 
+let cachedGames: { [key: string]: any } = {};
+
+const getGame = async (name: string) => {
+  const res = await fetch(basePosterUrl + name + "?" + apiPosterKey);
+  // https://api.rawg.io/api/games/grand-theft-auto-v?key=f0e283f3b0da46e394e48ae406935d25
+  const data = await res.json();
+  return data;
+};
+
+const getCachedGames = async (name: string) => {
+  if (!cachedGames[name]) {
+    const gameData = await getGame(name);
+    cachedGames[name] = gameData;
+  }
+  return cachedGames[name];
+};
+
 export default async function Games({ params }: { params: PostPage }) {
-  const game = await getGame(params.name);
+  // if (!cachedGames) const game = await getGame(params.name);
+  const game = await getCachedGames(params.name);
 
   return (
     <div>

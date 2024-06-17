@@ -38,6 +38,9 @@ const Screenshots = ({ params }: { params: PostPage }) => {
   const [direction, setDirection] = useState<"next" | "prev">("next");
   const [isOpen, setIsOpen] = useState(false);
   const imageRef = useRef<HTMLDivElement>(null);
+  const [cache, setCache] = useState<{ [key: string]: PostPage["results"] }>(
+    {}
+  );
 
   const nextImage = () => {
     setDirection("next");
@@ -69,12 +72,17 @@ const Screenshots = ({ params }: { params: PostPage }) => {
 
   useEffect(() => {
     const fetchScreenshots = async (slug: string) => {
+      if (cache[slug]) {
+        setScreenshots(cache[slug]);
+        return;
+      }
       try {
         const res = await fetch(
           basePosterUrl + slug + "/screenshots?" + apiPosterKey
         );
         const data = await res.json();
 
+        setCache((prevCache) => ({ ...prevCache, [slug]: data.results }));
         // Store only the results array
         setScreenshots(data.results);
       } catch (error) {
@@ -89,7 +97,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [params.name, cache]);
 
   return (
     <>

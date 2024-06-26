@@ -38,9 +38,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
   const [direction, setDirection] = useState<"next" | "prev">("next");
   const [isOpen, setIsOpen] = useState(false);
   const imageRef = useRef<HTMLDivElement>(null);
-  const [cache, setCache] = useState<{ [key: string]: PostPage["results"] }>(
-    {}
-  );
+  const cache = useRef<{ [key: string]: PostPage["results"] }>({});
 
   const nextImage = () => {
     setDirection("next");
@@ -72,8 +70,8 @@ const Screenshots = ({ params }: { params: PostPage }) => {
 
   useEffect(() => {
     const fetchScreenshots = async (slug: string) => {
-      if (cache[slug]) {
-        setScreenshots(cache[slug]);
+      if (cache.current[slug]) {
+        setScreenshots(cache.current[slug]);
         return;
       }
       try {
@@ -81,23 +79,21 @@ const Screenshots = ({ params }: { params: PostPage }) => {
           basePosterUrl + slug + "/screenshots?" + apiPosterKey
         );
         const data = await res.json();
-
-        setCache((prevCache) => ({ ...prevCache, [slug]: data.results }));
-        // Store only the results array
+        cache.current[slug] = data.results;
         setScreenshots(data.results);
       } catch (error) {
         console.error("Error fetching screenshots:", error);
       }
     };
+
     fetchScreenshots(params.name);
 
-    // this part is for closing down screenshots when i click outside of its container
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [params.name, cache]);
+  }, [params.name]);
 
   return (
     <>

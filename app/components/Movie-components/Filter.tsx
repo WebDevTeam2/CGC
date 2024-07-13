@@ -11,6 +11,7 @@ interface Genre {
 const Filter = () => {
   const [isActive, setIsActive] = useState(false);
   const [genres, setGenres] = useState<Genre[]>([]);
+  const [selectedGenres, setSelectedGenres] = useState<Number[]>([]); //Gia na mporei o xrhsths na dialegei perissotera eidh tainiwn
 
   useEffect(() => {
     const fetchMovieGenres = async () => {
@@ -23,6 +24,19 @@ const Filter = () => {
 
     fetchMovieGenres();
   }, []);
+
+  const handleGenreClick = (genreId: number) => {
+    setSelectedGenres((prevGenres) =>
+      prevGenres.includes(genreId)
+        ? prevGenres.filter((id) => id !== genreId)
+        : [...prevGenres, genreId]
+    );
+  };
+
+  const buildGenreFilterLink = () => {
+    if (selectedGenres.length === 0) return "/Movies/moviePage/1"; // Default
+    return `/Movies/Genres/${selectedGenres.join(",")}/1`;
+  };
 
   const handleClick = () => {
     setIsActive(!isActive);
@@ -44,13 +58,23 @@ const Filter = () => {
             }`}
           >
             {genres.map((movieGenre) => (
-              <li className="text-white mb-2" key={movieGenre.id}>
-                <Link href={`/Movies/Genres/${movieGenre.id}/1`}>
-                  {movieGenre.name}{" "}
-                </Link>
+              <li
+                className={`hover:opacity-75 mb-2 cursor-pointer transition duration-200 ${
+                  selectedGenres.includes(movieGenre.id)
+                    ? "font-bold bg-white text-black"
+                    : "text-white "
+                }`}
+                key={movieGenre.id}
+                onClick={() => handleGenreClick(movieGenre.id)}
+              >
+                {movieGenre.name}
               </li>
             ))}
-            <li>Search</li>
+            <li className="text-white bg-blue-800 rounded-md p-2 hover:opacity-75 transition duration-400 cursor-pointer">
+              <Link href={buildGenreFilterLink()}>
+                Search
+              </Link>
+            </li>
           </ul>
         )}
       </div>

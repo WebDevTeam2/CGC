@@ -2,6 +2,7 @@
 import { AiOutlineSearch } from "react-icons/ai";
 import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface PostResult {
   id: number;
@@ -149,16 +150,29 @@ const SearchBar = ({ games }: { games: PostResult[] }) => {
           className="absolute left-3 top-16 bg-black text-white rounded-2xl w-[93%]"
           style={{
             height:
-              visible && search.length > 0 ? `${search.length * 2.55}rem` : "0",
+              visible && search.length > 0 ? `${search.length * 4.2}rem` : "0",
             transition: "height 0.2s ease-in-out",
-            overflow: "hidden",
+            overflowY: "auto",
+            overflowX: "hidden",
           }}
         >
           {search.map((result, index) => (
-            <Link key={index} href={`/Games/${result.slug}`}>
+            <Link
+              key={index}
+              href={`/Games/${result.slug}`}
+              className="flex items-center  flex-row transition-all duration-300 ease-in-out hover:scale-105 pl-3 hover:text-stone-400"
+            >
+              <div className="relative overflow-hidden p-16 -mb-8">
+                <Image
+                  src={result.background_image}
+                  alt={result.name}
+                  fill={true}
+                  objectFit="contain"
+                />
+              </div>
               <div
                 onClick={() => handleAutoComplete(result.name)}
-                className="search-result py-1.5 cursor-pointer flex flex-col pl-6 hover:scale-105 hover:text-stone-400 transition-all duration-300 ease-in-out"
+                className="search-result py-1.5 cursor-pointer flex flex-col pl-6 "
               >
                 {result.name}
               </div>

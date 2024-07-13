@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
-import Sort from "@/app/components/Game-components/Sort";
 import Buttons from "@/app/components/Game-components/Buttons";
 import MainPage from "@/app/components/Game-components/MainPage";
 import NavBar from "@/app/components/Game-components/NavBar";
@@ -40,8 +39,10 @@ const apiPosterKey = "key=75cb8e3e3c904ccfbe1741d5fcef068b";
 const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}`;
 
 const getGameData = async (url: string, page: number) => {
+  const fullUrl = `${url}&page=${page}`;
+  // console.log(`Fetching data from URL: ${fullUrl}`);
   try {
-    const res = await fetch(`${url}&page=${page}`);
+    const res = await fetch(fullUrl);
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
@@ -49,6 +50,7 @@ const getGameData = async (url: string, page: number) => {
     if (!data || !data.results) {
       throw new Error("Invalid data structure");
     }
+    // console.log(data.results);
     return data.results;
   } catch (error) {
     console.error("Error fetching game data:", error);
@@ -63,7 +65,6 @@ const fetchGameDetails = async (game: PostResult) => {
       throw new Error(`HTTP error! status: ${gameRes.status}`);
     }
     const gameData = await gameRes.json();
-    // console.log(gameData.description_raw);
     return { ...game, description_raw: gameData.description_raw };
   } catch (error) {
     console.error("Error fetching game details:", error);
@@ -80,9 +81,6 @@ const shuffleArray = <T,>(array: T[]): void => {
   }
 };
 
-// In-memory cache for the shuffled data
-let cachedShuffledGames: PostResult[] | null = null;
-
 const fetchAndCombineData = async () => {
   const currentYear: number = new Date().getFullYear();
   const startYear: number = 2005;
@@ -90,39 +88,25 @@ const fetchAndCombineData = async () => {
   const dateRanges: string[] = [];
 
   // Create an array of date ranges (e.g., every 5 years)
-  for (let year = startYear; year <= endYear; year += 5) {
-    const endRangeYear = Math.min(year + 4, endYear);
-    dateRanges.push(`${year}-01-01,${endRangeYear}-12-31`);
+  for (let year = startYear; year <= endYear; year++) {
+    dateRanges.push(`${year}-01-01,${year}-12-31`);
   }
-
   const allGames: PostResult[] = [];
 
   // Fetch and combine data for each date range
   for (const dateRange of dateRanges) {
     let page = 1;
-    let hasMoreData = true;
-
-    while (hasMoreData) {
-      try {
-        const dateRangeUrl = `${apiPosterUrl}&dates=${dateRange}`;
-        const gameResults = await getGameData(dateRangeUrl, page);
-
-        // Check if there are results to add
-        if (gameResults.length > 0) {
-          allGames.push(...gameResults);
-          page += 1; // Increment page for next fetch
-        } else {
-          hasMoreData = false; // No more data available, exit loop
-        }
-      } catch (error) {
-        console.error(`Error fetching data for range ${dateRange}:`, error);
-        // Handle error or break the loop
-        hasMoreData = false;
-      }
+    try {
+      const dateRangeUrl = `${apiPosterUrl}&dates=${dateRange}`;
+      console.log(`Fetching data for date range: ${dateRange}, page: ${page}`);
+      const gameResults = await getGameData(dateRangeUrl, page);
+      const slicedResults = gameResults.slice(0, 10);
+      allGames.push(...slicedResults);
+    } catch (error) {
+      console.error(`Error fetching data for range ${dateRange}:`, error);
     }
   }
-
-  // console.log("Fetched all games:", allGames);
+  shuffleArray(allGames);
   return allGames;
 };
 
@@ -133,24 +117,9 @@ const paginateGames = (games: PostResult[], page: number, pageSize: number) => {
   return games.slice(start, end);
 };
 
-// this function is used to cache data
-const getShuffledGameData = async () => {
-  try {
-    if (!cachedShuffledGames) {
-      const gameData = await fetchAndCombineData();
-      // shuffleArray(gameData);
-      cachedShuffledGames = gameData;
-    }
-    return cachedShuffledGames;
-  } catch (error) {
-    console.error("Error fetching shuffled game data:", error);
-    throw error;
-  }
-};
-
 const Posts = async ({ params }: { params: Post }) => {
   try {
-    const gameData = await getShuffledGameData();
+    const gameData = await fetchAndCombineData();
     const paginatedGames = paginateGames(gameData, params.page, pageSize);
 
     const platforms = Array.from(

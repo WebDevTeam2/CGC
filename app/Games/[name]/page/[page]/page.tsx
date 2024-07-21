@@ -6,11 +6,10 @@
 import {
   fetchAndCombineData,
   paginateGames,
-  getGameDetails,
+  fetchGameDetails,
 } from "@/app/utils/heplers";
 import Link from "next/link";
 import Image from "next/image";
-import Sort from "@/app/components/Game-components/Sort";
 import Buttons from "@/app/components/Game-components/Buttons";
 import MainPage from "@/app/components/Game-components/MainPage";
 import NavBar from "@/app/components/Game-components/NavBar";
@@ -25,12 +24,12 @@ interface Platform {
   };
 }
 
-interface Post {
-  page: number;
-  results: PostResult[];
-  onSearch: (name: string) => void;
-  selectedPlatformKey: number | null;
-}
+// interface Post {
+//   page: number;
+//   results: PostResult[];
+//   onSearch: (name: string) => void;
+//   key: number;
+// }
 
 interface PostResult {
   id: number;
@@ -46,13 +45,10 @@ interface PostResult {
   parent_platforms: Platform[];
 }
 
-const Posts = async ({ params }: { params: Post }) => {
-  // this part uses headers to get the current url
-  // const pathname = "http://localhost:3000/Games/playstation/page/1";
-  const platformID = 2;
-
-  const gameData = await fetchAndCombineData();
+const Posts = async ({ params }: { params: any }) => {
+  const gameData = await fetchAndCombineData(params.name);
   const paginatedGames = paginateGames(gameData, params.page, pageSize);
+
   // Extract and flatten platforms, ensuring they are unique
   const platforms = Array.from(
     new Set(
@@ -64,7 +60,7 @@ const Posts = async ({ params }: { params: Post }) => {
 
   //fetch game description only for the paginated games not for all the games
   const detailedGames = await Promise.all(
-    paginatedGames.map((item) => getGameDetails(item, platformID))
+    paginatedGames.map((item) => fetchGameDetails(item))
   );
 
   return (
@@ -73,6 +69,7 @@ const Posts = async ({ params }: { params: Post }) => {
         <NavBar parent_platforms={platforms} />
         <SearchBar games={gameData} />
         {/* <Sort /> */}
+        <h1>params: {params.name}</h1>
         <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
           {detailedGames.map((item) => (
             <li
@@ -133,3 +130,60 @@ const sortGamesByRelease = (games: PostResult[]) => {
     return dateB.getTime() - dateA.getTime();
   });
 };
+
+// pages/games/[slug].tsx
+
+// import { GetServerSideProps } from "next";
+
+// type Game = {
+//   id: number;
+//   name: string;
+//   // add more fields as needed
+// };
+
+// type Props = {
+//   games: Game[];
+//   slug: string;
+// };
+
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//   const { slug } = context.params;
+
+//   // Map slugs to platform IDs
+//   const platformMap = {
+//     xbox: 3,
+//     playstation: 2,
+//     nintendo: 7,
+//     pc: 1,
+//   };
+
+//   const platformId = platformMap[slug as keyof typeof platformMap];
+
+//   // Fetch games from the RAWG API
+//   const res = await fetch(
+//     `https://api.rawg.io/api/games?key=076eda7a1c0e441eac147a3b0fe9b586&platforms=${platformId}`
+//   );
+//   const data = await res.json();
+
+//   return {
+//     props: {
+//       games: data.results,
+//       slug,
+//     },
+//   };
+// };
+
+// const GamesPage = ({ games, slug }: Props) => {
+//   return (
+//     <div>
+//       <h1>Games for {slug}</h1>
+//       <ul>
+//         {games.map((game) => (
+//           <li key={game.id}>{game.name}</li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// };
+
+// export default GamesPage;

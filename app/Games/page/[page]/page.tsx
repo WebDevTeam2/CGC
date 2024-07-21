@@ -6,6 +6,11 @@ import MainPage from "@/app/components/Game-components/MainPage";
 import NavBar from "@/app/components/Game-components/NavBar";
 import SearchBar from "@/app/components/Game-components/SearchBar";
 import { pageSize } from "@/app/constants/constants";
+import {
+  fetchAndCombineDataSimple,
+  paginateGames,
+  fetchGameDetails,
+} from "@/app/utils/heplers";
 
 interface Platform {
   platform: {
@@ -33,93 +38,10 @@ interface PostResult {
   description_raw: string;
   parent_platforms: Platform[];
 }
-// https://api.rawg.io/api/games?key=f0e283f3b0da46e394e48ae406935d25
-const basePosterUrl = `https://api.rawg.io/api/games`;
-const apiPosterKey = "key=75cb8e3e3c904ccfbe1741d5fcef068b";
-const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}`;
-
-const getGameData = async (url: string, page: number) => {
-  const fullUrl = `${url}&page=${page}`;
-  // console.log(`Fetching data from URL: ${fullUrl}`);
-  try {
-    const res = await fetch(fullUrl);
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
-    const data = await res.json();
-    if (!data || !data.results) {
-      throw new Error("Invalid data structure");
-    }
-    // console.log(data.results);
-    return data.results;
-  } catch (error) {
-    console.error("Error fetching game data:", error);
-    throw error;
-  }
-};
-
-const fetchGameDetails = async (game: PostResult) => {
-  try {
-    const gameRes = await fetch(`${basePosterUrl}/${game.id}?${apiPosterKey}`);
-    if (!gameRes.ok) {
-      throw new Error(`HTTP error! status: ${gameRes.status}`);
-    }
-    const gameData = await gameRes.json();
-    return { ...game, description_raw: gameData.description_raw };
-  } catch (error) {
-    console.error("Error fetching game details:", error);
-    throw error;
-  }
-};
-
-// Function to shuffle an array
-// T is used for any type
-const shuffleArray = <T,>(array: T[]): void => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-};
-
-const fetchAndCombineData = async () => {
-  const currentYear: number = new Date().getFullYear();
-  const startYear: number = 2005;
-  const endYear: number = currentYear;
-  const dateRanges: string[] = [];
-
-  // Create an array of date ranges (e.g., every 5 years)
-  for (let year = startYear; year <= endYear; year++) {
-    dateRanges.push(`${year}-01-01,${year}-12-31`);
-  }
-  const allGames: PostResult[] = [];
-
-  // Fetch and combine data for each date range
-  for (const dateRange of dateRanges) {
-    let page = 1;
-    try {
-      const dateRangeUrl = `${apiPosterUrl}&dates=${dateRange}`;
-      console.log(`Fetching data for date range: ${dateRange}, page: ${page}`);
-      const gameResults = await getGameData(dateRangeUrl, page);
-      const slicedResults = gameResults.slice(0, 10);
-      allGames.push(...slicedResults);
-    } catch (error) {
-      console.error(`Error fetching data for range ${dateRange}:`, error);
-    }
-  }
-  shuffleArray(allGames);
-  return allGames;
-};
-
-//specifying the page size for the page results
-const paginateGames = (games: PostResult[], page: number, pageSize: number) => {
-  const start = (page - 1) * pageSize;
-  const end = start + pageSize;
-  return games.slice(start, end);
-};
 
 const Posts = async ({ params }: { params: Post }) => {
   try {
-    const gameData = await fetchAndCombineData();
+    const gameData = await fetchAndCombineDataSimple();
     const paginatedGames = paginateGames(gameData, params.page, pageSize);
 
     const platforms = Array.from(

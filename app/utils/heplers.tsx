@@ -26,18 +26,6 @@ interface PostResult {
   parent_platforms: Platform[];
 }
 
-// export const extractPlatformFromUrl = (url: string): number | null => {
-//   const platformMap: { [key: string]: number } = {
-//     pc: 1,
-//     playstation: 2,
-//     xbox: 3,
-//     nintendo: 7,
-//   };
-//   const platformMatch = url.match(/\/Games\/([^/]+)\//);
-//   const platform = platformMatch ? platformMatch[1] : null;
-//   return platform ? platformMap[platform] : null;
-// };
-
 const basePosterUrl = `https://api.rawg.io/api/games`;
 const apiPosterKey = "key=076eda7a1c0e441eac147a3b0fe9b586";
 const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}`;
@@ -59,128 +47,79 @@ const getGameData = async (url: string, page: number) => {
   }
 };
 
-export const getGameDetails = async (
-  game: PostResult,
-  platformId: number | null
-) => {
-  try {
-    const gameRes = await fetch(`${basePosterUrl}/${game.id}?${apiPosterKey}`);
-    if (!gameRes.ok) {
-      throw new Error(`HTTP error! status: ${gameRes.status}`);
-    }
-    const gameData = await gameRes.json();
-
-    const platformIds = gameData.parent_platforms.map(
-      (p: { platform: { id: number } }) => p.platform.id
-    );
-    const isAvailable = platformId !== null && platformIds.includes(platformId);
-
-    if (isAvailable) {
-      return { ...game, description_raw: gameData.description_raw };
-    }
-    return null;
-  } catch (error) {
-    console.error("Error fetching game details:", error);
-    throw error;
+const shuffleArray = <T,>(array: T[]): void => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
   }
 };
 
-// const fetchGameDataWithDetails = async (
-//   url: string,
-//   page: number,
-//   platformId: number | null
-// ) => {
-//   try {
-//     const games = await getGameData(url, page);
-//     const gameDetailsPromises = games.map((game: PostResult) =>
-//       getGameDetails(game, platformId)
-//     );
-//     const gameDetails = await Promise.all(gameDetailsPromises);
-//     return gameDetails.filter((game: PostResult) => game !== null);
-//   } catch (error) {
-//     console.error("Error fetching game data with details:", error);
-//     throw error;
-//   }
-// };
+const platformIds: { [key: string]: number } = {
+  pc: 1,
+  playstation: 2,
+  xbox: 3,
+  nintendo: 7,
+};
 
-// const getGameData = async (
-//   url: string,
-//   page: number,
-//   platformId: number | null
-// ) => {
-//   try {
-//     const res = await fetch(`${url}&page=${page}`);
-//     if (!res.ok) {
-//       throw new Error(`HTTP error! status: ${res.status}`);
-//     }
-//     const data = await res.json();
-//     if (!data || !data.results) {
-//       throw new Error("Invalid data structure");
-//     }
-
-//     const gameDetailsPromises = data.results.map(async (game: PostResult) => {
-//       const gameRes = await fetch(
-//         `${basePosterUrl}/${game.id}?${apiPosterKey}`
-//       );
-//       if (!gameRes.ok) {
-//         throw new Error(`HTTP error! status: ${gameRes.status}`);
-//       }
-//       const gameData = await gameRes.json();
-
-//       const platformIds = gameData.parent_platforms.map(
-//         (p: { platform: { id: number } }) => p.platform.id
-//       );
-//       const isAvailable =
-//         platformId !== null && platformIds.includes(platformId);
-
-//       if (isAvailable) {
-//         return { ...game, description_raw: gameData.description_raw };
-//       }
-//       return null;
-//     });
-
-//     const gameDetails = await Promise.all(gameDetailsPromises);
-
-//     return {
-//       ...data,
-//       results: gameDetails.filter((game: PostResult) => game !== null),
-//     };
-//   } catch (error) {
-//     console.error("Error fetching game data:", error);
-//     throw error;
-//   }
-// };
-
-export const fetchAndCombineData = async () => {
-  const currentYear = new Date().getFullYear();
-  const startYear = 2005;
-  const endYear = currentYear;
+//this works for the main page games
+export const fetchAndCombineDataSimple = async () => {
+  const currentYear: number = new Date().getFullYear();
+  const startYear: number = 2005;
+  const endYear: number = currentYear;
   const dateRanges: string[] = [];
 
-  // Create an array of date ranges (e.g., every 5 years)
-  for (let year = startYear; year <= endYear; year += 5) {
-    const endRangeYear = Math.min(year + 4, endYear);
-    dateRanges.push(`${year}-01-01,${endRangeYear}-12-31`);
+  for (let year = startYear; year <= endYear; year++) {
+    dateRanges.push(`${year}-01-01,${year}-12-31`);
   }
-
   const allGames: PostResult[] = [];
 
   // Fetch and combine data for each date range
   for (const dateRange of dateRanges) {
     let page = 1;
-    let hasMoreData = true;
-
-    while (hasMoreData) {
-      const dateRangeUrl: string = `${apiPosterUrl}&dates=${dateRange}&page=${page}`;
-      const gameResults: PostResult[] = await getGameData(dateRangeUrl, page);
-      allGames.push(...gameResults);
-
-      // Check if there are more pages of data
-      hasMoreData = gameResults.length > 0;
-      page += 1;
+    try {
+      const dateRangeUrl = `${apiPosterUrl}&dates=${dateRange}`;
+      console.log(`Fetching data for date range: ${dateRange}, page: ${page}`);
+      const gameResults = await getGameData(dateRangeUrl, page);
+      const slicedResults = gameResults.slice(0, 10);
+      allGames.push(...slicedResults);
+    } catch (error) {
+      console.error(`Error fetching data for range ${dateRange}:`, error);
     }
   }
+  shuffleArray(allGames);
+  return allGames;
+};
 
+//this works for the company page games
+export const fetchAndCombineData = async (name: string) => {
+  const platformId = platformIds[name.toLowerCase()];
+  if (!platformId) {
+    throw new Error(`Invalid platform name: ${name}`);
+  }
+  const currentYear: number = new Date().getFullYear();
+  const startYear: number = 2005;
+  const endYear: number = currentYear;
+  const dateRanges: string[] = [];
+
+  for (let year = startYear; year <= endYear; year++) {
+    dateRanges.push(`${year}-01-01,${year}-12-31`);
+  }
+  const allGames: PostResult[] = [];
+
+  // Fetch and combine data for each date range
+  for (const dateRange of dateRanges) {
+    let page = 1;
+    try {
+      const dateRangeUrl = `${apiPosterUrl}&dates=${dateRange}&parent_platforms=${platformId}`;
+      console.log(`Fetching data for date range: ${dateRange}, page: ${page}`);
+      const gameResults = await getGameData(dateRangeUrl, page);
+      const slicedResults = gameResults.slice(0, 10);
+      allGames.push(...slicedResults);
+    } catch (error) {
+      console.error(`Error fetching data for range ${dateRange}:`, error);
+    }
+  }
+  shuffleArray(allGames);
   return allGames;
 };
 
@@ -192,4 +131,18 @@ export const paginateGames = (
   const start = (page - 1) * pageSize;
   const end = start + pageSize;
   return games.slice(start, end);
+};
+
+export const fetchGameDetails = async (game: PostResult) => {
+  try {
+    const gameRes = await fetch(`${basePosterUrl}/${game.id}?${apiPosterKey}`);
+    if (!gameRes.ok) {
+      throw new Error(`HTTP error! status: ${gameRes.status}`);
+    }
+    const gameData = await gameRes.json();
+    return { ...game, description_raw: gameData.description_raw };
+  } catch (error) {
+    console.error("Error fetching game details:", error);
+    throw error;
+  }
 };

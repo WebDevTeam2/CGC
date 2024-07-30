@@ -134,7 +134,7 @@ const SearchBar = ({ games }: { games: PostResult[] }) => {
 
   return (
     <form
-      className="fixed top-0 h-[10vh] w-[30vw] mx-[35vw] z-10"
+      className="fixed top-0 h-[10vh] lg:w-[30vw] lg:mx-[35vw] md:mx-[30vw] md:w-[45vw] sm:mx-[25vw] sm:w-[55vw] mx-[20vw] w-[65vw]  z-10"
       ref={resultsRef}
       onSubmit={handleSubmit}
     >

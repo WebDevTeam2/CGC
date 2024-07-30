@@ -47,7 +47,8 @@ interface PostResult {
 
 const Posts = async ({ params }: { params: any }) => {
   const gameData = await fetchAndCombineData(params.name);
-  const paginatedGames = paginateGames(gameData, params.page, pageSize);
+  const updatedGameData = sortGamesByRelease(gameData);
+  const paginatedGames = paginateGames(updatedGameData, params.page, pageSize);
 
   // Extract and flatten platforms, ensuring they are unique
   const platforms = Array.from(
@@ -69,45 +70,47 @@ const Posts = async ({ params }: { params: any }) => {
         <NavBar parent_platforms={platforms} />
         <SearchBar games={gameData} />
         {/* <Sort /> */}
-        <h1>params: {params.name}</h1>
         <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
-          {detailedGames.map((item) => (
-            <li
-              key={item.id}
-              className="text-slate-200 text-balance text-xl hover:scale-110 xl:w-3/5 w-4/5  transition-all duration-500 ease-in-out"
-            >
-              <Link
-                href={`/Games/${item.slug}`}
-                className="relative flex group border-2 md:h-60 h-[33rem] border-white rounded-lg transition-all duration-300"
-              >
-                <div className="bg-black rounded-lg bg-opacity-[.7] relative flex flex-col md:flex-row md:gap-0 gap-2 transition-all duration-400">
-                  <div className="relative overflow-hidden md:pb-56 pb-72 md:pr-96">
-                    <Image
-                      src={item.background_image}
-                      alt={item.name}
-                      fill={true}
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      style={{ objectFit: "cover" }}
-                      className="border-r-4 rounded-l-lg border-white transition duration-500 ease-in-out"
-                    />
-                  </div>
-                  {/* item name on hover */}
-                  <div
-                    className="h-0 opacity-0 group-hover:opacity-100 absolute flex group-hover:h-10 max-w-80 items-center border border-black bg-black rounded-b-xl text-md ml-3 p-1"
-                    style={{
-                      transition:
-                        "height 0.5s ease-in-out, opacity 0.5s ease-in-out",
-                    }}
+          {detailedGames.map(
+            (item) =>
+              item.description_raw && (
+                <li
+                  key={item.id}
+                  className="text-slate-200 text-balance text-xl hover:scale-110 xl:w-3/5 w-4/5  transition-all duration-500 ease-in-out"
+                >
+                  <Link
+                    href={`/Games/${item.slug}`}
+                    className="relative flex group border-2 md:h-60 h-[33rem] border-white rounded-lg transition-all duration-300"
                   >
-                    <span className="text-white truncate">{item.name}</span>
-                  </div>
-                  <div className="overflow-hidden pl-4 pt-3 leading-9 ">
-                    <span className="">{item.description_raw}</span>
-                  </div>
-                </div>
-              </Link>
-            </li>
-          ))}
+                    <div className="bg-black rounded-lg bg-opacity-[.7] relative flex flex-col md:flex-row md:gap-0 gap-2 transition-all duration-400">
+                      <div className="relative overflow-hidden md:pb-56 pb-72 md:pr-96">
+                        <Image
+                          src={item.background_image}
+                          alt={item.name}
+                          fill={true}
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          style={{ objectFit: "cover" }}
+                          className="border-r-4 rounded-l-lg border-white transition duration-500 ease-in-out"
+                        />
+                      </div>
+                      {/* item name on hover */}
+                      <div
+                        className="h-0 opacity-0 group-hover:opacity-100 absolute flex group-hover:h-10 max-w-80 items-center border border-black bg-black rounded-b-xl text-md ml-3 p-1"
+                        style={{
+                          transition:
+                            "height 0.5s ease-in-out, opacity 0.5s ease-in-out",
+                        }}
+                      >
+                        <span className="text-white truncate">{item.name}</span>
+                      </div>
+                      <div className="overflow-hidden pl-4 pt-3 leading-9 ">
+                        <span className="">{item.description_raw}</span>
+                      </div>
+                    </div>
+                  </Link>
+                </li>
+              )
+          )}
         </ul>
         <Buttons gamesLength={gameData.length} />
       </MainPage>

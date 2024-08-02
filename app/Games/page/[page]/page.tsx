@@ -82,10 +82,10 @@ const Posts = async ({ params }: { params: Post }) => {
                   >
                     <Link
                       href={`/Games/${item.slug}`}
-                      className="relative flex group border-2 md:h-60 h-[35rem] max-[450px]:h-[25.5rem] border-white rounded-lg transition-all duration-300"
+                      className="relative flex group border-2 md:h-60 h-[35rem] max-[450px]:h-[25rem] border-white rounded-lg transition-all duration-300"
                     >
                       <div className="bg-black overflow-hidden rounded-lg bg-opacity-[.7] relative flex flex-col md:flex-row md:gap-0 gap-0 transition-all duration-400">
-                        <div className="relative md:pr-52 md:pl-52 md:pt-0 pt-80 max-[450px]:pt-52">
+                        <div className="relative md:pr-52 md:pl-52 md:pt-0 pt-80 max-[550px]:pt-56 max-[400px]:pt-40">
                           <Image
                             src={item.background_image}
                             alt={item.name}

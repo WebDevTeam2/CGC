@@ -1,15 +1,13 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { IoIosLogIn } from "react-icons/io";
 import { IoReturnUpBack } from "react-icons/io5";
 import { FaXbox, FaPlaystation } from "react-icons/fa";
 import { BsNintendoSwitch } from "react-icons/bs";
 import { SiEpicgames } from "react-icons/si";
+import { IoMenu } from "react-icons/io5";
+import { FaArrowLeft } from "react-icons/fa";
 import Link from "next/link";
-
-const basePosterUrl = `https://api.rawg.io/api/games`;
-const apiPosterKey = "key=076eda7a1c0e441eac147a3b0fe9b586";
-const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}`;
 
 interface Platform {
   platform: {
@@ -17,19 +15,6 @@ interface Platform {
     name: string;
     slug: string;
   };
-}
-interface PostResult {
-  id: number;
-  slug: string;
-  name: string;
-  released: string;
-  tba: boolean;
-  background_image: string;
-  rating: number;
-  rating_top: number;
-  description: string;
-  description_raw: string;
-  parent_platforms: Platform[];
 }
 
 const logos = [
@@ -40,6 +25,13 @@ const logos = [
 ];
 
 const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
+  const [showmenu, setShowMenu] = useState(false);
+  const toggleMenu = () => {
+    setShowMenu(!showmenu);
+  };
+  const closeDropdown = () => {
+    setShowMenu(false);
+  };
   return (
     <nav className="w-full flex justify-between px-3 sticky top-0 bg-black h-[10vh] z-10">
       <div className="left-side-elements h-full">
@@ -58,58 +50,47 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
               </button>
             </Link>
           ))}
-          {/* {parent_platforms.length > 0 &&
-          //   parent_platforms.map((platform, index) => {
-          //     const logo = logos.find(
-          //       (logo) => logo.slug === platform.platform.slug
-          //     );
-          //     return (
-          //       logo && (
-          //         <Link
-          //           href={`/Games/${platform.platform.slug}/page/1`}
-          //           key={index}
-          //         >
-          //           <button className="text-stone-200 transition delay-50 p-2 rounded-full hover:scale-125">
-          //             {logo.component}
-          //           </button>
-          //         </Link>
-          //       )
-          //     );
-          //   })} */}
           <Link href={"Games/Signup"}>
             <button className="text-stone-200 transition delay-50 p-2 rounded-full hover:scale-125">
               <IoIosLogIn />
             </button>
           </Link>
         </div>
+        <div className="lg:hidden flex flex-col sm:items-center items-end mt-4 max-[640px]:absolute max-[640px]:right-0 max-[640px]:top-80">
+          <button
+            className="text-white sm:rounded-full sm:p-2 sm:hover:bg-neutral-800 transition delay-75 ease-in-out sm:text-4xl text-2xl bg-neutral-100/40 hover:bg-neutral-700 rounded-tl-full rounded-bl-full py-8 px-2"
+            onClick={toggleMenu}
+          >
+            <IoMenu className="sm:block hidden" />
+            <FaArrowLeft className="sm:hidden block" />
+          </button>
+          {showmenu && (
+            <ul
+              className={`transform transition-transform duration-500 ease-in-out ${
+                showmenu ? "translate-x-0" : "translate-x-full"
+              }  bg-black rounded-lg p-4 gap-5 flex items-center justify-center flex-col`}
+            >
+              {logos.map((logo) => (
+                <Link key={logo.key} href={`/Games/${logo.slug}/page/1`}>
+                  <button
+                    className="text-stone-200 text-3xl transition delay-50 p-2 rounded-full hover:scale-125"
+                    onClick={closeDropdown}
+                  >
+                    {logo.component}
+                  </button>
+                </Link>
+              ))}
+              <Link href={"Games/Signup"}>
+                <button className="text-stone-200 text-3xl transition delay-50 p-2 rounded-full hover:scale-125">
+                  <IoIosLogIn />
+                </button>
+              </Link>
+            </ul>
+          )}
+        </div>
       </div>
     </nav>
   );
 };
-
-// // export default NavBar;
-// import Link from "next/link";
-// import { FaXbox, FaPlaystation } from "react-icons/fa";
-// import { BsNintendoSwitch } from "react-icons/bs";
-// import { SiEpicgames } from "react-icons/si";
-
-// const logos = [
-//   { component: <FaXbox />, key: 3, slug: "xbox" },
-//   { component: <FaPlaystation />, key: 2, slug: "playstation" },
-//   { component: <BsNintendoSwitch />, key: 7, slug: "nintendo" },
-//   { component: <SiEpicgames />, key: 1, slug: "pc" },
-// ];
-
-// const Navbar = () => {
-//   return (
-//     <nav>
-//       {logos.map((logo) => (
-//         <Link key={logo.key} href={`/Games/${logo.slug}/page/1`}>
-//           {logo.component}
-//         </Link>
-//       ))}
-//     </nav>
-//   );
-// };
 
 export default NavBar;

@@ -69,28 +69,26 @@ const Posts = async ({ params }: { params: any }) => {
       <MainPage>
         <NavBar parent_platforms={platforms} />
         <SearchBar games={gameData} />
-        {/* <Sort /> */}
+        {/* <Sort games={gameData} onSorted={handle} /> */}
         <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
           {detailedGames.map(
             (item) =>
               item.description_raw && (
                 <li
                   key={item.id}
-                  className="text-slate-200 text-balance text-xl hover:scale-110 xl:w-3/5 w-4/5  transition-all duration-500 ease-in-out"
+                  className="text-slate-200 text-balance text-xl hover:scale-110 xl:w-3/5 md:w-4/5 w-4/5 transition-all duration-500 ease-in-out"
                 >
                   <Link
                     href={`/Games/${item.slug}`}
-                    className="relative flex group border-2 md:h-60 h-[33rem] border-white rounded-lg transition-all duration-300"
+                    className="relative flex group border-2 md:h-60 h-[35rem] max-[450px]:h-[25rem] border-white rounded-lg transition-all duration-300"
                   >
-                    <div className="bg-black rounded-lg bg-opacity-[.7] relative flex flex-col md:flex-row md:gap-0 gap-2 transition-all duration-400">
-                      <div className="relative overflow-hidden md:pb-56 pb-72 md:pr-96">
+                    <div className="bg-black overflow-hidden rounded-lg bg-opacity-[.7] relative flex flex-col md:flex-row md:gap-0 gap-0 transition-all duration-400">
+                      <div className="relative md:pr-52 md:pl-52 md:pt-0 pt-80 max-[550px]:pt-56 max-[400px]:pt-40">
                         <Image
                           src={item.background_image}
                           alt={item.name}
                           fill={true}
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          style={{ objectFit: "cover" }}
-                          className="border-r-4 rounded-l-lg border-white transition duration-500 ease-in-out"
+                          className="md:border-r-4 object-cover border-none rounded-l-lg border-white transition duration-500 ease-in-out"
                         />
                       </div>
                       {/* item name on hover */}
@@ -103,7 +101,7 @@ const Posts = async ({ params }: { params: any }) => {
                       >
                         <span className="text-white truncate">{item.name}</span>
                       </div>
-                      <div className="overflow-hidden pl-4 pt-3 leading-9 ">
+                      <div className="overflow-hidden md:pl-4 pl-4 pt-1  leading-8 md:text-start ">
                         <span className="">{item.description_raw}</span>
                       </div>
                     </div>

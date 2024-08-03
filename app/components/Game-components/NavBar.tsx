@@ -26,7 +26,6 @@ const logos = [
 
 const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
   const [showmenu, setShowMenu] = useState(false);
-  const [isMenuIcon, setIsMenuIcon] = useState(true);
 
   const toggleMenu = () => {
     setShowMenu(!showmenu);
@@ -34,6 +33,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
   const closeDropdown = () => {
     setShowMenu(false);
   };
+  console.log(showmenu);
   return (
     <nav className="w-full flex justify-between sm:pl-6 pl-4 sticky top-0 bg-black h-[10vh] z-10">
       <div className="left-side-elements h-full">
@@ -59,9 +59,12 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
           </Link>
         </div>
         <div
+          style={{ transitionProperty: "transform" }}
           className={`${
-            showmenu ? "translate-x-0" : "translate-x-20"
-          }lg:hidden flex sm:flex-col flex-row items-center mt-4 max-[640px]:absolute max-[640px]:right-0 max-[640px]:top-72`}
+            showmenu
+              ? "max-[640px]:translate-x-0"
+              : "max-[640px]:translate-x-20"
+          } lg:hidden transition-all duration-300 ease-in-out flex sm:flex-col flex-row items-center mt-4 max-[640px]:absolute max-[640px]:right-0 max-[640px]:top-72`}
         >
           <button
             className="text-white sm:rounded-full sm:p-2 sm:hover:bg-neutral-800 transition delay-75 ease-in-out sm:text-4xl text-xl max-[640px]:bg-neutral-100/40 hover:bg-neutral-700/50 rounded-tl-full rounded-bl-full py-6 px-2"
@@ -75,8 +78,8 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
             style={{ transitionProperty: "max-height, opacity, transform" }}
             className={`${
               showmenu
-                ? "sm:max-h-0 sm:opacity-0"
-                : "sm:max-h-96 sm:opacity-100"
+                ? "sm:max-h-96 sm:opacity-100"
+                : "sm:max-h-0 sm:opacity-0"
             }  bg-black transition-all duration-300 ease-in-out overflow-hidden rounded-lg p-4 gap-5 flex items-center justify-center flex-col`}
           >
             {logos.map((logo) => (

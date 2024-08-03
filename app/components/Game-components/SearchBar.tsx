@@ -29,9 +29,15 @@ const SearchBar = ({ games }: { games: PostResult[] }) => {
     setInputValue(value);
     setVisible(true);
     const lowercaseValue = value.toLowerCase();
+    const searchElement = document.querySelector(".search") as HTMLElement;
     if (lowercaseValue === "") {
       setSearch([]);
       setSelectedIndex(-1);
+      if (searchElement) {
+        searchElement.style.width = ""; // Reset width
+        searchElement.style.margin = "";
+        searchElement.style.padding = "";
+      }
     } else {
       const filteredGames = games
         .filter((game) =>
@@ -41,10 +47,15 @@ const SearchBar = ({ games }: { games: PostResult[] }) => {
             .replaceAll("'", "")
             .startsWith(lowercaseValue)
         )
-        .slice(0, 12);
+        .slice(0, 6);
 
       setSearch(filteredGames);
       setSelectedIndex(-1);
+      if (searchElement) {
+        searchElement.style.width = "100vw"; // Set width to 100vw
+        searchElement.style.margin = "0";
+        searchElement.style.padding = "0 30px 0 15px";
+      }
     } // Update search results
   };
 
@@ -134,7 +145,7 @@ const SearchBar = ({ games }: { games: PostResult[] }) => {
 
   return (
     <form
-      className="fixed top-0 h-[10vh] lg:w-[30vw] lg:mx-[35vw] md:mx-[30vw] md:w-[45vw] sm:mx-[25vw] sm:w-[55vw] mx-[20vw] w-[65vw]  z-10"
+      className="search fixed top-0 h-[10vh] lg:w-[30vw] lg:mx-[35vw] md:mx-[30vw] md:w-[45vw] sm:mx-[25vw] sm:w-[55vw] mx-[20vw] w-[65vw]  z-10"
       ref={resultsRef}
       onSubmit={handleSubmit}
     >
@@ -162,7 +173,7 @@ const SearchBar = ({ games }: { games: PostResult[] }) => {
               href={`/Games/${result.slug}`}
               className="flex items-center  flex-row transition-all duration-300 ease-in-out hover:scale-105 pl-3 hover:text-stone-400"
             >
-              <div className="relative overflow-hidden p-16 -mb-8">
+              <div className="relative overflow-hidden p-16 max-[550px]:p-12 -mb-8">
                 <Image
                   src={result.background_image}
                   alt={result.name}

@@ -64,7 +64,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
             showmenu
               ? "max-[640px]:translate-x-0"
               : "max-[640px]:translate-x-20"
-          } lg:hidden transition-all duration-300 ease-in-out flex sm:flex-col flex-row items-center mt-4 max-[640px]:absolute max-[640px]:right-0 max-[640px]:top-72`}
+          } lg:hidden transition-all duration-300 ease-in-out flex sm:flex-col flex-row items-center mt-4 max-[640px]:absolute max-[640px]:right-0 max-[640px]:top-52`}
         >
           <button
             className="text-white sm:rounded-full sm:p-2 sm:hover:bg-neutral-800 transition delay-75 ease-in-out sm:text-4xl text-xl max-[640px]:bg-neutral-100/40 hover:bg-neutral-700/50 rounded-tl-full rounded-bl-full py-6 px-2"

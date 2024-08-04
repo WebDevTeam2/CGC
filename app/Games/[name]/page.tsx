@@ -135,9 +135,9 @@ export default async function Games({ params }: { params: PostPage }) {
       <h1 className="text-white font-inter text-4xl pt-16 pb-16 relative h-12 flex items-center justify-center">
         {game.name}
       </h1>
-      <div className="flex items-center md:items-stretch flex-col md:flex-row h-[75vh] justify-evenly gap-20 pl-0">
+      <div className="flex items-center md:items-stretch flex-col lg:flex-row h-[75vh] justify-evenly gap-20 pl-0">
         <div className="flex md:w-[50vw] h-[75vh] w-[85vw] flex-col relative pl-10">
-          <div className="relative h-[35vh] w-full">
+          <div className="relative xl:h-[35vh] lg:h-[25vh] h-[20vh] w-full">
             <Image
               src={game.background_image}
               alt={game.name}

@@ -7,6 +7,7 @@ const Buttons = ({ gamesLength }: { gamesLength: number }) => {
   const totalPages = Math.ceil(gamesLength / pageSize);
   let buttons = Array.from({ length: totalPages }, (_, i) => i + 1);
   const [page, setPage] = useState(1);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const startingYear = 2024;
   let currentYear = new Date().getFullYear();
   let yearsPassed = currentYear - startingYear;
@@ -34,6 +35,18 @@ const Buttons = ({ gamesLength }: { gamesLength: number }) => {
     }
   }, []);
 
+  // Update window width on resize
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   // Determine the range of page buttons to display
   const getPageRange = () => {
     // returning 3 first pages
@@ -51,6 +64,9 @@ const Buttons = ({ gamesLength }: { gamesLength: number }) => {
     // returning 4 last
     else if (page > buttons.length - 2) {
       return buttons.slice(buttons.length - 4);
+    } else if (windowWidth < 450) {
+      // For screens below 450px, return [page - 1, page, page + 1]
+      return [page - 1, page, page + 1];
     } else {
       return [page - 2, page - 1, page, page + 1, page + 2];
     }
@@ -58,7 +74,7 @@ const Buttons = ({ gamesLength }: { gamesLength: number }) => {
   const pageRange = getPageRange();
 
   return (
-    <div className="relative text-white my-5 flex flex-row items-center justify-center gap-4 transition-all duration-200">
+    <div className="relative text-white my-5 flex flex-row items-center justify-center gap-4 max-[450px]:gap-2 transition-all duration-200">
       {page > 3 && (
         <Link href="1">
           <button className="hover:scale-110 transition-all duration-200 border-2 px-2 py-[0.2rem] rounded-md bg-stone-600 border-stone-600">

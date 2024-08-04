@@ -34,9 +34,7 @@ const SearchBar = ({ games }: { games: PostResult[] }) => {
       setSearch([]);
       setSelectedIndex(-1);
       if (searchElement) {
-        searchElement.style.width = ""; // Reset width
-        searchElement.style.margin = "";
-        searchElement.style.padding = "";
+        resetSearchElementStyles(searchElement);
       }
     } else {
       const filteredGames = games
@@ -51,13 +49,38 @@ const SearchBar = ({ games }: { games: PostResult[] }) => {
 
       setSearch(filteredGames);
       setSelectedIndex(-1);
-      if (searchElement) {
-        searchElement.style.width = "100vw"; // Set width to 100vw
-        searchElement.style.margin = "0";
-        searchElement.style.padding = "0 30px 0 15px";
+      if (searchElement && window.innerWidth < 640) {
+        goFull(searchElement);
       }
     } // Update search results
   };
+
+  const resetSearchElementStyles = (element: HTMLElement) => {
+    element.style.width = ""; // Reset width
+    element.style.margin = "";
+    element.style.padding = "";
+  };
+  const goFull = (element: HTMLElement) => {
+    element.style.width = "100vw"; // Set width to 100vw
+    element.style.margin = "0";
+    element.style.padding = "0 30px 0 15px";
+  };
+
+  const handleResize = () => {
+    const searchElement = document.querySelector(".search") as HTMLElement;
+    if (window.innerWidth >= 640) {
+      resetSearchElementStyles(searchElement);
+    } else if (inputValue) {
+      goFull(searchElement);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   //check if clicked outside of input container
   useEffect(() => {
@@ -161,7 +184,13 @@ const SearchBar = ({ games }: { games: PostResult[] }) => {
           className="absolute left-3 top-16 bg-black text-white rounded-2xl w-[93%]"
           style={{
             height:
-              visible && search.length > 0 ? `${search.length * 4.2}rem` : "0",
+              visible && search.length > 0
+                ? `${
+                    search.length === 1
+                      ? 7
+                      : search.length * (window.innerWidth < 550 ? 4.3 : 6.5)
+                  }rem`
+                : "0",
             transition: "height 0.2s ease-in-out",
             overflowY: "auto",
             overflowX: "hidden",
@@ -173,7 +202,7 @@ const SearchBar = ({ games }: { games: PostResult[] }) => {
               href={`/Games/${result.slug}`}
               className="flex items-center  flex-row transition-all duration-300 ease-in-out hover:scale-105 pl-3 hover:text-stone-400"
             >
-              <div className="relative overflow-hidden p-16 max-[550px]:p-12 -mb-8">
+              <div className="relative overflow-hidden p-16 max-[550px]:p-12 max-[550px]:-mb-4 -mb-8">
                 <Image
                   src={result.background_image}
                   alt={result.name}
@@ -183,7 +212,7 @@ const SearchBar = ({ games }: { games: PostResult[] }) => {
               </div>
               <div
                 onClick={() => handleAutoComplete(result.name)}
-                className="search-result py-1.5 cursor-pointer flex flex-col pl-6 "
+                className="search-result py-1.5 cursor-pointer flex flex-col pl-6 pr-4"
               >
                 {result.name}
               </div>

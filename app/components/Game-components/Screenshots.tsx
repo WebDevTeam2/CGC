@@ -177,7 +177,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
           </div>
         </div>
       )}
-      <div className="relative w-[30vw] h-[80vh] -translate-y-4 flex items-center flex-col gap-2 pr-12">
+      <div className="relative w-[45vw] h-[80vh] -translate-y-4 flex items-center flex-col gap-2 pr-12">
         <style jsx>{`
           ::-webkit-scrollbar {
             width: 10px;
@@ -198,16 +198,18 @@ const Screenshots = ({ params }: { params: PostPage }) => {
         >
           {screenshots && screenshots.length > 0 ? (
             screenshots.map((item, index) => (
-              <Image
-                key={index}
-                role="button"
-                alt={`game_screenshot_${index}`}
-                src={item.image}
-                width={300}
-                height={300}
-                className="transition-smooth duration-200 ease-in-out"
-                onClick={() => handleClick(index)}
-              />
+              <div className="relative overflow-hidden xl:p-36 p-28 -mt-12 -mb-12">
+                <Image
+                  key={index}
+                  role="button"
+                  alt={`game_screenshot_${index}`}
+                  src={item.image}
+                  fill={true}
+                  objectFit="contain"
+                  className="transition-smooth duration-200 ease-in-out"
+                  onClick={() => handleClick(index)}
+                />
+              </div>
             ))
           ) : (
             <span className="text-xl text-white text-center w-64">

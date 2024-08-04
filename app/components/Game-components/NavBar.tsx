@@ -44,7 +44,12 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
         </Link>
       </div>
       <div className="right-side-elements h-full">
-        <div className="lg:flex h-full text-4xl items-center hidden gap-3">
+        <div className="xl:flex h-full text-4xl items-center hidden gap-3">
+          <Link href={"/Games/page/1"}>
+            <button className="text-stone-200 text-xl transition delay-50 p-2 rounded-full hover:scale-125">
+              All Games
+            </button>
+          </Link>
           {logos.map((logo) => (
             <Link key={logo.key} href={`/Games/${logo.slug}/page/1`}>
               <button className="text-stone-200 transition delay-50 p-2 rounded-full hover:scale-125">
@@ -63,8 +68,8 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
           className={`${
             showmenu
               ? "max-[640px]:translate-x-0"
-              : "max-[640px]:translate-x-20"
-          } lg:hidden transition-all duration-300 ease-in-out flex sm:flex-col flex-row items-center mt-4 max-[640px]:absolute max-[640px]:right-0 max-[640px]:top-52`}
+              : "max-[640px]:translate-x-28"
+          } xl:hidden transition-all duration-300 ease-in-out flex sm:flex-col flex-row items-center mt-4 max-[640px]:absolute max-[640px]:right-0 max-[640px]:top-44`}
         >
           <button
             className="text-white sm:rounded-full sm:p-2 sm:hover:bg-neutral-800 transition delay-75 ease-in-out sm:text-4xl text-xl max-[640px]:bg-neutral-100/40 hover:bg-neutral-700/50 rounded-tl-full rounded-bl-full py-6 px-2"
@@ -80,12 +85,12 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
               showmenu
                 ? "sm:max-h-96 sm:opacity-100"
                 : "sm:max-h-0 sm:opacity-0"
-            }  bg-black transition-all duration-300 ease-in-out overflow-hidden rounded-lg p-4 gap-5 flex items-center justify-center flex-col`}
+            }  bg-black transition-all duration-300 ease-in-out overflow-hidden rounded-lg sm:p-4 p-2 gap-5 flex items-center justify-center flex-col`}
           >
             {logos.map((logo) => (
               <Link key={logo.key} href={`/Games/${logo.slug}/page/1`}>
                 <button
-                  className="text-stone-200 text-3xl transition delay-50 p-2 rounded-full hover:scale-125"
+                  className="text-stone-200 sm:text-3xl text-2xl transition delay-50 p-2 rounded-full hover:scale-125"
                   onClick={closeDropdown}
                 >
                   {logo.component}
@@ -95,6 +100,11 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
             <Link href={"Games/Signup"}>
               <button className="text-stone-200 text-3xl transition delay-50 p-2 rounded-full hover:scale-125">
                 <IoIosLogIn />
+              </button>
+            </Link>
+            <Link href={"/Games/page/1"}>
+              <button className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-125">
+                All Games
               </button>
             </Link>
           </ul>

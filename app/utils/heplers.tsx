@@ -86,7 +86,7 @@ export const fetchAndCombineDataSimple = async () => {
       console.error(`Error fetching data for range ${dateRange}:`, error);
     }
   }
-  // shuffleArray(allGames);
+  shuffleArray(allGames);
   return allGames;
 };
 
@@ -119,7 +119,7 @@ export const fetchAndCombineData = async (name: string) => {
       console.error(`Error fetching data for range ${dateRange}:`, error);
     }
   }
-  shuffleArray(allGames);
+  // shuffleArray(allGames);
   return allGames;
 };
 

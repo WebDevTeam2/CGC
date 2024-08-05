@@ -134,7 +134,6 @@ const Screenshots = ({ params }: { params: PostPage }) => {
                       alt={`game_screenshot_${index}`}
                       src={item.image}
                       fill={true}
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       objectFit="contain"
                       className="transition-smooth duration-200 ease-in-out"
                     />
@@ -177,7 +176,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
           </div>
         </div>
       )}
-      <div className="relative w-[45vw] h-[80vh] -translate-y-4 flex items-center flex-col gap-2 pr-12">
+      <div className="relative lg:w-[45vw] w-full h-[80vh] lg:-translate-y-4 -translate-y-0 flex items-center flex-col gap-2 lg:pr-12 pr-0 lg:pb-0 pb-20">
         <style jsx>{`
           ::-webkit-scrollbar {
             width: 10px;
@@ -194,17 +193,17 @@ const Screenshots = ({ params }: { params: PostPage }) => {
         `}</style>
         <span className="font-bold text-white text-3xl pb-2">Screenshots</span>
         <div
-          className={`grid ${styles.scrollbar} overflow-y-auto grid-cols-1 gap-2 text-balance transition-all duration-200 text-white`}
+          className={`flex ${styles.scrollbar} h-52 overflow-y-auto lg:flex-col flex-row gap-2 text-balance transition-all duration-200 text-white`}
         >
           {screenshots && screenshots.length > 0 ? (
             screenshots.map((item, index) => (
-              <div className="flex flex-col">
+              <div className="flex lg:flex-col w-72 flex-row">
                 <Image
                   key={index}
                   role="button"
                   alt={`game_screenshot_${index}`}
                   src={item.image}
-                  sizes="(min-width: 1250px) 20rem, (min-width: 1170px) 18rem, (min-width: 1120px) 17rem, 16rem"
+                  sizes="(min-width: 1250px) 20rem, (min-width: 1170px) 18rem, (min-width: 1120px) 17rem, (min-width: 1024px) 16rem, 15rem"
                   // Make the image display full width
                   width={300}
                   height={300}

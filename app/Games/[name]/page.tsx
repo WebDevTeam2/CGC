@@ -135,7 +135,7 @@ export default async function Games({ params }: { params: PostPage }) {
       <h1 className="text-white font-inter text-4xl pt-16 pb-16 relative h-12 flex items-center justify-center">
         {game.name}
       </h1>
-      <div className="flex items-center md:items-stretch flex-col lg:flex-row h-[75vh] justify-evenly gap-20 pl-0">
+      <div className="flex items-center md:items-stretch flex-col lg:flex-row h-[75vh] justify-evenly xl:gap-20 gap-10 pl-0">
         <div className="flex md:w-[50vw] h-[75vh] w-[85vw] flex-col relative pl-10">
           <div className="relative xl:h-[35vh] lg:h-[25vh] h-[20vh] w-full">
             <Image
@@ -149,7 +149,7 @@ export default async function Games({ params }: { params: PostPage }) {
           <div className="relative flex flex-col -top-10">
             <div className="fade-bottom"></div>
             <div className="flex md:flex-col flex-row md:gap-2 gap-8 text-lg md:px-4 px-0 py-6 text-center font-inter text-white bg-black rounded-b-xl h-full">
-              <div className="flex md:flex-row md:items-stretch items-center flex-col md:justify-between justify-normal">
+              <div className="flex md:flex-row md:items-stretch gap-4 items-center flex-col md:justify-between justify-normal">
                 <span className="lg:text-lg text-2xl font-bold">Rating:</span>
                 {game.rating > 0 ? (
                   <span className="flex gap-1 text-white">
@@ -188,7 +188,7 @@ export default async function Games({ params }: { params: PostPage }) {
                   )}
                 </span>
               </div>
-              <div className="flex md:flex-row md:items-stretch items-center flex-col md:justify-between justify-normal">
+              <div className="flex md:flex-row gap-6 md:items-stretch items-center flex-col md:justify-between justify-normal">
                 <span className="lg:text-lg text-2xl font-bold">
                   Platforms:
                 </span>
@@ -223,11 +223,11 @@ export default async function Games({ params }: { params: PostPage }) {
           </div>
         </div>
         {game.description_raw ? (
-          <span className="font-inter leading-8 border shadow-xl shadow-gray-600 relative md:w-1/2 w-4/5 md:h-[78vh] h-auto bg-stone-900/60 p-6 rounded-2xl md:text-balance text-center text-white text-xl transition-[width] md:overflow-hidden md:overflow-y-visible overflow-visible ease-in-out duration-300">
+          <span className="font-inter leading-8 border shadow-xl shadow-gray-600 relative md:w-1/2 w-4/5 md:h-[78vh] h-auto bg-stone-900/60 p-6 rounded-2xl md:text-balance xl:text-center text-white text-xl transition-[width] md:overflow-hidden md:overflow-y-visible overflow-visible ease-in-out duration-300">
             {game.description_raw}
           </span>
         ) : (
-          <span>---</span>
+          <span>No Description Yet For This Game</span>
         )}
         <Screenshots params={params} />
       </div>

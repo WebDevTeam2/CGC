@@ -198,14 +198,16 @@ const Screenshots = ({ params }: { params: PostPage }) => {
         >
           {screenshots && screenshots.length > 0 ? (
             screenshots.map((item, index) => (
-              <div className="relative overflow-hidden xl:p-36 p-28 -mt-12 -mb-12">
+              <div className="flex flex-col">
                 <Image
                   key={index}
                   role="button"
                   alt={`game_screenshot_${index}`}
                   src={item.image}
-                  fill={true}
-                  objectFit="contain"
+                  sizes="(min-width: 1250px) 20rem, (min-width: 1170px) 18rem, (min-width: 1120px) 17rem, 16rem"
+                  // Make the image display full width
+                  width={300}
+                  height={300}
                   className="transition-smooth duration-200 ease-in-out"
                   onClick={() => handleClick(index)}
                 />

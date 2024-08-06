@@ -176,10 +176,11 @@ const Screenshots = ({ params }: { params: PostPage }) => {
           </div>
         </div>
       )}
-      <div className="relative lg:w-[45vw] w-full h-[80vh] lg:-translate-y-4 -translate-y-0 flex items-center flex-col gap-2 lg:pr-12 pr-0 lg:pb-0 pb-20">
+      <div className="relative lg:w-[30vw] w-[90vw] lg:h-[80vh] h-auto lg:-translate-y-4 -translate-y-0 flex items-center flex-col gap-2 lg:pr-12 pr-0 lg:pb-0 pb-20">
         <style jsx>{`
           ::-webkit-scrollbar {
-            width: 10px;
+            width: 6px;
+            height: 6px;
           }
           ::-webkit-scrollbar-track {
             background: #f1f1f1;
@@ -193,24 +194,22 @@ const Screenshots = ({ params }: { params: PostPage }) => {
         `}</style>
         <span className="font-bold text-white text-3xl pb-2">Screenshots</span>
         <div
-          className={`flex ${styles.scrollbar} h-52 overflow-y-auto lg:flex-col flex-row gap-2 text-balance transition-all duration-200 text-white`}
+          className={`flex ${styles.scrollbar} overflow-x-auto lg:overflow-y-auto w-full lg:flex-col flex-row gap-2 text-balance transition-all duration-200 text-white`}
         >
           {screenshots && screenshots.length > 0 ? (
             screenshots.map((item, index) => (
-              <div className="flex lg:flex-col w-72 flex-row">
-                <Image
-                  key={index}
-                  role="button"
-                  alt={`game_screenshot_${index}`}
-                  src={item.image}
-                  sizes="(min-width: 1250px) 20rem, (min-width: 1170px) 18rem, (min-width: 1120px) 17rem, (min-width: 1024px) 16rem, 15rem"
-                  // Make the image display full width
-                  width={300}
-                  height={300}
-                  className="transition-smooth duration-200 ease-in-out"
-                  onClick={() => handleClick(index)}
-                />
-              </div>
+              <Image
+                key={index}
+                role="button"
+                alt={`game_screenshot_${index}`}
+                src={item.image}
+                sizes="(min-width: 1550px) 19rem, (min-width: 1450px) 17rem, (min-width: 1350px) 16rem, (min-width: 1350px) 15rem, (min-width: 1150px) 14rem, (min-width: 1024px) 13rem, 18rem"
+                // Make the image display full width
+                width={300}
+                height={300}
+                className=" transition-smooth  duration-200 ease-in-out"
+                onClick={() => handleClick(index)}
+              />
             ))
           ) : (
             <span className="text-xl text-white text-center w-64">

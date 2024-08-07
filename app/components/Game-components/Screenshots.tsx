@@ -98,10 +98,10 @@ const Screenshots = ({ params }: { params: PostPage }) => {
   return (
     <>
       {isOpen && (
-        <div className="fixed w-full h-screen -translate-y-4 bg-black bg-opacity-75 flex justify-center z-30">
+        <div className="fixed w-full h-[80rem] lg:-translate-y-4 min-[780px]:-translate-y-[15rem] -translate-y-[12rem] lg:pt-0 pt-24 bg-black bg-opacity-75 flex justify-center z-30">
           <div
             ref={imageRef}
-            className="relative h-[70vh] w-[50rem] transition-all duration-200 text-white"
+            className="relative lg:h-[70vh] lg:w-[50rem] min-[800px]:h-[35rem] min-[800px]:w-[40rem] min-[670px]:h-[35rem] min-[670px]:w-[35rem] min-[580px]:h-[35rem] min-[580px]:w-[30rem] h-[35rem] w-[25rem] transition-all duration-200 text-white"
           >
             {screenshots && screenshots.length > 0 ? (
               screenshots.map((item, index) => (
@@ -168,7 +168,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
               )}
             </div>
             <button
-              className="absolute translate-y-16 rounded-full  px-3 py-0.5 opacity-[.8] bg-black right-2 text-white text-2xl transition-all duration-200 hover:bg-slate-300 hover:text-black"
+              className="absolute lg:translate-y-12 min-[800px]:translate-y-20 translate-y-24 rounded-full  px-3 py-0.5 opacity-[.8] bg-black right-2 text-white text-2xl transition-all duration-200 hover:bg-slate-300 hover:text-black"
               onClick={handleClose}
             >
               x
@@ -176,7 +176,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
           </div>
         </div>
       )}
-      <div className="relative lg:w-[30vw] w-[90vw] lg:h-[80vh] h-auto lg:-translate-y-4 -translate-y-0 flex items-center flex-col gap-2 lg:pr-12 pr-0 lg:pb-0 pb-20">
+      <div className="relative lg:w-[25vw] w-[90vw] lg:h-[80vh] h-auto lg:-translate-y-4 -translate-y-0 flex items-center flex-col gap-2 lg:pr-12 pr-0 lg:pb-0 pb-20">
         <style jsx>{`
           ::-webkit-scrollbar {
             width: 6px;
@@ -194,7 +194,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
         `}</style>
         <span className="font-bold text-white text-3xl pb-2">Screenshots</span>
         <div
-          className={`flex ${styles.scrollbar} overflow-x-auto lg:overflow-y-auto w-full lg:flex-col flex-row gap-2 text-balance transition-all duration-200 text-white`}
+          className={`flex ${styles.scrollbar} items-center overflow-x-auto lg:overflow-auto w-full lg:flex-col min-[480px]:flex-row flex-col gap-2 text-balance transition-all duration-200 text-white`}
         >
           {screenshots && screenshots.length > 0 ? (
             screenshots.map((item, index) => (
@@ -203,7 +203,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
                 role="button"
                 alt={`game_screenshot_${index}`}
                 src={item.image}
-                sizes="(min-width: 1550px) 19rem, (min-width: 1450px) 17rem, (min-width: 1350px) 16rem, (min-width: 1350px) 15rem, (min-width: 1150px) 14rem, (min-width: 1024px) 13rem, 18rem"
+                sizes="(min-width: 1550px) 19rem, (min-width: 1450px) 17rem, (min-width: 1350px) 16rem, (min-width: 1350px) 15rem, (min-width: 1150px) 14rem, (min-width: 1024px) 13rem, (min-width: 650px) 18rem, (min-width: 480px) 13rem, 19rem"
                 // Make the image display full width
                 width={300}
                 height={300}

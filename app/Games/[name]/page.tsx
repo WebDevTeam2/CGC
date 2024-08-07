@@ -132,9 +132,9 @@ export default async function Games({ params }: { params: PostPage }) {
   return (
     <div>
       <div className="bg-black fixed h-screen w-screen"></div>
-      <div className="flex pt-20 items-center lg:items-stretch flex-col lg:flex-row h-[75vh] justify-evenly xl:gap-20 lg:gap-10 gap-32 pl-0">
-        <div className="flex lg:w-[50vw] h-[75vh] w-[85vw] flex-col relative lg:pl-10 pl-0">
-          <div className="relative xl:h-[35vh] lg:h-[25vh] min-[590px]:h-[100vh] min-[520px]:h-[35vh] min-[450px]:h-[30vh] min-[380px]:h-[25vh] h-[20vh] lg:p-0 min-[780px]:p-60 min-[590px]:p-32 p-0 w-full">
+      <div className="flex pt-20 items-center lg:items-stretch flex-col lg:flex-row h-full justify-evenly xl:gap-20 gap-10 pl-0">
+        <div className="flex lg:w-[50vw] h-full w-[85vw] flex-col relative lg:pl-10 pl-0">
+          <div className="relative xl:h-[35vh] lg:h-[25vh] h-auto lg:p-0 min-[780px]:p-60 min-[580px]:p-44 min-[420px]:p-32 p-24 w-full">
             <Image
               src={game.background_image}
               alt={game.name}
@@ -238,7 +238,7 @@ export default async function Games({ params }: { params: PostPage }) {
         </div>
 
         {game.description_raw ? (
-          <span className="font-inter leading-8 border shadow-xl shadow-gray-600 relative lg:w-1/2 w-4/5 lg:h-[78vh] h-auto bg-stone-900/60 p-6 rounded-2xl md:text-balance xl:text-center text-white text-xl transition-[width] lg:overflow-hidden lg:overflow-y-visible  ease-in-out duration-300">
+          <span className="font-inter mb-20 leading-8 border shadow-xl shadow-gray-600 relative lg:w-1/2 w-4/5 lg:h-[78vh] h-96 overflow-y-auto lg:overflow-y-visible bg-stone-900/60 p-6 rounded-2xl md:text-balance xl:text-center text-white text-xl transition-[width] lg:overflow-hidden ease-in-out duration-300">
             {game.description_raw}
           </span>
         ) : (

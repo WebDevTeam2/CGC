@@ -62,7 +62,7 @@ const searchPage = async ({ params }: any) => {
   });
 
   return (
-    <div>
+    <div className="overflow-hidden">
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-64 h-full not-search">
         {/* Kanw Link oloklhrh th kartela */}
         {allResults.map((item) => (

@@ -61,7 +61,7 @@ const UpComing = async ({ params }: { params: { page: string } }) => {
   const showData: TVShows = await getTvShowData(params.page.toString());
 
   return (
-    <div>
+    <div className="overflow-hidden">
       <div className="flex justify-end mr-10 mt-2">
         <Link
           href={"/Movies/Upcoming-Movies/1"}

@@ -61,8 +61,8 @@ const MovieDetails = async ({ params }: { params: MovieDetails }) => {
 
   return (
     <main className="font-roboto not-search">
-      <h1 className="ml-[20rem] my-10 font-medium text-4xl">{movie.title}</h1>
-      <div className="flex flex-row ml-[20rem] mt-[2rem] gap-4">
+      <h1 className="sm:ml-5 md:ml-[10rem] lg:ml-[20rem] my-10 font-medium text-4xl">{movie.title}</h1>
+      <div className="flex flex-row sm:ml-5 md:ml-[10rem] lg:ml-[20rem] mt-[2rem] gap-4">
         <Image
           src={`${imageURL}${movie.poster_path}`}
           alt={`${movie.title} poster`}
@@ -72,7 +72,7 @@ const MovieDetails = async ({ params }: { params: MovieDetails }) => {
           priority
         />
 
-        <div className="ml-40 flex flex-col text-[18px] gap-3">
+        <div className="sm:ml-5 md:ml-10 lg:ml-40 flex flex-col text-[18px] gap-3">
           <h2 className="font-bold">Movie title: </h2>
           <p className="">{movie.title}</p>
           <h2 className="font-bold">Original title: </h2>
@@ -98,7 +98,7 @@ const MovieDetails = async ({ params }: { params: MovieDetails }) => {
           </div>
         </div>
       </div>
-      <div className="ml-[20rem] mt-10 text-[18px]">
+      <div className="sm:ml-5 md:ml-[10rem] lg:ml-[20rem] mt-10 text-[18px]">
         <h2 className="font-bold">Overview:</h2>
         <p>{movie.overview}</p>
       </div>

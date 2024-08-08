@@ -80,7 +80,7 @@ export default function Nav() {
     <div className="nav-for-hover dummy-class">
       <nav
         id="scroll-nav"
-        className="lg:w-20 lg:h-full sm:w-full fixed bg-[#23232e] sm:z-10 sm:bottom-0 lg:hover:w-56 group duration-700 ease-in-out not-search navbar"
+        className="lg:w-20 lg:h-full sm:w-full overflow-x-auto fixed bg-[#23232e] sm:z-10 sm:bottom-0 lg:hover:w-56 group duration-700 ease-in-out not-search navbar"
       >
         <ul className="flex sm:flex-row lg:flex-col items-center p-0 m-0 h-full not-search">
           <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
@@ -103,7 +103,7 @@ export default function Nav() {
               <FaMagnifyingGlass
                 style={{ margin: "0 1.5rem", flexShrink: 0 }}
               />
-              <span className="opacity-0 group-hover:opacity-100 transition duration-700 ease-in-out ml-2 not-search"> Search</span>
+              <span className="sm:block md:block lg:hidden transition duration-700 ease-in-out ml-2 not-search"> Search</span>
             </Link>
           </li>
           <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">

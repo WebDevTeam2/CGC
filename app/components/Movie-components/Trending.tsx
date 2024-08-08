@@ -59,7 +59,7 @@ const Trending = async () => {
 
 
   return (
-    <div>
+    <div className="overflow-hidden">
       <div className="flex justify-end mr-10 mt-2">
         <Link
           href={"/Movies/TVShows/Trending"}

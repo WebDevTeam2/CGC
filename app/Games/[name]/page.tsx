@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { IoStarSharp } from "react-icons/io5";
 import Screenshots from "@/app/components/Game-components/Screenshots";
+import Link from "next/link";
 
 const basePosterUrl = `https://api.rawg.io/api/games/`;
 const apiPosterKey = `key=076eda7a1c0e441eac147a3b0fe9b586`;
@@ -85,7 +86,7 @@ const convertToStars = (rating: number) => {
         key={i}
         style={{
           background: "darkgreen",
-          fontSize: "26px",
+          fontSize: "24px",
           padding: "2px",
         }}
       />
@@ -98,7 +99,7 @@ const convertToStars = (rating: number) => {
         key="rest"
         style={{
           background: `linear-gradient(to right, darkgreen ${percentage_r}, grey 15%)`,
-          fontSize: "26px",
+          fontSize: "24px",
           padding: "2px",
         }}
       />
@@ -131,7 +132,7 @@ export default async function Games({ params }: { params: PostPage }) {
 
   return (
     <div>
-      <div className="bg-black fixed h-screen w-screen"></div>
+      <div className="bg-black bg-cover fixed h-screen w-screen"></div>
       <div className="flex pt-20 items-center lg:items-stretch flex-col lg:flex-row h-full justify-evenly xl:gap-20 gap-10 pl-0">
         <div className="flex lg:w-[50vw] h-full w-[85vw] flex-col relative lg:pl-10 pl-0">
           <div className="relative xl:h-[35vh] lg:h-[25vh] h-auto lg:p-0 min-[780px]:p-60 min-[580px]:p-44 min-[420px]:p-32 p-24 w-full">
@@ -158,7 +159,7 @@ export default async function Games({ params }: { params: PostPage }) {
                   Rating:
                 </span>
                 {game.rating > 0 ? (
-                  <span className="flex gap-1 text-white lg:text-lg min-[450px]:text-xl text-lg">
+                  <span className="flex gap-1 text-white lg:text-lg min-[450px]:text-xl text-md">
                     {convertToStars(game.rating)}({roundNum(game.ratings_count)}
                     )
                   </span>
@@ -232,6 +233,14 @@ export default async function Games({ params }: { params: PostPage }) {
                 ) : (
                   <span>---</span>
                 )}
+              </div>
+              <div className="flex w-full justify-center items-center">
+                <Link
+                  href={`/Games/${game.slug}/review`}
+                  className="bg-neutral-600 hover:bg-neutral-800 text-xl py-2 px-6 rounded-xl transition-all duration-200 hover:scale-105"
+                >
+                  Write a review
+                </Link>
               </div>
             </div>
           </div>

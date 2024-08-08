@@ -98,10 +98,10 @@ const Screenshots = ({ params }: { params: PostPage }) => {
   return (
     <>
       {isOpen && (
-        <div className="fixed w-full h-[80rem] lg:-translate-y-4 min-[780px]:-translate-y-[15rem] -translate-y-[12rem] lg:pt-0 pt-24 bg-black bg-opacity-75 flex justify-center z-30">
+        <div className="fixed w-full h-[80rem] lg:-translate-y-4 min-[780px]:-translate-y-[17rem] min-[480px]:-translate-y-[14rem] -translate-y-[32rem]  lg:pt-0 pt-24 bg-black bg-opacity-75 flex justify-center z-30">
           <div
             ref={imageRef}
-            className="relative lg:h-[70vh] lg:w-[50rem] min-[800px]:h-[35rem] min-[800px]:w-[40rem] min-[670px]:h-[35rem] min-[670px]:w-[35rem] min-[580px]:h-[35rem] min-[580px]:w-[30rem] h-[35rem] w-[25rem] transition-all duration-200 text-white"
+            className="relative lg:h-[70vh] lg:w-[50rem] min-[800px]:h-[35rem] min-[800px]:w-[40rem] min-[670px]:h-[35rem] min-[670px]:w-[35rem] min-[580px]:h-[35rem] min-[580px]:w-[30rem] min-[480px]:h-[35rem] min-[480px]:w-[25rem] h-[32rem] w-[19rem] transition-all duration-200 text-white"
           >
             {screenshots && screenshots.length > 0 ? (
               screenshots.map((item, index) => (
@@ -145,7 +145,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
                 Loading...
               </span>
             )}
-            <div className="flex w-full  translate-y-[32vh] text-4xl opacity-[.8] px-2 pointer-events-none justify-between">
+            <div className="flex w-full min-[480px]:translate-y-[32vh] translate-y-[28vh] min-[480px]:text-4xl text-3xl opacity-[.8] px-2 pointer-events-none justify-between">
               {screenshots && currentIndex > 0 ? (
                 <button
                   className="pointer-events-auto bg-black rounded-full transition-all duration-200 hover:bg-slate-300 hover:text-black"
@@ -168,7 +168,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
               )}
             </div>
             <button
-              className="absolute lg:translate-y-12 min-[800px]:translate-y-20 translate-y-24 rounded-full  px-3 py-0.5 opacity-[.8] bg-black right-2 text-white text-2xl transition-all duration-200 hover:bg-slate-300 hover:text-black"
+              className="absolute lg:translate-y-16 min-[800px]:translate-y-20  min-[680px]:translate-y-24 min-[580px]:translate-y-28 translate-y-36 rounded-full  px-3 py-0.5 opacity-[.8] bg-black right-2 text-white min-[480px]:text-2xl text-lg transition-all duration-200 hover:bg-slate-300 hover:text-black"
               onClick={handleClose}
             >
               x
@@ -176,7 +176,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
           </div>
         </div>
       )}
-      <div className="relative lg:w-[25vw] w-[90vw] lg:h-[80vh] h-auto lg:-translate-y-4 -translate-y-0 flex items-center flex-col gap-2 lg:pr-12 pr-0 lg:pb-0 pb-20">
+      <div className="relative lg:w-[20vw] w-[90vw] lg:h-[80vh] h-auto lg:-translate-y-4 -translate-y-0 flex items-center flex-col gap-2 lg:pr-12 pr-0 lg:pb-0 pb-20">
         <style jsx>{`
           ::-webkit-scrollbar {
             width: 6px;
@@ -203,9 +203,9 @@ const Screenshots = ({ params }: { params: PostPage }) => {
                 role="button"
                 alt={`game_screenshot_${index}`}
                 src={item.image}
-                sizes="(min-width: 1550px) 19rem, (min-width: 1450px) 17rem, (min-width: 1350px) 16rem, (min-width: 1350px) 15rem, (min-width: 1150px) 14rem, (min-width: 1024px) 13rem, (min-width: 650px) 18rem, (min-width: 480px) 13rem, 19rem"
+                sizes="(min-width: 1550px) 15rem, (min-width: 1450px) 12rem, (min-width: 1350px) 11rem, (min-width: 1024px) 11rem, (min-width: 650px) 18rem, (min-width: 480px) 13rem, 15rem"
                 // Make the image display full width
-                width={300}
+                width={240}
                 height={300}
                 className=" transition-smooth  duration-200 ease-in-out"
                 onClick={() => handleClick(index)}

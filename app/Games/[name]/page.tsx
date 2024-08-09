@@ -2,20 +2,21 @@ import Image from "next/image";
 import { IoStarSharp } from "react-icons/io5";
 import Screenshots from "@/app/components/Game-components/Screenshots";
 import Link from "next/link";
+import { IoReturnUpBack } from "react-icons/io5";
+import { redirect } from "next/navigation";
 
 const basePosterUrl = `https://api.rawg.io/api/games/`;
 const apiPosterKey = `key=076eda7a1c0e441eac147a3b0fe9b586`;
 
 interface PostPage {
-  id: number;
-  slug: string;
-  name: string;
+  id: number; //use
+  slug: string; //use
+  name: string; //use
+  playtime: number;
+  ratings_count: number;
   next: string;
   previous: string;
   count: number;
-  playtime: number;
-  reddit_logo: string;
-  ratings_count: number;
   results: [
     {
       id: number;
@@ -46,20 +47,8 @@ interface PostPage {
       slug: string;
     }
   ];
-  tags: [
-    {
-      id: number;
-      name: string;
-      slug: string;
-      language: string;
-      games_count: number;
-      image_background: string;
-    }
-  ];
   released: string;
-  tba: boolean;
   background_image: string;
-  background_image_additional: string;
   rating: number;
   rating_top: number;
   description_raw: string;
@@ -76,9 +65,7 @@ const convertToStars = (rating: number) => {
   const newR: JSX.Element[] = [];
   const whole = Math.floor(rating);
   const remainder = rating - whole;
-  const rest = 1 - remainder;
   let percentage_r = remainder * 100 + "%";
-  // let rest_r = rest * 100 + "%";
 
   for (let i = 0; i < whole; i++) {
     newR.push(
@@ -127,12 +114,19 @@ const getCachedGames = async (name: string) => {
 };
 
 export default async function Games({ params }: { params: PostPage }) {
-  // if (!cachedGames) const game = await getGame(params.name);
   const game = await getCachedGames(params.name);
 
   return (
     <div>
-      <div className="bg-black bg-cover fixed h-screen w-screen"></div>
+      <div className="bg-black z-0 bg-cover fixed h-screen w-screen"></div>
+      <Link
+        href={`/Games/page/1`}
+        className="w-full h-full absolute z-50 pointer-events-none"
+      >
+        <button className="bg-stone-300 ml-4 mt-4 pointer-events-auto text-4xl text-stone-800 transition delay-50 p-1 rounded-full hover:scale-110">
+          <IoReturnUpBack />
+        </button>
+      </Link>
       <div className="flex pt-20 items-center lg:items-stretch flex-col lg:flex-row h-full justify-evenly xl:gap-20 gap-10 pl-0">
         <div className="flex lg:w-[50vw] h-full w-[85vw] flex-col relative lg:pl-10 pl-0">
           <div className="relative xl:h-[35vh] lg:h-[25vh] h-auto lg:p-0 min-[780px]:p-60 min-[580px]:p-44 min-[420px]:p-32 p-24 w-full">
@@ -256,8 +250,6 @@ export default async function Games({ params }: { params: PostPage }) {
 
         <Screenshots params={params} />
       </div>
-
-      {/* button functionality here */}
     </div>
   );
 }

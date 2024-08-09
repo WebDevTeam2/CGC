@@ -56,10 +56,10 @@ const Recommendations = ({ movieId }: {movieId: string}) => {
 
   return (
     <div>
-      <h2 className="ml-[20rem] mt-10 text-[18px] font-bold">
+      <h2 className="sm:ml-5 md:ml-[10rem] lg:ml-[20rem] mt-10 text-[18px] font-bold">
         Recommended Movies:{" "}
       </h2>
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-[20rem] h-full not-search">
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-5 md:ml-[10rem] lg:ml-[20rem] h-full not-search">
         {recommendedMovies.slice(0, visible).map((item) => (
           <Link
             key={item.id}
@@ -95,7 +95,7 @@ const Recommendations = ({ movieId }: {movieId: string}) => {
         ))}
       </div>
       {counter < 4 && (
-      <button className="ml-[20rem] mt-4 bg-[#4c545b] hover:bg-[#3a4045] transition duration-200 text-white font-bold py-2 px-4 rounded rec-button" onClick={() => {
+      <button className="sm:ml-5 md:ml-[10rem] lg:ml-[20rem] mt-4 bg-[#4c545b] hover:bg-[#3a4045] transition duration-200 text-white font-bold py-2 px-4 rounded rec-button" onClick={() => {
         getMoreRecommendations();
         setCounter(counter + 1);
       }}>Load More</button>

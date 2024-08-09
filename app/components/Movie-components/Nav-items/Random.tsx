@@ -41,7 +41,7 @@ const Random = () => {
         href={`/Movies/${randomId}`}
       >
         <TiArrowShuffle style={{ margin: "0 1.5rem", flexShrink: 0 }} />
-        <span className="opacity-0 group-hover:opacity-100 transition duration-700 ease-in-out ml-2 not-search">
+        <span className="sm:block md:block lg:hidden transition duration-700 ease-in-out ml-2 not-search">
           Random
         </span>
       </Link>

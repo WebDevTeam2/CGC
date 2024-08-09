@@ -13,9 +13,12 @@
 
   .navbar {
     position: fixed;
-    bottom: 0;
+    bottom: 0;    
   }
+
 }
+
+
 
 /* Gia na kanoun fullScreen ta video sto hover */
 .parent-container .clip-container {
@@ -35,6 +38,14 @@
 
   .nav-for-hover:hover ~ .trending-page {
     margin-left: 5rem;
+  }
+
+  .nav-for-hover span {
+    display: none;
+  }
+
+  .nav-for-hover:hover span {
+    display: block;
   }
 }
 

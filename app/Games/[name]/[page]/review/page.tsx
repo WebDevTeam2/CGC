@@ -21,11 +21,16 @@ interface PostPage {
   background_image: string;
 }
 
+interface Post {
+  page: number;
+}
+
 interface Rating {
   id: number;
   title: string;
   count: number;
 }
+interface CombinedParams extends PostPage, Post {}
 
 const getGame = async (name: string) => {
   const res = await fetch(basePosterUrl + name + "?" + apiPosterKey);
@@ -46,7 +51,7 @@ const getReaction = (id: number) => {
   return reaction ? reaction.reaction : "❓";
 };
 
-export default async function Games({ params }: { params: PostPage }) {
+export default async function Games({ params }: { params: CombinedParams }) {
   const game = await getGame(params.name);
   const sortedRatings = game.ratings.sort(
     (a: Rating, b: Rating) => b.id - a.id
@@ -54,7 +59,10 @@ export default async function Games({ params }: { params: PostPage }) {
 
   return (
     <div className="bg-black flex flex-col relative items-center bg-cover h-screen w-full">
-      <Link href={`/Games/${game.slug}`} className="w-full pointer-events-none">
+      <Link
+        href={`/Games/${game.slug}/${params.page}`}
+        className="w-full pointer-events-none"
+      >
         <button className="bg-stone-300 ml-4 mt-4 pointer-events-auto left-0 text-4xl text-stone-800 transition delay-50 p-1 rounded-full hover:scale-110">
           <IoReturnUpBack />
         </button>

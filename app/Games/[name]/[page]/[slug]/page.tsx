@@ -3,9 +3,8 @@ import { IoStarSharp } from "react-icons/io5";
 import Screenshots from "@/app/components/Game-components/Screenshots";
 import Link from "next/link";
 import { IoReturnUpBack } from "react-icons/io5";
-import { redirect } from "next/navigation";
 
-const basePosterUrl = `https://api.rawg.io/api/games/`;
+const basePosterUrl = `https://api.rawg.io/api/games`;
 const apiPosterKey = `key=076eda7a1c0e441eac147a3b0fe9b586`;
 
 interface PostPage {
@@ -53,6 +52,10 @@ interface PostPage {
   rating_top: number;
   description_raw: string;
 }
+interface Post {
+  page: number;
+}
+interface CombinedParams extends PostPage, Post {}
 
 const roundNum = (rating_count: number) => {
   let newNum;
@@ -98,8 +101,8 @@ const convertToStars = (rating: number) => {
 
 let cachedGames: { [key: string]: any } = {};
 
-const getGame = async (name: string) => {
-  const res = await fetch(basePosterUrl + name + "?" + apiPosterKey);
+const getGameDets = async (name: string) => {
+  const res = await fetch(basePosterUrl + "/" + name + "?" + apiPosterKey);
   // https://api.rawg.io/api/games/grand-theft-auto-v?key=f0e283f3b0da46e394e48ae406935d25
   const data = await res.json();
   return data;
@@ -107,20 +110,20 @@ const getGame = async (name: string) => {
 
 const getCachedGames = async (name: string) => {
   if (!cachedGames[name]) {
-    const gameData = await getGame(name);
+    const gameData = await getGameDets(name);
     cachedGames[name] = gameData;
   }
   return cachedGames[name];
 };
 
-export default async function Games({ params }: { params: PostPage }) {
+export default async function Games({ params }: { params: CombinedParams }) {
   const game = await getCachedGames(params.name);
 
   return (
     <div>
       <div className="bg-black z-0 bg-cover fixed h-screen w-screen"></div>
       <Link
-        href={`/Games/page/1`}
+        href={`/Games/${params.slug}/page/${params.page}`}
         className="w-full h-full absolute z-50 pointer-events-none"
       >
         <button className="bg-stone-300 ml-4 mt-4 pointer-events-auto text-4xl text-stone-800 transition delay-50 p-1 rounded-full hover:scale-110">
@@ -230,7 +233,7 @@ export default async function Games({ params }: { params: PostPage }) {
               </div>
               <div className="flex w-full justify-center items-center">
                 <Link
-                  href={`/Games/${game.slug}/review`}
+                  href={`/Games/${game.slug}/${params.page}/review`}
                   className="bg-neutral-600 hover:bg-neutral-800 text-xl py-2 px-6 rounded-xl transition-all duration-200 hover:scale-105"
                 >
                   Write a review

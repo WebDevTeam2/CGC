@@ -78,7 +78,7 @@ export const fetchAndCombineDataSimple = async () => {
     let page = 1;
     try {
       const dateRangeUrl = `${apiPosterUrl}&dates=${dateRange}`;
-      console.log(`Fetching data for date range: ${dateRange}, page: ${page}`);
+      // console.log(`Fetching data for date range: ${dateRange}, page: ${page}`);
       const gameResults = await getGameData(dateRangeUrl, page);
       const slicedResults = gameResults.slice(0, 10);
       allGames.push(...slicedResults);
@@ -111,7 +111,7 @@ export const fetchAndCombineData = async (name: string) => {
     let page = 1;
     try {
       const dateRangeUrl = `${apiPosterUrl}&dates=${dateRange}&parent_platforms=${platformId}`;
-      console.log(`Fetching data for date range: ${dateRange}, page: ${page}`);
+      // console.log(`Fetching data for date range: ${dateRange}, page: ${page}`);
       const gameResults = await getGameData(dateRangeUrl, page);
       const slicedResults = gameResults.slice(0, 10);
       allGames.push(...slicedResults);

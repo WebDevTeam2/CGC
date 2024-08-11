@@ -7,7 +7,7 @@ const Buttons = ({ gamesLength }: { gamesLength: number }) => {
   const totalPages = Math.ceil(gamesLength / pageSize);
   let buttons = Array.from({ length: totalPages }, (_, i) => i + 1);
   const [page, setPage] = useState(1);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState<number | undefined>(undefined);
   const startingYear = 2024;
   let currentYear = new Date().getFullYear();
   let yearsPassed = currentYear - startingYear;
@@ -64,7 +64,7 @@ const Buttons = ({ gamesLength }: { gamesLength: number }) => {
     // returning 4 last
     else if (page > buttons.length - 2) {
       return buttons.slice(buttons.length - 4);
-    } else if (windowWidth < 450) {
+    } else if (windowWidth !== undefined && windowWidth < 450) {
       // For screens below 450px, return [page - 1, page, page + 1]
       return [page - 1, page, page + 1];
     } else {

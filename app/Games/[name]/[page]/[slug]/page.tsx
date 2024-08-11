@@ -233,7 +233,7 @@ export default async function Games({ params }: { params: CombinedParams }) {
               </div>
               <div className="flex w-full justify-center items-center">
                 <Link
-                  href={`/Games/${game.slug}/${params.page}/review`}
+                  href={`/Games/${game.slug}/${params.page}/${params.slug}/review`}
                   className="bg-neutral-600 hover:bg-neutral-800 text-xl py-2 px-6 rounded-xl transition-all duration-200 hover:scale-105"
                 >
                   Write a review

@@ -58,25 +58,25 @@ export default async function Games({ params }: { params: CombinedParams }) {
   );
 
   return (
-    <div className="bg-black bg-cover flex flex-col fixed overflow-hidden overflow-y-auto items-center h-screen w-full">
+    <div className="bg-black flex flex-col relative items-center bg-cover h-screen w-full">
       <Link
-        href={`/Games/${game.slug}/${params.page}`}
+        href={`/Games/${game.slug}/${params.page}/${params.slug}`}
         className="w-full pointer-events-none"
       >
         <button className="bg-stone-300 ml-4 mt-4 pointer-events-auto left-0 text-4xl text-stone-800 transition delay-50 p-1 rounded-full hover:scale-110">
           <IoReturnUpBack />
         </button>
       </Link>
-      <form className="flex mt-10 mx-10 mb-20 flex-col relative bg-neutral-200 rounded-2xl">
+      <form className="flex mt-10 flex-col relative bg-neutral-200 rounded-2xl">
         {/* header of review */}
-        <div className="sm:p-8 p-4 flex flex-col gap-3 font-sans border-2 rounded-t-2xl bg-black w-full">
+        <div className="p-8 flex flex-col gap-3 font-sans border-2 rounded-t-2xl bg-black w-full">
           <span className="text-orange-400 font-extrabold text-xl">
             Write a review
           </span>
           <span className="text-white text-4xl">{game.name}</span>
         </div>
         {/* start of reactions */}
-        <div className="sm:p-5 p-3 flex flex-wrap flex-row gap-3 font-serif border rounded-b-xl bg-black w-full">
+        <div className="p-5 flex flex-wrap flex-row gap-3 font-serif border rounded-b-xl bg-black w-full">
           {sortedRatings.map(
             (rating: { id: number; title: string }, index: number) => (
               <div
@@ -92,7 +92,7 @@ export default async function Games({ params }: { params: CombinedParams }) {
         </div>
         {/* start of textarea */}
         <textarea
-          className="text-xl sm:h-96 h-72 p-8 rounded-t-2xl outline-none bg-neutral-200"
+          className="text-xl h-96 p-8 rounded-t-2xl outline-none bg-neutral-200"
           placeholder="Type Here..."
         ></textarea>
         <input

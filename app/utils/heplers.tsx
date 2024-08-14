@@ -1,3 +1,29 @@
+import { Collection, Db, MongoClient, Document, ObjectId } from "mongodb";
+import clientPromise from "../../lib/mongo/page";
+
+let client: MongoClient | undefined;
+let db: Db | undefined;
+let games: Collection<Document> | undefined;
+
+const basePosterUrl = `https://api.rawg.io/api/games`;
+const apiPosterKey = "key=076eda7a1c0e441eac147a3b0fe9b586";
+const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}`;
+
+async function init(): Promise<void> {
+  if (db) return;
+  try {
+    client = await clientPromise;
+    db = await client.db();
+    games = await db.collection("games");
+  } catch (error) {
+    throw new Error("Failed to establish connection to database");
+  }
+}
+
+(async () => {
+  await init();
+})();
+
 interface Platform {
   platform: {
     id: number;
@@ -6,13 +32,8 @@ interface Platform {
   };
 }
 
-interface Post {
-  page: number;
-  results: PostResult[];
-  onSearch: (name: string) => void;
-}
-
 interface PostResult {
+  _id: string;
   id: number;
   slug: string;
   name: string;
@@ -26,10 +47,6 @@ interface PostResult {
   parent_platforms: Platform[];
 }
 
-const basePosterUrl = `https://api.rawg.io/api/games`;
-const apiPosterKey = "key=076eda7a1c0e441eac147a3b0fe9b586";
-const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}`;
-
 const getGameData = async (url: string, page: number) => {
   try {
     const res = await fetch(`${url}&page=${page}`);
@@ -40,12 +57,108 @@ const getGameData = async (url: string, page: number) => {
     if (!data || !data.results) {
       throw new Error("Invalid data structure");
     }
-    return data.results;
+    return data.results as PostResult[];
   } catch (error) {
     console.error("Error fetching game data:", error);
     throw error;
   }
 };
+
+export const fetchAndCombineDataSimple = async () => {
+  try {
+    if (!games) await init();
+    if (!games) throw new Error("Games collection is not initialized");
+
+    const currentYear: number = new Date().getFullYear();
+    const startYear: number = 2005;
+    const endYear: number = currentYear;
+    const dateRanges: string[] = [];
+
+    for (let year = startYear; year <= endYear; year++) {
+      dateRanges.push(`${year}-01-01,${year}-12-31`);
+    }
+
+    const allGames: PostResult[] = [];
+
+    // Fetch and combine data for each date range
+    for (const dateRange of dateRanges) {
+      try {
+        // Check if games within this date range are already in the database
+        let gamesInRange = await games
+          ?.find<PostResult>({
+            released: {
+              $gte: `${dateRange.split(",")[0]}`,
+              $lte: `${dateRange.split(",")[1]}`,
+            },
+          })
+          .limit(10)
+          .toArray();
+
+        // If no games are found, fetch from the API
+        if (!gamesInRange || !gamesInRange.length) {
+          console.log(
+            `No games found for date range: ${dateRange}, fetching from RAWG API...`
+          );
+
+          const dateRangeUrl = `${apiPosterUrl}&dates=${dateRange}`;
+          const gameResults = await getGameData(dateRangeUrl, 1);
+          const slicedResults = gameResults.slice(0, 10);
+
+          // Insert the fetched games into the database
+          await games?.insertMany(
+            slicedResults.map((game) => ({
+              ...game,
+              _id: new ObjectId(), // Generate a new ObjectId
+            })),
+            { ordered: false } // Allows continuing even if some documents already exist
+          );
+
+          gamesInRange = slicedResults; // Use the newly fetched data
+        }
+
+        allGames.push(...gamesInRange);
+      } catch (error) {
+        console.error(`Error fetching data for range ${dateRange}:`, error);
+      }
+    }
+
+    shuffleArray(allGames);
+    return allGames;
+  } catch (error) {
+    console.error("Error in fetchAndCombineDataSimple:", error);
+    return [];
+  }
+};
+
+// //this works for the main page games
+// export const fetchAndCombineDataSimple = async () => {
+
+//   const currentYear: number = new Date().getFullYear();
+//   const startYear: number = 2005;
+//   const endYear: number = currentYear;
+//   const dateRanges: string[] = [];
+
+//   for (let year = startYear; year <= endYear; year++) {
+//     dateRanges.push(`${year}-01-01,${year}-12-31`);
+//   }
+//   const allGames: PostResult[] = [];
+
+//   // Fetch and combine data for each date range
+//   for (const dateRange of dateRanges) {
+//     let page = 1;
+//     try {
+//       const dateRangeUrl = `${apiPosterUrl}&dates=${dateRange}`;
+//       // console.log(`Fetching data for date range: ${dateRange}, page: ${page}`);
+//       const gameResults = await getGameData(dateRangeUrl, page);
+//       const slicedResults = gameResults.slice(0, 10);
+//       allGames.push(...slicedResults);
+//     } catch (error) {
+//       console.error(`Error fetching data for range ${dateRange}:`, error);
+//     }
+//   }
+//   shuffleArray(allGames);
+//   return allGames;
+// };
 
 const shuffleArray = <T,>(array: T[]): void => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -59,35 +172,6 @@ const platformIds: { [key: string]: number } = {
   playstation: 2,
   xbox: 3,
   nintendo: 7,
-};
-
-//this works for the main page games
-export const fetchAndCombineDataSimple = async () => {
-  const currentYear: number = new Date().getFullYear();
-  const startYear: number = 2005;
-  const endYear: number = currentYear;
-  const dateRanges: string[] = [];
-
-  for (let year = startYear; year <= endYear; year++) {
-    dateRanges.push(`${year}-01-01,${year}-12-31`);
-  }
-  const allGames: PostResult[] = [];
-
-  // Fetch and combine data for each date range
-  for (const dateRange of dateRanges) {
-    let page = 1;
-    try {
-      const dateRangeUrl = `${apiPosterUrl}&dates=${dateRange}`;
-      // console.log(`Fetching data for date range: ${dateRange}, page: ${page}`);
-      const gameResults = await getGameData(dateRangeUrl, page);
-      const slicedResults = gameResults.slice(0, 10);
-      allGames.push(...slicedResults);
-    } catch (error) {
-      console.error(`Error fetching data for range ${dateRange}:`, error);
-    }
-  }
-  shuffleArray(allGames);
-  return allGames;
 };
 
 //this works for the company page games

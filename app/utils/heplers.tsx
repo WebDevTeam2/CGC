@@ -15,6 +15,7 @@ async function init(): Promise<void> {
     client = await clientPromise;
     db = await client.db();
     games = await db.collection("games");
+    await games.createIndex({ id: 1 }, { unique: true });
   } catch (error) {
     throw new Error("Failed to establish connection to database");
   }
@@ -71,59 +72,76 @@ export const fetchAndCombineDataSimple = async () => {
 
     const currentYear: number = new Date().getFullYear();
     const startYear: number = 2005;
-    const endYear: number = currentYear;
     const dateRanges: string[] = [];
 
-    for (let year = startYear; year <= endYear; year++) {
+    for (let year = startYear; year <= currentYear; year++) {
       dateRanges.push(`${year}-01-01,${year}-12-31`);
     }
 
-    const allGames: PostResult[] = [];
+    // Fetch all ranges in parallel
+    const allGames = await Promise.all(
+      dateRanges.map(async (dateRange) => {
+        try {
+          // Query MongoDB to check if games for this date range exist
+          const gamesInRange = (await games
+            ?.find<PostResult>({
+              released: {
+                $gte: `${dateRange.split(",")[0]}`,
+                $lte: `${dateRange.split(",")[1]}`,
+              },
+            })
+            .project({
+              id: 1,
+              description_raw: 1,
+              background_image: 1,
+              name: 1,
+              slug: 1,
+              parent_platforms: 1,
+            })
+            .toArray()) as PostResult[];
 
-    // Fetch and combine data for each date range
-    for (const dateRange of dateRanges) {
-      try {
-        // Check if games within this date range are already in the database
-        let gamesInRange = await games
-          ?.find<PostResult>({
-            released: {
-              $gte: `${dateRange.split(",")[0]}`,
-              $lte: `${dateRange.split(",")[1]}`,
-            },
-          })
-          .limit(10)
-          .toArray();
+          // If no games are found, fetch from the API
+          if (!gamesInRange || !gamesInRange.length) {
+            console.log(
+              `No games found for date range: ${dateRange}, fetching from RAWG API...`
+            );
 
-        // If no games are found, fetch from the API
-        if (!gamesInRange || !gamesInRange.length) {
-          console.log(
-            `No games found for date range: ${dateRange}, fetching from RAWG API...`
-          );
+            const dateRangeUrl = `${apiPosterUrl}&dates=${dateRange}`;
+            const gameResults = await getGameData(dateRangeUrl, 1);
+            const slicedResults = gameResults.slice(0, 10);
 
-          const dateRangeUrl = `${apiPosterUrl}&dates=${dateRange}`;
-          const gameResults = await getGameData(dateRangeUrl, 1);
-          const slicedResults = gameResults.slice(0, 10);
+            // Insert the fetched games into the database in bulk
+            await games?.insertMany(
+              slicedResults.map((game) => ({
+                ...game,
+                _id: new ObjectId(), // Generate a new ObjectId
+              })),
+              { ordered: false } // Allows continuing even if some documents already exist
+            );
 
-          // Insert the fetched games into the database
-          await games?.insertMany(
-            slicedResults.map((game) => ({
-              ...game,
-              _id: new ObjectId(), // Generate a new ObjectId
-            })),
-            { ordered: false } // Allows continuing even if some documents already exist
-          );
-
-          gamesInRange = slicedResults; // Use the newly fetched data
+            return slicedResults; // Return the newly fetched data
+          } else {
+            console.log("fetching from database");
+            return gamesInRange; // Return the data from the database
+          }
+        } catch (error) {
+          console.error(`Error processing date range ${dateRange}:`, error);
+          return [];
         }
+      })
+    );
 
-        allGames.push(...gamesInRange);
-      } catch (error) {
-        console.error(`Error fetching data for range ${dateRange}:`, error);
-      }
-    }
+    const flattenedGames = allGames.flat();
 
-    shuffleArray(allGames);
-    return allGames;
+    // Convert _id to string (if not I get an error)
+    const plainGames = flattenedGames.map((game) => ({
+      ...game,
+      _id: game._id.toString(), // Convert ObjectId to string
+    }));
+    // Shuffle the combined array of games (if needed)
+    shuffleArray(plainGames);
+    console.log(plainGames.length);
+    return plainGames;
   } catch (error) {
     console.error("Error in fetchAndCombineDataSimple:", error);
     return [];

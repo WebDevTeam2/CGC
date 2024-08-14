@@ -26,6 +26,7 @@ interface Post {
 }
 
 interface PostResult {
+  _id: string;
   id: number;
   slug: string;
   name: string;

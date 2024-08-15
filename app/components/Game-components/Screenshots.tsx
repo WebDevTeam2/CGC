@@ -109,7 +109,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
                   <Transition
                     key={index}
                     show={currentIndex === index}
-                    enter={`transition ease-out duration-1000 ${
+                    enter={`transition ease-out duration-300 ${
                       direction === "next"
                         ? "transform translate-x-0 opacity-0"
                         : "transform -translate-x-full opacity-0"
@@ -120,7 +120,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
                         : "-translate-x-full"
                     } opacity-0`}
                     enterTo="transform translate-x-0 opacity-100"
-                    leave="transition ease-in duration-1000"
+                    leave="transition ease-in duration-300"
                     leaveFrom="transform translate-x-0 visible"
                     leaveTo={`transform ${
                       direction === "next"

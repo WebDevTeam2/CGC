@@ -138,7 +138,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ games, currentPage }) => {
         e.preventDefault(); // Prevent form submission
         const selectedResult = search[selectedIndex];
         if (selectedResult) {
-          window.location.href = `/Games/${selectedResult.slug}`;
+          window.location.href = `/Games/${selectedResult.slug}/${currentPage}`;
         }
       }
       if (selectedIndex !== -1) {
@@ -171,7 +171,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ games, currentPage }) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (selectedIndex >= 0 && search[selectedIndex]) {
-      window.location.href = `/Games/${search[selectedIndex].slug}`;
+      window.location.href = `/Games/${search[selectedIndex].slug}/${currentPage}`;
     }
   };
 

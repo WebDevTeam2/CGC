@@ -131,6 +131,7 @@ export const fetchAndCombineDataSimple = async () => {
       })
     );
 
+    // Flatten the array of arrays into a single array
     const flattenedGames = allGames.flat();
 
     // Convert _id to string (if not I get an error)
@@ -147,36 +148,6 @@ export const fetchAndCombineDataSimple = async () => {
     return [];
   }
 };
-
-// //this works for the main page games
-// export const fetchAndCombineDataSimple = async () => {
-
-//   const currentYear: number = new Date().getFullYear();
-//   const startYear: number = 2005;
-//   const endYear: number = currentYear;
-//   const dateRanges: string[] = [];
-
-//   for (let year = startYear; year <= endYear; year++) {
-//     dateRanges.push(`${year}-01-01,${year}-12-31`);
-//   }
-//   const allGames: PostResult[] = [];
-
-//   // Fetch and combine data for each date range
-//   for (const dateRange of dateRanges) {
-//     let page = 1;
-//     try {
-//       const dateRangeUrl = `${apiPosterUrl}&dates=${dateRange}`;
-//       // console.log(`Fetching data for date range: ${dateRange}, page: ${page}`);
-//       const gameResults = await getGameData(dateRangeUrl, page);
-//       const slicedResults = gameResults.slice(0, 10);
-//       allGames.push(...slicedResults);
-//     } catch (error) {
-//       console.error(`Error fetching data for range ${dateRange}:`, error);
-//     }
-//   }
-//   shuffleArray(allGames);
-//   return allGames;
-// };
 
 const shuffleArray = <T,>(array: T[]): void => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -198,31 +169,17 @@ export const fetchAndCombineData = async (name: string) => {
   if (!platformId) {
     throw new Error(`Invalid platform name: ${name}`);
   }
-  const currentYear: number = new Date().getFullYear();
-  const startYear: number = 2005;
-  const endYear: number = currentYear;
-  const dateRanges: string[] = [];
+  // Get all games fetched by the first function
+  const allGames = await fetchAndCombineDataSimple();
 
-  for (let year = startYear; year <= endYear; year++) {
-    dateRanges.push(`${year}-01-01,${year}-12-31`);
-  }
-  const allGames: PostResult[] = [];
+  // Filter games based on the platform ID
+  const filteredGames = allGames.filter((game) =>
+    game.parent_platforms?.some(
+      (platform) => platform.platform.id === platformId
+    )
+  );
 
-  // Fetch and combine data for each date range
-  for (const dateRange of dateRanges) {
-    let page = 1;
-    try {
-      const dateRangeUrl = `${apiPosterUrl}&dates=${dateRange}&parent_platforms=${platformId}`;
-      // console.log(`Fetching data for date range: ${dateRange}, page: ${page}`);
-      const gameResults = await getGameData(dateRangeUrl, page);
-      const slicedResults = gameResults.slice(0, 10);
-      allGames.push(...slicedResults);
-    } catch (error) {
-      console.error(`Error fetching data for range ${dateRange}:`, error);
-    }
-  }
-  // shuffleArray(allGames);
-  return allGames;
+  return filteredGames;
 };
 
 export const paginateGames = (

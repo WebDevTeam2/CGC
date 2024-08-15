@@ -7,13 +7,13 @@ import {
   fetchAndCombineData,
   paginateGames,
   fetchGameDetails,
-} from "@/app/utils/heplers";
+} from "@/app/utils/functions";
 import Link from "next/link";
 import Image from "next/image";
 import Buttons from "@/app/components/Game-components/Buttons";
 import MainPage from "@/app/components/Game-components/MainPage";
 import NavBar from "@/app/components/Game-components/NavBar";
-import SearchBar from "@/app/components/Game-components/SearchBar";
+import SearchBarConsole from "@/app/components/Game-components/SearchBarConsole";
 import { pageSize } from "@/app/constants/constants";
 
 interface Platform {
@@ -32,6 +32,7 @@ interface Platform {
 // }
 
 interface PostResult {
+  _id: string;
   id: number;
   slug: string;
   name: string;
@@ -47,8 +48,7 @@ interface PostResult {
 
 const Posts = async ({ params }: { params: any }) => {
   const gameData = await fetchAndCombineData(params.name);
-  const updatedGameData = sortGamesByRelease(gameData);
-  const paginatedGames = paginateGames(updatedGameData, params.page, pageSize);
+  const paginatedGames = paginateGames(gameData, params.page, pageSize);
 
   // Extract and flatten platforms, ensuring they are unique
   const platforms = Array.from(
@@ -68,7 +68,11 @@ const Posts = async ({ params }: { params: any }) => {
     <div>
       <MainPage>
         <NavBar parent_platforms={platforms} />
-        <SearchBar games={gameData} />
+        <SearchBarConsole
+          games={gameData}
+          currentPage={params.page}
+          currentName={params.name}
+        />
         {/* <Sort games={gameData} onSorted={handle} /> */}
         <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
           {detailedGames.map(
@@ -131,60 +135,3 @@ const sortGamesByRelease = (games: PostResult[]) => {
     return dateB.getTime() - dateA.getTime();
   });
 };
-
-// pages/games/[slug].tsx
-
-// import { GetServerSideProps } from "next";
-
-// type Game = {
-//   id: number;
-//   name: string;
-//   // add more fields as needed
-// };
-
-// type Props = {
-//   games: Game[];
-//   slug: string;
-// };
-
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//   const { slug } = context.params;
-
-//   // Map slugs to platform IDs
-//   const platformMap = {
-//     xbox: 3,
-//     playstation: 2,
-//     nintendo: 7,
-//     pc: 1,
-//   };
-
-//   const platformId = platformMap[slug as keyof typeof platformMap];
-
-//   // Fetch games from the RAWG API
-//   const res = await fetch(
-//     `https://api.rawg.io/api/games?key=076eda7a1c0e441eac147a3b0fe9b586&platforms=${platformId}`
-//   );
-//   const data = await res.json();
-
-//   return {
-//     props: {
-//       games: data.results,
-//       slug,
-//     },
-//   };
-// };
-
-// const GamesPage = ({ games, slug }: Props) => {
-//   return (
-//     <div>
-//       <h1>Games for {slug}</h1>
-//       <ul>
-//         {games.map((game) => (
-//           <li key={game.id}>{game.name}</li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// };
-
-// export default GamesPage;

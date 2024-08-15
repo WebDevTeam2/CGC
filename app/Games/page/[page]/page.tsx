@@ -10,7 +10,7 @@ import {
   fetchAndCombineDataSimple,
   paginateGames,
   fetchGameDetails,
-} from "@/app/utils/heplers";
+} from "@/app/utils/functions";
 
 interface Platform {
   platform: {
@@ -71,7 +71,7 @@ const Posts = async ({ params }: { params: Post }) => {
       <div>
         <MainPage>
           <NavBar parent_platforms={platforms} />
-          <SearchBar games={gameData} />
+          <SearchBar games={gameData} currentPage={params.page} />
           {/* <Sort games={gameData} onSorted={handle} /> */}
           <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
             {detailedGames.map(

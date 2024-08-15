@@ -20,9 +20,14 @@ interface PostResult {
 interface SearchBarProps {
   games: PostResult[];
   currentPage: number;
+  currentName: string;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ games, currentPage }) => {
+const SearchBar: React.FC<SearchBarProps> = ({
+  games,
+  currentPage,
+  currentName,
+}) => {
   const [search, setSearch] = useState<PostResult[]>([]);
   const [inputValue, setInputValue] = useState(""); // State to manage input value // State to manage input value
   const [visible, setVisible] = useState(false);
@@ -208,7 +213,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ games, currentPage }) => {
           {search.map((result, index) => (
             <Link
               key={index}
-              href={`/Games/${result.slug}/${currentPage}`}
+              href={`/Games/${result.slug}/${currentPage}/${currentName}`}
               className="flex items-center  flex-row transition-all duration-300 ease-in-out hover:scale-105 pl-3 hover:text-stone-400"
             >
               <div className="relative overflow-hidden p-16 max-[550px]:p-12 max-[550px]:-mb-4 -mb-8">

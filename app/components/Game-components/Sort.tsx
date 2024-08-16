@@ -24,6 +24,10 @@ interface PostResult {
   parent_platforms: Platform[];
 }
 
+interface searchParams {
+  currentPage: number;
+}
+
 const sortGamesByRating = (games: PostResult[]) => {
   return games.sort((a, b) => b.rating - a.rating);
 };
@@ -36,83 +40,41 @@ const sortGamesByRelease = (games: PostResult[]) => {
   });
 };
 
-const Sort = ({
-  games,
-  onSorted,
-}: {
-  games: PostResult[];
-  onSorted: (sortedGames: PostResult[]) => void;
-}) => {
-  const handleRelease = () => {
-    const sortedGames = sortGamesByRelease([...games]);
-    onSorted(sortedGames);
+const Sort: React.FC<searchParams> = ({ currentPage }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
   };
-
-  const handleRating = () => {
-    const sortedGames = sortGamesByRating([...games]);
-    onSorted(sortedGames);
+  const closeDropdown = () => {
+    setIsOpen(false);
   };
-
   return (
-    <div className="justify-center grid mt-12">
-      {/* sort by */}
-      <div className="flex justify-center flex-col">
-        <button
-          id="dropdownDelayButton"
-          data-dropdown-toggle="dropdownDelay"
-          data-dropdown-delay="200"
-          data-dropdown-trigger="hover"
-          className=" text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700"
-          type="button"
+    <div className="dropdown pointer-events-none group mt-20 text-white relative flex flex-col items-center justify-center">
+      <button
+        className={`dropbtn group-hover:bg-blue-900 pointer-events-auto rounded-2xl bg-blue-950 px-10 py-3 text-lg border-none ${
+          isOpen ? "rounded-b-sm" : "rounded-b-2xl"
+        }`}
+        onClick={toggleDropdown}
+      >
+        Order By
+      </button>
+      <div
+        className={`dropdown-content pointer-events-auto divide-y text-lg rounded-b-2xl bg-neutral-100 text-black flex flex-col transition-all duration-300 ${
+          isOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
+        }`}
+        style={{ visibility: isOpen ? "visible" : "hidden" }}
+        onClick={closeDropdown}
+      >
+        <Link
+          href={`/Games/page/${currentPage}/release-first`}
+          className="hover:text-blue-600 py-3 px-6"
         >
-          Sort By:
-          <svg
-            className="w-2.5 h-2.5 ms-3"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 10 6"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m1 1 4 4 4-4"
-            />
-          </svg>
-        </button>
-        {/* <!-- Dropdown menu --> */}
-        <div
-          id="dropdownDelay"
-          className="bg-white rounded-lg shadow w-44 dark:bg-gray-700"
-        >
-          <ul
-            className="py-2 divide-y text-sm text-gray-700 dark:text-gray-200"
-            aria-labelledby="dropdownDelayButton"
-          >
-            <li>
-              <Link
-                href="#"
-                className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                onClick={handleRating}
-              >
-                Rating
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#"
-                className=" px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                onClick={handleRelease}
-              >
-                Release Date
-              </Link>
-            </li>
-          </ul>
-        </div>
+          Release Date
+        </Link>
+        <Link href="#" className="hover:text-blue-600 py-3 px-6">
+          Rating
+        </Link>
       </div>
-      {/* end of sort by */}
     </div>
   );
 };

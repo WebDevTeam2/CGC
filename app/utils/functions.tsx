@@ -140,8 +140,8 @@ export const fetchAndCombineDataSimple = async () => {
       _id: game._id.toString(), // Convert ObjectId to string
     }));
     // Shuffle the combined array of games (if needed)
-    shuffleArray(plainGames);
-    console.log(plainGames.length);
+    // shuffleArray(plainGames);
+
     return plainGames;
   } catch (error) {
     console.error("Error in fetchAndCombineDataSimple:", error);
@@ -179,6 +179,22 @@ export const fetchAndCombineData = async (name: string) => {
     )
   );
 
+  return filteredGames;
+};
+
+//this function is for the newely released games
+export const fetchByRelease = async () => {
+  // Get all games fetched by the first function
+  const allGames = await fetchAndCombineDataSimple();
+
+  // Filter games to return newest first
+  const filteredGames = allGames.sort((a, b) => {
+    const dateA = new Date(a.released);
+    const dateB = new Date(b.released);
+    return dateB.getTime() - dateA.getTime();
+  });
+
+  console.log(filteredGames);
   return filteredGames;
 };
 

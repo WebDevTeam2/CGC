@@ -7,9 +7,9 @@ import NavBar from "@/app/components/Game-components/NavBar";
 import SearchBar from "@/app/components/Game-components/SearchBar";
 import { pageSize } from "@/app/constants/constants";
 import {
-  fetchAndCombineDataSimple,
   paginateGames,
   fetchGameDetails,
+  fetchByRating,
 } from "@/app/utils/functions";
 import Sort from "@/app/components/Game-components/Sort";
 
@@ -52,7 +52,7 @@ const sortGamesByRelease = (games: PostResult[]) => {
 
 const Posts = async ({ params }: { params: Post }) => {
   try {
-    const gameData = await fetchAndCombineDataSimple();
+    const gameData = await fetchByRating();
     const paginatedGames = paginateGames(gameData, params.page, pageSize);
 
     const platforms = Array.from(

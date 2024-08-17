@@ -24,23 +24,7 @@ interface PostResult {
   parent_platforms: Platform[];
 }
 
-interface searchParams {
-  currentPage: number;
-}
-
-const sortGamesByRating = (games: PostResult[]) => {
-  return games.sort((a, b) => b.rating - a.rating);
-};
-
-const sortGamesByRelease = (games: PostResult[]) => {
-  return games.sort((a, b) => {
-    const dateA = new Date(a.released);
-    const dateB = new Date(b.released);
-    return dateB.getTime() - dateA.getTime();
-  });
-};
-
-const Sort: React.FC<searchParams> = ({ currentPage }) => {
+const Sort = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -66,12 +50,15 @@ const Sort: React.FC<searchParams> = ({ currentPage }) => {
         onClick={closeDropdown}
       >
         <Link
-          href={`/Games/page/${currentPage}/release-first`}
+          href={`/Games/page/release-first/1`}
           className="hover:text-blue-600 py-3 px-6"
         >
           Release Date
         </Link>
-        <Link href="#" className="hover:text-blue-600 py-3 px-6">
+        <Link
+          href={`/Games/page/rating-first/1`}
+          className="hover:text-blue-600 py-3 px-6"
+        >
           Rating
         </Link>
       </div>

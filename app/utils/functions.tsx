@@ -92,11 +92,13 @@ export const fetchAndCombineDataSimple = async () => {
             })
             .project({
               id: 1,
+              released: 1,
               description_raw: 1,
               background_image: 1,
               name: 1,
               slug: 1,
               parent_platforms: 1,
+              rating: 1,
             })
             .toArray()) as PostResult[];
 
@@ -140,7 +142,7 @@ export const fetchAndCombineDataSimple = async () => {
       _id: game._id.toString(), // Convert ObjectId to string
     }));
     // Shuffle the combined array of games (if needed)
-    // shuffleArray(plainGames);
+    shuffleArray(plainGames);
 
     return plainGames;
   } catch (error) {
@@ -191,11 +193,25 @@ export const fetchByRelease = async () => {
   const filteredGames = allGames.sort((a, b) => {
     const dateA = new Date(a.released);
     const dateB = new Date(b.released);
+    // console.log(dateA);
+    // console.log(dateB.getTime() - dateA.getTime());
     return dateB.getTime() - dateA.getTime();
   });
 
-  console.log(filteredGames);
+  // console.log(filteredGames);
   return filteredGames;
+};
+
+//this function sorts the greatest games first
+export const fetchByRating = async () => {
+  // Get all games fetched by the first function
+  const allGames = await fetchAndCombineDataSimple();
+
+  // Sort the games by rating in descending order
+  const sortedGames = allGames.sort((a, b) => b.rating - a.rating);
+
+  // Return the sorted games
+  return sortedGames;
 };
 
 export const paginateGames = (

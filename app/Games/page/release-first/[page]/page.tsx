@@ -73,7 +73,7 @@ const Posts = async ({ params }: { params: Post }) => {
         <MainPage>
           <NavBar parent_platforms={platforms} />
           <SearchBar games={gameData} currentPage={params.page} />
-          <Sort currentPage={params.page} />
+          <Sort />
           <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
             {detailedGames.map(
               (item) =>

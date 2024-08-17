@@ -13,8 +13,9 @@ import Image from "next/image";
 import Buttons from "@/app/components/Game-components/Buttons";
 import MainPage from "@/app/components/Game-components/MainPage";
 import NavBar from "@/app/components/Game-components/NavBar";
-import SearchBarConsole from "@/app/components/Game-components/SearchBarConsole";
+import SearchBar from "@/app/components/Game-components/SearchBar";
 import { pageSize } from "@/app/constants/constants";
+import SortConsole from "@/app/components/Game-components/SortConsole";
 
 interface Platform {
   platform: {
@@ -68,12 +69,8 @@ const Posts = async ({ params }: { params: any }) => {
     <div>
       <MainPage>
         <NavBar parent_platforms={platforms} />
-        <SearchBarConsole
-          games={gameData}
-          currentPage={params.page}
-          currentName={params.name}
-        />
-        {/* <Sort games={gameData} onSorted={handle} /> */}
+        <SearchBar games={gameData} />
+        <SortConsole currentName={params.name} />
         <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
           {detailedGames.map(
             (item) =>
@@ -83,7 +80,7 @@ const Posts = async ({ params }: { params: any }) => {
                   className="text-slate-200 text-balance text-xl hover:scale-110 xl:w-3/5 md:w-4/5 w-4/5 transition-all duration-500 ease-in-out"
                 >
                   <Link
-                    href={`/Games/${item.slug}/${params.page}/${params.name}`}
+                    href={`/Games/${item.slug}`}
                     className="relative flex group border-2 md:h-60 h-[35rem] max-[450px]:h-[25rem] border-white rounded-lg transition-all duration-300"
                   >
                     <div className="bg-black overflow-hidden rounded-lg bg-opacity-[.7] relative flex flex-col md:flex-row md:gap-0 gap-0 transition-all duration-400">
@@ -121,17 +118,3 @@ const Posts = async ({ params }: { params: any }) => {
 };
 // Export the Posts component
 export default Posts;
-
-//function to sort the games based on their rating
-const sortGamesByRating = (games: PostResult[]) => {
-  return games.sort((a, b) => b.rating - a.rating);
-};
-
-//function to sort the games based on their release
-const sortGamesByRelease = (games: PostResult[]) => {
-  return games.sort((a, b) => {
-    const dateA = new Date(a.released);
-    const dateB = new Date(b.released);
-    return dateB.getTime() - dateA.getTime();
-  });
-};

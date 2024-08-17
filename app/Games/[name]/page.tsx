@@ -122,13 +122,10 @@ export default async function Games({ params }: { params: CombinedParams }) {
   return (
     <div>
       <div className="bg-black z-0 bg-cover fixed h-screen w-screen"></div>
-      <Link
-        href={`/Games/${params.slug}/page/${params.page}`}
-        className="w-full h-full absolute z-50 pointer-events-none"
-      >
-        <button className="bg-stone-300 ml-4 mt-4 pointer-events-auto text-4xl text-stone-800 transition delay-50 p-1 rounded-full hover:scale-110">
-          <IoReturnUpBack />
-        </button>
+      <Link href={`/Games/page/1`} className="absolute pointer-events-none">
+        <h2 className=" ml-4 mt-4 text-white pointer-events-auto text-2xl transition duration-100 p-1 rounded-full hover:scale-110">
+          &#8618; Home
+        </h2>
       </Link>
       <div className="flex pt-20 items-center lg:items-stretch flex-col lg:flex-row h-full justify-evenly xl:gap-20 gap-10 pl-0">
         <div className="flex lg:w-[50vw] h-full w-[85vw] flex-col relative lg:pl-10 pl-0">
@@ -233,7 +230,7 @@ export default async function Games({ params }: { params: CombinedParams }) {
               </div>
               <div className="flex w-full justify-center items-center">
                 <Link
-                  href={`/Games/${game.slug}/${params.page}/${params.slug}/review`}
+                  href={`/Games/${game.slug}/review`}
                   className="bg-neutral-600 hover:bg-neutral-800 text-xl py-2 px-6 rounded-xl transition-all duration-200 hover:scale-105"
                 >
                   Write a review

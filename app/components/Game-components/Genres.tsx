@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
 interface Platform {
@@ -8,6 +8,12 @@ interface Platform {
     name: string;
     slug: string;
   };
+}
+
+interface Genre {
+  id: number;
+  name: string;
+  slug: string;
 }
 
 interface PostResult {
@@ -22,29 +28,29 @@ interface PostResult {
   description: string;
   description_raw: string;
   parent_platforms: Platform[];
+  genres: Genre[];
 }
 
-interface SortProps {
-  currentName: string;
-}
-
-const Sort: React.FC<SortProps> = ({ currentName }) => {
+const Genres = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [genres, setGenres] = useState<Genre[]>([]);
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
   const closeDropdown = () => {
     setIsOpen(false);
   };
+
   return (
-    <div className="pointer-events-none group mt-20 text-white relative flex flex-col items-center justify-center">
+    <div className="pointer-events-none mt-2 group text-white relative flex flex-col items-center">
       <button
-        className={`group-hover:bg-blue-900 pointer-events-auto rounded-2xl bg-blue-950 px-10 py-3 text-lg border-none ${
+        className={`group-hover:bg-neutral-600 absolute left-0 pointer-events-auto rounded-2xl bg-neutral-500 px-10 py-3 text-lg border-none ${
           isOpen ? "rounded-b-sm" : "rounded-b-2xl"
         }`}
         onClick={toggleDropdown}
       >
-        Order By
+        Genres
       </button>
       <div
         className={`pointer-events-auto divide-y text-lg rounded-b-2xl bg-neutral-100 text-black flex flex-col transition-all duration-300 ${
@@ -53,27 +59,19 @@ const Sort: React.FC<SortProps> = ({ currentName }) => {
         style={{ visibility: isOpen ? "visible" : "hidden" }}
         onClick={closeDropdown}
       >
-        <Link
-          href={`/Games/${currentName}/page/release-first/1`}
-          className="hover:text-blue-600 py-3 px-6"
-        >
-          Release Date
-        </Link>
-        <Link
-          href={`/Games/${currentName}/page/rating-first/1`}
-          className="hover:text-blue-600 py-3 px-6"
-        >
-          Rating
-        </Link>
-        <Link
-          href={`/Games/${currentName}/page/name-first/1`}
-          className="hover:text-blue-600 py-3 px-6"
-        >
-          Name
-        </Link>
+        {genres.map((genre) => (
+          <Link key={genre.id} href={`/Games/${genre.slug}/page/1`}>
+            <ul
+              className="text-stone-200 sm:text-3xl text-2xl transition delay-50 p-2 rounded-full hover:scale-125"
+              onClick={closeDropdown}
+            >
+              {genre.name}
+            </ul>
+          </Link>
+        ))}
       </div>
     </div>
   );
 };
 
-export default Sort;
+export default Genres;

@@ -5,15 +5,13 @@ import Buttons from "@/app/components/Game-components/Buttons";
 import MainPage from "@/app/components/Game-components/MainPage";
 import NavBar from "@/app/components/Game-components/NavBar";
 import SearchBar from "@/app/components/Game-components/SearchBar";
-import Genres from "@/app/components/Game-components/Genres";
 import { pageSize } from "@/app/constants/constants";
 import {
-  fetchAndCombineDataSimple,
   paginateGames,
   fetchGameDetails,
-  extractGenres,
+  fetchByNameConsole,
 } from "@/app/utils/functions";
-import Sort from "@/app/components/Game-components/Sort";
+import SortConsole from "@/app/components/Game-components/SortConsole";
 
 interface Platform {
   platform: {
@@ -52,12 +50,10 @@ const sortGamesByRelease = (games: PostResult[]) => {
   });
 };
 
-const Posts = async ({ params }: { params: Post }) => {
+const Posts = async ({ params }: { params: any }) => {
   try {
-    const gameData = await fetchAndCombineDataSimple();
+    const gameData = await fetchByNameConsole(params.name);
     const paginatedGames = paginateGames(gameData, params.page, pageSize);
-    const g = await extractGenres();
-    console.log(g);
 
     const platforms = Array.from(
       new Set(
@@ -77,8 +73,7 @@ const Posts = async ({ params }: { params: Post }) => {
         <MainPage>
           <NavBar parent_platforms={platforms} />
           <SearchBar games={gameData} />
-          <Genres />
-          <Sort />
+          <SortConsole currentName={params.name} />
           <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
             {detailedGames.map(
               (item) =>

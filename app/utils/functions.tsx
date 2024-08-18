@@ -33,6 +33,12 @@ interface Platform {
   };
 }
 
+interface Genre {
+  id: number;
+  name: string;
+  slug: string;
+}
+
 interface PostResult {
   _id: string;
   id: number;
@@ -46,6 +52,7 @@ interface PostResult {
   description: string;
   description_raw: string;
   parent_platforms: Platform[];
+  genres: Genre[];
 }
 
 const getGameData = async (url: string, page: number) => {
@@ -151,6 +158,29 @@ export const fetchAndCombineDataSimple = async () => {
   }
 };
 
+export const extractGenres = async () => {
+  try {
+    const games = await fetchAndCombineDataSimple();
+    const genresSet = new Set<Genre>();
+
+    games.forEach((game) => {
+      if (game.genres && Array.isArray(game.genres)) {
+        game.genres.forEach((genre) => {
+          genresSet.add(genre);
+        });
+      }
+    });
+
+    // Convert the Set back to an array
+    const genresArray = Array.from(genresSet);
+    console.log(genresArray);
+    return genresArray;
+  } catch (error) {
+    console.error("Error in extractGenres:", error);
+    return [];
+  }
+};
+
 const shuffleArray = <T,>(array: T[]): void => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -214,6 +244,18 @@ export const fetchByRating = async () => {
   return sortedGames;
 };
 
+//this function sorts the greatest games first
+export const fetchByName = async () => {
+  // Get all games fetched by the first function
+  const allGames = await fetchAndCombineDataSimple();
+
+  // Sort the games by rating in descending order
+  const sortedGames = allGames.sort((a, b) => a.name.localeCompare(b.name));
+
+  // Return the sorted games
+  return sortedGames;
+};
+
 //this function is for the newely released games
 export const fetchByReleaseConsole = async (name: string) => {
   // Get all games fetched by the first function
@@ -239,6 +281,18 @@ export const fetchByRatingConsole = async (name: string) => {
 
   // Sort the games by rating in descending order
   const sortedGames = allGames.sort((a, b) => b.rating - a.rating);
+
+  // Return the sorted games
+  return sortedGames;
+};
+
+//this function sorts the greatest games first
+export const fetchByNameConsole = async (name: string) => {
+  // Get all games fetched by the first function
+  const allGames = await fetchAndCombineData(name);
+
+  // Sort the games by rating in descending order
+  const sortedGames = allGames.sort((a, b) => a.name.localeCompare(b.name));
 
   // Return the sorted games
   return sortedGames;

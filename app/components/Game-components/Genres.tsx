@@ -62,7 +62,7 @@ const Genres: React.FC<GenresProps> = ({ genres }) => {
         onClick={closeDropdown}
       >
         {genres.map((genre) => (
-          <Link key={genre.id} href={`/Games/genre/${genre.name}/page/1`}>
+          <Link key={genre.id} href={`/Games/genre/${genre.slug}/page/1`}>
             <ul
               className="text-black text-lg transition delay-50 p-2 rounded-full hover:scale-105"
               onClick={closeDropdown}

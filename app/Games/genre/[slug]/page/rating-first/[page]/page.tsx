@@ -10,7 +10,7 @@ import {
   paginateGames,
   fetchGameDetails,
   extractGenres,
-  fetchByGenreName,
+  fetchByGenreRating,
 } from "@/app/utils/functions";
 import SortGenres from "@/app/components/Game-components/SortGenres";
 import Genres from "@/app/components/Game-components/Genres";
@@ -54,7 +54,7 @@ const sortGamesByRelease = (games: PostResult[]) => {
 
 const Posts = async ({ params }: { params: any }) => {
   try {
-    const gameData = await fetchByGenreName(params.name);
+    const gameData = await fetchByGenreRating(params.slug);
     const genres = await extractGenres();
     const paginatedGames = paginateGames(gameData, params.page, pageSize);
 
@@ -77,7 +77,7 @@ const Posts = async ({ params }: { params: any }) => {
           <NavBar parent_platforms={platforms} />
           <SearchBar games={gameData} />
           <Genres genres={genres} />
-          <SortGenres currentName={params.name} />
+          <SortGenres currentName={params.slug} />
           <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
             {detailedGames.map(
               (item) =>

@@ -243,13 +243,13 @@ export const fetchAndCombineData = async (name: string) => {
 };
 
 //this works for the company page games
-export const fetchByGenre = async (name: string) => {
+export const fetchByGenre = async (slug: string) => {
   // Get all games fetched by the first function
   const allGames = await fetchAndCombineDataSimple();
 
   // Filter games based on the genre name
   const filteredGames = allGames.filter((game) =>
-    game.genres?.some((genre) => genre.name === name)
+    game.genres?.some((genre) => genre.slug === slug)
   );
 
   return filteredGames;

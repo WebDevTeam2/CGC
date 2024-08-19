@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { extractGenres } from "@/app/utils/functions";
 
 interface Platform {
   platform: {
@@ -28,12 +29,14 @@ interface PostResult {
   description: string;
   description_raw: string;
   parent_platforms: Platform[];
+}
+
+interface GenresProps {
   genres: Genre[];
 }
 
-const Genres = () => {
+const Genres: React.FC<GenresProps> = ({ genres }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [genres, setGenres] = useState<Genre[]>([]);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -43,9 +46,9 @@ const Genres = () => {
   };
 
   return (
-    <div className="pointer-events-none mt-2 group text-white relative flex flex-col items-center">
+    <div className="wrapper mt-2 h-1/2 absolute z-10 left-4 group text-white flex flex-col ">
       <button
-        className={`group-hover:bg-neutral-600 absolute left-0 pointer-events-auto rounded-2xl bg-neutral-500 px-10 py-3 text-lg border-none ${
+        className={`group-hover:bg-neutral-600 pointer-events-auto rounded-2xl bg-neutral-500 px-10 py-3 text-lg border-none ${
           isOpen ? "rounded-b-sm" : "rounded-b-2xl"
         }`}
         onClick={toggleDropdown}
@@ -53,16 +56,16 @@ const Genres = () => {
         Genres
       </button>
       <div
-        className={`pointer-events-auto divide-y text-lg rounded-b-2xl bg-neutral-100 text-black flex flex-col transition-all duration-300 ${
-          isOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
+        className={`pointer-events-auto overflow-hidden overflow-y-auto divide-y text-lg rounded-b-2xl bg-neutral-100 flex flex-col text-center transition-all duration-300 ${
+          isOpen ? "max-h-full opacity-100" : "max-h-0 opacity-0"
         }`}
         style={{ visibility: isOpen ? "visible" : "hidden" }}
         onClick={closeDropdown}
       >
         {genres.map((genre) => (
-          <Link key={genre.id} href={`/Games/${genre.slug}/page/1`}>
+          <Link key={genre.id} href={`/Games/genre/${genre.name}/page/1`}>
             <ul
-              className="text-stone-200 sm:text-3xl text-2xl transition delay-50 p-2 rounded-full hover:scale-125"
+              className="text-black text-lg transition delay-50 p-2 rounded-full hover:scale-105"
               onClick={closeDropdown}
             >
               {genre.name}

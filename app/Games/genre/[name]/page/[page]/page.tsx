@@ -8,7 +8,7 @@ import SearchBar from "@/app/components/Game-components/SearchBar";
 import Genres from "@/app/components/Game-components/Genres";
 import { pageSize } from "@/app/constants/constants";
 import {
-  fetchAndCombineDataSimple,
+  fetchByGenre,
   paginateGames,
   fetchGameDetails,
   extractGenres,
@@ -44,9 +44,9 @@ interface PostResult {
   parent_platforms: Platform[];
 }
 
-const Posts = async ({ params }: { params: Post }) => {
+const Posts = async ({ params }: { params: any }) => {
   try {
-    const gameData = await fetchAndCombineDataSimple();
+    const gameData = await fetchByGenre(params.name);
     shuffleArray(gameData);
     const genres = await extractGenres();
     const paginatedGames = paginateGames(gameData, params.page, pageSize);

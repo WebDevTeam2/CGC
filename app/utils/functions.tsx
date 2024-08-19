@@ -106,6 +106,7 @@ export const fetchAndCombineDataSimple = async () => {
               slug: 1,
               parent_platforms: 1,
               rating: 1,
+              genres: 1,
             })
             .toArray()) as PostResult[];
 
@@ -149,7 +150,7 @@ export const fetchAndCombineDataSimple = async () => {
       _id: game._id.toString(), // Convert ObjectId to string
     }));
     // Shuffle the combined array of games (if needed)
-    shuffleArray(plainGames);
+    // shuffleArray(plainGames);
 
     return plainGames;
   } catch (error) {
@@ -166,14 +167,20 @@ export const extractGenres = async () => {
     games.forEach((game) => {
       if (game.genres && Array.isArray(game.genres)) {
         game.genres.forEach((genre) => {
-          genresSet.add(genre);
+          // Only add the genre if there isn't already one in the set with the same ID
+          const existingGenre = Array.from(genresSet).find(
+            (g) => g.id === genre.id
+          );
+          if (!existingGenre) {
+            genresSet.add(genre);
+          }
         });
       }
     });
 
     // Convert the Set back to an array
     const genresArray = Array.from(genresSet);
-    console.log(genresArray);
+
     return genresArray;
   } catch (error) {
     console.error("Error in extractGenres:", error);
@@ -181,7 +188,7 @@ export const extractGenres = async () => {
   }
 };
 
-const shuffleArray = <T,>(array: T[]): void => {
+export const shuffleArray = <T,>(array: T[]): void => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
@@ -209,6 +216,19 @@ export const fetchAndCombineData = async (name: string) => {
     game.parent_platforms?.some(
       (platform) => platform.platform.id === platformId
     )
+  );
+
+  return filteredGames;
+};
+
+//this works for the company page games
+export const fetchByGenre = async (name: string) => {
+  // Get all games fetched by the first function
+  const allGames = await fetchAndCombineDataSimple();
+
+  // Filter games based on the genre name
+  const filteredGames = allGames.filter((game) =>
+    game.genres?.some((genre) => genre.name === name)
   );
 
   return filteredGames;

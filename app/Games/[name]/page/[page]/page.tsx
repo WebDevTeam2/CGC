@@ -7,6 +7,8 @@ import {
   fetchAndCombineData,
   paginateGames,
   fetchGameDetails,
+  shuffleArray,
+  extractGenres,
 } from "@/app/utils/functions";
 import Link from "next/link";
 import Image from "next/image";
@@ -16,6 +18,7 @@ import NavBar from "@/app/components/Game-components/NavBar";
 import SearchBar from "@/app/components/Game-components/SearchBar";
 import { pageSize } from "@/app/constants/constants";
 import SortConsole from "@/app/components/Game-components/SortConsole";
+import Genres from "@/app/components/Game-components/Genres";
 
 interface Platform {
   platform: {
@@ -49,6 +52,8 @@ interface PostResult {
 
 const Posts = async ({ params }: { params: any }) => {
   const gameData = await fetchAndCombineData(params.name);
+  shuffleArray(gameData);
+  const genres = await extractGenres();
   const paginatedGames = paginateGames(gameData, params.page, pageSize);
 
   // Extract and flatten platforms, ensuring they are unique
@@ -70,6 +75,7 @@ const Posts = async ({ params }: { params: any }) => {
       <MainPage>
         <NavBar parent_platforms={platforms} />
         <SearchBar games={gameData} />
+        <Genres genres={genres} />
         <SortConsole currentName={params.name} />
         <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
           {detailedGames.map(

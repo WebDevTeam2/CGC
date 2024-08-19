@@ -255,6 +255,45 @@ export const fetchByGenre = async (name: string) => {
   return filteredGames;
 };
 
+export const fetchByGenreName = async (name: string) => {
+  // Get all games fetched by the first function
+  const allGames = await fetchByGenre(name);
+
+  // Sort the games by rating in descending order
+  const sortedGames = allGames.sort((a, b) => a.name.localeCompare(b.name));
+
+  // Return the sorted games
+  return sortedGames;
+};
+
+export const fetchByGenreRating = async (name: string) => {
+  // Get all games fetched by the first function
+  const allGames = await fetchByGenre(name);
+
+  // Sort the games by rating in descending order
+  const sortedGames = allGames.sort((a, b) => b.rating - a.rating);
+
+  // Return the sorted games
+  return sortedGames;
+};
+
+export const fetchByGenreRelease = async (name: string) => {
+  // Get all games fetched by the first function
+  const allGames = await fetchByGenre(name);
+
+  // Filter games to return newest first
+  const filteredGames = allGames.sort((a, b) => {
+    const dateA = new Date(a.released);
+    const dateB = new Date(b.released);
+    // console.log(dateA);
+    // console.log(dateB.getTime() - dateA.getTime());
+    return dateB.getTime() - dateA.getTime();
+  });
+
+  // console.log(filteredGames);
+  return filteredGames;
+};
+
 //this function is for the newely released games
 export const fetchByRelease = async () => {
   // Get all games fetched by the first function

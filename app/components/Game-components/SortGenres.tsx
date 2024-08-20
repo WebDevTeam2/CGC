@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 interface Platform {
@@ -30,14 +30,33 @@ interface SortProps {
 
 const Sort: React.FC<SortProps> = ({ currentName }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const index = useRef<HTMLDivElement>(null);
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
   const closeDropdown = () => {
     setIsOpen(false);
   };
+
+  //check if clicked outside of input container
+  useEffect(() => {
+    const mouseHandler = (e: MouseEvent) => {
+      if (index.current && !index.current.contains(e.target as Node)) {
+        setTimeout(() => {
+          setIsOpen(false);
+        }, 50);
+      }
+    };
+    document.addEventListener("mousedown", mouseHandler);
+    return () => {
+      document.removeEventListener("mousedown", mouseHandler);
+    };
+  }, []);
   return (
-    <div className="pointer-events-none group mt-20 text-white relative flex flex-col items-center justify-center">
+    <div
+      className="pointer-events-none group mt-6 text-white relative flex flex-col items-center justify-center"
+      ref={index}
+    >
       <button
         className={`group-hover:bg-blue-900 pointer-events-auto rounded-2xl bg-blue-950 px-10 py-3 text-lg border-none ${
           isOpen ? "rounded-b-sm" : "rounded-b-2xl"

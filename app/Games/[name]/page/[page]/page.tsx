@@ -18,7 +18,7 @@ import NavBar from "@/app/components/Game-components/NavBar";
 import SearchBar from "@/app/components/Game-components/SearchBar";
 import { pageSize } from "@/app/constants/constants";
 import SortConsole from "@/app/components/Game-components/SortConsole";
-import Genres from "@/app/components/Game-components/Genres";
+import GenresConsole from "@/app/components/Game-components/GenresConsole";
 
 interface Platform {
   platform: {
@@ -75,7 +75,7 @@ const Posts = async ({ params }: { params: any }) => {
       <MainPage>
         <NavBar parent_platforms={platforms} />
         <SearchBar games={gameData} />
-        <Genres genres={genres} />
+        <GenresConsole genres={genres} currentName={params.name} />
         <SortConsole currentName={params.name} />
         <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
           {detailedGames.map(

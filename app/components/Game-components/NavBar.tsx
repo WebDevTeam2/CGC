@@ -35,7 +35,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
   };
   console.log(showmenu);
   return (
-    <nav className="w-full flex justify-between sm:pl-6 pl-4 sticky top-0 bg-black h-[10vh] z-10">
+    <nav className="w-full flex justify-between sm:pl-6 pl-4 sticky top-0 bg-black h-[10vh] z-20">
       <div className="left-side-elements h-full">
         <Link href="/" className="flex items-center h-full">
           <button className="bg-stone-300 text-4xl text-stone-800 transition delay-50 p-1 rounded-full hover:scale-125">

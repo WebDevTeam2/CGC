@@ -9,10 +9,11 @@ import { pageSize } from "@/app/constants/constants";
 import {
   paginateGames,
   fetchGameDetails,
-  fetchByNameConsole,
+  fetchByGenreConsoleName,
   extractGenres,
+  fetchByGenreConsoleRating,
 } from "@/app/utils/functions";
-import SortConsole from "@/app/components/Game-components/SortConsole";
+import SortGenresConsole from "@/app/components/Game-components/SortGenresConsole";
 import GenresConsole from "@/app/components/Game-components/GenresConsole";
 
 interface Platform {
@@ -43,18 +44,9 @@ interface PostResult {
   parent_platforms: Platform[];
 }
 
-//function to sort the games based on their release
-const sortGamesByRelease = (games: PostResult[]) => {
-  return games.sort((a, b) => {
-    const dateA = new Date(a.released);
-    const dateB = new Date(b.released);
-    return dateB.getTime() - dateA.getTime();
-  });
-};
-
 const Posts = async ({ params }: { params: any }) => {
   try {
-    const gameData = await fetchByNameConsole(params.name);
+    const gameData = await fetchByGenreConsoleRating(params.name, params.slug);
     const genres = await extractGenres();
     const paginatedGames = paginateGames(gameData, params.page, pageSize);
 
@@ -77,7 +69,10 @@ const Posts = async ({ params }: { params: any }) => {
           <NavBar parent_platforms={platforms} />
           <SearchBar games={gameData} />
           <GenresConsole genres={genres} currentName={params.name} />
-          <SortConsole currentName={params.name} />
+          <SortGenresConsole
+            currentName={params.name}
+            currentGenre={params.slug}
+          />
           <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
             {detailedGames.map(
               (item) =>

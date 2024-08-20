@@ -10,8 +10,10 @@ import {
   paginateGames,
   fetchGameDetails,
   fetchByRating,
+  extractGenres,
 } from "@/app/utils/functions";
 import Sort from "@/app/components/Game-components/Sort";
+import Genres from "@/app/components/Game-components/Genres";
 
 interface Platform {
   platform: {
@@ -53,6 +55,7 @@ const sortGamesByRelease = (games: PostResult[]) => {
 const Posts = async ({ params }: { params: Post }) => {
   try {
     const gameData = await fetchByRating();
+    const genres = await extractGenres();
     const paginatedGames = paginateGames(gameData, params.page, pageSize);
 
     const platforms = Array.from(
@@ -73,6 +76,7 @@ const Posts = async ({ params }: { params: Post }) => {
         <MainPage>
           <NavBar parent_platforms={platforms} />
           <SearchBar games={gameData} />
+          <Genres genres={genres} />
           <Sort />
           <ul className="relative flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
             {detailedGames.map(

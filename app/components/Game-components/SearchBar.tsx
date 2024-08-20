@@ -176,7 +176,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ games }) => {
 
   return (
     <form
-      className="search fixed top-0 h-[10vh] lg:w-[30vw] lg:mx-[35vw] md:mx-[30vw] md:w-[45vw] sm:mx-[25vw] sm:w-[55vw] mx-[20vw] w-[65vw]  z-10"
+      className="search fixed top-0 h-[10vh] lg:w-[30vw] lg:mx-[35vw] md:mx-[30vw] md:w-[45vw] sm:mx-[25vw] sm:w-[55vw] mx-[20vw] w-[65vw]  z-20"
       ref={resultsRef}
       onSubmit={handleSubmit}
     >
@@ -189,7 +189,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ games }) => {
           value={inputValue}
         />
         <div
-          className="absolute left-3 top-16 bg-black text-white rounded-2xl w-[93%]"
+          className="absolute  left-3 top-16 bg-black text-white rounded-2xl w-[93%]"
           style={{
             height:
               visible && search.length > 0

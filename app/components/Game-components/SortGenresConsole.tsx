@@ -10,12 +10,6 @@ interface Platform {
   };
 }
 
-interface Genre {
-  id: number;
-  name: string;
-  slug: string;
-}
-
 interface PostResult {
   id: number;
   slug: string;
@@ -30,14 +24,14 @@ interface PostResult {
   parent_platforms: Platform[];
 }
 
-interface GenresProps {
-  genres: Genre[];
+interface SortProps {
+  currentName: string;
+  currentGenre: string;
 }
 
-const Genres: React.FC<GenresProps> = ({ genres }) => {
+const Sort: React.FC<SortProps> = ({ currentName, currentGenre }) => {
   const [isOpen, setIsOpen] = useState(false);
   const index = useRef<HTMLDivElement>(null);
-
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -59,40 +53,47 @@ const Genres: React.FC<GenresProps> = ({ genres }) => {
       document.removeEventListener("mousedown", mouseHandler);
     };
   }, []);
-
   return (
     <div
-      className="wrapper relative pointer-events-none  mt-3 w-full items-center z-10  group text-white flex flex-col "
+      className="pointer-events-none group mt-6 text-white relative flex flex-col items-center justify-center"
       ref={index}
     >
       <button
-        className={`group-hover:bg-neutral-600 pointer-events-auto rounded-2xl bg-neutral-500 px-[4.4rem] py-3 text-lg border-none ${
+        className={`group-hover:bg-blue-900 pointer-events-auto rounded-2xl bg-blue-950 px-10 py-3 text-lg border-none ${
           isOpen ? "rounded-b-sm" : "rounded-b-2xl"
         }`}
         onClick={toggleDropdown}
       >
-        Genres
+        Order By
       </button>
       <div
-        className={`pointer-events-auto top-[3.3rem] absolute overflow-hidden overflow-y-auto divide-y text-lg rounded-b-2xl bg-neutral-100 flex flex-col text-center transition-all duration-300 ${
-          isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        className={`pointer-events-auto divide-y text-lg rounded-b-2xl bg-neutral-100 text-black flex flex-col transition-all duration-300 ${
+          isOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
         }`}
         style={{ visibility: isOpen ? "visible" : "hidden" }}
         onClick={closeDropdown}
       >
-        {genres.map((genre) => (
-          <Link key={genre.id} href={`/Games/genre/${genre.slug}/page/1`}>
-            <ul
-              className="text-black text-lg transition delay-50 p-2 rounded-full hover:scale-105"
-              onClick={closeDropdown}
-            >
-              {genre.name}
-            </ul>
-          </Link>
-        ))}
+        <Link
+          href={`/Games/${currentName}/genre/${currentGenre}/page/release-first/1`}
+          className="hover:text-blue-600 py-3 px-6"
+        >
+          Release Date
+        </Link>
+        <Link
+          href={`/Games/${currentName}/genre/${currentGenre}/page/rating-first/1`}
+          className="hover:text-blue-600 py-3 px-6"
+        >
+          Rating
+        </Link>
+        <Link
+          href={`/Games/${currentName}/genre/${currentGenre}/page/name-first/1`}
+          className="hover:text-blue-600 py-3 px-6"
+        >
+          Name
+        </Link>
       </div>
     </div>
   );
 };
 
-export default Genres;
+export default Sort;

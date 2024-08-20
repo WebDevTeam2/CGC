@@ -32,9 +32,10 @@ interface PostResult {
 
 interface GenresProps {
   genres: Genre[];
+  currentName: string;
 }
 
-const Genres: React.FC<GenresProps> = ({ genres }) => {
+const Genres: React.FC<GenresProps> = ({ genres, currentName }) => {
   const [isOpen, setIsOpen] = useState(false);
   const index = useRef<HTMLDivElement>(null);
 
@@ -62,7 +63,7 @@ const Genres: React.FC<GenresProps> = ({ genres }) => {
 
   return (
     <div
-      className="wrapper relative pointer-events-none  mt-3 w-full items-center z-10  group text-white flex flex-col "
+      className="wrapper relative pointer-events-none mt-3 w-full items-center z-10  group text-white flex flex-col "
       ref={index}
     >
       <button
@@ -81,7 +82,10 @@ const Genres: React.FC<GenresProps> = ({ genres }) => {
         onClick={closeDropdown}
       >
         {genres.map((genre) => (
-          <Link key={genre.id} href={`/Games/genre/${genre.slug}/page/1`}>
+          <Link
+            key={genre.id}
+            href={`/Games/${currentName}/genre/${genre.slug}/page/1`}
+          >
             <ul
               className="text-black text-lg transition delay-50 p-2 rounded-full hover:scale-105"
               onClick={closeDropdown}

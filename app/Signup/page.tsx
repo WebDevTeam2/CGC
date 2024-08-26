@@ -3,7 +3,7 @@ import { FormEvent, useState } from "react";
 import bcrypt from "bcryptjs";
 import Link from "next/link";
 
-export const Signup: React.FC = () => {
+export default function Signup() {
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -163,4 +163,4 @@ export const Signup: React.FC = () => {
       </div>
     </div>
   );
-};
+}

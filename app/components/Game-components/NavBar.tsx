@@ -57,7 +57,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
               </button>
             </Link>
           ))}
-          <Link href={"Games/Signup"}>
+          <Link href={"/Signup"}>
             <button className="text-stone-200 transition delay-50 p-2 rounded-full hover:scale-125">
               <IoIosLogIn />
             </button>
@@ -97,7 +97,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
                 </button>
               </Link>
             ))}
-            <Link href={"Games/Signup"}>
+            <Link href={"/Signup"}>
               <button className="text-stone-200 text-3xl transition delay-50 p-2 rounded-full hover:scale-125">
                 <IoIosLogIn />
               </button>

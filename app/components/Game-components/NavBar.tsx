@@ -46,19 +46,19 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
       <div className="right-side-elements h-full">
         <div className="xl:flex h-full text-4xl items-center hidden gap-3">
           <Link href={"/Games/page/1"}>
-            <button className="text-stone-200 text-xl transition delay-50 p-2 rounded-full hover:scale-125">
+            <button className="text-stone-200 text-xl uppercase transition delay-50 p-2 rounded-full hover:scale-110">
               All Games
             </button>
           </Link>
           {logos.map((logo) => (
             <Link key={logo.key} href={`/Games/${logo.slug}/page/1`}>
-              <button className="text-stone-200 transition delay-50 p-2 rounded-full hover:scale-125">
+              <button className="text-stone-200 transition delay-50 p-2 rounded-full hover:scale-110">
                 {logo.component}
               </button>
             </Link>
           ))}
           <Link href={"/Signup"}>
-            <button className="text-stone-200 transition delay-50 p-2 rounded-full hover:scale-125">
+            <button className="text-stone-200 transition delay-50 p-2 rounded-full hover:scale-110">
               <IoIosLogIn />
             </button>
           </Link>
@@ -90,7 +90,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
             {logos.map((logo) => (
               <Link key={logo.key} href={`/Games/${logo.slug}/page/1`}>
                 <button
-                  className="text-stone-200 sm:text-3xl text-2xl transition delay-50 p-2 rounded-full hover:scale-125"
+                  className="text-stone-200 sm:text-3xl text-2xl transition delay-50 p-2 rounded-full hover:scale-110"
                   onClick={closeDropdown}
                 >
                   {logo.component}
@@ -98,12 +98,12 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
               </Link>
             ))}
             <Link href={"/Signup"}>
-              <button className="text-stone-200 text-3xl transition delay-50 p-2 rounded-full hover:scale-125">
+              <button className="text-stone-200 text-3xl transition delay-50 p-2 rounded-full hover:scale-110">
                 <IoIosLogIn />
               </button>
             </Link>
             <Link href={"/Games/page/1"}>
-              <button className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-125">
+              <button className="text-stone-200 uppercase sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
                 All Games
               </button>
             </Link>

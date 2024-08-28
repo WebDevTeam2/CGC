@@ -69,9 +69,9 @@ const Posts = async ({ params }: { params: Post }) => {
         <MainPage>
           <NavBar parent_platforms={platforms} />
           <SearchBar games={gameData} />
-          <Genres genres={genres} />
           <Sort />
-          <ul className="relative pointer-events-none flex mt-12 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
+          <Genres genres={genres} />
+          <ul className="relative pointer-events-none flex mt-6 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
             {detailedGames.map(
               (item) =>
                 item.description_raw && (

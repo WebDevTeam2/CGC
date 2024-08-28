@@ -62,7 +62,7 @@ const Genres: React.FC<GenresProps> = ({ genres }) => {
 
   return (
     <div
-      className="wrapper relative pointer-events-none  mt-3 w-full items-center z-10  group text-white flex flex-col "
+      className="wrapper relative pointer-events-none mt-4 w-full items-center z-10  group text-white flex flex-col "
       ref={index}
     >
       <button

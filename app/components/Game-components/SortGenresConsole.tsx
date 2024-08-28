@@ -55,7 +55,7 @@ const Sort: React.FC<SortProps> = ({ currentName, currentGenre }) => {
   }, []);
   return (
     <div
-      className="pointer-events-none group mt-6 text-white relative flex flex-col items-center justify-center"
+      className="pointer-events-none group mt-12 text-white relative flex flex-col items-center justify-center"
       ref={index}
     >
       <button

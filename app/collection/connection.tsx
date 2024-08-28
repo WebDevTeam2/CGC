@@ -8,6 +8,7 @@ interface User {
   username: string;
   email: string;
   password: string;
+  profilePicture?: string;
   verificationToken?: string;
   isVerified?: boolean;
 }
@@ -62,6 +63,7 @@ export const addUser = async (data: User) => {
       username,
       email,
       password,
+      profilePicture: "",
       verificationToken,
       isVerified: false,
     });
@@ -181,7 +183,12 @@ export const logUser = async (email: string, password: string) => {
       return { status: 400, message: "Username or password is incorrect" };
     }
 
-    return { status: 200, message: "User logged in successfully!" };
+    return {
+      status: 200,
+      username: user.username,
+      profilePicture: user.profilePicture,
+      email: user.email,
+    };
   } catch (error) {
     console.error("Error verifying user:", error);
     return { status: 500, message: "Error verifying user" };

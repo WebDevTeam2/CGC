@@ -7,6 +7,7 @@ import { SiEpicgames } from "react-icons/si";
 import { IoMenu } from "react-icons/io5";
 import { FaArrowLeft } from "react-icons/fa";
 import Link from "next/link";
+import Logout from "../Logout";
 
 interface Platform {
   platform: {
@@ -92,6 +93,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
                 All Games
               </button>
             </Link>
+            <Logout />
           </ul>
         </div>
       </div>

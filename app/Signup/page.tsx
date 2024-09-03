@@ -1,11 +1,21 @@
 "use client"; // Ensure this component is treated as a Client Component
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useEffect } from "react";
 import bcrypt from "bcryptjs";
+import { FaGoogle, FaGithub } from "react-icons/fa";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function Signup() {
+  const router = useRouter();
+  const { data: session } = useSession();
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+      session ? router.push("/") : null;
+  }, [session, router]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -128,6 +138,18 @@ export default function Signup() {
             required
           />
         </div>
+        <div className="flex flex-row gap-8 mt-2 justify-center">
+          <FaGithub
+            size={40}
+            onClick={() => signIn("github", { callbackUrl: "/" })}
+            className="cursor-pointer"
+          />
+          <FaGoogle
+            size={40}
+            onClick={() => signIn("google", { callbackUrl: "/" })}
+            className="cursor-pointer"
+          />
+        </div>        
         {errorMessages.length > 0 && (
           <div className="text-red-600 flex justify-center">
             <ul className="bg-red-200 w-full text-center p-4">

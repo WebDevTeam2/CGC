@@ -3,7 +3,7 @@ import { signOut } from "next-auth/react";
 
 const Logout = () => {
   return (
-    <button className="text-2xl bg-blue-500 mt-8 p-4 text-white rounded-full" onClick={() => signOut({ callbackUrl: "/" })}>Sign out</button>
+    <button className="text-stone-200 uppercase sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110" onClick={() => signOut({ callbackUrl: "/" })}>Sign out</button>
   );
 };
 

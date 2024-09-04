@@ -1,10 +1,11 @@
-import { Collection, Db, MongoClient } from "mongodb";
+import { Collection, Db, MongoClient, ObjectId } from "mongodb";
 import clientPromise from "../../lib/mongo/page";
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 
 interface User {
+  _id: ObjectId;
   username: string;
   email: string;
   password: string;
@@ -185,9 +186,11 @@ export const logUser = async (email: string, password: string) => {
 
     return {
       status: 200,
+      _id: user._id.toString(),
       username: user.username,
       profilePicture: user.profilePicture,
       email: user.email,
+      password: user.password,
     };
   } catch (error) {
     console.error("Error verifying user:", error);

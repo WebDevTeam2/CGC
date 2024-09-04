@@ -37,23 +37,19 @@ export default function Signin() {
     setLoading(true);
 
     try {
-      // Send a POST request to your API route
-      const response = await fetch("/api/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+      const result = await signIn("credentials", {
+        redirect: false, // Disable automatic redirect
+        email,
+        password,
+        callbackUrl: "/Verified", // The URL to redirect to after sign-in
       });
 
-      const result = await response.json();
-
-      if (!response.ok) {
+      if (result?.error) {
         setLoading(false);
-        setErrorMessages([result.message]);
+        setErrorMessages([result.error]);
       } else {
         console.log("User credentials OK.");
-        router.push("/");
+        router.push(result?.url || "/");
       }
     } catch (error) {
       setLoading(false);

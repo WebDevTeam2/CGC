@@ -8,6 +8,7 @@ import { IoMenu } from "react-icons/io5";
 import { FaArrowLeft } from "react-icons/fa";
 import Link from "next/link";
 import Logout from "../Logout";
+import { useSession } from "next-auth/react";
 
 interface Platform {
   platform: {
@@ -26,6 +27,7 @@ const logos = [
 
 const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
   const [showmenu, setShowMenu] = useState(false);
+  const { data: session, status } = useSession();
 
   const toggleMenu = () => {
     setShowMenu(!showmenu);
@@ -78,22 +80,27 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
                 </button>
               </Link>
             ))}
-            <Link href={"/Signup"}>
-              <button className="text-stone-200 sm:text-xl text-lg uppercase transition delay-50 p-2 rounded-full hover:scale-110">
-                Sign Up
-              </button>
-            </Link>
-            <Link href={"/Signin"}>
-              <button className="text-stone-200 sm:text-xl text-lg uppercase transition delay-50 p-2 rounded-full hover:scale-110">
-                Log In
-              </button>
-            </Link>
+            {!session ? (
+              <>
+                <Link href={"/Signup"}>
+                  <button className="text-stone-200 sm:text-xl text-lg uppercase transition delay-50 p-2 rounded-full hover:scale-110">
+                    Sign Up
+                  </button>
+                </Link>
+                <Link href={"/Signin"}>
+                  <button className="text-stone-200 sm:text-xl text-lg uppercase transition delay-50 p-2 rounded-full hover:scale-110">
+                    Log In
+                  </button>
+                </Link>
+              </>
+            ) : (
+              <Logout />
+            )}
             <Link href={"/Games/page/1"}>
               <button className="text-stone-200 uppercase sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
                 All Games
               </button>
             </Link>
-            <Logout />
           </ul>
         </div>
       </div>

@@ -5,7 +5,6 @@ import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 
 interface User {
-  _id: ObjectId;
   username: string;
   email: string;
   password: string;

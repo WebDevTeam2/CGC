@@ -14,7 +14,7 @@ export default function Signup() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-      session ? router.push("/") : null;
+    session ? router.push("/") : null;
   }, [session, router]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -129,7 +129,7 @@ export default function Signup() {
             required
           />
         </div>
-        <div className="flex flex-col w-full items-center mb-12 sm:mt-6 mt-4 ">
+        <div className="flex flex-col w-full items-center mb-8 sm:mt-6 mt-4 ">
           <label className="sm:text-lg text-md">Re-enter Password</label>
           <input
             type="password"
@@ -138,18 +138,21 @@ export default function Signup() {
             required
           />
         </div>
-        <div className="flex flex-row gap-8 mt-2 justify-center">
+        <div className="flex items-center justify-center mb-6 w-full">
+          <span className="bg-black p-1 px-4 rounded-md text-white">OR</span>
+        </div>
+        <div className="flex flex-row gap-8 justify-center mb-10">
           <FaGithub
             size={40}
             onClick={() => signIn("github", { callbackUrl: "/" })}
-            className="cursor-pointer"
+            className="cursor-pointer hover:scale-125 transition-all duration-200 ease-in-out"
           />
           <FaGoogle
             size={40}
             onClick={() => signIn("google", { callbackUrl: "/" })}
-            className="cursor-pointer"
+            className="cursor-pointer hover:scale-125 transition-all duration-200 ease-in-out"
           />
-        </div>        
+        </div>
         {errorMessages.length > 0 && (
           <div className="text-red-600 flex justify-center">
             <ul className="bg-red-200 w-full text-center p-4">

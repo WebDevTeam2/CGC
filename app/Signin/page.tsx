@@ -86,16 +86,19 @@ export default function Signin() {
             required
           />
         </div>
-        <div className="flex flex-row gap-8 mt-2 justify-center">
+        <div className="flex items-center justify-center mb-6 w-full">
+          <span className="bg-black p-1 px-4 rounded-md text-white">OR</span>
+        </div>
+        <div className="flex flex-row gap-8 justify-center mb-10">
           <FaGithub
             size={40}
             onClick={() => signIn("github", { callbackUrl: "/" })}
-            className="cursor-pointer"
+            className="cursor-pointer hover:scale-125 transition-all duration-200 ease-in-out"
           />
           <FaGoogle
             size={40}
             onClick={() => signIn("google", { callbackUrl: "/" })}
-            className="cursor-pointer"
+            className="cursor-pointer hover:scale-125 transition-all duration-200 ease-in-out"
           />
         </div>
         {errorMessages.length > 0 && (

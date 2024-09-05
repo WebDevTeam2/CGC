@@ -3,7 +3,11 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { addUser, findUserByEmail, logUser } from "@/app/collection/connection";
+import {
+  addUserOath,
+  findUserByEmail,
+  logUser,
+} from "@/app/collection/connection";
 import { ObjectId } from "mongodb";
 
 interface User {
@@ -67,26 +71,39 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
-    async signIn({ user, account, profile }) {
-      if (user) {
+    async signIn({ user, account }) {
+      if (user && account) {
         const email = user.email;
-        // const username = user.username;
 
         // Find user by email to check existence
-        const existingUser = await findUserByEmail(email ?? "");
+        const existingUser = await findUserByEmail(email || "");
 
-        if (!existingUser) {
-          // Create a new user if it does not exist
-          await addUser({
-            username: "", // Use a default value or handle missing username
-            email: email ?? "",
-            password: "", // No password for OAuth users
-            // profilePicture: "", // Set a default or fetch from provider
-            isVerified: true, // OAuth users are considered verified
-          });
+        if (existingUser) {
+          // Check if the existing user was created via credentials or another provider
+          const isOAuthProvider = existingUser.provider !== "credentials";
+
+          // If the email is linked to a credentials-based account and they try to log in via OAuth
+          if (!isOAuthProvider && account.provider !== "credentials") {
+            // Log the conflict and prevent sign-in
+            return "/signin?error=EmailInUse";
+          }
+
+          // Otherwise, allow sign-in (e.g., when logging in with the same OAuth provider)
+          return true;
         }
+
+        // Create a new user if it does not exist
+        await addUserOath({
+          email: email ?? "",
+          profilePicture: user.image || "", // Set a default or fetch from provider
+          isVerified: true, // OAuth users are considered verified
+          provider: account.provider, // Track the provider (google, github, credentials, etc.)
+        });
+
+        return true; // Allow sign-in
       }
-      return true; // Return true to allow sign-in
+
+      return false; // Deny sign-in if no user or account is provided
     },
     async jwt({ token, user }) {
       if (user) {

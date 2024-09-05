@@ -9,6 +9,8 @@ import { FaArrowLeft } from "react-icons/fa";
 import Link from "next/link";
 import Logout from "../Logout";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
+import defaultAvatar from "../../assets/images/default_avatar.jpg";
 
 interface Platform {
   platform: {
@@ -37,14 +39,24 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
   };
   console.log(showmenu);
   return (
-    <nav className="w-full flex justify-between sm:pl-6 pl-4  sticky top-0 bg-black h-[10vh] z-20">
-      <div className="left-side-elements h-full">
+    <nav className="w-full flex justify-between items-center sm:pl-6 pl-4  sticky top-0 bg-black h-[10vh] z-20">
+      <div className="left-side-elements h-full flex-1 pointer-events-none">
         <Link href="/" className="flex items-center h-full">
-          <button className="bg-stone-300 text-4xl text-stone-800 transition delay-50 p-1 rounded-full hover:scale-125">
+          <button className="bg-stone-300 pointer-events-auto text-4xl text-stone-800 transition delay-50 p-1 rounded-full hover:scale-125">
             <IoReturnUpBack />
           </button>
         </Link>
       </div>
+      {session && (
+        <div className="overflow-hidden w-auto h-auto rounded-full">
+          <Image
+            src={session.user?.image || defaultAvatar}
+            alt="image"
+            height={120}
+            width={45}
+          ></Image>
+        </div>
+      )}
       <div className="right-side-elements h-full">
         <div
           style={{ transitionProperty: "transform" }}
@@ -52,7 +64,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
             showmenu
               ? "max-[640px]:translate-x-0"
               : "max-[640px]:translate-x-28"
-          }  transition-all duration-300 ease-in-out flex sm:flex-col flex-row items-center mt-3 max-[640px]:absolute max-[640px]:right-0 max-[640px]:top-44`}
+          } w-36 transition-all duration-300 ease-in-out flex sm:flex-col flex-row items-center mt-3 max-[640px]:absolute max-[640px]:right-0 max-[640px]:top-44`}
         >
           <button
             className="text-white sm:rounded-full sm:p-2 sm:hover:bg-neutral-800 transition delay-75 ease-in-out sm:text-5xl text-xl max-[640px]:bg-neutral-700/50 hover:bg-neutral-900/70 rounded-tl-full rounded-bl-full py-6 px-2"

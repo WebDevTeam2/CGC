@@ -60,17 +60,17 @@ const Filter = () => {
       </div>
 
       <div
-        className={`fixed top-0 right-0 h-full w-[300px] bg-[#4c545b] p-4 z-20 transition duration-500 ease-in-out ${
+        className={`fixed top-0 right-0 h-full w-[300px] bg-[#23232e] p-4 z-20 transition duration-500 ease-in-out ${
           isActive ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <ul className="grid grid-cols-2 gap-2">
           {genres.map((movieGenre) => (
             <li
-              className={`hover:opacity-75 mb-2 text-center bg-[#d1d1d1] rounded-full p-2 cursor-pointer transition duration-200 ${
+              className={`hover:opacity-75 mb-2 text-center rounded-full p-2 cursor-pointer transition duration-200 ${
                 selectedGenres.includes(movieGenre.id)
                   ? "font-bold bg-blue-500 text-white"
-                  : "text-black"
+                  : "text-[#c7c7c7] bg-[#6B6B6B]"
               }`}
               key={movieGenre.id}
               onClick={() => handleGenreClick(movieGenre.id)}

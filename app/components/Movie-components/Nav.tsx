@@ -1,5 +1,4 @@
 "use client";
-
 //components
 import HomePage from "@/app/components/Movie-components/Nav-items/HomePage";
 import Random from "@/app/components/Movie-components/Nav-items/Random";
@@ -14,10 +13,14 @@ import UpComing from "@/app/components/Movie-components/Nav-items/UpComing";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import Login from "./Nav-items/Login";
+import { useSession } from "next-auth/react";
+import Image from "next/legacy/image";
 
 //Ena array apo objects me diaforetiko id gia na mhn epanalamvanetai o kwdikas polles fores
 
 export default function Nav() {
+  const { data: session } = useSession();
   const [searchVisible, setSearchVisible] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0); //Metavlhth pou arxikopoiei to scroll pou kanei o xrhsths se 0
 
@@ -57,7 +60,7 @@ export default function Nav() {
 
     if (searchVisible) {
       navForHover ? navForHover.classList.remove("nav-for-hover") : null; //An exei epilexthei to search aferw to class pou kanw target sto CSS gia ta hover effects
-      
+
       blur.forEach((e) => {
         //Dialegoume ola ta classes me to onoma not-search kai ta dinoume mia kainourgia classh pou thn kanoume target me CSS
         e.classList.add("blurred");
@@ -89,7 +92,7 @@ export default function Nav() {
           <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
             <MovieHomePage />
           </li>
-          <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none"> 
+          <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
             <TVShowHomePage />
           </li>
           <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
@@ -99,21 +102,48 @@ export default function Nav() {
             onClick={toggleSearch}
             className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none"
           >
-            <Link href = {'#'} className="flex flex-row items-center h-20 gap-2 not-search">
+            <Link
+              href={"#"}
+              className="flex flex-row items-center h-20 gap-2 not-search"
+            >
               <FaMagnifyingGlass
                 style={{ margin: "0 1.5rem", flexShrink: 0 }}
               />
-              <span className="sm:block md:block lg:hidden transition duration-700 ease-in-out ml-2 not-search"> Search</span>
+              <span className="sm:block md:block lg:hidden transition duration-700 ease-in-out ml-2 not-search">
+                {" "}
+                Search
+              </span>
             </Link>
           </li>
           <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
-            <Random />  
+            <Random />
           </li>
           <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
-            <UpComing />  
+            <UpComing />
           </li>
+          {/* An yparxei session tote vazoume na fainetai h eikona tou xrhsth  */}
+          {session ? (
+            <li className="text-[#b6b6b6] text-l w-full transition duration-500 lg:mt-4 lg:ml-10 ease-in-out not-search last:mt-auto">
+              <Link
+                href={"/Movies/userProfile"}
+                className="relative block w-10 h-10 rounded-full overflow-hidden"
+              >
+                <Image
+                  src={session.user?.image || "/default-avatar.png"} // An o xrhsths exei diko tou image to kanoume display alliws kanoume display ena default
+                  alt="User Avatar"
+                  layout="fill"
+                  className="object-cover"
+                />
+              </Link>
+            </li>
+          ) : (
+            // An den yparxei session tote vazoume na fainetai to login
+            <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto">
+              <Login />
+            </li>
+          )}
           <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
-            <ChangeTheme />  
+            <ChangeTheme />
           </li>
         </ul>
       </nav>

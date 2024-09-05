@@ -70,18 +70,18 @@ export const authOptions: NextAuthOptions = {
     async signIn({ user, account, profile }) {
       if (user) {
         const email = user.email;
-        const username = user.username;
+        // const username = user.username;
 
         // Find user by email to check existence
-        const existingUser = await findUserByEmail(email);
+        const existingUser = await findUserByEmail(email ?? "");
 
         if (!existingUser) {
           // Create a new user if it does not exist
           await addUser({
-            username: username ?? "", // Use a default value or handle missing username
-            email,
+            username: "", // Use a default value or handle missing username
+            email: email ?? "",
             password: "", // No password for OAuth users
-            profilePicture: "", // Set a default or fetch from provider
+            // profilePicture: "", // Set a default or fetch from provider
             isVerified: true, // OAuth users are considered verified
           });
         }

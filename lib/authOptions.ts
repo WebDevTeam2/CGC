@@ -33,16 +33,18 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
+          console.log("No such credentials");
           return null; // Return null if no credentials
         }
 
         const user = await logUser(credentials.email, credentials.password);
 
-        if (user && user.password === credentials.password) {
+        if (user.status === 200 && user._id) {
           // Replace with hashed password check
+          console.log("passwords matched");
           return { id: user._id.toString(), email: user.email }; // Return user object with id as string
         }
-
+        console.log("something went wrong with authorize");
         return null; // Return null if invalid
       },
     }),

@@ -29,10 +29,10 @@ export default function Signin() {
     // Hash the password using bcrypt
     // const hashedPassword = await bcrypt.hash(password, 10);
 
-    const data = {
-      email,
-      password,
-    };
+    // const data = {
+    //   email,
+    //   password,
+    // };
 
     setLoading(true);
 
@@ -41,7 +41,7 @@ export default function Signin() {
         redirect: false, // Disable automatic redirect
         email,
         password,
-        callbackUrl: "/Verified", // The URL to redirect to after sign-in
+        callbackUrl: "/", // The URL to redirect to after sign-in
       });
 
       if (result?.error) {

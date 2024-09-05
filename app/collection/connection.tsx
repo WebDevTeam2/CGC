@@ -167,7 +167,7 @@ export const logUser = async (email: string, password: string) => {
 
   try {
     const user = await users.findOne({ email });
-
+    console.log("logUser worked");
     if (!user) {
       return { status: 400, message: "User does not exist" };
     }

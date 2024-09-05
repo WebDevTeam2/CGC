@@ -117,7 +117,7 @@ const sendVerificationEmail = async (email: string, token: string) => {
   await transporter.sendMail(mailOptions);
 };
 
-const checkUserExists = async (username: string, email: string) => {
+export const checkUserExists = async (username: string, email: string) => {
   if (!users) throw new Error("Users collection is not initialized");
   try {
     const usernameExists = await users.findOne({ username });
@@ -195,4 +195,11 @@ export const logUser = async (email: string, password: string) => {
     console.error("Error verifying user:", error);
     return { status: 500, message: "Error verifying user" };
   }
+};
+
+export const findUserByEmail = async (email: string) => {
+  if (!users) await init();
+  if (!users) throw new Error("Users collection is not initialized");
+
+  return await users.findOne({ email });
 };

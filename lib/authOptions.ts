@@ -2,7 +2,7 @@ import { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { logUser } from "@/app/collection/connection";
+import { addUser, findUserByEmail, logUser } from "@/app/collection/connection";
 import { ObjectId } from "mongodb";
 
 interface User {
@@ -62,9 +62,30 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
+    async signIn({ user, account, profile }) {
+      if (user) {
+        const email = user.email;
+        const username = user.username;
+
+        // Find user by email to check existence
+        const existingUser = await findUserByEmail(email);
+
+        if (!existingUser) {
+          // Create a new user if it does not exist
+          await addUser({
+            username: username ?? "", // Use a default value or handle missing username
+            email,
+            password: "", // No password for OAuth users
+            profilePicture: "", // Set a default or fetch from provider
+            isVerified: true, // OAuth users are considered verified
+          });
+        }
+      }
+      return true; // Return true to allow sign-in
+    },
     async jwt({ token, user }) {
       if (user) {
-        token.user = user;
+        token.user = { ...user };
       }
       return token;
     },

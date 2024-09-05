@@ -40,11 +40,11 @@
     margin-left: 5rem;
   }
 
-  .nav-for-hover span {
+  .nav-for-hover span, .nav-for-hover .logout {
     display: none;
   }
 
-  .nav-for-hover:hover span {
+  .nav-for-hover:hover span, .nav-for-hover:hover .logout {
     display: block;
   }
 }
@@ -110,7 +110,7 @@ body {
   background-color: #683e5e;
 }
 
-.body-light .trending-button {
+.body-light .trending-button {  
   background-color: #4c545b;
 }
 

@@ -10,7 +10,7 @@ import Link from "next/link";
 import Logout from "../Logout";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import defaultAvatar from "../../assets/images/default_avatar.jpg";
+import defaultAvatar from "@/public/assets/images/default_avatar.jpg";
 
 interface Platform {
   platform: {

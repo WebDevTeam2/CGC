@@ -5,12 +5,13 @@ import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 
 interface User {
-  username: string;
+  username?: string;
   email: string;
-  password: string;
+  password?: string;
   profilePicture?: string;
   verificationToken?: string;
   isVerified?: boolean;
+  provider?: string;
 }
 
 let client: MongoClient | undefined;
@@ -46,7 +47,7 @@ export const addUser = async (data: User) => {
 
     // Check if the username or email already exists
     const { usernameExists, emailExists } = await checkUserExists(
-      username,
+      username || "",
       email
     );
 
@@ -73,6 +74,50 @@ export const addUser = async (data: User) => {
     return {
       message:
         "User added successfully. Please check your email for verification.",
+      result,
+    };
+  } catch (error) {
+    console.error("Failed to add user:", error);
+    if (error instanceof Error) {
+      throw new Error(`${error.message}`);
+    }
+    // Re-throw the error in case it's not an instance of Error
+    throw error;
+  }
+};
+
+export const addUserOath = async (data: User) => {
+  try {
+    if (!users) await init();
+    if (!users) throw new Error("Users collection is not initialized");
+
+    // Destructure username and email from the data
+    const { username, email } = data;
+
+    // Check if the username or email already exists
+    const { usernameExists, emailExists } = await checkUserExists(
+      username || "",
+      email
+    );
+
+    if (usernameExists && emailExists) {
+      throw new Error("Username and Email already exist");
+    } else if (usernameExists) {
+      throw new Error("Username already exists");
+    } else if (emailExists) {
+      throw new Error("Email already exists");
+    }
+
+    // Insert the new user data into the MongoDB collection
+    const result = await users.insertOne({
+      email,
+      profilePicture: data.profilePicture || "",
+      isVerified: true,
+      provider: data.provider || "",
+    });
+
+    return {
+      message: "User added successfully.",
       result,
     };
   } catch (error) {
@@ -178,7 +223,10 @@ export const logUser = async (email: string, password: string) => {
     }
 
     // Compare the hashed password with the plain-text password
-    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      user.password || ""
+    );
     if (!isPasswordCorrect) {
       return { status: 400, message: "Username or password is incorrect" };
     }

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoReturnUpBack } from "react-icons/io5";
 import { FaXbox, FaPlaystation } from "react-icons/fa";
 import { BsNintendoSwitch } from "react-icons/bs";
@@ -10,7 +10,7 @@ import Link from "next/link";
 import Logout from "../Logout";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import defaultAvatar from "../../assets/images/default_avatar.jpg";
+import defaultAvatar from "@/public/assets/images/default_avatar.jpg";
 
 interface Platform {
   platform: {
@@ -29,13 +29,40 @@ const logos = [
 
 const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
   const [showmenu, setShowMenu] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
   const { data: session, status } = useSession();
+  const profileRef = useRef<HTMLDivElement>(null);
+
+  // Check if clicked outside of the elements
+  useEffect(() => {
+    const mouseHandler = (e: MouseEvent) => {
+      // Clicked outside profile dropdown
+      if (
+        profileRef.current &&
+        !profileRef.current.contains(e.target as Node)
+      ) {
+        setShowProfile(false); // Close profile dropdown
+      }
+    };
+
+    document.addEventListener("mousedown", mouseHandler);
+
+    return () => {
+      document.removeEventListener("mousedown", mouseHandler);
+    };
+  }, []);
 
   const toggleMenu = () => {
     setShowMenu(!showmenu);
   };
   const closeDropdown = () => {
     setShowMenu(false);
+  };
+  const toggleProfile = () => {
+    setShowProfile(!showProfile);
+  };
+  const closeProfile = () => {
+    setShowProfile(false);
   };
   console.log(showmenu);
   return (
@@ -48,13 +75,35 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
         </Link>
       </div>
       {session && (
-        <div className="overflow-hidden w-auto h-auto rounded-full">
+        <div
+          className="overflow-hidden  hover:brightness-75 w-auto h-auto rounded-full"
+          onClick={toggleProfile}
+        >
           <Image
             src={session.user?.image || defaultAvatar}
             alt="image"
             height={120}
             width={45}
+            className="hover:cursor-pointer"
           ></Image>
+        </div>
+      )}
+
+      {/* Dropdown menu */}
+      {showProfile && (
+        <div
+          ref={profileRef}
+          className="absolute right-28 mt-40 w-28 bg-white rounded-md shadow-lg"
+          onBlur={closeProfile} // Hide dropdown if clicked outside
+        >
+          <ul className="py-2 divide-y">
+            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+              Profile
+            </li>
+            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+              Logout
+            </li>
+          </ul>
         </div>
       )}
       <div className="right-side-elements h-full">

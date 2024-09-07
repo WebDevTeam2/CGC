@@ -1,11 +1,10 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { IoReturnUpBack } from "react-icons/io5";
-import { FaXbox, FaPlaystation } from "react-icons/fa";
+import { IoReturnUpBack, IoMenu } from "react-icons/io5";
+import { FaXbox, FaPlaystation, FaArrowLeft } from "react-icons/fa";
 import { BsNintendoSwitch } from "react-icons/bs";
 import { SiEpicgames } from "react-icons/si";
-import { IoMenu } from "react-icons/io5";
-import { FaArrowLeft } from "react-icons/fa";
+import { IoIosArrowDown } from "react-icons/io";
 import Link from "next/link";
 import Logout from "../Logout";
 import { useSession } from "next-auth/react";
@@ -32,21 +31,24 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
   const [showProfile, setShowProfile] = useState(false);
   const { data: session, status } = useSession();
   const profileRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
-  // Check if clicked outside of the elements
+  //check if clicked outside of input container
   useEffect(() => {
     const mouseHandler = (e: MouseEvent) => {
-      // Clicked outside profile dropdown
       if (
         profileRef.current &&
-        !profileRef.current.contains(e.target as Node)
+        !profileRef.current.contains(e.target as Node) &&
+        menuRef.current &&
+        !menuRef.current.contains(e.target as Node)
       ) {
-        setShowProfile(false); // Close profile dropdown
+        setTimeout(() => {
+          setShowProfile(false);
+          setShowMenu(false);
+        }, 50);
       }
     };
-
     document.addEventListener("mousedown", mouseHandler);
-
     return () => {
       document.removeEventListener("mousedown", mouseHandler);
     };
@@ -64,50 +66,57 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
   const closeProfile = () => {
     setShowProfile(false);
   };
-  console.log(showmenu);
+  console.log(showProfile);
   return (
     <nav className="w-full flex justify-between items-center sm:pl-6 pl-4  sticky top-0 bg-black h-[10vh] z-20">
-      <div className="left-side-elements h-full flex-1 pointer-events-none">
+      <div className="left-side-elements overflow-hidden h-full flex-1 pointer-events-none">
         <Link href="/" className="flex items-center h-full">
-          <button className="bg-stone-300 pointer-events-auto text-4xl text-stone-800 transition delay-50 p-1 rounded-full hover:scale-125">
+          <button className="bg-stone-300 pointer-events-auto text-4xl text-stone-800 transition delay-50 p-1 rounded-full hover:brightness-50">
             <IoReturnUpBack />
           </button>
         </Link>
       </div>
       {session && (
         <div
-          className="overflow-hidden  hover:brightness-75 w-auto h-auto rounded-full"
-          onClick={toggleProfile}
+          className="relative pointer-events-none z-10 group text-white flex flex-col "
+          ref={profileRef}
         >
-          <Image
-            src={session.user?.image || defaultAvatar}
-            alt="image"
-            height={120}
-            width={45}
-            className="hover:cursor-pointer"
-          ></Image>
+          <div
+            className="pointer-events-auto flex flex-row items-center justify-center gap-1 hover:cursor-pointer hover:brightness-75 w-auto h-auto"
+            onClick={toggleProfile}
+          >
+            <Image
+              src={session.user?.image || defaultAvatar}
+              alt="image"
+              height={120}
+              width={45}
+              className="rounded-full"
+            ></Image>
+            <IoIosArrowDown className="text-white text-2xl" />
+          </div>
+          <div
+            ref={profileRef}
+            className={`pointer-events-auto absolute flex flex-col overflow-hidden right-0 top-14 w-24 bg-white rounded-md shadow-lg transition-all duration-200 ${
+              showProfile ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+            }`}
+            style={{ transitionProperty: "max-height, opacity" }}
+            onClick={closeProfile}
+          >
+            <ul className="py-2 divide-y text-black">
+              <li className="px-4 py-3 hover:bg-gray-100 cursor-pointer">
+                Profile
+              </li>
+              <li className="px-4 py-3 hover:bg-gray-100 cursor-pointer">
+                Logout
+              </li>
+            </ul>
+          </div>
         </div>
       )}
 
-      {/* Dropdown menu */}
-      {showProfile && (
-        <div
-          ref={profileRef}
-          className="absolute right-28 mt-40 w-28 bg-white rounded-md shadow-lg"
-          onBlur={closeProfile} // Hide dropdown if clicked outside
-        >
-          <ul className="py-2 divide-y">
-            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-              Profile
-            </li>
-            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-              Logout
-            </li>
-          </ul>
-        </div>
-      )}
       <div className="right-side-elements h-full">
         <div
+          ref={menuRef}
           style={{ transitionProperty: "transform" }}
           className={`${
             showmenu

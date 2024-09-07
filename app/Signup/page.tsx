@@ -94,7 +94,7 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex items-center flex-col overflow-auto fixed justify-center w-full h-screen bg-[url('assets/images/dishonored.jpg')] bg-cover bg-right">
+    <div className="flex items-center flex-col overflow-auto fixed justify-center w-full h-screen bg-[url('/assets/images/dishonored.jpg')] bg-cover bg-right">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col xl:w-[25vw] lg:w-[35vw] md:w-[45vw] w-[55vw] relative  bg-neutral-200 border rounded-lg border-black max-[500px]:w-5/6"

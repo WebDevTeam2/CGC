@@ -129,7 +129,7 @@ export default function Nav() {
                 className="relative block w-10 h-10 rounded-full overflow-hidden"
               >
                 <Image
-                  src={session.user?.image || "/default-avatar.png"} // An o xrhsths exei diko tou image to kanoume display alliws kanoume display ena default
+                  src={session.user?.image || "/assets/images/batman.jpg"} // An o xrhsths exei diko tou image to kanoume display alliws kanoume display ena default
                   alt="User Avatar"
                   layout="fill"
                   className="object-cover"

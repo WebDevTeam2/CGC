@@ -125,7 +125,7 @@ export default function Nav() {
           {session ? (
             <li className="text-[#b6b6b6] text-l w-full transition duration-500 lg:mt-4 lg:ml-10 ease-in-out not-search last:mt-auto">
               <Link
-                href={"/Movies/userProfile"}
+                href={"/account/info"}
                 className="relative block w-10 h-10 rounded-full overflow-hidden"
               >
                 <Image

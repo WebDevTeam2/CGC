@@ -106,8 +106,8 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
               <li className="px-4 py-3 hover:bg-gray-100 cursor-pointer">
                 Profile
               </li>
-              <li className="px-4 py-3 hover:bg-gray-100 cursor-pointer">
-                Logout
+              <li className="px-4 text-lg py-3 hover:bg-gray-100 cursor-pointer">
+                <Logout />
               </li>
             </ul>
           </div>

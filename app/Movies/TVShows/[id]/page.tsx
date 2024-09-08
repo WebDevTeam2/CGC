@@ -73,7 +73,9 @@ const TVShowDetails = async ({ params }: { params: TVDetails }) => {
 
   return (
     <main className="font-roboto not-search">
-      <h1 className="sm:ml-5 md:ml-[10rem] lg:ml-[20rem] my-10 font-medium text-4xl">{tvShow.name}</h1>
+      <h1 className="sm:ml-5 md:ml-[10rem] lg:ml-[20rem] my-10 font-medium text-4xl">
+        {tvShow.name}
+      </h1>
       <div className="flex flex-row sm:ml-5 md:ml-[10rem] lg:ml-[20rem] mt-[2rem] gap-4">
         <Image
           src={`${imageURL}${tvShow.poster_path}`}
@@ -92,10 +94,10 @@ const TVShowDetails = async ({ params }: { params: TVDetails }) => {
           <h2 className="font-bold">Seasons: </h2>
           <div className="">
             {tvShow.seasons.map((season) => (
-              <div className="flex flex-row gap-3">
+              <div key={season.id} className="flex flex-row gap-3">
                 {season.season_number > 0 && season.air_date < "2024-05-19" && (
                   <div className="flex flex-row gap-3">
-                    <p key={season.id}>Season {season.season_number}</p>
+                    <p>Season {season.season_number}</p>
                     <p>Episodes: </p>
                     <p>{season.episode_count}</p>
                   </div>

@@ -131,7 +131,7 @@ export default function Signin() {
           href="/Signup"
           className="hover:text-neutral-400 hover:underline text-white bg-black p-4 rounded-xl text-lg"
         >
-          Don't have an account? Click here to sign-up
+          Dont have an account? Click here to sign-up
         </Link>
       </div>
     </div>

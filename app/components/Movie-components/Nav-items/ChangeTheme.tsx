@@ -3,7 +3,7 @@ import { useState } from "react";
 import { CiSun } from "react-icons/ci";
 import { IoMoon } from "react-icons/io5";
 
-const changeTheme = () => {
+const ChangeTheme = () => {
   const [isDark, setIsDark] = useState(false);
   const toggleDarkTheme = () => {
     const body = document.querySelector("body") as HTMLBodyElement;
@@ -55,4 +55,4 @@ const changeTheme = () => {
   );
 };
 
-export default changeTheme;
+export default ChangeTheme;

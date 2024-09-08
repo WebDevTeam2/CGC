@@ -1,5 +1,4 @@
 "use client";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { pageSize } from "@/app/constants/constants";
@@ -9,7 +8,6 @@ const Buttons = ({ gamesLength }: { gamesLength: number }) => {
   let buttons = Array.from({ length: totalPages }, (_, i) => i + 1);
   const [page, setPage] = useState(1);
   const [windowWidth, setWindowWidth] = useState<number | undefined>(undefined);
-  const router = useRouter();
 
   const startingYear = 2024;
   let currentYear = new Date().getFullYear();
@@ -27,21 +25,16 @@ const Buttons = ({ gamesLength }: { gamesLength: number }) => {
   }
   // console.log(buttons.length);
   //Xrhsimopoioume ayto to useEffect gia na paroume to page number mesa apo to URL
-
   useEffect(() => {
-    // Ensure the query parameter is a string or convert it if it's an array
-    const pageQuery = router.query.page;
-
-    if (pageQuery) {
-      // If the query parameter is an array, pick the first item or convert it directly
-      const currentPage = Array.isArray(pageQuery) ? pageQuery[0] : pageQuery;
-
-      const parsedPage = parseInt(currentPage, 10);
-      if (!isNaN(parsedPage)) {
-        setPage(parsedPage);
+    const pathname = window.location.pathname;
+    if (pathname) {
+      const currentPage = parseInt(pathname.split("/").pop() || ""); //Gia na paroume to page number apo to url
+      //An to currentPage yparxei tote kanoume set to page
+      if (!isNaN(currentPage) && currentPage !== page) {
+        setPage(currentPage);
       }
     }
-  }, [router.query.page]);
+  }, [page]);
 
   // Update window width on resize
   useEffect(() => {

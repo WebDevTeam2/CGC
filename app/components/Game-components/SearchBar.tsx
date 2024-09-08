@@ -88,7 +88,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ games }) => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [inputValue]);
 
   //check if clicked outside of input container
   useEffect(() => {

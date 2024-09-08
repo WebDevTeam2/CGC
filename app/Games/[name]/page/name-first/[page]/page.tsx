@@ -70,7 +70,8 @@ const Posts = async ({ params }: { params: any }) => {
     const detailedGames = await Promise.all(
       paginatedGames.map((item) => fetchGameDetails(item))
     );
-
+    const imageSizes =
+      "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw";
     return (
       <div>
         <MainPage>
@@ -96,6 +97,7 @@ const Posts = async ({ params }: { params: any }) => {
                             src={item.background_image}
                             alt={item.name}
                             fill={true}
+                            sizes={imageSizes}
                             className="md:border-r-4 object-cover border-none rounded-l-lg border-white transition duration-500 ease-in-out"
                           />
                         </div>

@@ -104,11 +104,11 @@ const Screenshots = ({ params }: { params: PostPage }) => {
             className="relative lg:h-[70vh] lg:w-[50rem] min-[800px]:h-[35rem] min-[800px]:w-[40rem] min-[670px]:h-[35rem] min-[670px]:w-[35rem] min-[580px]:h-[35rem] min-[580px]:w-[30rem] min-[480px]:h-[35rem] min-[480px]:w-[25rem] h-[32rem] w-[19rem] transition-all duration-200 text-white"
           >
             {screenshots && screenshots.length > 0 ? (
-              screenshots.map((item, index) => (
+              screenshots.map((item) => (
                 <>
                   <Transition
-                    key={index}
-                    show={currentIndex === index}
+                    key={item.id} // Unique key based on item.id
+                    show={currentIndex === screenshots.indexOf(item)}
                     enter={`transition ease-out duration-300 ${
                       direction === "next"
                         ? "transform translate-x-0 opacity-0"
@@ -129,12 +129,11 @@ const Screenshots = ({ params }: { params: PostPage }) => {
                     } invisible`}
                   >
                     <Image
-                      key={index}
                       role="button"
-                      alt={`game_screenshot_${index}`}
+                      alt={`game_screenshot_${item.id}`}
                       src={item.image}
                       fill={true}
-                      objectFit="contain"
+                      style={{ objectFit: "contain" }}
                       className="transition-smooth duration-200 ease-in-out"
                     />
                   </Transition>
@@ -197,18 +196,18 @@ const Screenshots = ({ params }: { params: PostPage }) => {
           className={`flex ${styles.scrollbar} items-center overflow-x-auto lg:overflow-auto w-full lg:flex-col min-[480px]:flex-row flex-col gap-2 text-balance transition-all duration-200 text-white`}
         >
           {screenshots && screenshots.length > 0 ? (
-            screenshots.map((item, index) => (
+            screenshots.map((item) => (
               <Image
-                key={index}
+                key={item.id}
                 role="button"
-                alt={`game_screenshot_${index}`}
+                alt={`game_screenshot_${item.id}`}
                 src={item.image}
                 sizes="(min-width: 1550px) 15rem, (min-width: 1450px) 12rem, (min-width: 1350px) 11rem, (min-width: 1024px) 11rem, (min-width: 650px) 18rem, (min-width: 480px) 13rem, 15rem"
                 // Make the image display full width
                 width={240}
                 height={300}
                 className=" transition-smooth  duration-200 ease-in-out"
-                onClick={() => handleClick(index)}
+                onClick={() => handleClick(screenshots.indexOf(item))}
               />
             ))
           ) : (

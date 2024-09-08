@@ -118,7 +118,7 @@ const getCachedGames = async (name: string) => {
 
 export default async function Games({ params }: { params: CombinedParams }) {
   const game = await getCachedGames(params.name);
-
+  const imageSizes = "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw";
   return (
     <div>
       <div className="bg-black z-0 bg-cover fixed h-screen w-screen"></div>
@@ -134,7 +134,8 @@ export default async function Games({ params }: { params: CombinedParams }) {
               src={game.background_image}
               alt={game.name}
               fill={true}
-              objectFit="cover"
+              sizes={imageSizes}
+              style={{ objectFit: "cover" }}
             />
           </div>
           <div className="relative flex flex-col -top-10">

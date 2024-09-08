@@ -66,7 +66,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
   const closeProfile = () => {
     setShowProfile(false);
   };
-  console.log(showProfile);
+
   return (
     <nav className="w-full flex justify-between items-center sm:pl-6 pl-4  sticky top-0 bg-black h-[10vh] z-20">
       <div className="left-side-elements overflow-hidden h-full flex-1 pointer-events-none">

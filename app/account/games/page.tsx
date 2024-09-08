@@ -10,8 +10,8 @@ const Account = () => {
   const { data: session } = useSession();
 
   return (
-    <div className="back-img h-screen flex text-center justify-center">
-      <div className="flex justify-center rounded-2xl items-center shadow-lg my-28 bg-slate-200">
+    <div className="bg-[#eee3cb] h-screen flex text-center justify-center">
+      <div className="flex justify-center rounded-2xl items-center shadow-lg my-28 bg-[#47475c]">
         <UserOptions />
         {/* option content */}
         <div className="flex flex-col h-full items-center mr-10 gap-0 mt-12">
@@ -26,14 +26,12 @@ const Account = () => {
 
           <div className="flex flex-col">
             <div className="flex flex-row gap-2 items-stretch justify-between mt-8">
-              <span className="text-blue-950">Username: </span>
-              <span className="text-blue-900 text-end">
-                {session?.user?.name}
-              </span>
+              <span className="text-[#B0D0E8]">Username: </span>
+              <span className="text-white text-end">{session?.user?.name}</span>
             </div>
             <div className="flex flex-row gap-2 items-stretch justify-between">
-              <span className="text-blue-950">Email: </span>
-              <span className="text-blue-900 text-end">
+              <span className="text-[#B0D0E8]">Email: </span>
+              <span className="text-white text-end">
                 {session?.user?.email}
               </span>
             </div>

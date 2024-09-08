@@ -53,3 +53,7 @@ input[type="search"]::-webkit-search-cancel-button {
     black
   );
 }
+
+.back-img {
+  background: linear-gradient(135deg, #2b2d42, #47475c, #1d1f33);
+}

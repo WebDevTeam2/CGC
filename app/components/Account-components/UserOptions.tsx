@@ -9,7 +9,7 @@ const UserOptions = () => {
 
   return (
     <div className="bg-[#23232e] mr-8 rounded-l-2xl h-full">
-      <ul className="text-[#b6b6b6] pt-2 divide-y flex flex-col gap-0">
+      <ul className="text-[#b6b6b6] pt-2 divide-y flex flex-col">
         <Link href={"/account/info"}>
           <li className="cursor-pointer transition-all duration-200 hover:text-white p-4">
             Account Details

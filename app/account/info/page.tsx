@@ -11,7 +11,7 @@ const Account = () => {
 
   return (
     <div className="back-img h-screen flex text-center justify-center">
-      <div className="flex justify-center rounded-2xl items-center shadow-lg my-28 bg-slate-200">
+      <div className="flex justify-center rounded-2xl items-center shadow-lg my-28 bg-slate-300">
         <UserOptions />
         {/* option content */}
         <div className="flex flex-col h-full items-center mr-10 gap-0 mt-12">

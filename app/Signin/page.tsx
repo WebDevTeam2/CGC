@@ -38,7 +38,7 @@ export default function Signin() {
 
       if (result?.error) {
         setLoading(false);
-        setErrorMessages([result.error]);
+        setErrorMessages(["email or password is incorrect"]);
       } else {
         console.log("User credentials OK.");
         router.push(result?.url || "/");

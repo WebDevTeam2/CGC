@@ -84,7 +84,7 @@ const Account = () => {
               />
             </div>
           )}
-          <div className="mt-1">
+          <div className="mt-2">
             <UploadButton
               endpoint="imageUploader"
               onClientUploadComplete={async (res) => {

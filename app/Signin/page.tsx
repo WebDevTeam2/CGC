@@ -26,14 +26,6 @@ export default function Signin() {
       return;
     }
 
-    // Hash the password using bcrypt
-    // const hashedPassword = await bcrypt.hash(password, 10);
-
-    // const data = {
-    //   email,
-    //   password,
-    // };
-
     setLoading(true);
 
     try {

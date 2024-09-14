@@ -1,47 +1,29 @@
-import { NextRequest, NextResponse } from "next/server";
-import multer from "multer";
-import path from "path";
+import { fetchImage } from "@/app/collection/connection";
+import { NextApiRequest } from "next";
+// import { connectToDatabase } from "@/utils/mongodb"; // A helper function to connect to your MongoDB
+// import User from "@/models/User"; // Your Mongoose User model
 
-// Define storage for multer
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(process.cwd(), "public/uploads")); // Save files in 'public/uploads'
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname); // Preserve original file name
-  },
-});
+export async function POST(req: NextApiRequest) {
+  try {
+    const { email, profilePicture } = req.body;
 
-// Create multer instance with the defined storage
-const upload = multer({ storage });
+    // Ensure we have both email and profilePicture from the client
+    if (!email || !profilePicture) {
+      return Response.json({ message: "Missing email or profile picture URL" });
+    }
 
-export async function POST(req: NextRequest) {
-  return new Promise((resolve, reject) => {
-    // Use multer's middleware to handle file upload
-    upload.single("file")(req as any, {} as any, (err: any) => {
-      if (err) {
-        console.error("Error uploading file:", err);
-        return resolve(
-          NextResponse.json(
-            { message: "Error uploading file" },
-            { status: 500 }
-          )
-        );
-      }
+    const updatedUser = await fetchImage(email, profilePicture);
 
-      const file = (req as any).file;
+    if (!updatedUser) {
+      return Response.json({ message: "User not found" });
+    }
 
-      if (!file) {
-        console.log("No file uploaded");
-        return resolve(
-          NextResponse.json({ message: "No file uploaded" }, { status: 400 })
-        );
-      }
-
-      // Return the file path for demonstration purposes
-      const filePath = `/uploads/${file.filename}`;
-      console.log("File uploaded successfully. File path:", filePath);
-      return resolve(NextResponse.json({ filePath }));
+    Response.json({
+      message: "Profile picture updated successfully",
+      user: updatedUser,
     });
-  });
+  } catch (error) {
+    console.error("Error updating profile picture:", error);
+    Response.json({ message: "Internal server error" });
+  }
 }

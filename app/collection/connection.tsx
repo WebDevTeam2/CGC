@@ -1,4 +1,4 @@
-import { Collection, Db, MongoClient, ObjectId } from "mongodb";
+import { Collection, Db, MongoClient, ObjectId, WithId } from "mongodb";
 import clientPromise from "../../lib/mongo/page";
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
@@ -250,4 +250,21 @@ export const findUserByEmail = async (email: string) => {
   if (!users) throw new Error("Users collection is not initialized");
 
   return await users.findOne({ email });
+};
+
+export const fetchImage = async (
+  email: string,
+  profilePicture: string
+): Promise<WithId<User> | null> => {
+  if (!users) await init();
+  if (!users) throw new Error("Users collection is not initialized");
+
+  // Update the user profile with the new profile picture URL
+  const user = await users.findOneAndUpdate(
+    { email }, // Find user by email
+    { $set: { profilePicture } }, // Update the profilePicture field
+    { returnDocument: "after" } // Return the updated document
+  );
+
+  return user?.value;
 };

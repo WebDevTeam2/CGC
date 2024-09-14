@@ -252,19 +252,39 @@ export const findUserByEmail = async (email: string) => {
   return await users.findOne({ email });
 };
 
-export const fetchImage = async (
+export const updateUserImage = async (
   email: string,
   profilePicture: string
-): Promise<WithId<User> | null> => {
+) => {
   if (!users) await init();
   if (!users) throw new Error("Users collection is not initialized");
 
   // Update the user profile with the new profile picture URL
-  const user = await users.findOneAndUpdate(
+  const result = await users.findOneAndUpdate(
     { email }, // Find user by email
     { $set: { profilePicture } }, // Update the profilePicture field
     { returnDocument: "after" } // Return the updated document
   );
 
-  return user?.value;
+  return result?.profilePicture;
+};
+
+// Function to fetch the user's profile picture from the database
+export const fetchUserImage = async (email: string) => {
+  if (!users) await init(); // Initialize the database if not already done
+  if (!users) throw new Error("Users collection is not initialized");
+
+  try {
+    const user = await users.findOne({ email });
+
+    if (!user) {
+      console.error("User not found");
+      throw new Error("User not found");
+    }
+
+    return user.profilePicture || null; // Return the profile picture or null if not set
+  } catch (error) {
+    console.error("Error fetching profile picture:", error);
+    throw new Error("Failed to fetch profile picture");
+  }
 };

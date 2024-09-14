@@ -30,6 +30,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
   const [showmenu, setShowMenu] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const { data: session, status } = useSession();
+  const [imageUrl, setImageUrl] = useState<string>("");
   const profileRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -67,6 +68,42 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
     setShowProfile(false);
   };
 
+  // // Fetch the user's profile picture from the database on component mount
+  useEffect(() => {
+    const fetchProfilePicture = async () => {
+      if (session?.user?.email) {
+        try {
+          // Fetch the profile picture using the email as a query param
+          const response = await fetch(
+            `/api/getImage?email=${session.user.email}`
+          );
+
+          if (!response.ok) {
+            console.error(
+              "Error fetching profile picture:",
+              response.statusText
+            );
+            return;
+          }
+
+          // Parse the response as JSON
+          const data = await response.json();
+
+          // Check if the data contains a valid profile picture
+          if (data?.profilePicture) {
+            setImageUrl(data.profilePicture); // Set the imageUrl state to the saved profile picture
+          } else {
+            console.log("No profile picture found for this user.");
+          }
+        } catch (error) {
+          console.error("Failed to fetch profile picture:", error);
+        }
+      }
+    };
+
+    fetchProfilePicture();
+  }, [session?.user?.email]); // Only re-run this effect if the session changes
+
   return (
     <nav className="w-full flex justify-between items-center sm:pl-6 pl-4  sticky top-0 bg-black h-20 z-20">
       <div className="left-side-elements overflow-hidden h-full flex-1 pointer-events-none">
@@ -86,7 +123,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
             onClick={toggleProfile}
           >
             <Image
-              src={session.user?.image || defaultAvatar}
+              src={imageUrl || session.user?.image || defaultAvatar}
               alt="image"
               height={120}
               width={45}

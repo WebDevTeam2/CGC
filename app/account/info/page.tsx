@@ -5,55 +5,64 @@ import UserOptions from "@/app/components/Account-components/UserOptions";
 //utils
 import { useSession } from "next-auth/react";
 import Image from "next/legacy/image";
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { UploadButton } from "../../utils/uploadthing";
+import Link from "next/link";
 
 const Account = () => {
   const { data: session } = useSession();
-  // const [selectedImage, setSelectedImage] = useState<string | null>(null); // Store the selected image temporarily
-  // const fileInputRef = useRef<HTMLInputElement | null>(null); // Reference to the hidden file input
   const [imageUrl, setImageUrl] = useState<string>("");
+  const [data, setData] = useState(null);
 
-  // const handleImageClick = () => {
-  //   // Trigger the hidden input file click when image container is clicked
-  //   fileInputRef.current?.click();
-  // };
+  // Fetch the user's profile picture from the database on component mount
+  useEffect(() => {
+    const fetchProfilePicture = async () => {
+      if (session?.user?.email) {
+        try {
+          // Fetch the profile picture using the email as a query param
+          const response = await fetch(
+            `/api/getImage?email=${session.user.email}`
+          );
 
-  // const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = e.target.files?.[0];
-  //   if (file) {
-  //     const formData = new FormData();
-  //     formData.append("file", file); // Field name must match the server expectation
+          if (!response.ok) {
+            console.error(
+              "Error fetching profile picture:",
+              response.statusText
+            );
+            return;
+          }
 
-  //     try {
-  //       const response = await fetch("/api/uploads", {
-  //         method: "POST",
-  //         body: formData,
-  //       });
+          // Parse the response as JSON
+          const data = await response.json();
 
-  //       if (!response.ok) {
-  //         const errorText = await response.text();
-  //         console.error("Upload failed:", errorText);
-  //         return;
-  //       }
+          // Check if the data contains a valid profile picture
+          if (data?.profilePicture) {
+            setImageUrl(data.profilePicture); // Set the imageUrl state to the saved profile picture
+          } else {
+            console.log("No profile picture found for this user.");
+          }
+        } catch (error) {
+          console.error("Failed to fetch profile picture:", error);
+        }
+      }
+    };
 
-  //       const data = await response.json();
-  //       console.log("File uploaded successfully:", data);
-  //       setSelectedImage(data.filePath); // Set the uploaded image as preview
-  //     } catch (error) {
-  //       console.error("Error uploading file:", error);
-  //     }
-  //   }
-  // };
+    fetchProfilePicture();
+  }, [session?.user?.email]); // Only re-run this effect if the session changes
 
   return (
     <div className="back-img h-screen flex text-center justify-center">
+      <Link href={`/`} className="absolute pointer-events-none">
+        <h2 className=" ml-4 mt-4 text-white pointer-events-auto text-2xl transition duration-100 p-1 rounded-full hover:scale-110">
+          &#8618; Home
+        </h2>
+      </Link>
       <div className="flex justify-center rounded-2xl items-center shadow-lg my-28 bg-slate-300">
         <UserOptions />
         {/* option content */}
         <div className="flex flex-col h-full items-center mr-10 gap-0 mt-12">
-          {imageUrl.length ? (
-            <div className="relative w-20 h-20 rounded-full overflow-hidden cursor-pointer group">
+          {imageUrl ? (
+            <div className="relative w-20 h-20 rounded-full overflow-hidden group">
               <Image
                 src={imageUrl}
                 alt="User Avatar"
@@ -63,7 +72,7 @@ const Account = () => {
               />
             </div>
           ) : (
-            <div className="relative w-20 h-20 rounded-full overflow-hidden cursor-pointer group">
+            <div className="relative w-20 h-20 rounded-full overflow-hidden group">
               <Image
                 src={
                   session?.user?.image || "/assets/images/default_avatar.jpg"
@@ -75,7 +84,7 @@ const Account = () => {
               />
             </div>
           )}
-          <div>
+          <div className="mt-1">
             <UploadButton
               endpoint="imageUploader"
               onClientUploadComplete={async (res) => {
@@ -83,7 +92,7 @@ const Account = () => {
                 setImageUrl(imageUrl);
 
                 // Save the image URL to the backend (associate with user ID)
-                await fetch("/api/uploads", {
+                await fetch("/api/saveImage", {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/json",

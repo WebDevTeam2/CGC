@@ -312,7 +312,8 @@ export const updateUserById = async (
     const objectId = new ObjectId(id);
     const result = await users.findOneAndUpdate(
       { _id: objectId },
-      { username, email }
+      { $set: { username, email } }, // Use $set operator for updates
+      { returnDocument: "after" } // Return the updated document
     );
     return result;
   } catch (error) {

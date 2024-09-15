@@ -6,11 +6,12 @@ import UserOptions from "@/app/components/Account-components/UserOptions";
 import { useSession } from "next-auth/react";
 import Image from "next/legacy/image";
 import { useEffect, useState } from "react";
-import { UploadButton } from "../../utils/uploadthing";
+import { UploadButton } from "@/app/utils/uploadthing";
 import Link from "next/link";
 
 const Account = () => {
   const { data: session } = useSession();
+  const [user, setUser] = useState<any>(null);
   const [imageUrl, setImageUrl] = useState<string>("");
   const [data, setData] = useState(null);
 

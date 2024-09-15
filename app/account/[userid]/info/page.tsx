@@ -57,8 +57,8 @@ const Account = ({ params }: { params: { userid: string } }) => {
     });
 
     if (response.ok) {
-      alert("User info updated successfully!"); 
-    } else {  
+      alert("User info updated successfully!");
+    } else {
       alert("Error updating user info");
     }
   };

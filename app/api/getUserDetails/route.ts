@@ -1,4 +1,4 @@
-import { fetchUserImage } from "@/app/collection/connection";
+import { fetchUserDets } from "@/app/collection/connection";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -10,16 +10,14 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const profilePicture = await fetchUserImage(email as string);
+    const { _id, profilePicture } = await fetchUserDets(email as string);
 
-    // Always return a valid JSON response
-
-    if (!profilePicture) {
-      return Response.json({ message: "Profile picture not found" });
+    if (!_id) {
+      return Response.json({ message: "User not found" });
     }
-    return Response.json({ profilePicture });
+    return Response.json({ _id, profilePicture });
   } catch (error) {
-    console.error("Error fetching profile picture:", error);
+    console.error("Error fetching User:", error);
     return Response.json({ message: "Internal server error" });
   }
 }

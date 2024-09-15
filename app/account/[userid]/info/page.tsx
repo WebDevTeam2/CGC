@@ -115,7 +115,11 @@ const Account = ({ params }: { params: { userid: string } }) => {
           </div>
         </div>
       ) : (
-        "No data found"
+        <div className="flex items-center justify-center h-screen w-full">
+          <span className="loading text-xl uppercase px-8 py-4 text-white rounded-xl">
+            Loading...
+          </span>
+        </div>
       )}
     </div>
   );

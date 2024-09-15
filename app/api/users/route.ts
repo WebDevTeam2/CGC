@@ -1,5 +1,6 @@
 import { addUser } from "@/app/collection/connection";
-import { NextRequest } from "next/server";
+import User from "@/app/utils/Schema/userSchema";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,5 +22,17 @@ export async function POST(req: NextRequest) {
     let message = error.message || "Failed to add user";
 
     return new Response(JSON.stringify({ message }), { status });
+  }
+}
+
+export async function GET() {
+  try {
+    const allUsers = await User.find();
+    return NextResponse.json({
+      success: true,
+      data: allUsers,
+    });
+  } catch (error) {
+    return NextResponse.json({ success: false, message: "No data found" });
   }
 }

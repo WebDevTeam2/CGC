@@ -3,14 +3,22 @@ import User from "@/app/utils/Schema/userSchema";
 import { NextRequest, NextResponse } from "next/server";
 
 connect();
-
 export async function GET(
   req: NextRequest,
   { params }: { params: { userid: string } }
 ) {
   const userid = params.userid;
+  // console.log(userid);
   try {
     const result = await User.findOne({ _id: userid });
+    console.log(result);
+    if (!result) {
+      // If no user is found, return a 404 error
+      return NextResponse.json(
+        { success: false, message: "User not found" },
+        { status: 404 }
+      );
+    }
     return NextResponse.json({ success: true, data: result });
   } catch (err) {
     return NextResponse.json({ success: false, message: "No data found" });
@@ -24,10 +32,12 @@ export async function PUT(
   const userid = params.userid;
   const { username, email } = await req.json();
   try {
-    const result = await User.findOneAndUpdate({ _id: userid }, { username, email });
+    const result = await User.findOneAndUpdate(
+      { _id: userid },
+      { username, email }
+    );
     return NextResponse.json({ success: true, data: result });
-  }
-  catch (err) {
+  } catch (err) {
     return NextResponse.json({ success: false, message: "No data found" });
-  } 
+  }
 }

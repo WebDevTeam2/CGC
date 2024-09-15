@@ -23,12 +23,17 @@ const Account = ({ params }: { params: { userid: string } }) => {
           method: "GET",
         });
         const data = await response.json();
-        setUser(data.data);
-        setIsSuccess(data.success);
-        setFormData({
-          username: data.data.username,
-          email: data.data.email,
-        });
+        // Check if data and data.data exist
+        if (data && data.data) {
+          setUser(data.data);
+          setIsSuccess(data.success);
+          setFormData({
+            username: data.data.username || "",
+            email: data.data.email || "",
+          });
+        } else {
+          throw new Error("User data is invalid or null.");
+        }
       } catch (error) {
         console.error("Failed to fetch user:", error);
         setIsSuccess(false);
@@ -66,7 +71,6 @@ const Account = ({ params }: { params: { userid: string } }) => {
   return (
     <div className="back-img h-screen flex text-center justify-center">
       {isSuccess && user ? (
-        
         <div className="flex justify-center rounded-2xl items-center shadow-lg my-28 bg-slate-300">
           <UserOptions />
           <div className="flex flex-col h-full items-center mr-10 gap-0 mt-12">

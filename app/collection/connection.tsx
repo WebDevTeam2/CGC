@@ -288,3 +288,35 @@ export const fetchUserImage = async (email: string) => {
     throw new Error("Failed to fetch profile picture");
   }
 };
+
+export const findUserById = async (id: string) => {
+  if (!users) await init();
+  if (!users) throw new Error("Users collection is not initialized");
+  try {
+    const objectId = new ObjectId(id);
+    const result = await users.findOne({ _id: objectId });
+    return result;
+  } catch (error) {
+    console.error("Error fetching user by id:", error);
+    throw new Error("Failed to fetch user by id");
+  }
+};
+export const updateUserById = async (
+  id: string,
+  username: string,
+  email: string
+) => {
+  if (!users) await init();
+  if (!users) throw new Error("Users collection is not initialized");
+  try {
+    const objectId = new ObjectId(id);
+    const result = await users.findOneAndUpdate(
+      { _id: objectId },
+      { username, email }
+    );
+    return result;
+  } catch (error) {
+    console.error("Error fetching user by id:", error);
+    throw new Error("Failed to fetch user by id");
+  }
+};

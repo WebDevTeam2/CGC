@@ -19,21 +19,16 @@ const Account = ({ params }: { params: { userid: string } }) => {
     const fetchUser = async (userid: String) => {
       try {
         const response = await fetch(`/api/users/${userid}`, {
-          cache: "no-store",
           method: "GET",
         });
         const data = await response.json();
-        // Check if data and data.data exist
-        if (data && data.data) {
-          setUser(data.data);
-          setIsSuccess(data.success);
-          setFormData({
-            username: data.data.username || "",
-            email: data.data.email || "",
-          });
-        } else {
-          throw new Error("User data is invalid or null.");
-        }
+        setUser(data.data);
+        setIsSuccess(data.success);
+        setFormData({
+          username: data.data.username,
+          email: data.data.email,
+        });
+        console.log(data);
       } catch (error) {
         console.error("Failed to fetch user:", error);
         setIsSuccess(false);

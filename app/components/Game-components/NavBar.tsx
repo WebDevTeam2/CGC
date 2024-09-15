@@ -31,6 +31,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
   const [showProfile, setShowProfile] = useState(false);
   const { data: session, status } = useSession();
   const [imageUrl, setImageUrl] = useState<string>("");
+  const [userId, setUserId] = useState<string>("");
   const profileRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -70,39 +71,37 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
 
   // // Fetch the user's profile picture from the database on component mount
   useEffect(() => {
-    const fetchProfilePicture = async () => {
+    const fetchProfileDetails = async () => {
       if (session?.user?.email) {
         try {
           // Fetch the profile picture using the email as a query param
           const response = await fetch(
-            `/api/getImage?email=${session.user.email}`
+            `/api/getUserDetails?email=${session.user.email}`
           );
 
           if (!response.ok) {
-            console.error(
-              "Error fetching profile picture:",
-              response.statusText
-            );
+            console.error("Error fetching user details:", response.statusText);
             return;
           }
 
           // Parse the response as JSON
           const data = await response.json();
 
-          // Check if the data contains a valid profile picture
-          if (data?.profilePicture) {
+          // Check if the data contains a valid id
+          if (data?._id) {
             setImageUrl(data.profilePicture); // Set the imageUrl state to the saved profile picture
+            setUserId(data._id);
           } else {
-            console.log("No profile picture found for this user.");
+            console.log("No profile found for this user.");
           }
         } catch (error) {
-          console.error("Failed to fetch profile picture:", error);
+          console.error("Failed to fetch profile details:", error);
         }
       }
     };
 
-    fetchProfilePicture();
-  }, [session?.user?.email]); // Only re-run this effect if the session changes
+    fetchProfileDetails();
+  }, [session?.user?.email]); // Only re-run this effect if the session changes\
 
   return (
     <nav className="w-full flex justify-between items-center sm:pl-6 pl-4  sticky top-0 bg-black h-20 z-20">
@@ -140,7 +139,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
             onClick={closeProfile}
           >
             <ul className="py-2 divide-y text-black">
-              <Link href={"/account/info"}>
+              <Link href={`/account/${userId}/info`}>
                 <li className="px-4 py-3 hover:bg-gray-100 cursor-pointer">
                   Profile
                 </li>

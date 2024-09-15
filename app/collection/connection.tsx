@@ -270,7 +270,7 @@ export const updateUserImage = async (
 };
 
 // Function to fetch the user's profile picture from the database
-export const fetchUserImage = async (email: string) => {
+export const fetchUserDets = async (email: string) => {
   if (!users) await init(); // Initialize the database if not already done
   if (!users) throw new Error("Users collection is not initialized");
 
@@ -282,7 +282,11 @@ export const fetchUserImage = async (email: string) => {
       throw new Error("User not found");
     }
 
-    return user.profilePicture || null; // Return the profile picture or null if not set
+    // console.log(user._id);
+    return {
+      _id: user._id.toString(), // Convert _id to string to avoid BSON issues on the client-side
+      profilePicture: user.profilePicture || null, // Return the profile picture or null if not set
+    };
   } catch (error) {
     console.error("Error fetching profile picture:", error);
     throw new Error("Failed to fetch profile picture");
@@ -301,6 +305,7 @@ export const findUserById = async (id: string) => {
     throw new Error("Failed to fetch user by id");
   }
 };
+
 export const updateUserById = async (
   id: string,
   username: string,
@@ -312,7 +317,8 @@ export const updateUserById = async (
     const objectId = new ObjectId(id);
     const result = await users.findOneAndUpdate(
       { _id: objectId },
-      { username, email }
+      { $set: { username, email } }, // Use $set operator for updates
+      { returnDocument: "after" } // Return the updated document
     );
     return result;
   } catch (error) {

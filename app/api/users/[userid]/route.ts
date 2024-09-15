@@ -26,6 +26,7 @@ export async function PUT(
   const userid = params.userid;
   const { username, email } = await req.json();
   try {
+    console.log(username, email);
     const result = await updateUserById(userid, username, email);
     return Response.json({ success: true, data: result });
   } catch (err) {

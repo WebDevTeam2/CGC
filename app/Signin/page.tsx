@@ -26,14 +26,6 @@ export default function Signin() {
       return;
     }
 
-    // Hash the password using bcrypt
-    // const hashedPassword = await bcrypt.hash(password, 10);
-
-    // const data = {
-    //   email,
-    //   password,
-    // };
-
     setLoading(true);
 
     try {
@@ -46,7 +38,7 @@ export default function Signin() {
 
       if (result?.error) {
         setLoading(false);
-        setErrorMessages([result.error]);
+        setErrorMessages(["email or password is incorrect"]);
       } else {
         console.log("User credentials OK.");
         router.push(result?.url || "/");

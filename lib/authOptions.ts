@@ -51,7 +51,11 @@ export const authOptions: NextAuthOptions = {
         if (user.status === 200 && user._id) {
           // Replace with hashed password check
           console.log("passwords matched");
-          return { id: user._id.toString(), email: user.email }; // Return user object with id as string
+          return {
+            id: user._id.toString(),
+            email: user.email,
+            name: user.username,
+          }; // Return user object with id as string
         }
         console.log("something went wrong with authorize");
         return null; // Return null if invalid

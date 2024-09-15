@@ -1,4 +1,4 @@
-import { Collection, Db, MongoClient, ObjectId } from "mongodb";
+import { Collection, Db, MongoClient, ObjectId, WithId } from "mongodb";
 import clientPromise from "../../lib/mongo/page";
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
@@ -250,4 +250,41 @@ export const findUserByEmail = async (email: string) => {
   if (!users) throw new Error("Users collection is not initialized");
 
   return await users.findOne({ email });
+};
+
+export const updateUserImage = async (
+  email: string,
+  profilePicture: string
+) => {
+  if (!users) await init();
+  if (!users) throw new Error("Users collection is not initialized");
+
+  // Update the user profile with the new profile picture URL
+  const result = await users.findOneAndUpdate(
+    { email }, // Find user by email
+    { $set: { profilePicture } }, // Update the profilePicture field
+    { returnDocument: "after" } // Return the updated document
+  );
+
+  return result?.profilePicture;
+};
+
+// Function to fetch the user's profile picture from the database
+export const fetchUserImage = async (email: string) => {
+  if (!users) await init(); // Initialize the database if not already done
+  if (!users) throw new Error("Users collection is not initialized");
+
+  try {
+    const user = await users.findOne({ email });
+
+    if (!user) {
+      console.error("User not found");
+      throw new Error("User not found");
+    }
+
+    return user.profilePicture || null; // Return the profile picture or null if not set
+  } catch (error) {
+    console.error("Error fetching profile picture:", error);
+    throw new Error("Failed to fetch profile picture");
+  }
 };

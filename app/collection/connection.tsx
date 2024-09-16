@@ -306,12 +306,11 @@ export const findUserById = async (id: string) => {
   }
 };
 
-
-
 export const updateUserById = async (
   id: string,
   username: string,
-  email: string
+  email: string,
+  password: string
 ) => {
   if (!users) await init();
   if (!users) throw new Error("Users collection is not initialized");
@@ -319,7 +318,7 @@ export const updateUserById = async (
     const objectId = new ObjectId(id);
     const result = await users.findOneAndUpdate(
       { _id: objectId },
-      { $set: { username, email } }, // Use $set operator for updates
+      { $set: { username, email, password } }, // Use $set operator for updates
       { returnDocument: "after" } // Return the updated document
     );
     return result;

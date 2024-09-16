@@ -24,10 +24,10 @@ export async function PUT(
   { params }: { params: { userid: string } }
 ) {
   const userid = params.userid;
-  const { username, email } = await req.json();
+  const { username, email, password } = await req.json();
   try {
     console.log(username, email);
-    const result = await updateUserById(userid, username, email);
+    const result = await updateUserById(userid, username, email, password);
     return Response.json({ success: true, data: result });
   } catch (err) {
     return Response.json({ success: false, message: "No data found" });

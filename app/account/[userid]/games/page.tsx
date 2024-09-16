@@ -6,50 +6,38 @@ import UserOptions from "@/app/components/Account-components/UserOptions";
 import { useSession } from "next-auth/react";
 import Image from "next/legacy/image";
 import { useEffect, useState } from "react";
-import { UploadButton } from "@/app/utils/uploadthing";
 import Link from "next/link";
 
-const Account = () => {
+const Account = ({ params }: { params: { userid: string } }) => {
   const { data: session } = useSession();
   const [user, setUser] = useState<any>(null);
+  const [isSuccess, setIsSuccess] = useState(true);
   const [imageUrl, setImageUrl] = useState<string>("");
   const [data, setData] = useState(null);
+  const { userid } = params;
 
   // Fetch the user's profile picture from the database on component mount
   useEffect(() => {
-    const fetchProfilePicture = async () => {
-      if (session?.user?.email) {
-        try {
-          // Fetch the profile picture using the email as a query param
-          const response = await fetch(
-            `/api/getImage?email=${session.user.email}`
-          );
-
-          if (!response.ok) {
-            console.error(
-              "Error fetching profile picture:",
-              response.statusText
-            );
-            return;
-          }
-
-          // Parse the response as JSON
-          const data = await response.json();
-
-          // Check if the data contains a valid profile picture
-          if (data?.profilePicture) {
-            setImageUrl(data.profilePicture); // Set the imageUrl state to the saved profile picture
-          } else {
-            console.log("No profile picture found for this user.");
-          }
-        } catch (error) {
-          console.error("Failed to fetch profile picture:", error);
-        }
+    const fetchUser = async (userid: String) => {
+      try {
+        const response = await fetch(`/api/users/${userid}`, {
+          method: "GET",
+        });
+        const data = await response.json();
+        setUser(data.data);
+        console.log(user);
+        setImageUrl(data.data.profilePicture);
+        setIsSuccess(data.success);       
+        console.log(data);
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
+        setIsSuccess(false);
       }
     };
-
-    fetchProfilePicture();
-  }, [session?.user?.email]); // Only re-run this effect if the session changes
+    if (userid) {
+      fetchUser(userid);
+    }
+  }, [userid]);
 
   return (
     <div className="back-img h-screen flex text-center justify-center">
@@ -84,46 +72,7 @@ const Account = () => {
                 className="object-cover"
               />
             </div>
-          )}
-          <div className="mt-2">
-            <UploadButton
-              endpoint="imageUploader"
-              onClientUploadComplete={async (res) => {
-                const imageUrl = res[0].url;
-                setImageUrl(imageUrl);
-
-                // Save the image URL to the backend (associate with user ID)
-                await fetch("/api/saveImage", {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    email: session?.user?.email, // Assuming you're using email as the identifier
-                    profilePicture: imageUrl,
-                  }),
-                });
-              }}
-              onUploadError={(error: Error) => {
-                // Do something with the error.
-                alert(`ERROR! ${error.message}`);
-              }}
-            />
-          </div>
-          <div className="flex flex-col">
-            <div className="flex flex-row gap-2 items-stretch justify-between mt-8">
-              <span className="text-blue-950">Username: </span>
-              <span className="text-blue-900 text-end">
-                {session?.user?.name || "No name available"}
-              </span>
-            </div>
-            <div className="flex flex-row gap-2 items-stretch justify-between">
-              <span className="text-blue-950">Email: </span>
-              <span className="text-blue-900 text-end">
-                {session?.user?.email}
-              </span>
-            </div>
-          </div>
+          )}                  
         </div>
       </div>
     </div>

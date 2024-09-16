@@ -2,16 +2,45 @@
 //components
 import UserOptions from "@/app/components/Account-components/UserOptions";
 
-//utills
+//utils
 import { useSession } from "next-auth/react";
 import Image from "next/legacy/image";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
-const Account = () => {
+const Account = ({ params }: { params: { userid: string } }) => {
   const { data: session } = useSession();
+  const [user, setUser] = useState<any>(null);
+  const [isSuccess, setIsSuccess] = useState(true);
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [data, setData] = useState(null);
+  const { userid } = params;
+
+  // Fetch the user's profile picture from the database on component mount
+  useEffect(() => {
+    const fetchUser = async (userid: String) => {
+      try {
+        const response = await fetch(`/api/users/${userid}`, {
+          method: "GET",
+        });
+        const data = await response.json();
+        setUser(data.data);
+        console.log(user);
+        setImageUrl(data.data.profilePicture);
+        setIsSuccess(data.success);       
+        console.log(data);
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
+        setIsSuccess(false);
+      }
+    };
+    if (userid) {
+      fetchUser(userid);
+    }
+  }, [userid]);
 
   return (
-    <div className="back-img  h-screen flex text-center justify-center">
+    <div className="back-img h-screen flex text-center justify-center">
       <Link href={`/`} className="absolute pointer-events-none">
         <h2 className=" ml-4 mt-4 text-white pointer-events-auto text-2xl transition duration-100 p-1 rounded-full hover:scale-110">
           &#8618; Home
@@ -21,29 +50,29 @@ const Account = () => {
         <UserOptions />
         {/* option content */}
         <div className="flex flex-col h-full items-center mr-10 gap-0 mt-12">
-          <div className="relative w-20 h-20 rounded-full overflow-hidden">
-            <Image
-              src={session?.user?.image || "/assets/images/default_avatar.jpg"} // An o xrhsths exei diko tou image to kanoume display alliws kanoume display ena default
-              alt="User Avatar"
-              layout="fill"
-              className="object-cover"
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <div className="flex flex-row gap-2 items-stretch justify-between mt-8">
-              <span className="text-blue-950">Username: </span>
-              <span className="text-blue-900 text-end">
-                {session?.user?.name}
-              </span>
+          {imageUrl ? (
+            <div className="relative w-20 h-20 rounded-full overflow-hidden group">
+              <Image
+                src={imageUrl}
+                alt="User Avatar"
+                layout="fill"
+                priority={true}
+                className="object-cover"
+              />
             </div>
-            <div className="flex flex-row gap-2 items-stretch justify-between">
-              <span className="text-blue-950">Email: </span>
-              <span className="text-blue-900 text-end">
-                {session?.user?.email}
-              </span>
+          ) : (
+            <div className="relative w-20 h-20 rounded-full overflow-hidden group">
+              <Image
+                src={
+                  session?.user?.image || "/assets/images/default_avatar.jpg"
+                }
+                alt="User Avatar"
+                layout="fill"
+                priority={true}
+                className="object-cover"
+              />
             </div>
-          </div>
+          )}                  
         </div>
       </div>
     </div>

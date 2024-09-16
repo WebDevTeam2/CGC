@@ -196,7 +196,6 @@ const Account = ({ params }: { params: { userid: string } }) => {
                   onChange={handleChange}
                   className="text-blue-900 border border-blue-400 rounded-md p-1"
                   autoComplete="off"
-                  required
                 />
               </div>
               <div className="flex flex-row gap-2 items-center justify-between">

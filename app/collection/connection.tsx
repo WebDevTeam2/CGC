@@ -9,6 +9,7 @@ interface User {
   email: string;
   password?: string;
   profilePicture?: string;
+  user_reviews?: string[];
   verificationToken?: string;
   isVerified?: boolean;
   provider?: string;
@@ -65,6 +66,7 @@ export const addUser = async (data: User) => {
       email,
       password,
       profilePicture: "",
+      user_reviews: ["test1", "test2"],
       verificationToken,
       isVerified: false,
     });
@@ -112,6 +114,7 @@ export const addUserOath = async (data: User) => {
     const result = await users.insertOne({
       email,
       profilePicture: data.profilePicture || "",
+      user_reviews: ["test1", "test2"],
       isVerified: true,
       provider: data.provider || "",
     });

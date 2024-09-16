@@ -16,6 +16,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
   const [user, setUser] = useState<any>(null);
   const [imageUrl, setImageUrl] = useState<string>("");
   const [isSuccess, setIsSuccess] = useState(true);
+  const [hasProvider, setHasProvider] = useState(false);
 
   // Store initial data for comparison
   const [initialData, setInitialData] = useState({

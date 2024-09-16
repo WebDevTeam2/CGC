@@ -56,6 +56,71 @@ export default async function Games({ params }: { params: CombinedParams }) {
   const sortedRatings = game.ratings.sort(
     (a: Rating, b: Rating) => b.id - a.id
   );
+  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   const errors: string[] = [];
+
+  //   if (
+  //     formData.username === initialData.username &&
+  //     !formData.password.trim() &&
+  //     !formData.passwordre.trim()
+  //   ) {
+  //     alert("Nothing to update");
+  //     return; // No need to proceed further
+  //   }
+
+  //   const usernameRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W]{10,}$/;
+  //   if (formData.username.trim() && !usernameRegex.test(formData.username)) {
+  //     errors.push(
+  //       "Username must be at least 10 characters long, contain at least one capital letter, one number, and may include symbols."
+  //     );
+  //   }
+
+  //   // Password validation
+  //   if (formData.password.trim() || formData.passwordre.trim()) {
+  //     const passwordRegex = /^(?=.*[A-Z])[A-Za-z\d\W]{10,}$/;
+  //     if (!passwordRegex.test(formData.password)) {
+  //       errors.push(
+  //         "Password must be at least 10 characters long, contain at least one capital letter, and may include symbols."
+  //       );
+  //     }
+
+  //     if (formData.password !== formData.passwordre) {
+  //       errors.push("Passwords do not match");
+  //     }
+  //   }
+
+  //   if (errors.length > 0) {
+  //     setErrorMessages(errors);
+  //     return;
+  //   }
+
+  //   // Prepare the data object to be sent in the update
+  //   const updatedData: any = {
+  //     username: formData.username,
+  //     email: formData.email,
+  //   };
+
+  //   // Only include password if it is not empty and valid
+  //   if (formData.password.trim()) {
+  //     const hashedPassword = await bcrypt.hash(formData.password, 10);
+  //     updatedData.password = hashedPassword;
+  //   }
+
+  //   const response = await fetch(`/api/users/${userid}`, {
+  //     method: "PUT",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(updatedData),
+  //   });
+
+  //   if (response.ok) {
+  //     alert("Review sent successfully!");
+  //   } else {
+  //     alert("Error sending review");
+  //   }
+  // };
 
   return (
     <div className="bg-black bg-cover flex flex-col fixed overflow-hidden overflow-y-auto items-center h-screen w-full">
@@ -64,7 +129,10 @@ export default async function Games({ params }: { params: CombinedParams }) {
           ...Back to the Game
         </button>
       </Link>
-      <form className="flex mt-10 mx-10 mb-20 flex-col relative bg-neutral-200 rounded-2xl">
+      <form
+        className="flex mt-10 mx-10 mb-20 flex-col relative bg-neutral-200 rounded-2xl"
+        onSubmit={handleSubmit}
+      >
         {/* header of review */}
         <div className="sm:p-8 p-4 flex flex-col gap-3 font-sans border-2 rounded-t-2xl bg-black w-full">
           <span className="text-orange-400 font-extrabold text-xl">

@@ -11,9 +11,9 @@ const Account = () => {
   const { data: session } = useSession();
 
   return (
-    <div className="back-img  h-screen flex text-center justify-center">
+    <div className="back-img h-screen flex text-center justify-center">
       <Link href={`/`} className="absolute pointer-events-none">
-        <h2 className=" ml-4 mt-4 text-white pointer-events-auto text-2xl transition duration-100 p-1 rounded-full hover:scale-110">
+        <h2 className="ml-4 mt-4 text-white pointer-events-auto text-2xl transition duration-100 p-1 rounded-full hover:scale-110">
           &#8618; Home
         </h2>
       </Link>

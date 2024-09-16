@@ -308,22 +308,21 @@ export const findUserById = async (id: string) => {
 
 export const updateUserById = async (
   id: string,
-  username: string,
-  email: string,
-  password: string
+  updatedFields: { username?: string; email?: string; password?: string }
 ) => {
   if (!users) await init();
   if (!users) throw new Error("Users collection is not initialized");
+
   try {
     const objectId = new ObjectId(id);
     const result = await users.findOneAndUpdate(
       { _id: objectId },
-      { $set: { username, email, password } }, // Use $set operator for updates
+      { $set: updatedFields }, // Use $set to only update the provided fields
       { returnDocument: "after" } // Return the updated document
     );
     return result;
   } catch (error) {
-    console.error("Error fetching user by id:", error);
-    throw new Error("Failed to fetch user by id");
+    console.error("Error updating user by id:", error);
+    throw new Error("Failed to update user by id");
   }
 };

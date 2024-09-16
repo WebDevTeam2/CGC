@@ -34,7 +34,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
         setFormData({
           username: responseData.data.username,
           email: responseData.data.email,
-          password: "",
+          password: responseData.data.password,
         });
         console.log(responseData.data);
       } catch (error) {
@@ -56,12 +56,24 @@ const Account = ({ params }: { params: { userid: string } }) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Prepare the data object to be sent in the update
+    const updatedData: any = {
+      username: formData.username,
+      email: formData.email,
+    };
+
+    // Only include password if it is not empty
+    if (formData.password.trim()) {
+      updatedData.password = formData.password;
+    }
+
     const response = await fetch(`/api/users/${userid}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(updatedData),
     });
 
     if (response.ok) {

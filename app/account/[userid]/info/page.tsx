@@ -17,6 +17,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
+    password: "",
   });
   const { userid } = params;
 
@@ -33,7 +34,9 @@ const Account = ({ params }: { params: { userid: string } }) => {
         setFormData({
           username: responseData.data.username,
           email: responseData.data.email,
-        });        
+          password: "",
+        });
+        console.log(responseData.data);
       } catch (error) {
         console.error("Failed to fetch user:", error);
         setIsSuccess(false);
@@ -142,13 +145,14 @@ const Account = ({ params }: { params: { userid: string } }) => {
                 />
               </div>
               <div className="flex flex-row gap-2 items-center justify-between">
-                <label htmlFor="username" className="text-blue-950">
-                  Username:{" "}
+                <label htmlFor="password" className="text-blue-950">
+                  Password:{" "}
                 </label>
                 <input
-                  type="password"
+                  type="text"
                   name="password"
-                  value={formData.username}
+                  placeholder="Enter new password"
+                  value={formData.password}
                   onChange={handleChange}
                   className="text-blue-900 border border-blue-400 rounded-md p-1"
                   autoComplete="off"

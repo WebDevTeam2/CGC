@@ -24,8 +24,7 @@ export default function Nav() {
   const { data: session } = useSession();
   const [searchVisible, setSearchVisible] = useState(false);
   const [userId, setUserId] = useState<string>();
-  const [imageUrl, setImageUrl] = useState<string>("");
-  const [isSuccess, setIsSuccess] = useState(true);
+  const [imageUrl, setImageUrl] = useState<string>("");  
   const [prevScrollPos, setPrevScrollPos] = useState(0); //Metavlhth pou arxikopoiei to scroll pou kanei o xrhsths se 0
 
   useEffect(() => {
@@ -48,8 +47,7 @@ export default function Nav() {
           // Check if the data contains a valid id
           if (data?._id) {
             setImageUrl(data.profilePicture); // Set the imageUrl state to the saved profile picture
-            setUserId(data._id);
-            console.log(data._id);
+            setUserId(data._id);            
           } else {
             console.log("No profile found for this user.");
           }

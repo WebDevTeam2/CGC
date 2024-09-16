@@ -23,15 +23,3 @@ export async function POST(req: NextRequest) {
     return new Response(JSON.stringify({ message }), { status });
   }
 }
-
-export async function GET() {
-  try {
-    const allUsers = await User.find();
-    return NextResponse.json({
-      success: true,
-      data: allUsers,
-    });
-  } catch (error) {
-    return NextResponse.json({ success: false, message: "No data found" });
-  }
-}

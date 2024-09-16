@@ -44,8 +44,11 @@
 
   .recommended-movies {
     grid-template-columns: repeat(2, minmax(0, 1fr));    
-    justify-content: center;
-    text-align: center;
+    margin: 0 auto;
+  }
+
+  .add-to-watchlist  {
+    margin: 0 auto;
   }
 
   main div.flex.gap-4 {
@@ -57,7 +60,7 @@
   }
 
   .recommended-link {
-    margin-bottom: 5rem;
+    margin-bottom: 11rem;
   }
 
   .image-container  {

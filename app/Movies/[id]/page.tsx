@@ -61,9 +61,11 @@ const MovieDetails = async ({ params }: { params: MovieDetails }) => {
 
   return (
     <main className="font-roboto not-search id-main">
-      <h1 className="sm:ml-5 md:ml-[10rem] lg:ml-[20rem] my-10 font-medium text-4xl">{movie.title}</h1>
-      <div className="main-content flex md:flex-row lg:md:flex-row md:ml-[10rem] lg:ml-[20rem] mt-[2rem] gap-4">
-        <div className="relative image-container lg:w-72 lg:h-96">
+      <h1 className="sm:ml-5 md:ml-[10rem] lg:ml-[20rem] my-10 font-medium text-4xl">
+        {movie.title}
+      </h1>
+      <div className="main-content flex md:flex-row mb-6 lg:md:flex-row md:ml-[10rem] lg:ml-[20rem] mt-[2rem] gap-4">
+        <div className="relative image-container md:w-72 md:h-96 lg:w-72 lg:h-96">
           <Image
             src={`${imageURL}${movie.poster_path}`}
             alt={`${movie.title} poster`}
@@ -94,12 +96,18 @@ const MovieDetails = async ({ params }: { params: MovieDetails }) => {
           <h2 className="font-bold">Rating: </h2>
           <div className="rating flex flex-row gap-2">
             <p>
-              {movie.vote_average.toString().slice(0, 3)}/10 ({movie.vote_count})
+              {movie.vote_average.toString().slice(0, 3)}/10 ({movie.vote_count}
+              )
             </p>
             <FaStar className="mt-[2.5px]" />
           </div>
         </div>
       </div>
+      <span className="add-to-watchlist text-center sm:ml-5 md:ml-[8rem] lg:ml-[18rem] lg:mt-10">
+        <button className="ml-8 rounded-sm p-4 text-white bg-[#4c545b]">
+          +Add to watchlist
+        </button>
+      </span>
       <div className="sm:ml-5 md:ml-[10rem] lg:ml-[20rem] mt-10 text-[18px]">
         <h2 className="font-bold">Overview:</h2>
         <p>{movie.overview}</p>

@@ -145,7 +145,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
                 />
               </div>
               <div className="flex flex-row gap-2 items-center justify-between">
-                <label htmlFor="username" className="text-blue-950">
+                <label htmlFor="password" className="text-blue-950">
                   Password:{" "}
                 </label>
                 <input

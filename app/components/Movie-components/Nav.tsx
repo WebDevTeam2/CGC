@@ -11,6 +11,7 @@ import UpComing from "@/app/components/Movie-components/Nav-items/UpComing";
 
 //utils and icons
 import React, { useEffect, useState } from "react";
+import { findUserByEmail } from "@/app/collection/connection";
 import Link from "next/link";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import Login from "./Nav-items/Login";
@@ -22,8 +23,44 @@ import Image from "next/legacy/image";
 export default function Nav() {
   const { data: session } = useSession();
   const [searchVisible, setSearchVisible] = useState(false);
+  const [userId, setUserId] = useState<string>();
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [isSuccess, setIsSuccess] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0); //Metavlhth pou arxikopoiei to scroll pou kanei o xrhsths se 0
 
+  useEffect(() => {
+    const fetchProfileDetails = async () => {
+      if (session?.user?.email) {
+        try {
+          // Fetch the profile picture using the email as a query param
+          const response = await fetch(
+            `/api/getUserDetails?email=${session.user.email}`
+          );
+
+          if (!response.ok) {
+            console.error("Error fetching user details:", response.statusText);
+            return;
+          }
+
+          // Parse the response as JSON
+          const data = await response.json();
+
+          // Check if the data contains a valid id
+          if (data?._id) {
+            setImageUrl(data.profilePicture); // Set the imageUrl state to the saved profile picture
+            setUserId(data._id);
+            console.log(data._id);
+          } else {
+            console.log("No profile found for this user.");
+          }
+        } catch (error) {
+          console.error("Failed to fetch profile details:", error);
+        }
+      }
+    };
+
+    fetchProfileDetails();
+  }, [session?.user?.email]); // Only re-run this effect if the session changes\
   //Gia to control tou nav sto scroll
   useEffect(() => {
     const handleScroll = () => {
@@ -125,11 +162,11 @@ export default function Nav() {
           {session ? (
             <li className="text-[#b6b6b6] text-l h-20 w-full transition duration-500 ease-in-out not-search">
               <Link
-                href={"/account/info/"}
+                href={`/account/${userId}/info/`}
                 className="relative w-10 h-10 lg:mt-2 mx-[1.05rem] block rounded-full overflow-hidden"
               >
                 <Image
-                  src={session.user?.image || "/assets/images/batman.jpg"} // An o xrhsths exei diko tou image to kanoume display alliws kanoume display ena default
+                  src={imageUrl || "/assets/images/batman.jpg" } // An o xrhsths exei diko tou image to kanoume display alliws kanoume display ena default
                   alt="User Avatar"
                   layout="fill"
                   className="object-cover"

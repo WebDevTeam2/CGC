@@ -1,5 +1,4 @@
 import { addUser } from "@/app/collection/connection";
-import User from "@/app/utils/Schema/userSchema";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {

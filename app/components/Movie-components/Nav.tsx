@@ -158,7 +158,7 @@ export default function Nav() {
           </li>
           {/* An yparxei session tote vazoume na fainetai h eikona tou xrhsth  */}
           {session ? (
-            <li className="text-[#b6b6b6] text-l h-20 w-full transition duration-500 ease-in-out not-search">
+            <li className="text-[#b6b6b6] text-l h-20 w-full transition duration-500 ease-in-out not-search image-li">
               <Link
                 href={`/account/${userId}/info/`}
                 className="relative w-10 h-10 lg:mt-2 mx-[1.05rem] block rounded-full overflow-hidden"

@@ -18,6 +18,54 @@
 
 }
 
+@media(max-width: 768px) {
+  nav {
+    overflow-x: auto;
+    width: 100%;
+    z-index: 10;
+    bottom: 0;
+  }
+  .image-li a {
+    margin-top: 1.1rem;
+    margin-right: -5px; 
+  }
+  .id-main {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+  main > div,.rating {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .recommended-movies {
+    grid-template-columns: repeat(2, minmax(0, 1fr));    
+    justify-content: center;
+    text-align: center;
+  }
+
+  main div.flex.gap-4 {
+    flex-direction: column;
+  }
+  .recommendation-image-container  {
+    width: 100%;
+    height: 100%;    
+  }
+
+  .recommended-link {
+    margin-bottom: 5rem;
+  }
+
+  .image-container  {
+    width: 12rem;
+    height: 18rem;
+  }
+}
+
 
 
 /* Gia na kanoun fullScreen ta video sto hover */

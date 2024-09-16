@@ -3,6 +3,7 @@
 import UserOptions from "@/app/components/Account-components/UserOptions";
 
 //utills
+import bcrypt from "bcryptjs";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/legacy/image";
@@ -11,13 +12,22 @@ import Link from "next/link";
 
 const Account = ({ params }: { params: { userid: string } }) => {
   const { data: session } = useSession();
+  const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const [user, setUser] = useState<any>(null);
   const [imageUrl, setImageUrl] = useState<string>("");
   const [isSuccess, setIsSuccess] = useState(true);
+
+  // Store initial data for comparison
+  const [initialData, setInitialData] = useState({
+    username: "",
+    email: "",
+  });
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
+    passwordre: "",
   });
   const { userid } = params;
 
@@ -31,11 +41,17 @@ const Account = ({ params }: { params: { userid: string } }) => {
         setUser(responseData.data);
         setImageUrl(responseData.data.profilePicture);
         setIsSuccess(responseData.success);
-        setFormData({
+
+        // Set both the initial and current form data with the fetched data
+        const fetchedData = {
           username: responseData.data.username,
           email: responseData.data.email,
-          password: responseData.data.password,
-        });
+          password: "",
+          passwordre: "",
+        };
+
+        setInitialData(fetchedData);
+        setFormData(fetchedData);
         console.log(responseData.data);
       } catch (error) {
         console.error("Failed to fetch user:", error);
@@ -56,6 +72,42 @@ const Account = ({ params }: { params: { userid: string } }) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const errors: string[] = [];
+
+    if (
+      formData.username === initialData.username &&
+      !formData.password.trim() &&
+      !formData.passwordre.trim()
+    ) {
+      alert("Nothing to update");
+      return; // No need to proceed further
+    }
+
+    const usernameRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W]{10,}$/;
+    if (formData.username.trim() && !usernameRegex.test(formData.username)) {
+      errors.push(
+        "Username must be at least 10 characters long, contain at least one capital letter, one number, and may include symbols."
+      );
+    }
+
+    // Password validation
+    if (formData.password.trim() || formData.passwordre.trim()) {
+      const passwordRegex = /^(?=.*[A-Z])[A-Za-z\d\W]{10,}$/;
+      if (!passwordRegex.test(formData.password)) {
+        errors.push(
+          "Password must be at least 10 characters long, contain at least one capital letter, and may include symbols."
+        );
+      }
+
+      if (formData.password !== formData.passwordre) {
+        errors.push("Passwords do not match");
+      }
+    }
+
+    if (errors.length > 0) {
+      setErrorMessages(errors);
+      return;
+    }
 
     // Prepare the data object to be sent in the update
     const updatedData: any = {
@@ -63,9 +115,10 @@ const Account = ({ params }: { params: { userid: string } }) => {
       email: formData.email,
     };
 
-    // Only include password if it is not empty
+    // Only include password if it is not empty and valid
     if (formData.password.trim()) {
-      updatedData.password = formData.password;
+      const hashedPassword = await bcrypt.hash(formData.password, 10);
+      updatedData.password = hashedPassword;
     }
 
     const response = await fetch(`/api/users/${userid}`, {
@@ -77,6 +130,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
     });
 
     if (response.ok) {
+      setErrorMessages([]);
       alert("User info updated successfully!");
     } else {
       alert("Error updating user info");
@@ -141,6 +195,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
                   onChange={handleChange}
                   className="text-blue-900 border border-blue-400 rounded-md p-1"
                   autoComplete="off"
+                  required
                 />
               </div>
               <div className="flex flex-row gap-2 items-center justify-between">
@@ -158,13 +213,27 @@ const Account = ({ params }: { params: { userid: string } }) => {
               </div>
               <div className="flex flex-row gap-2 items-center justify-between">
                 <label htmlFor="password" className="text-blue-950">
-                  Password:{" "}
+                  New Password:{" "}
                 </label>
                 <input
-                  type="text"
+                  type="password"
                   name="password"
                   placeholder="Enter new password"
                   value={formData.password}
+                  onChange={handleChange}
+                  className="text-blue-900 border border-blue-400 rounded-md p-1"
+                  autoComplete="off"
+                />
+              </div>
+              <div className="flex flex-row gap-2 items-center justify-between">
+                <label htmlFor="passwordre" className="text-blue-950">
+                  Re-enter Password:{" "}
+                </label>
+                <input
+                  type="password"
+                  name="passwordre"
+                  placeholder="Re-enter password"
+                  value={formData.passwordre}
                   onChange={handleChange}
                   className="text-blue-900 border border-blue-400 rounded-md p-1"
                   autoComplete="off"
@@ -177,6 +246,15 @@ const Account = ({ params }: { params: { userid: string } }) => {
                 Update
               </button>
             </form>
+            {errorMessages.length > 0 && (
+              <div className="text-red-600 flex justify-center">
+                <ul className="bg-red-200 w-full text-center p-4">
+                  {errorMessages.map((message, index) => (
+                    <li key={index}>{message}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       )}

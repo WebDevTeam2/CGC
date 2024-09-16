@@ -59,14 +59,14 @@ const Recommendations = ({ movieId }: {movieId: string}) => {
       <h2 className="sm:ml-5 md:ml-[10rem] lg:ml-[20rem] mt-10 text-[18px] font-bold">
         Recommended Movies:{" "}
       </h2>
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-5 md:ml-[10rem] lg:ml-[20rem] h-full not-search">
+      <div className="recommended-movies grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-5 md:ml-[10rem] lg:ml-[20rem] h-full not-search">
         {recommendedMovies.slice(0, visible).map((item) => (
           <Link
             key={item.id}
             href={`/Movies/${item.id}`}
-            className="lg:hover:scale-110 w-full transition duration-700 ease-in-out mb-6"
+            className="lg:hover:scale-110 w-full transition recommended-link duration-700 ease-in-out mb-6"
           >
-            <div className="sm:w-full sm:h-56 lg:w-full lg:h-96 p-10 relative">
+            <div className="recommendation-image-container sm:w-full sm:h-56 lg:w-full lg:h-96 p-10 relative">
               <Image
                 src={`${imageURL}${item.poster_path}`}
                 alt={item.title}

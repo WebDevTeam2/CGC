@@ -23,12 +23,10 @@ const Account = ({ params }: { params: { userid: string } }) => {
         const response = await fetch(`/api/users/${userid}`, {
           method: "GET",
         });
-        const data = await response.json();
-        setUser(data.data);
-        console.log(user);
-        setImageUrl(data.data.profilePicture);
-        setIsSuccess(data.success);
-        console.log(data);
+        const responseData = await response.json();
+        setUser(responseData.data);
+        setImageUrl(responseData.data.profilePicture);
+        setIsSuccess(responseData.success);               
       } catch (error) {
         console.error("Failed to fetch user:", error);
         setIsSuccess(false);

@@ -1,10 +1,6 @@
 import { findUserById, updateUserById } from "@/app/collection/connection";
-// import connect from "@/app/utils/connectdb/dbconnect";
-// import User from "@/app/utils/Schema/userSchema";
-// import { Collection, ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
-// connect();
 export async function GET(
   req: NextRequest,
   { params }: { params: { userid: string } }
@@ -12,7 +8,6 @@ export async function GET(
   const userid = params.userid;
   try {
     const result = await findUserById(userid);
-    console.log(result);
     return Response.json({ success: true, data: result });
   } catch (err) {
     return Response.json({ success: false, message: "No data found" });

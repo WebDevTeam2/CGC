@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/legacy/image";
 import { UploadButton } from "@/app/utils/uploadthing";
+import Link from "next/link";
 
 const Account = ({ params }: { params: { userid: string } }) => {
   const { data: session } = useSession();
@@ -70,10 +71,15 @@ const Account = ({ params }: { params: { userid: string } }) => {
 
   return (
     <div className="back-img h-screen flex text-center justify-center">
+      <Link href={`/`} className="absolute pointer-events-none">
+        <h2 className="ml-4 mt-4 text-white pointer-events-auto text-2xl transition duration-100 p-1 rounded-full hover:scale-110">
+          &#8618; Home
+        </h2>
+      </Link>
       {isSuccess && user && (
-        <div className="flex justify-center rounded-2xl items-center shadow-lg my-28 bg-slate-300">
+        <div className="flex rounded-2xl items-center shadow-lg my-28 bg-slate-300">
           <UserOptions />
-          <div className="flex flex-col h-full items-center mr-10 gap-0 mt-12">
+          <div className="flex flex-grow flex-col h-full items-center mr-20 gap-0 mt-12">
             <div className="relative w-20 h-20 rounded-full overflow-hidden">
               <Image
                 src={imageUrl || "/assets/images/default_avatar.jpg"}
@@ -84,6 +90,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
             </div>
             <div className="mt-2">
               <UploadButton
+                className="ut-button:bg-slate-600 ut-button:hover:bg-slate-700"
                 endpoint="imageUploader"
                 onClientUploadComplete={async (res) => {
                   const imageUrl = res[0].url;
@@ -137,7 +144,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
               </div>
               <button
                 type="submit"
-                className="bg-blue-600 text-white rounded-md px-4 py-2 mt-4"
+                className="bg-blue-600 hover:bg-blue-800 transition duration-200 text-white rounded-md px-4 py-2 mt-4"
               >
                 Update
               </button>

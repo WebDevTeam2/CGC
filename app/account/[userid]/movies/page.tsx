@@ -27,7 +27,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
         setUser(data.data);
         console.log(user);
         setImageUrl(data.data.profilePicture);
-        setIsSuccess(data.success);       
+        setIsSuccess(data.success);
         console.log(data);
       } catch (error) {
         console.error("Failed to fetch user:", error);
@@ -46,10 +46,10 @@ const Account = ({ params }: { params: { userid: string } }) => {
           &#8618; Home
         </h2>
       </Link>
-      <div className="flex justify-center rounded-2xl items-center shadow-lg my-28 bg-slate-300">
+      <div className="flex rounded-2xl items-center shadow-lg my-28 bg-slate-300">
         <UserOptions />
         {/* option content */}
-        <div className="flex flex-col h-full items-center mr-10 gap-0 mt-12">
+        <div className="flex flex-grow flex-col h-full items-center mr-20 gap-0 mt-12">
           {imageUrl ? (
             <div className="relative w-20 h-20 rounded-full overflow-hidden group">
               <Image
@@ -72,7 +72,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
                 className="object-cover"
               />
             </div>
-          )}                  
+          )}
         </div>
       </div>
     </div>

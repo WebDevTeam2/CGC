@@ -32,11 +32,11 @@ const Account = ({ params }: { params: { userid: string } }) => {
         setImageUrl(responseData.data.profilePicture);
         setIsSuccess(responseData.success);
         setFormData({
-          username: data.data.username,
-          email: data.data.email,
+          username: responseData.data.username,
+          email: responseData.data.email,
           password: "",
         });
-        console.log(data);
+        console.log(responseData.data);
       } catch (error) {
         console.error("Failed to fetch user:", error);
         setIsSuccess(false);

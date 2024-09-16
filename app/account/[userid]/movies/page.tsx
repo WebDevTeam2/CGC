@@ -5,12 +5,18 @@ import UserOptions from "@/app/components/Account-components/UserOptions";
 //utills
 import { useSession } from "next-auth/react";
 import Image from "next/legacy/image";
+import Link from "next/link";
 
 const Account = () => {
   const { data: session } = useSession();
 
   return (
     <div className="back-img  h-screen flex text-center justify-center">
+      <Link href={`/`} className="absolute pointer-events-none">
+        <h2 className=" ml-4 mt-4 text-white pointer-events-auto text-2xl transition duration-100 p-1 rounded-full hover:scale-110">
+          &#8618; Home
+        </h2>
+      </Link>
       <div className="flex justify-center rounded-2xl items-center shadow-lg my-28 bg-slate-300">
         <UserOptions />
         {/* option content */}

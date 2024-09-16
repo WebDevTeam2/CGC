@@ -69,12 +69,12 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
     setShowProfile(false);
   };
 
-  // // Fetch the user's profile picture from the database on component mount
+  // // Fetch the user's details from the database on component mount
   useEffect(() => {
     const fetchProfileDetails = async () => {
       if (session?.user?.email) {
         try {
-          // Fetch the profile picture using the email as a query param
+          // Fetch response using the email as a query param
           const response = await fetch(
             `/api/getUserDetails?email=${session.user.email}`
           );

@@ -40,14 +40,14 @@ const Account = ({ params }: { params: { userid: string } }) => {
   return (
     <div className="back-img h-screen flex text-center justify-center">
       <Link href={`/`} className="absolute pointer-events-none">
-        <h2 className=" ml-4 mt-4 text-white pointer-events-auto text-2xl transition duration-100 p-1 rounded-full hover:scale-110">
+        <h2 className="ml-4 mt-4 text-white pointer-events-auto text-2xl transition duration-100 p-1 rounded-full hover:scale-110">
           &#8618; Home
         </h2>
       </Link>
-      <div className="flex justify-center rounded-2xl items-center shadow-lg my-28 bg-slate-300">
+      <div className="flex rounded-2xl items-center shadow-lg my-28 bg-slate-300">
         <UserOptions />
         {/* option content */}
-        <div className="flex flex-col h-full items-center mr-10 gap-0 mt-12">
+        <div className="flex flex-grow flex-col h-full items-center mr-20 gap-0 mt-12">
           {imageUrl ? (
             <div className="relative w-20 h-20 rounded-full overflow-hidden group">
               <Image
@@ -70,7 +70,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
                 className="object-cover"
               />
             </div>
-          )}                  
+          )}
         </div>
       </div>
     </div>

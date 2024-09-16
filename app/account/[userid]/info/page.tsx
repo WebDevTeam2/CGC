@@ -4,11 +4,14 @@ import UserOptions from "@/app/components/Account-components/UserOptions";
 
 //utills
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import Image from "next/legacy/image";
-import Link from "next/link";
+import { UploadButton } from "@/app/utils/uploadthing";
 
 const Account = ({ params }: { params: { userid: string } }) => {
+  const {data: session} = useSession();
   const [user, setUser] = useState<any>(null);
+  const [imageUrl, setImageUrl] = useState<string>("");
   const [isSuccess, setIsSuccess] = useState(true);
   const [formData, setFormData] = useState({
     username: "",
@@ -24,6 +27,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
         });
         const data = await response.json();
         setUser(data.data);
+        setImageUrl(data.data.profilePicture);
         setIsSuccess(data.success);
         setFormData({
           username: data.data.username,
@@ -66,22 +70,42 @@ const Account = ({ params }: { params: { userid: string } }) => {
 
   return (
     <div className="back-img h-screen flex text-center justify-center">
-      <Link href={`/`} className="absolute pointer-events-none">
-        <h2 className="ml-4 mt-4 text-white pointer-events-auto text-2xl transition duration-100 p-1 rounded-full hover:scale-110">
-          &#8618; Home
-        </h2>
-      </Link>
       {isSuccess && user ? (
-        <div className="flex w-1/2 rounded-2xl items-center shadow-lg my-28 bg-slate-300">
+        <div className="flex justify-center rounded-2xl items-center shadow-lg my-28 bg-slate-300">
           <UserOptions />
-          <div className="flex flex-col flex-grow h-full items-center mr-10 gap-0 mt-12">
+          <div className="flex flex-col h-full items-center mr-10 gap-0 mt-12">
             <div className="relative w-20 h-20 rounded-full overflow-hidden">
               <Image
-                src={user.profilePicture || "/assets/images/default_avatar.jpg"}
+                src={imageUrl|| "/assets/images/default_avatar.jpg"}
                 alt="User Avatar"
                 layout="fill"
                 className="object-cover"
               />
+            </div>
+            <div className="mt-2">
+            <UploadButton
+              endpoint="imageUploader"
+              onClientUploadComplete={async (res) => {
+                const imageUrl = res[0].url;
+                setImageUrl(imageUrl);
+
+                // Save the image URL to the backend (associate with user ID)
+                await fetch("/api/saveImage", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    email: session?.user?.email, // Assuming you're using email as the identifier
+                    profilePicture: imageUrl,
+                  }),
+                });
+              }}
+              onUploadError={(error: Error) => {
+                // Do something with the error.
+                alert(`ERROR! ${error.message}`);
+              }}
+            />
             </div>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-8">

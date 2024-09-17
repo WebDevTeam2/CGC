@@ -2,6 +2,7 @@
 
 import { verifyUserEmail } from "@/app/collection/connection";
 import { NextRequest, NextResponse } from "next/server";
+import { signIn } from "next-auth/react";
 
 // API Route to verify user email
 export async function GET(req: NextRequest) {
@@ -12,8 +13,18 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ message: "Token is required" });
   }
   try {
-    const { status, message } = await verifyUserEmail(token);
-    if (status) {
+    const { status, message, user } = await verifyUserEmail(token);
+    if (status && user) {
+      // Attempt to sign the user in after successful verification
+      const signInResult = await signIn("credentials", {
+        redirect: false, // Don't redirect automatically
+        email: user.email, // You need the email from the verified user object
+        password: user.password, // Assuming password is retrievable or temporarily stored
+      });
+
+      if (signInResult?.error) {
+        return NextResponse.json({ message: "Error during automatic sign-in" });
+      }
       // Get the base URL from the incoming request
       const baseUrl = `${req.nextUrl.protocol}//${req.nextUrl.host}`;
       // Construct a full URL for the redirect

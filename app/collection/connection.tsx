@@ -189,20 +189,25 @@ export const verifyUserEmail = async (token: string) => {
   try {
     const user = await users.findOne({ verificationToken: token });
 
+    // Find the user by the verification token and update their status to verified
+    const updatedUser = await users.findOneAndUpdate(
+      { verificationToken: token }, // Find the user with the token
+      {
+        $set: { isVerified: true }, // Set the user as verified
+        $unset: { verificationToken: "" }, // Remove the verification token
+      },
+      { returnDocument: "after" } // Return the updated document after the update
+    );
     //here will be the logic of redirect
-    if (!user) {
+    if (!updatedUser) {
       return { status: 400, message: "Invalid token" };
     }
 
-    await users.updateOne(
-      { _id: user._id },
-      {
-        $set: { isVerified: true },
-        $unset: { verificationToken: "" },
-      }
-    );
-
-    return { status: 200, message: "Email verified successfully!" };
+    return {
+      status: 200,
+      message: "Email verified successfully!",
+      user: updatedUser,
+    };
   } catch (error) {
     console.error("Error verifying email:", error);
     return { status: 500, message: "Error verifying email" };

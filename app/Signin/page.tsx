@@ -21,6 +21,25 @@ export default function Signin() {
 
     const errors: string[] = [];
 
+    // Check if email exists with a provider
+    const emailCheckResponse = await fetch("/api/checkEmail", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    const emailCheckData = await emailCheckResponse.json();
+
+    if (emailCheckData.exists && emailCheckData.provider) {
+      // If email is already linked to a provider
+      setErrorMessages([
+        "Email already exists with a provider. Please sign in using that provider.",
+      ]);
+      return;
+    }
+
     if (errors.length > 0) {
       setErrorMessages(errors);
       return;

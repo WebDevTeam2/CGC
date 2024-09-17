@@ -1,14 +1,14 @@
 "use client"; // Ensure this component is treated as a Client Component
 import { FormEvent, useState } from "react";
 import { FaGoogle, FaGithub } from "react-icons/fa";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function Signin() {
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-
+  const { data: session } = useSession();
   const router = useRouter();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -22,20 +22,26 @@ export default function Signin() {
     const errors: string[] = [];
 
     // Check if email exists with a provider
-    const emailCheckResponse = await fetch("/api/checkEmail", {
+    const response = await fetch(`/api/users/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email }), // Send the email to the backend
     });
 
-    const emailCheckData = await emailCheckResponse.json();
+    if (!response.ok) {
+      throw new Error("Failed to check email existence");
+    }
 
-    if (emailCheckData.exists && emailCheckData.provider) {
+    const emailCheckData = await response.json();
+    // console.log(emailCheckData.data.provider);
+
+    if (emailCheckData.data.provider) {
+      console.log("inside the check");
       // If email is already linked to a provider
       setErrorMessages([
-        "Email already exists with a provider. Please sign in using that provider.",
+        `Email already exists with ${emailCheckData.data.provider}. Please sign in using that provider.`,
       ]);
       return;
     }

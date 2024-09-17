@@ -11,6 +11,7 @@ export default function Signup() {
   const router = useRouter();
   const { data: session } = useSession();
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
+  const [incoming, setIncoming] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -64,7 +65,6 @@ export default function Signup() {
     };
 
     setLoading(true);
-
     try {
       // Send a POST request to your API route
       const response = await fetch("/api/users", {
@@ -82,10 +82,7 @@ export default function Signup() {
         setErrorMessages([result.message]);
       } else {
         setLoading(false);
-        console.log("User added successfully, verification email sent.");
-        alert(
-          "A verification email has been sent to your email address. Please check your inbox."
-        );
+        setIncoming("A verification message has been sent to your email");
       }
     } catch (error) {
       console.error("Error during user addition:", error);
@@ -160,6 +157,13 @@ export default function Signup() {
                 <li key={index}>{message}</li>
               ))}
             </ul>
+          </div>
+        )}
+        {incoming && (
+          <div className="text-slate-200 flex justify-center">
+            <div className="bg-slate-500 w-full text-center p-4">
+              {incoming}
+            </div>
           </div>
         )}
         {loading && (

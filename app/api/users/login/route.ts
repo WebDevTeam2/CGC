@@ -1,25 +1,25 @@
 // /app/api/users/login.ts
 
-import { logUser } from "@/app/collection/connection";
+import { findUserByEmail } from "@/app/collection/connection";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
     // Parse the request body to get email and password
-    const { email, password } = await req.json();
+    const { email } = await req.json();
 
-    if (!email || !password) {
+    if (!email) {
       return NextResponse.json(
-        { message: "Email and password are required" },
+        { message: "Email is required" },
         { status: 400 }
       );
     }
 
     // Call the logUser function to verify the user
-    const { status, message } = await logUser(email, password);
+    const data = await findUserByEmail(email);
 
     // Return the appropriate status and message
-    return NextResponse.json({ message }, { status });
+    return NextResponse.json({ data });
   } catch (error) {
     console.error("Error verifying user:", error);
     return NextResponse.json(

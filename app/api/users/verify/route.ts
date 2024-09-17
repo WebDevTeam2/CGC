@@ -15,20 +15,13 @@ export async function GET(req: NextRequest) {
   try {
     const { status, message, user } = await verifyUserEmail(token);
     if (status && user) {
-      // Attempt to sign the user in after successful verification
-      const signInResult = await signIn("credentials", {
-        redirect: false, // Don't redirect automatically
-        email: user.email, // You need the email from the verified user object
-        password: user.password, // Assuming password is retrievable or temporarily stored
-      });
-
-      if (signInResult?.error) {
-        return NextResponse.json({ message: "Error during automatic sign-in" });
-      }
       // Get the base URL from the incoming request
       const baseUrl = `${req.nextUrl.protocol}//${req.nextUrl.host}`;
       // Construct a full URL for the redirect
-      const redirectUrl = new URL("/Verified", baseUrl).toString();
+      const redirectUrl = new URL(
+        `/Verified?email=${user.email}&password=${user.password}`,
+        baseUrl
+      ).toString();
       // If verification is successful, redirect to the Verified page
       return NextResponse.redirect(redirectUrl);
     } else {

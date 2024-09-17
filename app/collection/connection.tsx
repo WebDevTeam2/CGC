@@ -187,7 +187,9 @@ export const verifyUserEmail = async (token: string) => {
   if (!users) throw new Error("Users collection is not initialized");
 
   try {
+    console.log("Token received:", token);
     const user = await users.findOne({ verificationToken: token });
+    console.log("User found:", user);
 
     // Find the user by the verification token and update their status to verified
     const updatedUser = await users.findOneAndUpdate(

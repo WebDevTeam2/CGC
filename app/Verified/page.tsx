@@ -1,18 +1,37 @@
 "use client"; // Enable client-side behavior for redirect
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 export default function Verified() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const email = searchParams.get("email");
+  const password = searchParams.get("password");
 
   useEffect(() => {
-    // Redirect to the Home page after 3 seconds
-    const timeoutId = setTimeout(() => {
-      router.push("/");
-    }, 3000);
+    // Automatically sign in the user after email verification
+    async function autoSignIn() {
+      const res = await signIn("credentials", {
+        redirect: false, // Prevent redirect since we'll handle it
+        email: email,
+        password: password,
+      });
 
-    return () => clearTimeout(timeoutId); // Cleanup the timeout on component unmount
+      if (res && !res.error) {
+        // Successful sign-in, redirect to the homepage after a delay
+        setTimeout(() => {
+          router.push("/");
+        }, 3000);
+      } else {
+        // Handle sign-in error (show an error message or stay on the page)
+        console.error("Sign-in error:", res?.error);
+      }
+    }
+
+    autoSignIn();
   }, [router]);
   return (
     <>

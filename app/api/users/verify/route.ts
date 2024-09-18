@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
       const baseUrl = `${req.nextUrl.protocol}//${req.nextUrl.host}`;
       // Construct a full URL for the redirect
       const redirectUrl = new URL(
-        `/Verified?email=${user.email}&password=${user.password}`,
+        `/Verified?email=${user.email}`,
         baseUrl
       ).toString();
       // If verification is successful, redirect to the Verified page

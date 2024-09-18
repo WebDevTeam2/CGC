@@ -17,7 +17,6 @@ export async function POST(req: NextRequest) {
 
     // Call the logUser function to verify the user
     const data = await findUserByEmail(email);
-
     // Return the appropriate status and message
     return NextResponse.json({ data });
   } catch (error) {

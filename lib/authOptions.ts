@@ -49,7 +49,6 @@ export const authOptions: NextAuthOptions = {
         const user = await logUser(credentials.email, credentials.password);
 
         if (user.status === 200 && user._id) {
-          // Replace with hashed password check
           console.log("passwords matched");
           return {
             id: user._id.toString(),

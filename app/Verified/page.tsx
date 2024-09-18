@@ -2,37 +2,48 @@
 
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { signIn } from "next-auth/react";
 
 export default function Verified() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const email = searchParams.get("email");
-  const password = searchParams.get("password");
 
   useEffect(() => {
-    // Automatically sign in the user after email verification
-    async function autoSignIn() {
-      const res = await signIn("credentials", {
-        redirect: false, // Prevent redirect since we'll handle it
-        email: email,
-        password: password,
-      });
+    // Automatically start the session for the user after email verification
+    async function startSession() {
+      try {
+        // Make an API call to your backend to handle session creation for the user
+        const res = await fetch("/api/users/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }), // Send verified email to backend
+        });
 
-      if (res && !res.error) {
-        // Successful sign-in, redirect to the homepage after a delay
-        setTimeout(() => {
-          router.push("/");
-        }, 3000);
-      } else {
-        // Handle sign-in error (show an error message or stay on the page)
-        console.error("Sign-in error:", res?.error);
+        const response = await res.json();
+        // console.log(response.data.email);
+        if (res.ok) {
+          console.log("inside");
+          // Redirect to the homepage or any desired page after starting the session
+          setTimeout(() => {
+            router.push("/");
+          }, 3000);
+        } else {
+          // Handle error (stay on page or display an error message)
+          console.error("Session start error:", response.message);
+        }
+      } catch (error) {
+        console.error("Error in session start:", error);
       }
     }
 
-    autoSignIn();
-  }, [router]);
+    if (email) {
+      startSession(); // Start session once email is verified
+    }
+  }, [router, email]);
+
   return (
     <>
       <div className="flex w-full h-screen bg-slate-950 items-center justify-center">

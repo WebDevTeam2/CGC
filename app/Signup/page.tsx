@@ -52,6 +52,7 @@ export default function Signup() {
 
     if (errors.length > 0) {
       setErrorMessages(errors);
+      setIncoming("");
       return;
     }
 
@@ -63,7 +64,7 @@ export default function Signup() {
       email,
       password: hashedPassword,
     };
-
+    setIncoming("");
     setLoading(true);
     try {
       // Send a POST request to your API route
@@ -79,6 +80,7 @@ export default function Signup() {
 
       if (!response.ok) {
         setLoading(false);
+        setIncoming("");
         setErrorMessages([result.message]);
       } else {
         setLoading(false);
@@ -86,6 +88,7 @@ export default function Signup() {
       }
     } catch (error) {
       console.error("Error during user addition:", error);
+      setIncoming("");
       setErrorMessages(["An unexpected error occurred"]);
     }
   };

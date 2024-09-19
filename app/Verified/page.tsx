@@ -36,7 +36,7 @@ export default function Verified() {
               className="inline-block mr-4 h-6 w-6 animate-spin rounded-full border-2 border-solid border-current border-e-transparent align-[-0.4em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
               role="status"
             ></div>
-            <span className="text-xl">Navigating you to Home...</span>
+            <span className="text-xl">Redirecting you to Sign-In...</span>
           </button>
         ) : (
           <div>

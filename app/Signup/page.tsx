@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 export default function Signup() {
@@ -13,10 +13,16 @@ export default function Signup() {
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const [incoming, setIncoming] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const error = searchParams.get("error"); // Use `get` to retrieve specific query parameter
 
-  // useEffect(() => {
-  //   session ? router.push("/") : null;
-  // }, [session, router]);
+  useEffect(() => {
+    if (error === "EmailInUse") {
+      setErrorMessages([
+        "The email you used is already associated with another account. Please use a different email or log in with the existing credentials.",
+      ]);
+    }
+  }, [error]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

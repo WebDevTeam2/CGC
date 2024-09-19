@@ -84,6 +84,7 @@ export const authOptions: NextAuthOptions = {
         if (existingUser) {
           // Check if the existing user was created via credentials or another provider
           const isOAuthProvider = existingUser.provider !== "credentials";
+          console.log(isOAuthProvider);
 
           // If the email is linked to a credentials-based account and they try to log in via OAuth
           if (!isOAuthProvider && account.provider !== "credentials") {

@@ -22,7 +22,7 @@ export default function Verified() {
 
     // Cleanup timeout if the component unmounts
     return () => clearTimeout(timeoutId);
-  }, [router, name]);
+  }, [router, token]);
   return (
     <>
       <div className="flex w-full h-screen bg-slate-950 items-center justify-center">

@@ -1,6 +1,7 @@
 // /app/api/users/login.ts
 
 import { findUserByEmail } from "@/app/collection/connection";
+import { signIn } from "next-auth/react";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -17,6 +18,7 @@ export async function POST(req: NextRequest) {
 
     // Call the logUser function to verify the user
     const data = await findUserByEmail(email);
+
     // Return the appropriate status and message
     return NextResponse.json({ data });
   } catch (error) {

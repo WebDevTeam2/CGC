@@ -7,43 +7,22 @@ export default function Verified() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const email = searchParams.get("email");
+  const pass = searchParams.get("connect");
 
   useEffect(() => {
-    // Automatically start the session for the user after email verification
-    async function startSession() {
-      try {
-        // Make an API call to your backend to handle session creation for the user
-        const res = await fetch("/api/users/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email }), // Send verified email to backend
-        });
-
-        const response = await res.json();
-        // console.log(response.data.email);
-        if (res.ok) {
-          console.log("inside");
-          // Redirect to the homepage or any desired page after starting the session
-          setTimeout(() => {
-            router.push("/");
-          }, 3000);
-        } else {
-          // Handle error (stay on page or display an error message)
-          console.error("Session start error:", response.message);
-        }
-      } catch (error) {
-        console.error("Error in session start:", error);
-      }
+    if (!pass) {
+      console.error("User not found");
+      return;
     }
 
-    if (email) {
-      startSession(); // Start session once email is verified
-    }
-  }, [router, email]);
+    // Delay navigation to the login page
+    const timeoutId = setTimeout(() => {
+      router.push("/Signin");
+    }, 3000); // 3000 milliseconds = 3 seconds
 
+    // Cleanup timeout if the component unmounts
+    return () => clearTimeout(timeoutId);
+  }, [router, pass]);
   return (
     <>
       <div className="flex w-full h-screen bg-slate-950 items-center justify-center">

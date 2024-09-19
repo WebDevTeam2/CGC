@@ -14,9 +14,9 @@ export default function Signup() {
   const [incoming, setIncoming] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    session ? router.push("/") : null;
-  }, [session, router]);
+  // useEffect(() => {
+  //   session ? router.push("/") : null;
+  // }, [session, router]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

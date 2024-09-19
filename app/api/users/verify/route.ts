@@ -1,8 +1,12 @@
 // /app/api/users/verify.ts
 
 import { verifyUserEmail } from "@/app/collection/connection";
-import { signIn } from "next-auth/react";
 import { NextRequest, NextResponse } from "next/server";
+import crypto from "crypto";
+
+function generateToken() {
+  return crypto.randomBytes(32).toString("hex");
+}
 
 // API Route to verify user email
 export async function GET(req: NextRequest) {
@@ -15,11 +19,12 @@ export async function GET(req: NextRequest) {
   try {
     const { status, message, user } = await verifyUserEmail(token);
     if (status && user) {
+      const newToken = generateToken();
       // Get the base URL from the incoming request
       const baseUrl = `${req.nextUrl.protocol}//${req.nextUrl.host}`;
       // Construct a full URL for the redirect
       const redirectUrl = new URL(
-        `/Verified?connect=${user.password}`,
+        `/Verified?token=${newToken}`,
         baseUrl
       ).toString();
       // If verification is successful, redirect to the Verified page

@@ -1,6 +1,7 @@
 import Image from "next/legacy/image";
 import Recommendations from "@/app/components/Movie-components/Recommendations";
 import { FaStar } from "react-icons/fa6";
+import AddToWatchlist from "@/app/components/Movie-components/AddToWatchlist";
 
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/movie/";
@@ -103,11 +104,7 @@ const MovieDetails = async ({ params }: { params: MovieDetails }) => {
           </div>
         </div>
       </div>
-      <span className="add-to-watchlist text-center sm:ml-5 md:ml-[8rem] lg:ml-[18rem] lg:mt-10">
-        <button className="ml-8 rounded-sm p-4 text-white bg-[#4c545b]">
-          +Add to watchlist
-        </button>
-      </span>
+      <AddToWatchlist movieId={params.id} userId=""/>
       <div className="sm:ml-5 md:ml-[10rem] lg:ml-[20rem] mt-10 text-[18px]">
         <h2 className="font-bold">Overview:</h2>
         <p>{movie.overview}</p>

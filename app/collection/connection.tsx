@@ -336,3 +336,23 @@ export const updateUserById = async (
     throw new Error("Failed to update user by id");
   }
 };
+
+//Add to watchlist
+export const addToWatchlist = async (userId:string, movieId: number) => {
+  if (!users) await init();
+  if (!users) throw new Error("Users collection is not initialized");
+
+  try {
+    const objectId = new ObjectId(userId);
+    const result = await users.findOneAndUpdate(
+      { _id: objectId },
+      { $addToSet: { watchlist: movieId } }, // Use $addToSet to add the movieId to the watchlist array
+      { returnDocument: "after" } // Return the updated document
+    );
+    return result;
+  }catch(error){
+    console.error("Error adding to watchlist:", error);
+    throw new Error("Failed to update user by id");
+  }
+
+}

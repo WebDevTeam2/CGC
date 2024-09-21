@@ -44,18 +44,6 @@ export default function Signin() {
       throw new Error("Failed to check email existence");
     }
 
-    const emailCheckData = await response.json();
-    // console.log(emailCheckData.data.provider);
-
-    if (emailCheckData.data.provider) {
-      console.log("inside the check");
-      // If email is already linked to a provider
-      setErrorMessages([
-        `Email already exists with ${emailCheckData.data.provider}. Please sign in using that provider.`,
-      ]);
-      return;
-    }
-
     if (errors.length > 0) {
       setErrorMessages(errors);
       return;
@@ -162,7 +150,7 @@ export default function Signin() {
               "1px 1px 2px black, -1px -1px 2px black, -1px 1px 2px black, 1px -1px 2px black",
           }}
         >
-          Already have an account? Click here to sign-in
+          Already have an account? Click here to sign-up
         </Link>
       </div>
     </div>

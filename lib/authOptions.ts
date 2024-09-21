@@ -86,18 +86,25 @@ export const authOptions: NextAuthOptions = {
 
         if (existingUser) {
           // Check if the existing user was created via credentials or another provider
-          let isOAuthProvider = false;
           let provider = existingUser.provider || "credentials"; // Default to "credentials" if undefined
 
-          if (["google", "github", "facebook"].includes(provider)) {
-            isOAuthProvider = true;
-            console.log(isOAuthProvider, provider);
-          } else if (provider === "credentials") {
-            return "/Signin?error=EmailInUse"; // If trying to sign up, redirect to Signup page with error
+          // Check if the user is trying to sign in with an OAuth provider
+          if (["google", "github", "facebook"].includes(account.provider)) {
+            // If the account provider is OAuth but the user was created with credentials
+            if (provider === "credentials") {
+              return "/Signin?error=EmailInUse"; // If trying to sign up, redirect to Signup page with error
+            }
+            // Allow sign-in if it's an OAuth provider and matches the existing user provider
+            return true;
           }
-
-          // Allow sign-in if it's OAuth provider
-          return true;
+          // If the user is signing in with credentials and the account was also created with credentials
+          if (
+            account.provider === "credentials" &&
+            provider === "credentials"
+          ) {
+            // Allow sign-in with credentials
+            return true;
+          }
         }
 
         // Create a new user if it does not exist

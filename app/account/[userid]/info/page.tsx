@@ -44,7 +44,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
         setIsSuccess(responseData.success);
 
         // Check if user has a provider
-        if (responseData.data.provider) {
+        if (responseData.data.provider !== "credentials") {
           setHasProvider(true);
         } else {
           setHasProvider(false);
@@ -154,7 +154,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
       {isSuccess && user && (
         <div className="flex rounded-2xl items-center shadow-lg my-28 bg-slate-300">
           <UserOptions />
-          <div className="flex flex-grow flex-col h-full items-center mr-20 gap-0 mt-12">
+          <div className="flex flex-grow flex-col h-full items-center w-96 mr-20 gap-0 mt-12">
             {hasProvider ? (
               <>
                 <div className="relative w-20 h-20 rounded-full overflow-hidden">

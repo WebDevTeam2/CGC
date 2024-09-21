@@ -69,6 +69,7 @@ export const addUser = async (data: User) => {
       user_reviews: ["test1", "test2"],
       verificationToken,
       isVerified: false,
+      provider: "credentials",
     });
 
     await sendVerificationEmail(email, verificationToken);
@@ -338,7 +339,7 @@ export const updateUserById = async (
 };
 
 //Add to watchlist
-export const addToWatchlist = async (userId:string, movieId: number) => {
+export const addToWatchlist = async (userId: string, movieId: number) => {
   if (!users) await init();
   if (!users) throw new Error("Users collection is not initialized");
 
@@ -350,9 +351,8 @@ export const addToWatchlist = async (userId:string, movieId: number) => {
       { returnDocument: "after" } // Return the updated document
     );
     return result;
-  }catch(error){
+  } catch (error) {
     console.error("Error adding to watchlist:", error);
     throw new Error("Failed to update user by id");
   }
-
-}
+};

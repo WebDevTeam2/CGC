@@ -13,16 +13,6 @@ export default function Signup() {
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const [incoming, setIncoming] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const searchParams = useSearchParams();
-  const error = searchParams.get("error"); // Use `get` to retrieve specific query parameter
-
-  useEffect(() => {
-    if (error === "EmailInUse") {
-      setErrorMessages([
-        "The email you used is already associated with another account. Please use a different email or log in with the existing credentials.",
-      ]);
-    }
-  }, [error]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -100,20 +90,20 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex items-center flex-col overflow-auto fixed justify-center w-full h-screen bg-[url('/assets/images/dishonored.jpg')] bg-cover bg-right">
+    <div className="flex items-center flex-col overflow-auto fixed py-10 w-full h-screen bg-[url('/assets/images/dishonored.jpg')] bg-cover bg-right">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col xl:w-[25vw] lg:w-[35vw] md:w-[45vw] w-[55vw] relative  bg-neutral-200 border rounded-lg border-black max-[500px]:w-5/6"
+        className="flex flex-col xl:w-[25vw] lg:w-[35vw] md:w-[45vw] sm:w-[55vw] w-[80vw] relative  bg-neutral-200 border rounded-lg border-black"
       >
         <div className="bg-black flex items-center justify-center rounded-t-md p-5">
           <h1 className="sm:text-5xl text-3xl text-white">Sign-Up</h1>
         </div>
-        <div className="flex flex-col items-center mt-12">
+        <div className="flex flex-col items-center w-full mt-12">
           <label className="sm:text-lg text-md">Username</label>
           <input
             type="text"
             name="username"
-            className="border-2 text-lg border-black  sm:p-2 p-1 rounded-2xl"
+            className="border-2 text-lg sm:w-auto w-52 border-black sm:p-2 p-1 rounded-2xl"
             required
           />
         </div>
@@ -122,7 +112,7 @@ export default function Signup() {
           <input
             type="email"
             name="email"
-            className="border-2 text-lg border-black sm:p-2 p-1 rounded-2xl"
+            className="border-2 text-lg sm:w-auto w-52 border-black sm:p-2 p-1 rounded-2xl"
             required
           />
         </div>
@@ -131,7 +121,7 @@ export default function Signup() {
           <input
             type="password"
             name="password"
-            className="border-2 text-lg border-black sm:p-2 p-1 rounded-2xl"
+            className="border-2 text-lg sm:w-auto w-52 border-black sm:p-2 p-1 rounded-2xl"
             required
           />
         </div>
@@ -140,7 +130,7 @@ export default function Signup() {
           <input
             type="password"
             name="passwordre"
-            className="border-2 text-lg border-black sm:p-2 p-1 rounded-2xl"
+            className="border-2 text-lg sm:w-auto w-52 border-black sm:p-2 p-1 rounded-2xl"
             required
           />
         </div>
@@ -191,10 +181,14 @@ export default function Signup() {
           </button>
         </div>
       </form>
-      <div className="mt-10">
+      <div className="mt-8 mx-10">
         <Link
           href="/Signin"
-          className="hover:text-neutral-400 hover:underline text-white bg-black p-4 rounded-xl text-lg"
+          className="hover:text-neutral-400 hover:underline sm:text-white text-slate-300 sm:bg-black sm:p-4 p-0 rounded-xl text-lg"
+          style={{
+            textShadow:
+              "1px 1px 2px black, -1px -1px 2px black, -1px 1px 2px black, 1px -1px 2px black",
+          }}
         >
           Already have an account? Click here to sign-in
         </Link>

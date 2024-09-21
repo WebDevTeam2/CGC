@@ -1,4 +1,4 @@
-import { NextAuthOptions } from "next-auth";
+import { Account, NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
@@ -9,6 +9,8 @@ import {
   logUser,
 } from "@/app/collection/connection";
 import { ObjectId } from "mongodb";
+import { AdapterUser } from "next-auth/adapters";
+import { IncomingMessage } from "http";
 
 interface User {
   _id: ObjectId;
@@ -18,6 +20,7 @@ interface User {
   profilePicture?: string;
   verificationToken?: string;
   isVerified?: boolean;
+  isSignUp?: boolean;
 }
 
 export const authOptions: NextAuthOptions = {
@@ -83,16 +86,17 @@ export const authOptions: NextAuthOptions = {
 
         if (existingUser) {
           // Check if the existing user was created via credentials or another provider
-          const isOAuthProvider = existingUser.provider !== "credentials";
-          console.log(isOAuthProvider);
+          let isOAuthProvider = false;
+          let provider = existingUser.provider || "credentials"; // Default to "credentials" if undefined
 
-          // If the email is linked to a credentials-based account and they try to log in via OAuth
-          if (!isOAuthProvider && account.provider !== "credentials") {
-            // Log the conflict and prevent sign-in
-            return "/signin?error=EmailInUse";
+          if (["google", "github", "facebook"].includes(provider)) {
+            isOAuthProvider = true;
+            console.log(isOAuthProvider, provider);
+          } else if (provider === "credentials") {
+            return "/Signin?error=EmailInUse"; // If trying to sign up, redirect to Signup page with error
           }
 
-          // Otherwise, allow sign-in (e.g., when logging in with the same OAuth provider)
+          // Allow sign-in if it's OAuth provider
           return true;
         }
 

@@ -1,8 +1,8 @@
 "use client"; // Ensure this component is treated as a Client Component
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 export default function Signin() {
@@ -10,6 +10,16 @@ export default function Signin() {
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const error = searchParams.get("error"); // Use `get` to retrieve specific query parameter
+
+  useEffect(() => {
+    if (error === "EmailInUse") {
+      setErrorMessages([
+        "The email you used is already associated with another account. Please use a different email or log in with the existing credentials.",
+      ]);
+    }
+  }, [error]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -76,7 +86,7 @@ export default function Signin() {
   };
 
   return (
-    <div className="flex items-center flex-col overflow-auto fixed justify-center w-full h-screen bg-[url('/assets/images/moon-knight.jpg')] bg-cover bg-center">
+    <div className="flex items-center flex-col overflow-auto fixed py-32 w-full h-screen bg-[url('/assets/images/moon-knight.jpg')] bg-cover bg-center">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col xl:w-[25vw] lg:w-[35vw] md:w-[45vw] w-[55vw] relative  bg-neutral-200 border rounded-lg border-black max-[500px]:w-5/6"
@@ -90,7 +100,7 @@ export default function Signin() {
           <input
             type="email"
             name="email"
-            className="border-2 text-lg border-black sm:p-2 p-1 rounded-2xl"
+            className="border-2 text-lg sm:w-auto w-52 border-black sm:p-2 p-1 rounded-2xl"
             required
           />
         </div>
@@ -99,7 +109,7 @@ export default function Signin() {
           <input
             type="password"
             name="password"
-            className="border-2 text-lg border-black sm:p-2 p-1 rounded-2xl"
+            className="border-2 text-lg sm:w-auto w-52 border-black sm:p-2 p-1 rounded-2xl"
             required
           />
         </div>
@@ -143,12 +153,16 @@ export default function Signin() {
           </button>
         </div>
       </form>
-      <div className="mt-10">
+      <div className="mt-8 mx-10">
         <Link
           href="/Signup"
-          className="hover:text-neutral-400 hover:underline text-white bg-black p-4 rounded-xl text-lg"
+          className="hover:text-neutral-400 hover:underline sm:text-white text-slate-300 sm:bg-black sm:p-4 p-0 rounded-xl text-lg"
+          style={{
+            textShadow:
+              "1px 1px 2px black, -1px -1px 2px black, -1px 1px 2px black, 1px -1px 2px black",
+          }}
         >
-          Dont have an account? Click here to sign-up
+          Already have an account? Click here to sign-in
         </Link>
       </div>
     </div>

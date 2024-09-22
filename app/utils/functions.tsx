@@ -131,27 +131,6 @@ export const fetchAndCombineDataSimple = async () => {
 
             return slicedResults; // Return the newly fetched data
           } else {
-            //  // Games found in the database, but we need to ensure any new records are added
-            //  console.log("Fetching from database and ensuring updates from API...");
-
-            //  // Fetch new games from the API
-            //  const dateRangeUrl = `${apiPosterUrl}&dates=${dateRange}`;
-            //  const apiGames = await getGameData(dateRangeUrl, 1);
-            //  const newGames = apiGames.slice(0, 20);
-
-            //  // Upsert new games into the database
-            //  const bulkOps = newGames.map((game) => ({
-            //    updateOne: {
-            //      filter: { id: game.id }, // Use a unique identifier
-            //      update: { $set: game },
-            //      upsert: true, // Insert if not found
-            //    },
-            //  }));
-
-            //  await games?.bulkWrite(bulkOps, { ordered: false });
-
-            //  // Return the combined data
-            //  return [...gamesInRange, ...newGames];
             console.log("fetching from database");
             return gamesInRange; // Return the data from the database
           }

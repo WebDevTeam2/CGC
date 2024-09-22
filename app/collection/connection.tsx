@@ -4,12 +4,19 @@ import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 
+interface Review {
+  gameId: number;
+  gameName: string;
+  reaction: number;
+  text: string;
+  date: string; // ISO date string
+}
 interface User {
   username?: string;
   email: string;
   password?: string;
   profilePicture?: string;
-  user_reviews?: string[];
+  user_reviews?: Review[];
   verificationToken?: string;
   isVerified?: boolean;
   provider?: string;
@@ -66,7 +73,7 @@ export const addUser = async (data: User) => {
       email,
       password,
       profilePicture: "",
-      user_reviews: ["test1", "test2"],
+      user_reviews: [],
       verificationToken,
       isVerified: false,
       provider: "credentials",
@@ -115,7 +122,7 @@ export const addUserOath = async (data: User) => {
     const result = await users.insertOne({
       email,
       profilePicture: data.profilePicture || "",
-      user_reviews: ["test1", "test2"],
+      user_reviews: [],
       isVerified: true,
       provider: data.provider || "",
     });
@@ -353,6 +360,39 @@ export const addToWatchlist = async (userId: string, movieId: number) => {
     return result;
   } catch (error) {
     console.error("Error adding to watchlist:", error);
+    throw new Error("Failed to update user by id");
+  }
+};
+
+export const addUserReview = async (
+  userId: string,
+  gameId: number,
+  gameName: string,
+  reaction: number,
+  text: string,
+  date: Date
+) => {
+  if (!users) await init();
+  if (!users) throw new Error("Users collection is not initialized");
+
+  // Create a new review object
+  const newReview: Review = {
+    gameId: gameId,
+    gameName: gameName,
+    reaction: reaction,
+    text: text,
+    date: new Date(date).toISOString(), // Save as ISO date string
+  };
+  try {
+    const objectId = new ObjectId(userId);
+    const result = await users.findOneAndUpdate(
+      { _id: objectId },
+      { $push: { user_reviews: newReview } },
+      { returnDocument: "after" }
+    );
+    return result;
+  } catch (error) {
+    console.error("Error adding to reviews:", error);
     throw new Error("Failed to update user by id");
   }
 };

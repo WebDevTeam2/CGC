@@ -2,6 +2,7 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const basePosterUrl = `https://api.rawg.io/api/games/`;
 const apiPosterKey = `key=076eda7a1c0e441eac147a3b0fe9b586`;
@@ -50,11 +51,13 @@ export default function Games({ params }: { params: CombinedParams }) {
   const [game, setGame] = useState<PostPage | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [userId, setUserId] = useState<string>();
-  const [selectedReaction, setSelectedReaction] = useState<number | null>(null);
+  const [selectedReaction, setSelectedReaction] = useState<string | null>(null);
   const [reviewText, setReviewText] = useState<string>("");
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const router = useRouter();
 
-  const handleReactionClick = (id: number) => {
-    setSelectedReaction(id);
+  const handleReactionClick = (title: string) => {
+    setSelectedReaction(title);
   };
 
   const { data: session } = useSession();
@@ -123,7 +126,7 @@ export default function Games({ params }: { params: CombinedParams }) {
     const reviewData = {
       gameId: game?.id,
       gameName: game?.name, // Game's name
-      selectedReaction, // Reaction ID
+      selectedReaction, // Reaction's name
       reviewText, // Text from the textarea
       date: new Date(), // Current date
     };
@@ -140,9 +143,13 @@ export default function Games({ params }: { params: CombinedParams }) {
       const data = await response.json();
 
       if (response.ok) {
+        setIsSubmitted(true);
         console.log("Review submitted successfully:", data);
-        alert(data.message || "Added to reviews");
+        // alert(data.message || "Added to reviews");
         // Optionally clear the form or handle success
+        setTimeout(() => {
+          router.push(`/Games/${game.slug}`);
+        }, 2000);
       } else {
         console.error("Error submitting review:", data.error);
         alert(data.message || "Failed to add review");
@@ -152,7 +159,14 @@ export default function Games({ params }: { params: CombinedParams }) {
     }
   };
 
-  return (
+  return isSubmitted ? (
+    <div className="bg-black w-full h-screen flex items-center justify-center">
+      <div className="text-slate-200 text-xl text-center">
+        Your review has been submitted successfully!<br></br>Going back to the
+        game
+      </div>
+    </div>
+  ) : (
     <div className="bg-black bg-cover flex flex-col fixed overflow-hidden overflow-y-auto items-center h-screen w-full">
       <Link href={`/Games/${game.slug}`} className="w-full pointer-events-none">
         <button className="ml-4 mt-4 pointer-events-auto text-2xl text-white transition duration-100 hover:scale-110">
@@ -163,32 +177,32 @@ export default function Games({ params }: { params: CombinedParams }) {
         className="flex mt-12 mx-10 mb-10 flex-col relative bg-neutral-200 rounded-2xl"
         onSubmit={handleSubmit}
       >
-        {/* header of review */}
+        {/* Header of review */}
         <div className="sm:p-8 p-4 flex flex-col gap-3 font-sans border-2 rounded-t-2xl bg-black w-full">
           <span className="text-orange-400 font-extrabold text-xl">
             Write a review
           </span>
           <span className="text-white text-4xl">{game.name}</span>
         </div>
-        {/* start of reactions */}
+        {/* Start of reactions */}
         <div className="sm:p-5 p-3 flex flex-wrap flex-row gap-3 font-serif border rounded-b-xl bg-black w-full">
-          {sortedRatings.map(
-            (rating: { id: number; title: string }, index: number) => (
-              <div
-                role="button"
-                onClick={() => handleReactionClick(rating.id)}
-                key={index}
-                className={`flex transition-all duration-200 ${
-                  selectedReaction === rating.id ? "bg-neutral-600" : "bg-black"
-                } hover:bg-neutral-600 items-center gap-2 border rounded-full pr-6 p-2`}
-              >
-                <span className="text-3xl">{getReaction(rating.id)}</span>
-                <span className="text-white text-xl">{rating.title}</span>
-              </div>
-            )
-          )}
+          {sortedRatings.map((rating) => (
+            <div
+              role="button"
+              onClick={() => handleReactionClick(rating.title)}
+              key={rating.id} // Use unique ID for the key
+              className={`flex transition-all duration-200 ${
+                selectedReaction === rating.title
+                  ? "bg-neutral-600"
+                  : "bg-black"
+              } hover:bg-neutral-600 items-center gap-2 border rounded-full pr-6 p-2`}
+            >
+              <span className="text-3xl">{getReaction(rating.id)}</span>
+              <span className="text-white text-xl">{rating.title}</span>
+            </div>
+          ))}
         </div>
-        {/* start of textarea */}
+        {/* Start of textarea */}
         <textarea
           className="text-xl pb-28 pt-8 px-8 rounded-t-2xl outline-none bg-neutral-200"
           placeholder="Type Here..."

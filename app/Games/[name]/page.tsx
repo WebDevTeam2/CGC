@@ -2,7 +2,9 @@ import Image from "next/image";
 import { IoStarSharp } from "react-icons/io5";
 import Screenshots from "@/app/components/Game-components/Screenshots";
 import Link from "next/link";
-import { IoReturnUpBack } from "react-icons/io5";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOptions";
+import { findUserByEmail } from "@/app/collection/connection";
 
 const basePosterUrl = `https://api.rawg.io/api/games`;
 const apiPosterKey = `key=076eda7a1c0e441eac147a3b0fe9b586`;
@@ -108,17 +110,26 @@ const getGameDets = async (name: string) => {
   return data;
 };
 
-const getCachedGames = async (name: string) => {
-  if (!cachedGames[name]) {
-    const gameData = await getGameDets(name);
-    cachedGames[name] = gameData;
-  }
-  return cachedGames[name];
-};
+// const getCachedGames = async (name: string) => {
+//   if (!cachedGames[name]) {
+//     const gameData = await getGameDets(name);
+//     cachedGames[name] = gameData;
+//   }
+//   return cachedGames[name];
+// };
 
 export default async function Games({ params }: { params: CombinedParams }) {
-  const game = await getCachedGames(params.name);
+  const game = await getGameDets(params.name);
+  const session = await getServerSession(authOptions);
   const imageSizes = "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw";
+  const userEmail = session?.user?.email; // You get this from session
+
+  let dbUser;
+  if (userEmail) {
+    // Fetch the full user details from MongoDB
+    dbUser = await findUserByEmail(userEmail);
+  }
+
   return (
     <div>
       <div className="bg-black z-0 bg-cover fixed h-screen w-screen"></div>
@@ -229,14 +240,22 @@ export default async function Games({ params }: { params: CombinedParams }) {
                   <span>---</span>
                 )}
               </div>
-              <div className="flex w-full justify-center items-center">
-                <Link
-                  href={`/Games/${game.slug}/review/${userId}`}
-                  className="bg-neutral-600 hover:bg-neutral-800 text-xl py-2 px-6 rounded-xl transition-all duration-200 hover:scale-105"
-                >
-                  Write a review
-                </Link>
-              </div>
+              {dbUser ? (
+                <div className="mt-4 flex w-full justify-center items-center">
+                  <Link
+                    href={`/Games/${game.slug}/review/${dbUser._id}`}
+                    className="bg-neutral-600 hover:bg-neutral-800 text-lg py-2 px-6 rounded-xl transition-all duration-200 hover:scale-105"
+                  >
+                    Write a review
+                  </Link>
+                </div>
+              ) : (
+                <div className="mt-4 flex w-full justify-center items-center">
+                  <span className="bg-neutral-600 text-lg py-2 px-6 rounded-xl">
+                    You have to be signed in to be able to write a review
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>

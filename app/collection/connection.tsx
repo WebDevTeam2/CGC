@@ -7,7 +7,7 @@ import nodemailer from "nodemailer";
 interface Review {
   gameId: number;
   gameName: string;
-  reaction: number;
+  reaction: string;
   text: string;
   date: string; // ISO date string
 }
@@ -368,7 +368,7 @@ export const addUserReview = async (
   userId: string,
   gameId: number,
   gameName: string,
-  reaction: number,
+  reaction: string,
   text: string,
   date: Date
 ) => {
@@ -381,7 +381,7 @@ export const addUserReview = async (
     gameName: gameName,
     reaction: reaction,
     text: text,
-    date: new Date(date).toISOString(), // Save as ISO date string
+    date: new Date(date).toISOString().slice(0, 10),
   };
   try {
     const objectId = new ObjectId(userId);

@@ -176,7 +176,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ games }) => {
   const imageSizes = "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw";
   return (
     <form
-      className="search fixed top-0 h-[10vh] lg:w-[30vw] lg:mx-[35vw] md:mx-[30vw] md:w-[45vw] sm:mx-[25vw] sm:w-[55vw] mx-[20vw] w-[65vw]  z-20"
+      className="search fixed top-3 lg:w-[30vw] lg:mx-[35vw] md:mx-[30vw] md:w-[45vw] sm:mx-[25vw] sm:w-[55vw] mx-[20vw] w-[65vw]  z-20"
       ref={resultsRef}
       onSubmit={handleSubmit}
     >
@@ -184,7 +184,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ games }) => {
         <input
           type="search"
           placeholder="Type Here"
-          className="subpixel-antialiased h-[6vh] w-full outline-none rounded-full bg-slate-200 pl-10 pr-11 text-slate-600"
+          className="subpixel-antialiased h-14 w-full outline-none rounded-full bg-slate-200 pl-10 pr-11 text-slate-600"
           onChange={handleInputChange}
           value={inputValue}
         />

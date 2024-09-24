@@ -38,6 +38,7 @@ export default function Signin() {
       },
       body: JSON.stringify({ email }), // Send the email to the backend
     });
+    const result = await response.json();
 
     if (!response.ok) {
       throw new Error("Failed to check email existence");
@@ -48,8 +49,19 @@ export default function Signin() {
       return;
     }
 
-    setLoading(true);
+    if (
+      result.data.provider === "google" ||
+      result.data.provider === "github" ||
+      result.data.provider === "facebook"
+    ) {
+      setLoading(false);
+      setErrorMessages([
+        `This email is already associated with another provider: ${result.data.provider}`,
+      ]);
+      return;
+    }
 
+    setLoading(true);
     try {
       const result = await signIn("credentials", {
         redirect: false, // Disable automatic redirect

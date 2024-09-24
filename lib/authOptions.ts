@@ -1,4 +1,4 @@
-import { Account, NextAuthOptions } from "next-auth";
+import { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
@@ -9,8 +9,6 @@ import {
   logUser,
 } from "@/app/collection/connection";
 import { ObjectId } from "mongodb";
-import { AdapterUser } from "next-auth/adapters";
-import { IncomingMessage } from "http";
 
 interface User {
   _id: ObjectId;

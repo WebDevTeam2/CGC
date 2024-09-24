@@ -1,14 +1,13 @@
 "use client"; // Ensure this component is treated as a Client Component
 import { FormEvent, useEffect, useState } from "react";
-import { FaGoogle, FaGithub } from "react-icons/fa";
-import { signIn, useSession } from "next-auth/react";
+import { FaGoogle, FaGithub, FaFacebook } from "react-icons/fa";
+import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 export default function Signin() {
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const { data: session } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
   const error = searchParams.get("error"); // Use `get` to retrieve specific query parameter
@@ -113,6 +112,11 @@ export default function Signin() {
           <FaGoogle
             size={40}
             onClick={() => signIn("google", { callbackUrl: "/" })}
+            className="cursor-pointer hover:scale-125 transition-all duration-200 ease-in-out"
+          />
+          <FaFacebook
+            size={40}
+            onClick={() => signIn("facebook", { callbackUrl: "/" })}
             className="cursor-pointer hover:scale-125 transition-all duration-200 ease-in-out"
           />
         </div>

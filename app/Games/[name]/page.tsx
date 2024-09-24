@@ -110,14 +110,6 @@ const getGameDets = async (name: string) => {
   return data;
 };
 
-// const getCachedGames = async (name: string) => {
-//   if (!cachedGames[name]) {
-//     const gameData = await getGameDets(name);
-//     cachedGames[name] = gameData;
-//   }
-//   return cachedGames[name];
-// };
-
 export default async function Games({ params }: { params: CombinedParams }) {
   const game = await getGameDets(params.name);
   const session = await getServerSession(authOptions);

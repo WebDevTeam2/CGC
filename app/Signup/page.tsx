@@ -1,15 +1,13 @@
 "use client"; // Ensure this component is treated as a Client Component
-import { FormEvent, useState, useEffect } from "react";
+import { FormEvent, useState } from "react";
 import bcrypt from "bcryptjs";
-import { FaGoogle, FaGithub } from "react-icons/fa";
+import { FaGoogle, FaGithub, FaFacebook } from "react-icons/fa";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 export default function Signup() {
-  const router = useRouter();
-  const { data: session } = useSession();
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const [incoming, setIncoming] = useState<string>("");
   const [loading, setLoading] = useState(false);
@@ -146,6 +144,11 @@ export default function Signup() {
           <FaGoogle
             size={40}
             onClick={() => signIn("google", { callbackUrl: "/" })}
+            className="cursor-pointer hover:scale-125 transition-all duration-200 ease-in-out"
+          />
+          <FaFacebook
+            size={40}
+            onClick={() => signIn("facebook", { callbackUrl: "/" })}
             className="cursor-pointer hover:scale-125 transition-all duration-200 ease-in-out"
           />
         </div>

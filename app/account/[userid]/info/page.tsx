@@ -145,16 +145,16 @@ const Account = ({ params }: { params: { userid: string } }) => {
   };
 
   return (
-    <div className="back-img fixed bg-cover overflow-y-scroll overflow-hidden w-full h-screen flex text-center justify-center">
+    <div className="back-img fixed bg-cover w-full h-screen flex text-center justify-center">
       <Link href={`/`} className="absolute pointer-events-none">
         <h2 className="ml-4 mt-4 text-white pointer-events-auto text-2xl transition duration-100 p-1 rounded-full hover:scale-110">
           &#8618; Home
         </h2>
       </Link>
       {isSuccess && user && (
-        <div className="flex sm:flex-row sm:w-auto sm:overflow-hidden overflow-auto w-5/6 flex-col rounded-2xl items-strech shadow-lg h-[40rem] sm:my-28 mb-10 mt-24 sm:mx-10 mx-0 bg-slate-300">
+        <div className="flex sm:flex-row sm:w-auto sm:overflow-hidden overflow-y-scroll w-5/6 flex-col rounded-2xl items-strech shadow-lg h-[40rem] sm:my-28 mb-10 mt-24 sm:mx-10 mx-0 bg-slate-300">
           <UserOptions />
-          <div className="flex flex-col h-auto sm:mr-20 mr-0 gap-0 sm:mt-12 mt-8">
+          <div className="flex flex-col items-center h-auto sm:mr-20 mr-0 gap-0 sm:mt-12 mt-8">
             {hasProvider ? (
               <>
                 <div className="relative w-20 h-20 rounded-full overflow-hidden">
@@ -165,8 +165,8 @@ const Account = ({ params }: { params: { userid: string } }) => {
                     className="object-cover"
                   />
                 </div>
-                <form className="flex flex-col gap-4 mt-8">
-                  <div className="flex flex-col gap-2 items-center justify-between">
+                <form className="flex flex-col gap-4 mt-8 w-80">
+                  <div className="flex sm:flex-row flex-col gap-2 items-center justify-between">
                     <label htmlFor="name" className="text-blue-950">
                       Username:{" "}
                     </label>
@@ -179,7 +179,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
                       disabled
                     />
                   </div>
-                  <div className="flex flex-row gap-2 items-center justify-between">
+                  <div className="flex sm:flex-row flex-col gap-2 items-center justify-between">
                     <label htmlFor="mail" className="text-blue-950">
                       Email:{" "}
                     </label>
@@ -191,7 +191,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
                       disabled
                     />
                   </div>
-                  <div className="text-slate-200 flex justify-center">
+                  <div className="text-slate-200 flex sm:justify-center justify-normal flex-wrap flex-1 sm:my-0 my-4">
                     <div className="bg-slate-400 w-full text-center p-4 rounded-lg">
                       Nothing can be edited as you are connected with a
                       provider.

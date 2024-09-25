@@ -145,16 +145,16 @@ const Account = ({ params }: { params: { userid: string } }) => {
   };
 
   return (
-    <div className="back-img h-screen flex text-center justify-center">
+    <div className="back-img fixed bg-cover overflow-y-scroll overflow-hidden w-full h-screen flex text-center justify-center">
       <Link href={`/`} className="absolute pointer-events-none">
         <h2 className="ml-4 mt-4 text-white pointer-events-auto text-2xl transition duration-100 p-1 rounded-full hover:scale-110">
           &#8618; Home
         </h2>
       </Link>
       {isSuccess && user && (
-        <div className="flex rounded-2xl items-center shadow-lg my-28 bg-slate-300">
+        <div className="flex sm:flex-row sm:w-auto sm:overflow-hidden overflow-auto w-5/6 flex-col rounded-2xl items-strech shadow-lg h-[40rem] sm:my-28 mb-10 mt-24 sm:mx-10 mx-0 bg-slate-300">
           <UserOptions />
-          <div className="flex flex-grow flex-col h-full items-center w-96 mr-20 gap-0 mt-12">
+          <div className="flex flex-col h-auto sm:mr-20 mr-0 gap-0 sm:mt-12 mt-8">
             {hasProvider ? (
               <>
                 <div className="relative w-20 h-20 rounded-full overflow-hidden">
@@ -166,7 +166,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
                   />
                 </div>
                 <form className="flex flex-col gap-4 mt-8">
-                  <div className="flex flex-row gap-2 items-center justify-between">
+                  <div className="flex flex-col gap-2 items-center justify-between">
                     <label htmlFor="name" className="text-blue-950">
                       Username:{" "}
                     </label>
@@ -201,45 +201,47 @@ const Account = ({ params }: { params: { userid: string } }) => {
               </>
             ) : (
               <>
-                <div className="relative w-20 h-20 rounded-full overflow-hidden">
-                  <Image
-                    src={imageUrl || "/assets/images/default_avatar.jpg"}
-                    alt="User Avatar"
-                    layout="fill"
-                    className="object-cover"
-                  />
-                </div>
-                <div className="mt-2">
-                  <UploadButton
-                    className="ut-button:bg-slate-600 ut-button:hover:bg-slate-700"
-                    endpoint="imageUploader"
-                    onClientUploadComplete={async (res) => {
-                      const imageUrl = res[0].url;
-                      setImageUrl(imageUrl);
+                <div className="flex flex-col items-center">
+                  <div className="relative w-20 h-20 rounded-full overflow-hidden">
+                    <Image
+                      src={imageUrl || "/assets/images/default_avatar.jpg"}
+                      alt="User Avatar"
+                      layout="fill"
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="mt-2">
+                    <UploadButton
+                      className="ut-button:bg-slate-600 ut-button:hover:bg-slate-700"
+                      endpoint="imageUploader"
+                      onClientUploadComplete={async (res) => {
+                        const imageUrl = res[0].url;
+                        setImageUrl(imageUrl);
 
-                      // Save the image URL to the backend (associate with user ID)
-                      await fetch("/api/saveImage", {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                          email: session?.user?.email, // Assuming you're using email as the identifier
-                          profilePicture: imageUrl,
-                        }),
-                      });
-                    }}
-                    onUploadError={(error: Error) => {
-                      // Do something with the error.
-                      alert(`ERROR! ${error.message}`);
-                    }}
-                  />
+                        // Save the image URL to the backend (associate with user ID)
+                        await fetch("/api/saveImage", {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify({
+                            email: session?.user?.email, // Assuming you're using email as the identifier
+                            profilePicture: imageUrl,
+                          }),
+                        });
+                      }}
+                      onUploadError={(error: Error) => {
+                        // Do something with the error.
+                        alert(`ERROR! ${error.message}`);
+                      }}
+                    />
+                  </div>
                 </div>
                 <form
                   onSubmit={handleSubmit}
                   className="flex flex-col gap-4 mt-8"
                 >
-                  <div className="flex flex-row gap-2 items-center justify-between">
+                  <div className="flex sm:flex-row flex-col gap-2 items-center justify-between">
                     <label htmlFor="username" className="text-blue-950">
                       Username:{" "}
                     </label>
@@ -252,7 +254,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
                       autoComplete="off"
                     />
                   </div>
-                  <div className="flex flex-row gap-2 items-center justify-between">
+                  <div className="flex sm:flex-row flex-col gap-2 items-center justify-between">
                     <label htmlFor="email" className="text-blue-950">
                       Email:{" "}
                     </label>
@@ -265,7 +267,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
                       disabled
                     />
                   </div>
-                  <div className="flex flex-row gap-2 items-center justify-between">
+                  <div className="flex sm:flex-row flex-col gap-2 items-center text-start justify-between">
                     <label htmlFor="password" className="text-blue-950">
                       New Password:{" "}
                     </label>
@@ -279,7 +281,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
                       autoComplete="off"
                     />
                   </div>
-                  <div className="flex flex-row gap-2 items-center justify-between">
+                  <div className="flex sm:flex-row flex-col gap-2 items-center text-start justify-between">
                     <label htmlFor="passwordre" className="text-blue-950">
                       Re-enter Password:{" "}
                     </label>
@@ -295,7 +297,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
                   </div>
                   <button
                     type="submit"
-                    className="bg-blue-600 hover:bg-blue-800 transition duration-200 text-white rounded-md px-4 py-2 mt-4"
+                    className="bg-blue-600 hover:bg-blue-800 transition duration-200 text-white rounded-md px-4 sm:py-2 py-4 mt-4"
                   >
                     Update
                   </button>

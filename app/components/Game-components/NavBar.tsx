@@ -114,7 +114,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
       </div>
       {session && (
         <div
-          className="relative pointer-events-none z-10 group text-white flex flex-col "
+          className="relative pointer-events-none z-10 group text-white flex flex-col max-[900px]:hidden"
           ref={profileRef}
         >
           <div
@@ -163,7 +163,11 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
           } w-36 transition-all duration-300 ease-in-out flex sm:flex-col flex-row items-center mt-0 max-[640px]:absolute max-[640px]:right-0 max-[640px]:top-44`}
         >
           <button
-            className="text-white sm:rounded-full sm:p-2 sm:hover:bg-neutral-800 transition delay-75 ease-in-out sm:text-5xl text-xl max-[640px]:bg-neutral-700/50 hover:bg-neutral-900/70 rounded-tl-full rounded-bl-full py-6 px-2"
+            className={`text-white sm:rounded-full sm:p-2 sm:hover:bg-neutral-800 transition-all duration-200 ease-in-out sm:text-5xl text-xl max-[640px]:bg-neutral-700/50 max-[640px]:absolute max-[640px]:top-[14rem] hover:bg-neutral-900/70 rounded-tl-full rounded-bl-full py-6 px-2 ${
+              showmenu
+                ? "max-[640px]:right-[6.4rem] transition-right"
+                : "max-[640px]:right-[7rem] transition-right"
+            }`}
             onClick={toggleMenu}
           >
             <IoMenu className="sm:block hidden" />
@@ -176,7 +180,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
               showmenu
                 ? "sm:max-h-[30rem] sm:opacity-100"
                 : "sm:max-h-0 sm:opacity-0"
-            }  bg-black py-3 absolute z-30 right-0 top-16 transition-all duration-300 ease-in-out overflow-hidden rounded-b-lg  gap-5 flex items-center justify-center flex-col`}
+            }  bg-black py-3 absolute z-30 right-0 top-16 transition-all duration-300 ease-in-out overflow-hidden rounded-b-lg gap-5 flex items-center justify-center flex-col`}
           >
             {logos.map((logo) => (
               <Link key={logo.key} href={`/Games/${logo.slug}/page/1`}>
@@ -209,6 +213,20 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
                 All Games
               </button>
             </Link>
+            {session && (
+              <div className="min-[900px]:hidden flex flex-col items-center gap-5">
+                <Link href={`/account/${userId}/info`}>
+                  <button className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
+                    My Profile
+                  </button>
+                </Link>
+                <Link href={"/"}>
+                  <button className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
+                    Sign out
+                  </button>
+                </Link>
+              </div>
+            )}
           </ul>
         </div>
       </div>

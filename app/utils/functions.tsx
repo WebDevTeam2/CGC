@@ -16,6 +16,7 @@ async function init(): Promise<void> {
     db = await client.db();
     games = await db.collection("games");
     await games.createIndex({ id: 1 }, { unique: true });
+    await games.createIndex({ released: 1 });
   } catch (error) {
     throw new Error("Failed to establish connection to database");
   }
@@ -105,9 +106,9 @@ export const fetchAndCombineDataSimple = async () => {
               name: 1,
               slug: 1,
               parent_platforms: 1,
-              rating: 1,
               genres: 1,
             })
+
             .toArray()) as PostResult[];
 
           // If no games are found, fetch from the API
@@ -131,7 +132,6 @@ export const fetchAndCombineDataSimple = async () => {
 
             return slicedResults; // Return the newly fetched data
           } else {
-            console.log("fetching from database");
             return gamesInRange; // Return the data from the database
           }
         } catch (error) {

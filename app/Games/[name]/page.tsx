@@ -5,6 +5,8 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { findUserByEmail } from "@/app/collection/connection";
+import AddToWatchlist from "@/app/components/Movie-components/AddToWatchlist";
+import AddToList from "@/app/components/Game-components/AddToList";
 
 const basePosterUrl = `https://api.rawg.io/api/games`;
 const apiPosterKey = `key=076eda7a1c0e441eac147a3b0fe9b586`;
@@ -233,18 +235,22 @@ export default async function Games({ params }: { params: CombinedParams }) {
                 )}
               </div>
               {dbUser ? (
-                <div className="mt-4 flex w-full justify-center items-center">
-                  <Link
-                    href={`/Games/${game.slug}/review/${dbUser._id}`}
-                    className="bg-neutral-600 hover:bg-neutral-800 text-lg py-2 px-6 rounded-xl transition-all duration-200 hover:scale-105"
-                  >
-                    Write a review
-                  </Link>
-                </div>
+                <>
+                  <div className="mt-4 flex w-full justify-center items-center">
+                    <Link
+                      href={`/Games/${game.slug}/review/${dbUser._id}`}
+                      className="bg-neutral-600 hover:bg-neutral-800 text-lg py-2 px-6 rounded-xl transition-all duration-200 hover:scale-105"
+                    >
+                      Write a review
+                    </Link>
+                  </div>
+                  <AddToList />
+                </>
               ) : (
                 <div className="mt-4 flex w-full justify-center items-center">
                   <span className="bg-neutral-600 text-lg py-2 px-6 rounded-xl">
-                    You have to be signed in to be able to write a review
+                    You have to be signed in to be able to write a review or add
+                    to your watchlist
                   </span>
                 </div>
               )}

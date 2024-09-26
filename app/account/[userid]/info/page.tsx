@@ -4,11 +4,12 @@ import UserOptions from "@/app/components/Account-components/UserOptions";
 
 //utills
 import bcrypt from "bcryptjs";
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import { useEffect, useState, FormEvent, MouseEvent } from "react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/legacy/image";
 import { UploadButton } from "@/app/utils/uploadthing";
 import Link from "next/link";
+import Popup from "@/app/components/Popup";
 
 const Account = ({ params }: { params: { userid: string } }) => {
   const { data: session } = useSession();
@@ -17,6 +18,48 @@ const Account = ({ params }: { params: { userid: string } }) => {
   const [imageUrl, setImageUrl] = useState<string>("");
   const [isSuccess, setIsSuccess] = useState(true);
   const [hasProvider, setHasProvider] = useState(false);
+  const [userId, setUserId] = useState<string>("");
+  const [showPopup, setShowPopup] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDeleteAccount = async (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    setShowPopup(true);
+  };
+
+  const confirmDelete = async () => {
+    setIsDeleting(true); // Indicate that the deletion process is starting
+
+    try {
+      const response = await fetch(`/api/users/${userid}/deleteAccount`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userid: userId }), // Ensure you are passing the correct userId
+      });
+
+      if (response.ok) {
+        // Delay for 2 seconds before signing out
+        setTimeout(() => {
+          signOut({ callbackUrl: "/" });
+        }, 2000);
+      } else {
+        const errorData = await response.json();
+        alert(`Error: ${errorData.message}`); // You might want to handle this in a more user-friendly way
+        setIsDeleting(false); // Reset deleting state if there's an error
+      }
+    } catch (error) {
+      console.error("Failed to delete account:", error);
+      alert("An error occurred while deleting the account."); // Handle this error gracefully
+      setIsDeleting(false); // Reset deleting state on error
+    }
+  };
+
+  const cancelDelete = () => {
+    setShowPopup(false);
+    setIsDeleting(false); // Reset deleting state if user cancels
+  };
 
   // Store initial data for comparison
   const [initialData, setInitialData] = useState({
@@ -40,6 +83,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
         });
         const responseData = await response.json();
         setUser(responseData.data);
+        setUserId(responseData.data._id);
         setImageUrl(responseData.data.profilePicture);
         setIsSuccess(responseData.success);
 
@@ -145,14 +189,14 @@ const Account = ({ params }: { params: { userid: string } }) => {
   };
 
   return (
-    <div className="back-img fixed bg-cover w-full h-screen flex text-center justify-center">
+    <div className="back-img fixed overflow-auto bg-cover w-full h-screen flex text-center justify-center">
       <Link href={`/`} className="absolute pointer-events-none">
         <h2 className="ml-4 mt-4 text-white pointer-events-auto text-2xl transition duration-100 p-1 rounded-full hover:scale-110">
           &#8618; Home
         </h2>
       </Link>
       {isSuccess && user && (
-        <div className="flex sm:flex-row sm:w-auto sm:overflow-hidden overflow-y-scroll w-5/6 flex-col rounded-2xl items-strech shadow-lg h-[40rem] sm:my-28 mb-10 mt-24 sm:mx-10 mx-0 bg-slate-300">
+        <div className="flex sm:flex-row sm:w-auto overflow-hidden overflow-y-auto w-5/6 flex-col rounded-2xl items-strech shadow-lg h-[40rem] sm:my-28 mb-10 mt-24 sm:mx-10 mx-0 bg-slate-300">
           <UserOptions />
           <div className="flex flex-col items-center h-auto sm:mr-20 mr-0 gap-0 sm:mt-12 mt-8">
             {hasProvider ? (
@@ -165,7 +209,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
                     className="object-cover"
                   />
                 </div>
-                <form className="flex flex-col gap-4 mt-8 w-80">
+                <form className="flex flex-col gap-4 mt-8 sm:w-80 w-60">
                   <div className="flex sm:flex-row flex-col gap-2 items-center justify-between">
                     <label htmlFor="name" className="text-blue-950">
                       Username:{" "}
@@ -191,12 +235,25 @@ const Account = ({ params }: { params: { userid: string } }) => {
                       disabled
                     />
                   </div>
-                  <div className="text-slate-200 flex sm:justify-center justify-normal flex-wrap flex-1 sm:my-0 my-4">
-                    <div className="bg-slate-400 w-full text-center p-4 rounded-lg">
+                  <div className="text-slate-200 flex justify-center sm:my-0 my-4">
+                    <div className="bg-slate-400 sm:w-full w-56 text-center p-4 rounded-lg">
                       Nothing can be edited as you are connected with a
                       provider.
                     </div>
                   </div>
+                  <button
+                    onClick={handleDeleteAccount}
+                    className="bg-red-500 hover:bg-red-800 transition duration-200 text-white rounded-md sm:px-4 px-2 sm:py-2 py-4 mb-4"
+                  >
+                    Delete Account
+                  </button>
+                  {showPopup && (
+                    <Popup
+                      onConfirm={confirmDelete}
+                      onCancel={cancelDelete}
+                      isDeleting={isDeleting}
+                    />
+                  )}
                 </form>
               </>
             ) : (
@@ -301,6 +358,19 @@ const Account = ({ params }: { params: { userid: string } }) => {
                   >
                     Update
                   </button>
+                  <button
+                    onClick={handleDeleteAccount}
+                    className="bg-red-500 hover:bg-red-800 transition duration-200 text-white rounded-md sm:px-4 px-2 sm:py-2 py-4 mb-4"
+                  >
+                    Delete Account
+                  </button>
+                  {showPopup && (
+                    <Popup
+                      onConfirm={confirmDelete}
+                      onCancel={cancelDelete}
+                      isDeleting={isDeleting}
+                    />
+                  )}
                 </form>
               </>
             )}

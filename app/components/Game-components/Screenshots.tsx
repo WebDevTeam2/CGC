@@ -95,13 +95,22 @@ const Screenshots = ({ params }: { params: PostPage }) => {
     };
   }, [params.name]);
 
+  useEffect(() => {
+    // Prevent scrolling when the modal is open
+    if (isOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+  }, [isOpen]);
+
   return (
     <>
       {isOpen && (
-        <div className="fixed w-full h-[80rem] lg:-translate-y-4 min-[780px]:-translate-y-[17rem] min-[480px]:-translate-y-[14rem] -translate-y-[32rem]  lg:pt-0 pt-24 bg-black bg-opacity-75 flex justify-center z-30">
+        <div className="fixed w-full h-[80rem] lg:-translate-y-4 min-[780px]:-translate-y-[17rem] min-[480px]:-translate-y-[14rem] -translate-y-[38rem]  lg:pt-0 pt-24 bg-black bg-opacity-75 flex justify-center z-30">
           <div
             ref={imageRef}
-            className="relative lg:h-[70vh] lg:w-[50rem] min-[800px]:h-[35rem] min-[800px]:w-[40rem] min-[670px]:h-[35rem] min-[670px]:w-[35rem] min-[580px]:h-[35rem] min-[580px]:w-[30rem] min-[480px]:h-[35rem] min-[480px]:w-[25rem] h-[32rem] w-[19rem] transition-all duration-200 text-white"
+            className="relative lg:h-[40rem] lg:w-[50rem] min-[800px]:h-[35rem] min-[800px]:w-[40rem] min-[670px]:h-[35rem] min-[670px]:w-[35rem] min-[580px]:h-[35rem] min-[580px]:w-[30rem] min-[480px]:h-[35rem] min-[480px]:w-[25rem] h-[32rem] w-[19rem] transition-all duration-200 text-white"
           >
             {screenshots && screenshots.length > 0 ? (
               screenshots.map((item) => (
@@ -144,7 +153,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
                 Loading...
               </span>
             )}
-            <div className="flex w-full min-[480px]:translate-y-[32vh] translate-y-[28vh] min-[480px]:text-4xl text-3xl opacity-[.8] px-2 pointer-events-none justify-between">
+            <div className="flex w-full min-[480px]:translate-y-[18rem] translate-y-[15.5rem] min-[480px]:text-4xl text-3xl opacity-[.8] px-2 pointer-events-none justify-between">
               {screenshots && currentIndex > 0 ? (
                 <button
                   className="pointer-events-auto bg-black rounded-full transition-all duration-200 hover:bg-slate-300 hover:text-black"

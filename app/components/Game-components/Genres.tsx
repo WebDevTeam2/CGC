@@ -75,7 +75,7 @@ const Genres: React.FC<GenresProps> = ({ genres }) => {
       </button>
       <div
         className={`pointer-events-auto top-[3.3rem] absolute overflow-hidden overflow-y-auto divide-y text-lg rounded-b-2xl bg-neutral-100 flex flex-col text-center transition-all duration-300 ${
-          isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+          isOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
         }`}
         style={{ visibility: isOpen ? "visible" : "hidden" }}
         onClick={closeDropdown}

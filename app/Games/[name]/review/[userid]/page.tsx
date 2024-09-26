@@ -179,10 +179,10 @@ export default function Games({ params }: { params: CombinedParams }) {
       >
         {/* Header of review */}
         <div className="sm:p-8 p-4 flex flex-col gap-3 font-sans border-2 rounded-t-2xl bg-black w-full">
-          <span className="text-orange-400 font-extrabold text-xl">
+          <span className="text-orange-400 font-extrabold sm:text-xl text-lg">
             Write a review
           </span>
-          <span className="text-white text-4xl">{game.name}</span>
+          <span className="text-white sm:text-4xl text-2xl">{game.name}</span>
         </div>
         {/* Start of reactions */}
         <div className="sm:p-5 p-3 flex flex-wrap flex-row gap-3 font-serif border rounded-b-xl bg-black w-full">
@@ -197,7 +197,9 @@ export default function Games({ params }: { params: CombinedParams }) {
                   : "bg-black"
               } hover:bg-neutral-600 items-center gap-2 border rounded-full pr-6 p-2`}
             >
-              <span className="text-3xl">{getReaction(rating.id)}</span>
+              <span className="sm:text-3xl text-xl">
+                {getReaction(rating.id)}
+              </span>
               <span className="text-white text-xl">{rating.title}</span>
             </div>
           ))}

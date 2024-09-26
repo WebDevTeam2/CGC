@@ -59,7 +59,6 @@ const Posts = async ({ params }: { params: Post }) => {
       )
     ).map((str) => ({ platform: JSON.parse(str) }));
 
-    //fetch game description only for the paginated games not for all the games
     const detailedGames = await Promise.all(
       paginatedGames.map((item) => fetchGameDetails(item))
     );
@@ -117,6 +116,7 @@ const Posts = async ({ params }: { params: Post }) => {
                 )
             )}
           </ul>
+
           <Buttons gamesLength={gameData.length} />
         </MainPage>
       </div>

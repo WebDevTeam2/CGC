@@ -7,8 +7,9 @@ import nodemailer from "nodemailer";
 interface Review {
   gameId: number;
   gameName: string;
-  reaction: string;
-  text: string;
+  gameDesc?: string;
+  reaction?: string;
+  text?: string;
   date: string; // ISO date string
 }
 interface User {
@@ -364,6 +365,36 @@ export const addToWatchlist = async (userId: string, movieId: number) => {
   }
 };
 
+export const addToList = async (
+  userId: string,
+  gameId: number,
+  gameName: string,
+  gameDesc: string,
+  date: Date
+) => {
+  if (!users) await init();
+  if (!users) throw new Error("Users collection is not initialized");
+
+  const newAddition: Review = {
+    gameId: gameId,
+    gameName: gameName,
+    gameDesc: gameDesc,
+    date: new Date(date).toISOString().slice(0, 10),
+  };
+  try {
+    const objectId = new ObjectId(userId);
+    const result = await users.findOneAndUpdate(
+      { _id: objectId },
+      { $addToSet: { Library: newAddition } }, // Use $addToSet to add the movieId to the watchlist array
+      { returnDocument: "after" } // Return the updated document
+    );
+    return result;
+  } catch (error) {
+    console.error("Error adding to List:", error);
+    throw new Error("Failed to update user by id");
+  }
+};
+
 export const addUserReview = async (
   userId: string,
   gameId: number,
@@ -394,5 +425,28 @@ export const addUserReview = async (
   } catch (error) {
     console.error("Error adding to reviews:", error);
     throw new Error("Failed to update user by id");
+  }
+};
+
+// Function to delete user by ID
+export const deleteUserById = async (userId: string) => {
+  try {
+    if (!users) await init();
+    if (!users) throw new Error("Users collection is not initialized");
+
+    // Convert userId string to ObjectId
+    const objectId = new ObjectId(userId);
+
+    // Delete the user from the collection
+    const result = await users.deleteOne({ _id: objectId });
+
+    if (result.deletedCount === 1) {
+      return { message: "User deleted successfully" };
+    } else {
+      return { message: "User not found" };
+    }
+  } catch (error) {
+    console.error("Failed to delete user:", error);
+    throw new Error("Failed to delete user");
   }
 };

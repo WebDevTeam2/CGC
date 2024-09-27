@@ -1,58 +1,125 @@
 "use client";
 //components
 import UserOptions from "@/app/components/Account-components/UserOptions";
+import PopupForLib from "@/app/components/Game-components/PopupForLib";
 
 //utils
 import { useSession } from "next-auth/react";
 import Image from "next/legacy/image";
 import { useEffect, useState, MouseEvent } from "react";
 import Link from "next/link";
+import { User, Library } from "@/app/collection/connection";
+
+type GameData = {
+  gameId: number;
+} | null;
 
 const Account = ({ params }: { params: { userid: string } }) => {
   const { data: session } = useSession();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isSuccess, setIsSuccess] = useState(true);
   const [imageUrl, setImageUrl] = useState<string>("");
-  const [popup, setPopup] = useState<boolean>(false);
-  const [data, setData] = useState(null);
+  const [popupLib, setPopupLib] = useState<boolean>(false);
+  const [popupRev, setPopupRev] = useState<boolean>(false);
+  const [data, setData] = useState<GameData>(null);
   const { userid } = params;
-  const [showPopup, setShowPopup] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
 
-  const handleDeleteLib = async (event: MouseEvent<HTMLButtonElement>) => {
+  const handleDeleteRev = async (
+    event: MouseEvent<HTMLButtonElement>,
+    gameId: number
+  ) => {
     event.preventDefault();
-    setShowPopup(true);
+    setPopupRev(true);
+    setData({ gameId });
+  };
+
+  const confirmDeleteRev = async () => {
+    try {
+      const response = await fetch(`/api/users/${userid}/deleteFromRev`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userid: userid, gameId: data?.gameId }), // Ensure you are passing the correct userId
+      });
+
+      if (response.ok) {
+        alert("Review removed from list");
+        setUser((prevUser) => {
+          if (!prevUser) return prevUser; // Handle the case when user is null
+          return {
+            ...prevUser,
+            user_reviews: prevUser.user_reviews?.filter(
+              (game) => game.gameId !== data?.gameId
+            ),
+          };
+        });
+
+        setPopupRev(false); // Hide the popup after the game is deleted
+      } else {
+        const errorData = await response.json();
+        alert(`Error: ${errorData.message}`); // You might want to handle this in a more user-friendly way
+        // Reset deleting state if there's an error
+      }
+    } catch (error) {
+      console.error("Failed to remove game:", error);
+      alert("An error occurred while removing the game."); // Handle this error gracefully
+      // Reset deleting state on error
+    }
+  };
+
+  const cancelDeleteRev = () => {
+    setPopupRev(false);
+    // Reset deleting state if user cancels
+  };
+
+  const handleDeleteLib = async (
+    event: MouseEvent<HTMLButtonElement>,
+    gameId: number
+  ) => {
+    event.preventDefault();
+    setPopupLib(true);
+    setData({ gameId });
   };
 
   const confirmDelete = async () => {
-    setIsDeleting(true); // Indicate that the deletion process is starting
-
     try {
       const response = await fetch(`/api/users/${userid}/deleteFromLib`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userid: params.userid }), // Ensure you are passing the correct userId
+        body: JSON.stringify({ userid: userid, gameId: data?.gameId }), // Ensure you are passing the correct userId
       });
 
       if (response.ok) {
         alert("Game was removed from library");
+        setUser((prevUser) => {
+          if (!prevUser) return prevUser; // Handle the case when user is null
+          return {
+            ...prevUser,
+            library: prevUser.library?.filter(
+              (game) => game.gameId !== data?.gameId
+            ),
+          };
+        });
+
+        setPopupLib(false); // Hide the popup after the game is deleted
       } else {
         const errorData = await response.json();
         alert(`Error: ${errorData.message}`); // You might want to handle this in a more user-friendly way
-        setIsDeleting(false); // Reset deleting state if there's an error
+        // Reset deleting state if there's an error
       }
     } catch (error) {
       console.error("Failed to remove game:", error);
       alert("An error occurred while removing the game."); // Handle this error gracefully
-      setIsDeleting(false); // Reset deleting state on error
+      // Reset deleting state on error
     }
   };
 
   const cancelDelete = () => {
-    setShowPopup(false);
-    setIsDeleting(false); // Reset deleting state if user cancels
+    setPopupLib(false);
+    // Reset deleting state if user cancels
   };
 
   // Fetch the user's profile picture from the database on component mount
@@ -138,9 +205,20 @@ const Account = ({ params }: { params: { userid: string } }) => {
                           key={review.gameId}
                           className="overflow-x-auto relative px-4 mb-6 mx-8 py-3 text-start text-nowrap rounded-xl bg-slate-300"
                         >
-                          <button className="absolute right-0 top-0 px-4 py-1 text-slate-100 rounded-bl-xl bg-red-700">
+                          <button
+                            onClick={(event) =>
+                              handleDeleteRev(event, review.gameId)
+                            }
+                            className="absolute right-0 transition duration-200 hover:bg-red-900 top-0 px-4 py-1 text-slate-100 rounded-bl-xl bg-red-700"
+                          >
                             X
                           </button>
+                          {popupRev && (
+                            <PopupForLib
+                              onConfirm={confirmDeleteRev}
+                              onCancel={cancelDeleteRev}
+                            />
+                          )}
                           <strong>Game:</strong>{" "}
                           <span className="font-black">
                             {" "}
@@ -198,11 +276,19 @@ const Account = ({ params }: { params: { userid: string } }) => {
                           className="overflow-x-auto justify-between flex gap-4 flex-row items-center relative px-4 mb-8 mx-8 text-start rounded-xl bg-slate-100"
                         >
                           <button
-                            onClick={handleDeleteLib}
+                            onClick={(event) =>
+                              handleDeleteLib(event, list.gameId)
+                            }
                             className="absolute right-0 top-0 px-4 py-1 transition duration-200 text-slate-100 rounded-bl-xl hover:bg-red-900 bg-red-700"
                           >
                             X
                           </button>
+                          {popupLib && (
+                            <PopupForLib
+                              onConfirm={confirmDeleteRev}
+                              onCancel={cancelDeleteRev}
+                            />
+                          )}
                           <div className="relative p-14">
                             <Image
                               src={list.gamePic}

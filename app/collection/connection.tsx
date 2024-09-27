@@ -11,13 +11,13 @@ interface Review {
   text?: string;
   date: string; // ISO date string
 }
-interface Library {
+export interface Library {
   gameId: number;
   gameName: string;
   gamePic: string;
   date: string; // ISO date string
 }
-interface User {
+export interface User {
   username?: string;
   email: string;
   password?: string;
@@ -454,5 +454,55 @@ export const deleteUserById = async (userId: string) => {
   } catch (error) {
     console.error("Failed to delete user:", error);
     throw new Error("Failed to delete user");
+  }
+};
+
+export const removeGame = async (userId: string, gameId: number) => {
+  try {
+    if (!users) await init();
+    if (!users) throw new Error("Users collection is not initialized");
+
+    // Convert userId string to ObjectId
+    const objectId = new ObjectId(userId);
+
+    // Update the user's library by removing the game with the specified gameId
+    const result = await users.updateOne(
+      { _id: objectId }, // Find the user by _id
+      { $pull: { library: { gameId: gameId } } } // Remove the game from the library array
+    );
+
+    if (result.modifiedCount === 1) {
+      return { message: "Game removed from library successfully" };
+    } else {
+      return { message: "Game not found or no changes made" };
+    }
+  } catch (error) {
+    console.error("Failed to remove game:", error);
+    throw new Error("Failed to remove game");
+  }
+};
+
+export const removeReview = async (userId: string, gameId: number) => {
+  try {
+    if (!users) await init();
+    if (!users) throw new Error("Users collection is not initialized");
+
+    // Convert userId string to ObjectId
+    const objectId = new ObjectId(userId);
+
+    // Update the user's library by removing the game with the specified gameId
+    const result = await users.updateOne(
+      { _id: objectId }, // Find the user by _id
+      { $pull: { user_reviews: { gameId: gameId } } } // Remove the game from the library array
+    );
+
+    if (result.modifiedCount === 1) {
+      return { message: "Review has been succesfully removed." };
+    } else {
+      return { message: "Review not found or no changes made" };
+    }
+  } catch (error) {
+    console.error("Failed to remove review:", error);
+    throw new Error("Failed to remove review");
   }
 };

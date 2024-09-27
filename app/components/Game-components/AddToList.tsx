@@ -88,7 +88,7 @@ const AddToList = () => {
     const ListData = {
       gameId: game?.id,
       gameName: game?.name, // Game's name
-      gameDesc: game?.description_raw,
+      gamePic: game?.background_image,
       date: new Date(), // Current date
     };
     const response = await fetch(`/api/list/${userId}`, {

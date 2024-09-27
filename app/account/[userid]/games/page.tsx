@@ -5,7 +5,7 @@ import UserOptions from "@/app/components/Account-components/UserOptions";
 //utils
 import { useSession } from "next-auth/react";
 import Image from "next/legacy/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, MouseEvent } from "react";
 import Link from "next/link";
 
 const Account = ({ params }: { params: { userid: string } }) => {
@@ -13,8 +13,47 @@ const Account = ({ params }: { params: { userid: string } }) => {
   const [user, setUser] = useState<any>(null);
   const [isSuccess, setIsSuccess] = useState(true);
   const [imageUrl, setImageUrl] = useState<string>("");
+  const [popup, setPopup] = useState<boolean>(false);
   const [data, setData] = useState(null);
   const { userid } = params;
+  const [showPopup, setShowPopup] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDeleteLib = async (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    setShowPopup(true);
+  };
+
+  const confirmDelete = async () => {
+    setIsDeleting(true); // Indicate that the deletion process is starting
+
+    try {
+      const response = await fetch(`/api/users/${userid}/deleteFromLib`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userid: params.userid }), // Ensure you are passing the correct userId
+      });
+
+      if (response.ok) {
+        alert("Game was removed from library");
+      } else {
+        const errorData = await response.json();
+        alert(`Error: ${errorData.message}`); // You might want to handle this in a more user-friendly way
+        setIsDeleting(false); // Reset deleting state if there's an error
+      }
+    } catch (error) {
+      console.error("Failed to remove game:", error);
+      alert("An error occurred while removing the game."); // Handle this error gracefully
+      setIsDeleting(false); // Reset deleting state on error
+    }
+  };
+
+  const cancelDelete = () => {
+    setShowPopup(false);
+    setIsDeleting(false); // Reset deleting state if user cancels
+  };
 
   // Fetch the user's profile picture from the database on component mount
   useEffect(() => {
@@ -38,7 +77,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
   }, [userid]);
 
   // Fetch the user's profile picture from the database on component mount
-
+  const imageSizes = "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw";
   return (
     <div className="back-img fixed overflow-auto bg-cover w-full h-screen flex text-center justify-center">
       <Link href={`/`} className="absolute pointer-events-none">
@@ -97,9 +136,17 @@ const Account = ({ params }: { params: { userid: string } }) => {
                       {user.user_reviews.map((review: any) => (
                         <li
                           key={review.gameId}
-                          className="overflow-x-auto  px-4 mb-6 mx-8 py-3 text-start text-nowrap rounded-xl bg-slate-300"
+                          className="overflow-x-auto relative px-4 mb-6 mx-8 py-3 text-start text-nowrap rounded-xl bg-slate-300"
                         >
-                          <strong>Game:</strong> {review.gameName} <br />
+                          <button className="absolute right-0 top-0 px-4 py-1 text-slate-100 rounded-bl-xl bg-red-700">
+                            X
+                          </button>
+                          <strong>Game:</strong>{" "}
+                          <span className="font-black">
+                            {" "}
+                            {review.gameName}{" "}
+                          </span>{" "}
+                          <br />
                           <strong>Reaction:</strong> {review.reaction} <br />
                           <strong>Review:</strong> {review.text} <br />
                           <strong>Date:</strong>{" "}
@@ -116,7 +163,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
                 <label className="text-blue-950 font-black text-lg">
                   My Game Library:{" "}
                 </label>
-                <div className="text-blue-900 bg-slate-200 overflow-y-auto border h-60 w-[39rem] border-blue-400 rounded-md p-1">
+                <div className="text-blue-900 bg-slate-300 overflow-y-auto border h-60 w-[39rem] border-blue-400 rounded-md p-1">
                   <style jsx global>{`
                     /* Custom Scrollbar Styling for Consistency */
                     ::-webkit-scrollbar {
@@ -148,14 +195,29 @@ const Account = ({ params }: { params: { userid: string } }) => {
                       {user.library.map((list: any) => (
                         <li
                           key={list.gameId}
-                          className="overflow-x-auto  px-4 mb-14 mx-8 py-3 text-start  rounded-xl bg-slate-300"
+                          className="overflow-x-auto justify-between flex gap-4 flex-row items-center relative px-4 mb-8 mx-8 text-start rounded-xl bg-slate-100"
                         >
-                          <strong>Game:</strong>{" "}
-                          <span className=" font-black">{list.gameName}</span>{" "}
-                          <br />
-                          <strong>Description:</strong> {list.gameDesc} <br />
-                          <strong>Date:</strong>{" "}
-                          {new Date(list.date).toLocaleDateString()}
+                          <button
+                            onClick={handleDeleteLib}
+                            className="absolute right-0 top-0 px-4 py-1 transition duration-200 text-slate-100 rounded-bl-xl hover:bg-red-900 bg-red-700"
+                          >
+                            X
+                          </button>
+                          <div className="relative p-14">
+                            <Image
+                              src={list.gamePic}
+                              alt={list.gameName}
+                              layout="fill"
+                              objectFit="contain"
+                              sizes={imageSizes}
+                              className="md:border-r-4 object-cover border-none rounded-l-lg border-white transition duration-500 ease-in-out"
+                            />
+                          </div>
+                          <span className=" font-black">{list.gameName}</span>
+                          <div className="flex flex-col">
+                            <strong>Date:</strong>{" "}
+                            {new Date(list.date).toLocaleDateString()}
+                          </div>
                         </li>
                       ))}
                     </ul>

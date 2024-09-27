@@ -14,7 +14,7 @@ interface Review {
 interface Library {
   gameId: number;
   gameName: string;
-  gameDesc: string;
+  gamePic: string;
   date: string; // ISO date string
 }
 interface User {
@@ -375,7 +375,7 @@ export const addToList = async (
   userId: string,
   gameId: number,
   gameName: string,
-  gameDesc: string,
+  gamePic: string,
   date: Date
 ) => {
   if (!users) await init();
@@ -384,7 +384,7 @@ export const addToList = async (
   const newAddition: Library = {
     gameId: gameId,
     gameName: gameName,
-    gameDesc: gameDesc,
+    gamePic: gamePic,
     date: new Date(date).toISOString().slice(0, 10),
   };
   try {

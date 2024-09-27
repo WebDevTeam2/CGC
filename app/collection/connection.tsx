@@ -7,9 +7,14 @@ import nodemailer from "nodemailer";
 interface Review {
   gameId: number;
   gameName: string;
-  gameDesc?: string;
   reaction?: string;
   text?: string;
+  date: string; // ISO date string
+}
+interface Library {
+  gameId: number;
+  gameName: string;
+  gameDesc: string;
   date: string; // ISO date string
 }
 interface User {
@@ -18,6 +23,7 @@ interface User {
   password?: string;
   profilePicture?: string;
   user_reviews?: Review[];
+  library?: Library[];
   verificationToken?: string;
   isVerified?: boolean;
   provider?: string;
@@ -375,7 +381,7 @@ export const addToList = async (
   if (!users) await init();
   if (!users) throw new Error("Users collection is not initialized");
 
-  const newAddition: Review = {
+  const newAddition: Library = {
     gameId: gameId,
     gameName: gameName,
     gameDesc: gameDesc,
@@ -385,7 +391,7 @@ export const addToList = async (
     const objectId = new ObjectId(userId);
     const result = await users.findOneAndUpdate(
       { _id: objectId },
-      { $addToSet: { Library: newAddition } }, // Use $addToSet to add the movieId to the watchlist array
+      { $addToSet: { library: newAddition } }, // Use $addToSet to add the elements
       { returnDocument: "after" } // Return the updated document
     );
     return result;

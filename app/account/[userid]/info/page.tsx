@@ -196,7 +196,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
         </h2>
       </Link>
       {isSuccess && user && (
-        <div className="flex sm:flex-row sm:w-auto overflow-hidden overflow-y-auto w-5/6 flex-col rounded-2xl items-strech shadow-lg h-[40rem] sm:my-28 mb-10 mt-24 sm:mx-10 mx-0 bg-slate-300">
+        <div className="flex sm:flex-row sm:w-auto overflow-hidden overflow-y-auto w-5/6 flex-col rounded-2xl items-strech shadow-lg h-[40rem] sm:my-24 mb-10 mt-20 sm:mx-10 mx-0 bg-slate-300">
           <UserOptions />
           <div className="flex flex-col items-center h-auto sm:mr-20 mr-0 gap-0 sm:mt-12 mt-8">
             {hasProvider ? (
@@ -211,7 +211,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
                 </div>
                 <form className="flex flex-col gap-4 mt-8 sm:w-80 w-60">
                   <div className="flex sm:flex-row flex-col gap-2 items-center justify-between">
-                    <label htmlFor="name" className="text-blue-950">
+                    <label htmlFor="name" className="text-blue-950 font-black">
                       Username:{" "}
                     </label>
                     <input
@@ -224,7 +224,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
                     />
                   </div>
                   <div className="flex sm:flex-row flex-col gap-2 items-center justify-between">
-                    <label htmlFor="mail" className="text-blue-950">
+                    <label htmlFor="mail" className="text-blue-950 font-black">
                       Email:{" "}
                     </label>
                     <input
@@ -299,7 +299,10 @@ const Account = ({ params }: { params: { userid: string } }) => {
                   className="flex flex-col gap-4 mt-8"
                 >
                   <div className="flex sm:flex-row flex-col gap-2 items-center justify-between">
-                    <label htmlFor="username" className="text-blue-950">
+                    <label
+                      htmlFor="username"
+                      className="text-blue-950 font-black"
+                    >
                       Username:{" "}
                     </label>
                     <input
@@ -312,7 +315,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
                     />
                   </div>
                   <div className="flex sm:flex-row flex-col gap-2 items-center justify-between">
-                    <label htmlFor="email" className="text-blue-950">
+                    <label htmlFor="email" className="text-blue-950 font-black">
                       Email:{" "}
                     </label>
                     <input
@@ -325,7 +328,10 @@ const Account = ({ params }: { params: { userid: string } }) => {
                     />
                   </div>
                   <div className="flex sm:flex-row flex-col gap-2 items-center text-start justify-between">
-                    <label htmlFor="password" className="text-blue-950">
+                    <label
+                      htmlFor="password"
+                      className="text-blue-950 font-black"
+                    >
                       New Password:{" "}
                     </label>
                     <input
@@ -339,7 +345,10 @@ const Account = ({ params }: { params: { userid: string } }) => {
                     />
                   </div>
                   <div className="flex sm:flex-row flex-col gap-2 items-center text-start justify-between">
-                    <label htmlFor="passwordre" className="text-blue-950">
+                    <label
+                      htmlFor="passwordre"
+                      className="text-blue-950 font-black"
+                    >
                       Re-enter Password:{" "}
                     </label>
                     <input

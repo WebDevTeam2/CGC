@@ -102,10 +102,10 @@ const AddToList = () => {
 
     if (response.ok) {
       setIsInList(true);
-      alert(data.message || "Game Added to Library");
+      console.error(data.message);
     } else {
       setIsInList(false);
-      alert(data.message || "Failed to add to Library");
+      console.error(data.message);
     }
   };
 
@@ -115,8 +115,12 @@ const AddToList = () => {
         <button
           onClick={handleAddToList} // Correct function call
           className={`
-            text-black bg-slate-100 hover:bg-slate-300 text-lg py-2 px-4 rounded-xl transition-all duration-200 hover:scale-105
-          `}
+              text-lg py-2 px-4 rounded-xl transition-all duration-200 
+           ${
+             isInList
+               ? "text-black bg-slate-300"
+               : "text-black bg-slate-100 hover:bg-slate-300 hover:scale-105"
+           }`}
           disabled={isInList}
         >
           {isInList ? "Game added to your list" : "+ Add to your library"}

@@ -11,7 +11,7 @@ import Link from "next/link";
 import { User, Library } from "@/app/collection/connection";
 
 type GameData = {
-  gameId: number;
+  reviewId: number;
 } | null;
 
 const Account = ({ params }: { params: { userid: string } }) => {
@@ -26,11 +26,11 @@ const Account = ({ params }: { params: { userid: string } }) => {
 
   const handleDeleteRev = async (
     event: MouseEvent<HTMLButtonElement>,
-    gameId: number
+    reviewId: number
   ) => {
     event.preventDefault();
     setPopupRev(true);
-    setData({ gameId });
+    setData({ reviewId });
   };
 
   const confirmDeleteRev = async () => {
@@ -40,7 +40,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userid: userid, gameId: data?.gameId }), // Ensure you are passing the correct userId
+        body: JSON.stringify({ userid: userid, reviewId: data?.reviewId }), // Ensure you are passing the correct userId
       });
 
       if (response.ok) {
@@ -50,7 +50,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
           return {
             ...prevUser,
             user_reviews: prevUser.user_reviews?.filter(
-              (game) => game.gameId !== data?.gameId
+              (game) => game.reviewId !== data?.reviewId
             ),
           };
         });
@@ -82,7 +82,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
     setData({ gameId });
   };
 
-  const confirmDelete = async () => {
+  const confirmDeleteLib = async () => {
     try {
       const response = await fetch(`/api/users/${userid}/deleteFromLib`, {
         method: "DELETE",
@@ -117,7 +117,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
     }
   };
 
-  const cancelDelete = () => {
+  const cancelDeleteLib = () => {
     setPopupLib(false);
     // Reset deleting state if user cancels
   };
@@ -153,10 +153,10 @@ const Account = ({ params }: { params: { userid: string } }) => {
         </h2>
       </Link>
       {isSuccess && user && (
-        <div className="flex sm:flex-row sm:w-auto overflow-hidden overflow-y-auto w-5/6 flex-col rounded-2xl items-strech shadow-lg h-[40rem] sm:my-24 mb-10 mt-20 sm:mx-10 mx-0 bg-slate-300">
+        <div className="flex min-[912px]:flex-row sm:w-auto overflow-hidden overflow-y-auto w-5/6 flex-col rounded-2xl items-strech shadow-lg h-[40rem] sm:my-24 mb-10 mt-20 sm:mx-10 mx-0 bg-slate-300">
           <UserOptions />
           {/* option content */}
-          <div className="flex flex-col items-center h-auto sm:mr-20 mr-0 gap-0 sm:mt-12 mt-8">
+          <div className="flex flex-col items-center h-auto min-[912px]:mx-12 max-[911px]:mb-12 mx-0 gap-0 sm:mt-12 mt-8">
             <div className="relative w-20 h-20 rounded-full overflow-hidden group">
               <Image
                 src={imageUrl || "/assets/images/default_avatar.jpg"}
@@ -166,12 +166,12 @@ const Account = ({ params }: { params: { userid: string } }) => {
                 className="object-cover"
               />
             </div>
-            <div className="flex flex-col gap-4 mt-8 sm:w-[35rem] w-60">
-              <div className="flex sm:flex-row overflow-hidden flex-col gap-2 items-center justify-between">
+            <div className="flex flex-col gap-4 mt-8 sm:w-[35rem] ">
+              <div className="flex min-[912px]:flex-row overflow-hidden flex-col gap-2 items-center justify-between">
                 <label className="text-blue-950 font-black text-lg">
                   My Reviews:{" "}
                 </label>
-                <div className="text-blue-900 overflow-y-auto bg-slate-200 border h-44 w-[28rem] border-blue-400 rounded-md p-1">
+                <div className="text-blue-900 overflow-y-auto bg-slate-200 border h-44 sm:w-[28rem] min-[420px]:w-[21rem] w-[15rem] border-blue-400 rounded-md p-1">
                   <style jsx global>{`
                     /* Custom Scrollbar Styling for Consistency */
                     ::-webkit-scrollbar {
@@ -202,12 +202,12 @@ const Account = ({ params }: { params: { userid: string } }) => {
                     <ul className="mt-6">
                       {user.user_reviews.map((review: any) => (
                         <li
-                          key={review.gameId}
-                          className="overflow-x-auto relative px-4 mb-6 mx-8 py-3 text-start text-nowrap rounded-xl bg-slate-300"
+                          key={review.reviewId}
+                          className="overflow-hidden text-ellipsis relative px-4 mb-6 sm:mx-8 mx-2 py-3 text-start text-nowrap rounded-xl bg-slate-300"
                         >
                           <button
                             onClick={(event) =>
-                              handleDeleteRev(event, review.gameId)
+                              handleDeleteRev(event, review.reviewId)
                             }
                             className="absolute right-0 transition duration-200 hover:bg-red-900 top-0 px-4 py-1 text-slate-100 rounded-bl-xl bg-red-700"
                           >
@@ -237,11 +237,11 @@ const Account = ({ params }: { params: { userid: string } }) => {
                   )}
                 </div>
               </div>
-              <div className="flex  sm:flex-row flex-col gap-2 items-center justify-between">
+              <div className="flex min-[912px]:flex-row flex-col gap-2 items-center justify-between">
                 <label className="text-blue-950 font-black text-lg">
                   My Game Library:{" "}
                 </label>
-                <div className="text-blue-900 bg-slate-300 overflow-y-auto border h-60 w-[39rem] border-blue-400 rounded-md p-1">
+                <div className="text-blue-900 bg-slate-300 overflow-y-auto border h-60 min-[912px]:w-[52rem] sm:w-[32rem] min-[420px]:w-[20rem] w-[15rem] border-blue-400 rounded-md p-1">
                   <style jsx global>{`
                     /* Custom Scrollbar Styling for Consistency */
                     ::-webkit-scrollbar {
@@ -273,34 +273,36 @@ const Account = ({ params }: { params: { userid: string } }) => {
                       {user.library.map((list: any) => (
                         <li
                           key={list.gameId}
-                          className="overflow-x-auto justify-between flex gap-4 flex-row items-center relative px-4 mb-8 mx-8 text-start rounded-xl bg-slate-100"
+                          className="overflow-x-auto justify-between flex gap-4 sm:flex-row flex-col items-center relative sm:px-4 px-0 mb-8 sm:mx-8 mx-2 text-start rounded-xl bg-slate-100"
                         >
                           <button
                             onClick={(event) =>
                               handleDeleteLib(event, list.gameId)
                             }
-                            className="absolute right-0 top-0 px-4 py-1 transition duration-200 text-slate-100 rounded-bl-xl hover:bg-red-900 bg-red-700"
+                            className="absolute z-20 right-0 top-0 px-4 py-1 transition duration-200 text-slate-100 rounded-bl-xl hover:bg-red-900 bg-red-700"
                           >
                             X
                           </button>
                           {popupLib && (
                             <PopupForLib
-                              onConfirm={confirmDeleteRev}
-                              onCancel={cancelDeleteRev}
+                              onConfirm={confirmDeleteLib}
+                              onCancel={cancelDeleteLib}
                             />
                           )}
-                          <div className="relative p-14">
+                          <div className="relative w-full -ml-4 p-16 -mr-4">
                             <Image
                               src={list.gamePic}
                               alt={list.gameName}
                               layout="fill"
-                              objectFit="contain"
+                              objectFit="cover"
                               sizes={imageSizes}
-                              className="md:border-r-4 object-cover border-none rounded-l-lg border-white transition duration-500 ease-in-out"
+                              className="md:border-r-4 border-none sm:rounded-l-lg border-white transition duration-500 ease-in-out"
                             />
                           </div>
-                          <span className=" font-black">{list.gameName}</span>
-                          <div className="flex flex-col">
+                          <span className="sm:mt-0 sm:ml-4 -mt-4 font-black">
+                            {list.gameName}
+                          </span>
+                          <div className="flex sm:flex-col flex-row -mt-4">
                             <strong>Date:</strong>{" "}
                             {new Date(list.date).toLocaleDateString()}
                           </div>

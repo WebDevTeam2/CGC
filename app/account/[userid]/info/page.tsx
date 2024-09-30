@@ -198,7 +198,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
       {isSuccess && user && (
         <div className="flex sm:flex-row sm:w-auto overflow-hidden overflow-y-auto w-5/6 flex-col rounded-2xl items-strech shadow-lg h-[40rem] sm:my-24 mb-10 mt-20 sm:mx-10 mx-0 bg-slate-300">
           <UserOptions />
-          <div className="flex flex-col items-center h-auto sm:mr-20 mr-0 gap-0 sm:mt-12 mt-8">
+          <div className="flex flex-col items-center h-auto sm:mx-20 mx-0 gap-0 sm:mt-12 mt-8">
             {hasProvider ? (
               <>
                 <div className="relative w-20 h-20 rounded-full overflow-hidden">

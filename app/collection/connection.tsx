@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 
 interface Review {
+  reviewId: number;
   gameId: number;
   gameName: string;
   reaction?: string;
@@ -412,8 +413,10 @@ export const addUserReview = async (
   if (!users) await init();
   if (!users) throw new Error("Users collection is not initialized");
 
+  const reviewId = Math.floor(Math.random() * 900000) + 100000;
   // Create a new review object
   const newReview: Review = {
+    reviewId: reviewId,
     gameId: gameId,
     gameName: gameName,
     reaction: reaction,
@@ -482,7 +485,7 @@ export const removeGame = async (userId: string, gameId: number) => {
   }
 };
 
-export const removeReview = async (userId: string, gameId: number) => {
+export const removeReview = async (userId: string, reviewId: number) => {
   try {
     if (!users) await init();
     if (!users) throw new Error("Users collection is not initialized");
@@ -493,7 +496,7 @@ export const removeReview = async (userId: string, gameId: number) => {
     // Update the user's library by removing the game with the specified gameId
     const result = await users.updateOne(
       { _id: objectId }, // Find the user by _id
-      { $pull: { user_reviews: { gameId: gameId } } } // Remove the game from the library array
+      { $pull: { user_reviews: { reviewId: reviewId } } } // Remove the game from the library array
     );
 
     if (result.modifiedCount === 1) {

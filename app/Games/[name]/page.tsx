@@ -4,8 +4,7 @@ import Screenshots from "@/app/components/Game-components/Screenshots";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
-import { findUserByEmail } from "@/app/collection/connection";
-import AddToWatchlist from "@/app/components/Movie-components/AddToWatchlist";
+import { findUserByEmail, findAllUsers } from "@/app/collection/connection";
 import AddToList from "@/app/components/Game-components/AddToList";
 
 const basePosterUrl = `https://api.rawg.io/api/games`;
@@ -103,8 +102,6 @@ const convertToStars = (rating: number) => {
   return newR;
 };
 
-let cachedGames: { [key: string]: any } = {};
-
 const getGameDets = async (name: string) => {
   const res = await fetch(basePosterUrl + "/" + name + "?" + apiPosterKey);
   // https://api.rawg.io/api/games/grand-theft-auto-v?key=f0e283f3b0da46e394e48ae406935d25
@@ -123,6 +120,10 @@ export default async function Games({ params }: { params: CombinedParams }) {
     // Fetch the full user details from MongoDB
     dbUser = await findUserByEmail(userEmail);
   }
+
+  let allUsers;
+  // Fetch all users from MongoDB
+  allUsers = await findAllUsers();
 
   return (
     <div>
@@ -236,15 +237,15 @@ export default async function Games({ params }: { params: CombinedParams }) {
               </div>
               {dbUser ? (
                 <>
-                  <div className="mt-4 flex w-full justify-center items-center">
+                  <div className="mt-4 gap-4 flex sm:flex-row sm:text-xl text-lg flex-col w-full justify-between items-center">
                     <Link
                       href={`/Games/${game.slug}/review/${dbUser._id}`}
-                      className="bg-neutral-600 hover:bg-neutral-800 text-lg py-2 px-6 rounded-xl transition-all duration-200 hover:scale-105"
+                      className="bg-neutral-600 hover:bg-neutral-800 py-2 px-6 rounded-xl transition-all duration-200 hover:scale-105"
                     >
                       Write a review
                     </Link>
+                    <AddToList />
                   </div>
-                  <AddToList />
                 </>
               ) : (
                 <div className="mt-4 flex w-full justify-center items-center">
@@ -259,7 +260,7 @@ export default async function Games({ params }: { params: CombinedParams }) {
         </div>
 
         {game.description_raw ? (
-          <span className="font-inter mb-20 leading-8 border shadow-xl shadow-gray-600 relative lg:w-1/2 w-4/5 lg:h-[78vh] h-96 overflow-y-auto lg:overflow-y-visible bg-stone-900/60 p-6 rounded-2xl md:text-balance xl:text-center text-white text-xl transition-[width] lg:overflow-hidden ease-in-out duration-300">
+          <span className="font-inter mb-0 leading-8 border shadow-xl shadow-gray-600 relative lg:w-1/2 w-4/5 lg:h-[78vh] h-96 overflow-y-auto lg:overflow-y-visible bg-stone-900/60 p-6 rounded-2xl md:text-balance xl:text-center text-white text-xl transition-[width] lg:overflow-hidden ease-in-out duration-300">
             {game.description_raw}
           </span>
         ) : (
@@ -267,6 +268,44 @@ export default async function Games({ params }: { params: CombinedParams }) {
         )}
 
         <Screenshots params={params} />
+      </div>
+      <div>
+        {allUsers && allUsers.length > 0 ? (
+          <div className="flex px-10 flex-col w-full">
+            <span className="text-white z-10 text-3xl font-extrabold">
+              User Reviews:
+            </span>
+            <ul className="mt-6 z-10">
+              {allUsers
+                .flatMap(
+                  (user: any) =>
+                    (user.user_reviews || []).map((review: any) => ({
+                      ...review,
+                      username: user.username,
+                    })) // Attach the username to each review
+                ) // Flatten all user reviews from each user
+                .filter((review: any) => review.gameId === game.id) // Filter reviews by gameId
+                .map((review: any) => {
+                  console.log(review); // Log the review object to the console
+                  return (
+                    <div key={review.reviewId}>
+                      <span className="text-white text-xl ml-8">
+                        {review.userName || session?.user?.name}{" "}
+                        {/* Fallback for missing gameName */}
+                      </span>
+                      <li className="relative px-4 mb-6 sm:mx-8 mx-2 py-3 text-start rounded-xl bg-slate-100">
+                        {review.text} <br />
+                        <strong>Date:</strong>{" "}
+                        {new Date(review.date).toLocaleDateString()}
+                      </li>
+                    </div>
+                  );
+                })}
+            </ul>
+          </div>
+        ) : (
+          <p>No reviews available.</p>
+        )}
       </div>
     </div>
   );

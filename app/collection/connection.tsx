@@ -13,6 +13,7 @@ interface Review {
   date: string; // ISO date string
 }
 export interface Library {
+  libraryId: number;
   gameId: number;
   gameName: string;
   gamePic: string;
@@ -278,6 +279,13 @@ export const findUserByEmail = async (email: string) => {
   return await users.findOne({ email });
 };
 
+export const findAllUsers = async () => {
+  if (!users) await init();
+  if (!users) throw new Error("Users collection is not initialized");
+
+  return await users.find({}).toArray();
+};
+
 export const updateUserImage = async (
   email: string,
   profilePicture: string
@@ -382,7 +390,10 @@ export const addToList = async (
   if (!users) await init();
   if (!users) throw new Error("Users collection is not initialized");
 
+  const libraryId = Math.floor(Math.random() * 900000) + 100000;
+
   const newAddition: Library = {
+    libraryId: libraryId,
     gameId: gameId,
     gameName: gameName,
     gamePic: gamePic,
@@ -460,7 +471,7 @@ export const deleteUserById = async (userId: string) => {
   }
 };
 
-export const removeGame = async (userId: string, gameId: number) => {
+export const removeGame = async (userId: string, libraryId: number) => {
   try {
     if (!users) await init();
     if (!users) throw new Error("Users collection is not initialized");
@@ -471,7 +482,7 @@ export const removeGame = async (userId: string, gameId: number) => {
     // Update the user's library by removing the game with the specified gameId
     const result = await users.updateOne(
       { _id: objectId }, // Find the user by _id
-      { $pull: { library: { gameId: gameId } } } // Remove the game from the library array
+      { $pull: { library: { libraryId: libraryId } } } // Remove the game from the library array
     );
 
     if (result.modifiedCount === 1) {

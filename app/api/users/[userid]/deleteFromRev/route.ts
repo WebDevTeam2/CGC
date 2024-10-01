@@ -3,11 +3,11 @@ import { removeReview } from "@/app/collection/connection";
 import { NextRequest } from "next/server";
 
 export async function DELETE(req: NextRequest) {
-  const { userid, gameId } = await req.json();
+  const { userid, reviewId } = await req.json();
 
   try {
     // Find the user by ID and delete them
-    const removedGame = await removeReview(userid, gameId);
+    const removedGame = await removeReview(userid, reviewId);
 
     if (!removedGame) {
       return Response.json({ success: false, message: "Game not found" });

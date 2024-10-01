@@ -111,11 +111,11 @@ const AddToList = () => {
 
   return (
     <div>
-      <span className="mt-4 flex w-full justify-center items-center">
+      <span>
         <button
           onClick={handleAddToList} // Correct function call
           className={`
-              text-lg py-2 px-4 rounded-xl transition-all duration-200 
+              py-2 px-4 rounded-xl transition-all duration-200 
            ${
              isInList
                ? "text-black bg-slate-300"

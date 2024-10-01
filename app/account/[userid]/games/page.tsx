@@ -11,7 +11,8 @@ import Link from "next/link";
 import { User, Library } from "@/app/collection/connection";
 
 type GameData = {
-  reviewId: number;
+  reviewId?: number;
+  libraryId?: number;
 } | null;
 
 const Account = ({ params }: { params: { userid: string } }) => {
@@ -24,6 +25,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
   const [data, setData] = useState<GameData>(null);
   const { userid } = params;
 
+  // start of review section
   const handleDeleteRev = async (
     event: MouseEvent<HTMLButtonElement>,
     reviewId: number
@@ -72,14 +74,16 @@ const Account = ({ params }: { params: { userid: string } }) => {
     setPopupRev(false);
     // Reset deleting state if user cancels
   };
+  // end of review section
 
+  // start of list section
   const handleDeleteLib = async (
     event: MouseEvent<HTMLButtonElement>,
-    gameId: number
+    libraryId: number
   ) => {
     event.preventDefault();
     setPopupLib(true);
-    setData({ gameId });
+    setData({ libraryId });
   };
 
   const confirmDeleteLib = async () => {
@@ -89,7 +93,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userid: userid, gameId: data?.gameId }), // Ensure you are passing the correct userId
+        body: JSON.stringify({ userid: userid, libraryId: data?.libraryId }), // Ensure you are passing the correct userId
       });
 
       if (response.ok) {
@@ -99,7 +103,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
           return {
             ...prevUser,
             library: prevUser.library?.filter(
-              (game) => game.gameId !== data?.gameId
+              (game) => game.libraryId !== data?.libraryId
             ),
           };
         });
@@ -121,6 +125,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
     setPopupLib(false);
     // Reset deleting state if user cancels
   };
+  // end of list section
 
   // Fetch the user's profile picture from the database on component mount
   useEffect(() => {
@@ -272,12 +277,12 @@ const Account = ({ params }: { params: { userid: string } }) => {
                     <ul className="mt-6">
                       {user.library.map((list: any) => (
                         <li
-                          key={list.gameId}
+                          key={list.libraryId}
                           className="overflow-x-auto justify-between flex gap-4 sm:flex-row flex-col items-center relative sm:px-4 px-0 mb-8 sm:mx-8 mx-2 text-start rounded-xl bg-slate-100"
                         >
                           <button
                             onClick={(event) =>
-                              handleDeleteLib(event, list.gameId)
+                              handleDeleteLib(event, list.libraryId)
                             }
                             className="absolute z-20 right-0 top-0 px-4 py-1 transition duration-200 text-slate-100 rounded-bl-xl hover:bg-red-900 bg-red-700"
                           >

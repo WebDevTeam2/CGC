@@ -147,6 +147,7 @@ export default function Games({ params }: { params: CombinedParams }) {
         console.log("Review submitted successfully:", data);
         // alert(data.message || "Added to reviews");
         // Optionally clear the form or handle success
+
         setTimeout(() => {
           router.push(`/Games/${game.slug}`);
         }, 2000);

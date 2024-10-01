@@ -125,6 +125,19 @@ export default async function Games({ params }: { params: CombinedParams }) {
   // Fetch all users from MongoDB
   allUsers = await findAllUsers();
 
+  const gameReviews = allUsers
+    ?.flatMap(
+      (user: any) =>
+        (user.user_reviews || []).map((review: any) => ({
+          ...review,
+          username: user.username,
+        })) // Attach the username to each review
+    ) // Flatten all user reviews from each user
+    .filter((review: any) => review.gameId === game.id) // Filter reviews by gameId
+    .sort(
+      (a: any, b: any) =>
+        new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
   return (
     <div>
       <div className="bg-black z-0 bg-cover fixed h-screen w-screen"></div>
@@ -260,7 +273,7 @@ export default async function Games({ params }: { params: CombinedParams }) {
         </div>
 
         {game.description_raw ? (
-          <span className="font-inter mb-0 leading-8 border shadow-xl shadow-gray-600 relative lg:w-1/2 w-4/5 lg:h-[78vh] h-96 overflow-y-auto lg:overflow-y-visible bg-stone-900/60 p-6 rounded-2xl md:text-balance xl:text-center text-white text-xl transition-[width] lg:overflow-hidden ease-in-out duration-300">
+          <span className="font-inter lg:mb-0 mb-10 leading-8 border shadow-xl shadow-gray-600 relative lg:w-1/2 w-4/5 lg:h-[78vh] h-96 overflow-y-auto lg:overflow-y-visible bg-stone-900/60 p-6 rounded-2xl md:text-balance xl:text-center text-white text-xl transition-[width] lg:overflow-hidden ease-in-out duration-300">
             {game.description_raw}
           </span>
         ) : (
@@ -270,41 +283,38 @@ export default async function Games({ params }: { params: CombinedParams }) {
         <Screenshots params={params} />
       </div>
       <div>
-        {allUsers && allUsers.length > 0 ? (
-          <div className="flex px-10 flex-col w-full">
-            <span className="text-white z-10 text-3xl font-extrabold">
+        {gameReviews && gameReviews.length > 0 ? (
+          <div className="flex px-10 xl:px-64 lg:px-52 sm:px-24 px-6 lg:py-12 pt-0 pb-10 bg-slate-300 flex-col w-full">
+            <span className="text-white z-10 text-3xl text-center font-extrabold">
               User Reviews:
             </span>
-            <ul className="mt-6 z-10">
-              {allUsers
-                .flatMap(
-                  (user: any) =>
-                    (user.user_reviews || []).map((review: any) => ({
-                      ...review,
-                      username: user.username,
-                    })) // Attach the username to each review
-                ) // Flatten all user reviews from each user
-                .filter((review: any) => review.gameId === game.id) // Filter reviews by gameId
-                .map((review: any) => {
-                  console.log(review); // Log the review object to the console
-                  return (
-                    <div key={review.reviewId}>
-                      <span className="text-white text-xl ml-8">
-                        {review.userName || session?.user?.name}{" "}
-                        {/* Fallback for missing gameName */}
-                      </span>
-                      <li className="relative px-4 mb-6 sm:mx-8 mx-2 py-3 text-start rounded-xl bg-slate-100">
-                        {review.text} <br />
-                        <strong>Date:</strong>{" "}
+            <ul className="mt-6 bg-black border-4 rounded-2xl lg:p-16 p-10 lg:px-24 px-12 z-10">
+              {gameReviews.map((review: any) => {
+                console.log(review); // Log the review object to the console
+                return (
+                  <div key={review.reviewId}>
+                    <span className="text-white text-xl text-orange-300">
+                      {review.username || session?.user?.name}
+                    </span>
+                    <span className="text-slate-100 text-xl"> said: </span>
+                    <li className="relative overflow-auto text-xl px-4 mb-6 mt-2 py-3 rounded-xl bg-white">
+                      {review.text} <br />
+                      <strong>Date:</strong>{" "}
+                      <span className="italic">
                         {new Date(review.date).toLocaleDateString()}
-                      </li>
-                    </div>
-                  );
-                })}
+                      </span>
+                    </li>
+                  </div>
+                );
+              })}
             </ul>
           </div>
         ) : (
-          <p>No reviews available.</p>
+          <div className="my-4 pb-10 flex w-full justify-center items-center">
+            <span className="bg-neutral-600 sm:text-2xl text-xl text-slate-200 z-20 py-4 px-8 rounded-lg">
+              No reviews at this moment.
+            </span>
+          </div>
         )}
       </div>
     </div>

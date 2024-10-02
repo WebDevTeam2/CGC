@@ -78,6 +78,7 @@ export const authOptions: NextAuthOptions = {
     async signIn({ user, account }) {
       if (user && account) {
         const email = user.email;
+        const name = user.name;
 
         // Find user by email to check existence
         const existingUser = await findUserByEmail(email || "");
@@ -108,6 +109,7 @@ export const authOptions: NextAuthOptions = {
         // Create a new user if it does not exist
         await addUserOath({
           email: email ?? "",
+          name: name ?? "",
           profilePicture: user.image || "", // Set a default or fetch from provider
           isVerified: true, // OAuth users are considered verified
           provider: account.provider, // Track the provider (google, github, credentials, etc.)

@@ -10,12 +10,14 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const { _id, profilePicture } = await fetchUserDets(email as string);
+    const { _id, profilePicture, library } = await fetchUserDets(
+      email as string
+    );
 
     if (!_id) {
       return Response.json({ message: "User not found" });
     }
-    return Response.json({ _id, profilePicture });
+    return Response.json({ _id, profilePicture, library });
   } catch (error) {
     console.error("Error fetching User:", error);
     return Response.json({ message: "Internal server error" });

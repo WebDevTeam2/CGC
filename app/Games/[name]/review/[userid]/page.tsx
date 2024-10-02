@@ -146,8 +146,7 @@ export default function Games({ params }: { params: CombinedParams }) {
         setIsSubmitted(true);
         console.log("Review submitted successfully:", data);
         // alert(data.message || "Added to reviews");
-        // Optionally clear the form or handle success
-
+        // Update reviews with the new review added
         setTimeout(() => {
           router.push(`/Games/${game.slug}`);
         }, 2000);

@@ -54,6 +54,10 @@ const AddToList = () => {
           // Check if the data contains a valid id
           if (data?._id) {
             setUserId(data._id);
+            // console.log(data);
+            if (data.library.some((item: any) => item.gameId === game?.id)) {
+              setIsInList(true); // Game is already in the list
+            }
           } else {
             console.log("No profile found for this user.");
           }
@@ -64,7 +68,7 @@ const AddToList = () => {
     };
 
     fetchProfileDetails();
-  }, [session?.user?.email]); // Only re-run this effect if the session changes
+  }, [session?.user?.email, game?.id]); // Only re-run this effect if the session changes
 
   useEffect(() => {
     const fetchGame = async () => {

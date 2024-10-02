@@ -205,37 +205,43 @@ const Account = ({ params }: { params: { userid: string } }) => {
                   `}</style>
                   {user.user_reviews && user.user_reviews.length > 0 ? (
                     <ul className="mt-6">
-                      {user.user_reviews.map((review: any) => (
-                        <li
-                          key={review.reviewId}
-                          className="overflow-hidden text-ellipsis relative px-4 mb-6 sm:mx-8 mx-2 py-3 text-start text-nowrap rounded-xl bg-slate-300"
-                        >
-                          <button
-                            onClick={(event) =>
-                              handleDeleteRev(event, review.reviewId)
-                            }
-                            className="absolute right-0 transition duration-200 hover:bg-red-900 top-0 px-4 py-1 text-slate-100 rounded-bl-xl bg-red-700"
+                      {user.user_reviews
+                        .slice()
+                        .sort(
+                          (a, b) =>
+                            new Date(b.date).getTime() -
+                            new Date(a.date).getTime()
+                        )
+                        .map((review: any) => (
+                          <li
+                            key={review.reviewId}
+                            className="overflow-hidden text-ellipsis relative px-4 mb-6 sm:mx-8 mx-2 py-3 text-start text-nowrap rounded-xl bg-slate-300"
                           >
-                            X
-                          </button>
-                          {popupRev && (
-                            <PopupForLib
-                              onConfirm={confirmDeleteRev}
-                              onCancel={cancelDeleteRev}
-                            />
-                          )}
-                          <strong>Game:</strong>{" "}
-                          <span className="font-black">
-                            {" "}
-                            {review.gameName}{" "}
-                          </span>{" "}
-                          <br />
-                          <strong>Reaction:</strong> {review.reaction} <br />
-                          <strong>Review:</strong> {review.text} <br />
-                          <strong>Date:</strong>{" "}
-                          {new Date(review.date).toLocaleDateString()}
-                        </li>
-                      ))}
+                            <button
+                              onClick={(event) =>
+                                handleDeleteRev(event, review.reviewId)
+                              }
+                              className="absolute right-0 transition duration-200 hover:bg-red-900 top-0 px-4 py-1 text-slate-100 rounded-bl-xl bg-red-700"
+                            >
+                              X
+                            </button>
+                            {popupRev && (
+                              <PopupForLib
+                                onConfirm={confirmDeleteRev}
+                                onCancel={cancelDeleteRev}
+                              />
+                            )}
+                            <strong>Game:</strong>{" "}
+                            <span className="font-black">
+                              {" "}
+                              {review.gameName}{" "}
+                            </span>{" "}
+                            <br />
+                            <strong>Reaction:</strong> {review.reaction} <br />
+                            <strong>Review:</strong> {review.text} <br />
+                            <strong>Date:</strong> {review.date}
+                          </li>
+                        ))}
                     </ul>
                   ) : (
                     <p>No reviews available.</p>
@@ -275,44 +281,51 @@ const Account = ({ params }: { params: { userid: string } }) => {
                   `}</style>
                   {user.library && user.library.length > 0 ? (
                     <ul className="mt-6">
-                      {user.library.map((list: any) => (
-                        <li
-                          key={list.libraryId}
-                          className="overflow-x-auto justify-between flex gap-4 sm:flex-row flex-col items-center relative sm:px-4 px-0 mb-8 sm:mx-8 mx-2 text-start rounded-xl bg-slate-100"
-                        >
-                          <button
-                            onClick={(event) =>
-                              handleDeleteLib(event, list.libraryId)
-                            }
-                            className="absolute z-20 right-0 top-0 px-4 py-1 transition duration-200 text-slate-100 rounded-bl-xl hover:bg-red-900 bg-red-700"
+                      {user.library
+                        .slice()
+                        .sort(
+                          (a, b) =>
+                            new Date(b.date).getTime() -
+                            new Date(a.date).getTime()
+                        )
+                        .map((list: any) => (
+                          <li
+                            key={list.libraryId}
+                            className="overflow-x-auto justify-between flex gap-4 sm:flex-row flex-col items-center relative sm:px-4 px-0 mb-8 sm:mx-8 mx-2 text-start rounded-xl bg-slate-100"
                           >
-                            X
-                          </button>
-                          {popupLib && (
-                            <PopupForLib
-                              onConfirm={confirmDeleteLib}
-                              onCancel={cancelDeleteLib}
-                            />
-                          )}
-                          <div className="relative w-full -ml-4 p-16 -mr-4">
-                            <Image
-                              src={list.gamePic}
-                              alt={list.gameName}
-                              layout="fill"
-                              objectFit="cover"
-                              sizes={imageSizes}
-                              className="md:border-r-4 border-none sm:rounded-l-lg border-white transition duration-500 ease-in-out"
-                            />
-                          </div>
-                          <span className="sm:mt-0 sm:ml-4 -mt-4 font-black">
-                            {list.gameName}
-                          </span>
-                          <div className="flex sm:flex-col flex-row -mt-4">
-                            <strong>Date:</strong>{" "}
-                            {new Date(list.date).toLocaleDateString()}
-                          </div>
-                        </li>
-                      ))}
+                            <button
+                              onClick={(event) =>
+                                handleDeleteLib(event, list.libraryId)
+                              }
+                              className="absolute z-20 right-0 top-0 px-4 py-1 transition duration-200 text-slate-100 rounded-bl-xl hover:bg-red-900 bg-red-700"
+                            >
+                              X
+                            </button>
+                            {popupLib && (
+                              <PopupForLib
+                                onConfirm={confirmDeleteLib}
+                                onCancel={cancelDeleteLib}
+                              />
+                            )}
+                            <div className="relative w-full -ml-4 p-16 -mr-4">
+                              <Image
+                                src={list.gamePic}
+                                alt={list.gameName}
+                                layout="fill"
+                                objectFit="cover"
+                                sizes={imageSizes}
+                                className="md:border-r-4 border-none sm:rounded-l-lg border-white transition duration-500 ease-in-out"
+                              />
+                            </div>
+                            <span className="sm:mt-0 sm:ml-4 -mt-4 font-black">
+                              {list.gameName}
+                            </span>
+                            <div className="flex sm:flex-col flex-row -mt-4">
+                              <strong>Date:</strong>{" "}
+                              {new Date(list.date).toLocaleDateString()}
+                            </div>
+                          </li>
+                        ))}
                     </ul>
                   ) : (
                     <p>No Games saved.</p>

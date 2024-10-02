@@ -4,7 +4,7 @@ import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 
-interface Review {
+export interface Review {
   reviewId: number;
   gameId: number;
   gameName: string;
@@ -21,6 +21,7 @@ export interface Library {
 }
 export interface User {
   username?: string;
+  name?: string;
   email: string;
   password?: string;
   profilePicture?: string;
@@ -111,11 +112,11 @@ export const addUserOath = async (data: User) => {
     if (!users) throw new Error("Users collection is not initialized");
 
     // Destructure username and email from the data
-    const { username, email } = data;
+    const { name, email } = data;
 
     // Check if the username or email already exists
     const { usernameExists, emailExists } = await checkUserExists(
-      username || "",
+      name || "",
       email
     );
 
@@ -130,6 +131,7 @@ export const addUserOath = async (data: User) => {
     // Insert the new user data into the MongoDB collection
     const result = await users.insertOne({
       email,
+      name,
       profilePicture: data.profilePicture || "",
       user_reviews: [],
       isVerified: true,
@@ -320,6 +322,7 @@ export const fetchUserDets = async (email: string) => {
     return {
       _id: user._id.toString(), // Convert _id to string to avoid BSON issues on the client-side
       profilePicture: user.profilePicture || null, // Return the profile picture or null if not set
+      library: user.library || null,
     };
   } catch (error) {
     console.error("Error fetching profile picture:", error);
@@ -397,7 +400,15 @@ export const addToList = async (
     gameId: gameId,
     gameName: gameName,
     gamePic: gamePic,
-    date: new Date(date).toISOString().slice(0, 10),
+    date: new Date(date).toLocaleString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true, // Change to true if you want AM/PM
+    }),
   };
   try {
     const objectId = new ObjectId(userId);
@@ -432,7 +443,15 @@ export const addUserReview = async (
     gameName: gameName,
     reaction: reaction,
     text: text,
-    date: new Date(date).toISOString().slice(0, 10),
+    date: new Date(date).toLocaleString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true, // Change to true if you want AM/PM
+    }),
   };
   try {
     const objectId = new ObjectId(userId);
@@ -520,3 +539,35 @@ export const removeReview = async (userId: string, reviewId: number) => {
     throw new Error("Failed to remove review");
   }
 };
+
+// export const fetchAllReviews = async (gameId: number) => {
+//   if (!users) await init(); // Ensure the database is initialized
+//   if (!users) throw new Error("Users collection is not initialized");
+
+//   // Fetch all users and their reviews for the specific gameId
+//   const allReviews = await users
+//     .aggregate([
+//       {
+//         $unwind: "$user_reviews", // Unwind the user_reviews array so each review becomes its own document
+//       },
+//       {
+//         $match: { "user_reviews.gameId": gameId }, // Filter for the specific gameId
+//       },
+//       {
+//         $project: {
+//           _id: 0, // Exclude user ID
+//           username: 1, // Include username
+//           reviewId: "$user_reviews.reviewId", // Include review ID
+//           text: "$user_reviews.text", // Include review text
+//           date: "$user_reviews.date", // Include review date
+//           gameId: "$user_reviews.gameId", // Include gameId
+//         },
+//       },
+//       {
+//         $sort: { "user_reviews.date": -1 }, // Sort reviews by date in descending order
+//       },
+//     ])
+//     .toArray();
+
+//   return allReviews;
+// };

@@ -130,7 +130,7 @@ export default async function Games({ params }: { params: CombinedParams }) {
       (user: any) =>
         (user.user_reviews || []).map((review: any) => ({
           ...review,
-          username: user.username,
+          username: user.username || user.name,
         })) // Attach the username to each review
     ) // Flatten all user reviews from each user
     .filter((review: any) => review.gameId === game.id) // Filter reviews by gameId
@@ -288,21 +288,19 @@ export default async function Games({ params }: { params: CombinedParams }) {
             <span className="text-white z-10 text-3xl text-center font-extrabold">
               User Reviews:
             </span>
-            <ul className="mt-6 bg-black border-4 rounded-2xl lg:p-16 p-10 lg:px-24 px-12 z-10">
+            <ul className="mt-6 bg-black border-2 rounded-2xl lg:p-12 p-10 lg:px-24 px-12 z-10">
               {gameReviews.map((review: any) => {
-                console.log(review); // Log the review object to the console
+                // console.log(review); // Log the review object to the console
                 return (
                   <div key={review.reviewId}>
-                    <span className="text-white text-xl text-orange-300">
-                      {review.username || session?.user?.name}
+                    <span className="text-white text-xl text-orange-500">
+                      {review.username}
                     </span>
                     <span className="text-slate-100 text-xl"> said: </span>
                     <li className="relative overflow-auto text-xl px-4 mb-6 mt-2 py-3 rounded-xl bg-white">
                       {review.text} <br />
                       <strong>Date:</strong>{" "}
-                      <span className="italic">
-                        {new Date(review.date).toLocaleDateString()}
-                      </span>
+                      <span className="italic">{review.date}</span>
                     </li>
                   </div>
                 );

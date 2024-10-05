@@ -52,23 +52,24 @@ interface PostResult {
 
 const Posts = async ({ params }: { params: any }) => {
   const gameData = await fetchAndCombineData(params.name);
-  shuffleArray(gameData);
-  const genres = await extractGenres();
-  const paginatedGames = paginateGames(gameData, params.page, pageSize);
 
-  // Extract and flatten platforms, ensuring they are unique
+  const genres = await extractGenres();
+
   const platforms = Array.from(
     new Set(
       gameData.flatMap((game) =>
-        game.parent_platforms.map((p) => JSON.stringify(p.platform))
+        game.parent_platforms.map((p: Platform) => JSON.stringify(p.platform))
       )
     )
   ).map((str) => ({ platform: JSON.parse(str) }));
 
-  //fetch game description only for the paginated games not for all the games
-  const detailedGames = await Promise.all(
-    paginatedGames.map((item) => fetchGameDetails(item))
+  const descriptioned = await Promise.all(
+    gameData.map((item) => fetchGameDetails(item))
   );
+
+  const paginatedGames = paginateGames(descriptioned, params.page, pageSize);
+
+  // shuffleArray(gameData);
   const imageSizes = "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw";
   return (
     <div>
@@ -78,7 +79,7 @@ const Posts = async ({ params }: { params: any }) => {
         <SortConsole currentName={params.name} />
         <GenresConsole genres={genres} currentName={params.name} />
         <ul className="relative flex mt-6 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
-          {detailedGames.map(
+          {paginatedGames.map(
             (item) =>
               item.description_raw && (
                 <li

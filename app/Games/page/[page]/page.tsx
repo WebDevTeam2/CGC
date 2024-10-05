@@ -47,22 +47,24 @@ interface PostResult {
 const Posts = async ({ params }: { params: Post }) => {
   try {
     const gameData = await fetchAndCombineDataSimple();
-    shuffleArray(gameData);
+
     const genres = await extractGenres();
-    const paginatedGames = paginateGames(gameData, params.page, pageSize);
 
     const platforms = Array.from(
       new Set(
         gameData.flatMap((game) =>
-          game.parent_platforms.map((p) => JSON.stringify(p.platform))
+          game.parent_platforms.map((p: Platform) => JSON.stringify(p.platform))
         )
       )
     ).map((str) => ({ platform: JSON.parse(str) }));
 
-    const detailedGames = await Promise.all(
-      paginatedGames.map((item) => fetchGameDetails(item))
+    const descriptioned = await Promise.all(
+      gameData.map((item) => fetchGameDetails(item))
     );
 
+    const paginatedGames = paginateGames(descriptioned, params.page, pageSize);
+
+    // shuffleArray(detailedGames);
     const imageSizes =
       "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw";
 
@@ -74,11 +76,11 @@ const Posts = async ({ params }: { params: Post }) => {
           <Sort />
           <Genres genres={genres} />
           <ul className="relative pointer-events-none flex mt-6 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
-            {detailedGames.map(
+            {paginatedGames.map(
               (item) =>
                 item.description_raw && (
                   <li
-                    key={item.id}
+                    key={item._id}
                     className="text-slate-200 pointer-events-auto text-balance text-xl hover:scale-110 xl:w-3/5 md:w-4/5 w-4/5 transition-all duration-500 ease-in-out"
                   >
                     <Link

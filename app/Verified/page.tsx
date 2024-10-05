@@ -1,9 +1,9 @@
 "use client"; // Enable client-side behavior for redirect
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function Verified() {
+function Verified() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [hasToken, setHasToken] = useState<boolean>(false);
@@ -47,5 +47,12 @@ export default function Verified() {
         )}
       </div>
     </>
+  );
+}
+export default function VerifiedFallBack() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Verified />
+    </Suspense>
   );
 }

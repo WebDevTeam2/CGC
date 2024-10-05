@@ -1,11 +1,11 @@
 "use client"; // Ensure this component is treated as a Client Component
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState, Suspense } from "react";
 import { FaGoogle, FaGithub, FaFacebook } from "react-icons/fa";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-export default function Signin() {
+function Signin() {
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -170,5 +170,12 @@ export default function Signin() {
         </Link>
       </div>
     </div>
+  );
+}
+export default function SigninFallBack() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Signin />
+    </Suspense>
   );
 }

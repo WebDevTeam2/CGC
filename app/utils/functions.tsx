@@ -73,24 +73,33 @@ const getGameData = async (url: string, page: number) => {
   }
 };
 
-export const fetchAndCombineDataSimple = async () => {
+let cachedGames: PostResult[] | null = null;
+
+export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
+  // Return cached games if already fetched
+  if (cachedGames) {
+    console.log("Returning cached games");
+    return cachedGames;
+  }
+
   try {
-    if (!games) await init();
+    if (!games) await init(); // Initialize games collection if not done yet
     if (!games) throw new Error("Games collection is not initialized");
 
     const currentYear: number = new Date().getFullYear();
-    const startYear: number = 2015;
+    const startYear: number = 2005;
     const dateRanges: string[] = [];
 
+    // Create date ranges for each year
     for (let year = startYear; year <= currentYear; year++) {
       dateRanges.push(`${year}-01-01,${year}-12-31`);
     }
 
-    // Fetch all ranges in parallel with pagination
+    // Fetch all ranges in parallel
     const allGames = await Promise.all(
       dateRanges.map(async (dateRange) => {
         try {
-          // Query MongoDB for games in this date range with pagination
+          // Query MongoDB for games in this date range
           const gamesInRange = (await games
             ?.find<PostResult>({
               released: {
@@ -100,17 +109,24 @@ export const fetchAndCombineDataSimple = async () => {
             })
             .project({
               id: 1,
+              released: 1,
+              rating: 1,
               parent_platforms: 1,
               genres: 1,
               slug: 1,
               name: 1,
               background_image: 1,
-              description_raw: 1,
             })
             .toArray()) as PostResult[];
 
-          // Fallback to API if no games found in DB
-          if (!gamesInRange || !gamesInRange.length) {
+          // Convert ObjectId to string if MongoDB returns games
+          const processedGames = gamesInRange.map((game) => ({
+            ...game,
+            _id: game._id.toString(), // Convert ObjectId to string
+          }));
+
+          // Fallback to RAWG API if no games found in the database
+          if (!processedGames.length) {
             console.log(
               `No games found for date range: ${dateRange}, fetching from RAWG API...`
             );
@@ -119,26 +135,22 @@ export const fetchAndCombineDataSimple = async () => {
             const gameResults = await getGameData(dateRangeUrl, 1);
             const slicedResults = gameResults.slice(0, 15);
 
-            // Insert the fetched games into the database in bulk
-            await games?.insertMany(
+            // Upsert games fetched from RAWG API into MongoDB
+            await games?.bulkWrite(
               slicedResults.map((game) => ({
-                ...game,
-                _id: new ObjectId(), // Generate a new ObjectId
+                updateOne: {
+                  filter: { id: game.id }, // Use 'id' as unique key
+                  update: { $set: { ...game, _id: new ObjectId() } },
+                  upsert: true, // Insert if doesn't exist
+                },
               })),
               { ordered: false }
             );
 
-            // Return the newly fetched results with _id as string
-            return slicedResults.map((game) => ({
-              ...game,
-              _id: game._id.toString(), // Convert ObjectId to string
-            }));
+            // Return the newly fetched results
+            return slicedResults;
           } else {
-            // Return existing games with _id as string
-            return gamesInRange.map((game) => ({
-              ...game,
-              _id: game._id.toString(), // Convert ObjectId to string
-            }));
+            return processedGames;
           }
         } catch (error) {
           console.error(`Error processing date range ${dateRange}:`, error);
@@ -148,7 +160,8 @@ export const fetchAndCombineDataSimple = async () => {
     );
 
     // Flatten the array of arrays
-    return allGames.flat();
+    cachedGames = allGames.flat();
+    return cachedGames;
   } catch (error) {
     console.error("Error fetching and combining data:", error);
     throw error;
@@ -330,8 +343,8 @@ export const fetchByRelease = async () => {
 
   // Filter games to return newest first
   const filteredGames = allGames.sort((a, b) => {
-    const dateA = new Date(a.released);
-    const dateB = new Date(b.released);
+    const dateA = new Date(b.released);
+    const dateB = new Date(a.released);
     // console.log(dateA);
     // console.log(dateB.getTime() - dateA.getTime());
     return dateB.getTime() - dateA.getTime();
@@ -414,6 +427,9 @@ export const paginateGames = (
 ) => {
   const start = (page - 1) * pageSize;
   const end = start + pageSize;
+  console.log(
+    `Page: ${page}, Start: ${start}, End: ${end}, Total Games: ${games.length}`
+  );
   return games.slice(start, end);
 };
 

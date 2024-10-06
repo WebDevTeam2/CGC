@@ -43,15 +43,6 @@ interface PostResult {
   parent_platforms: Platform[];
 }
 
-//function to sort the games based on their release
-const sortGamesByRelease = (games: PostResult[]) => {
-  return games.sort((a, b) => {
-    const dateA = new Date(a.released);
-    const dateB = new Date(b.released);
-    return dateB.getTime() - dateA.getTime();
-  });
-};
-
 const Posts = async ({ params }: { params: Post }) => {
   try {
     const gameData = await fetchByRating();

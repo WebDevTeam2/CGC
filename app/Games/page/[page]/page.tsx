@@ -43,6 +43,14 @@ interface PostResult {
   description_raw: string;
   parent_platforms: Platform[];
 }
+//function to sort the games based on their release
+const sortGamesByRelease = (games: PostResult[]) => {
+  return games.sort((a, b) => {
+    const dateA = new Date(a.released);
+    const dateB = new Date(b.released);
+    return dateB.getTime() - dateA.getTime();
+  });
+};
 
 const Posts = async ({ params }: { params: Post }) => {
   try {
@@ -62,9 +70,11 @@ const Posts = async ({ params }: { params: Post }) => {
       gameData.map((item) => fetchGameDetails(item))
     );
 
+    sortGamesByRelease(descriptioned);
+
+    // Now paginate the unique games list
     const paginatedGames = paginateGames(descriptioned, params.page, pageSize);
 
-    // shuffleArray(detailedGames);
     const imageSizes =
       "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw";
 
@@ -119,7 +129,7 @@ const Posts = async ({ params }: { params: Post }) => {
             )}
           </ul>
 
-          <Buttons gamesLength={gameData.length} />
+          <Buttons gamesLength={descriptioned.length} />
         </MainPage>
       </div>
     );

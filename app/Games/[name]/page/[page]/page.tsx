@@ -69,7 +69,6 @@ const Posts = async ({ params }: { params: any }) => {
 
   const paginatedGames = paginateGames(descriptioned, params.page, pageSize);
 
-  // shuffleArray(gameData);
   const imageSizes = "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw";
   return (
     <div>

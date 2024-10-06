@@ -74,10 +74,10 @@ const Sort: React.FC<SortProps> = ({ currentName, currentGenre }) => {
         onClick={closeDropdown}
       >
         <Link
-          href={`/Games/${currentName}/genre/${currentGenre}/page/release-first/1`}
+          href={`/Games/${currentName}/genre/${currentGenre}/page/oldest-first/1`}
           className="hover:text-blue-600 py-3 px-6"
         >
-          Release Date
+          Oldest First
         </Link>
         <Link
           href={`/Games/${currentName}/genre/${currentGenre}/page/rating-first/1`}

@@ -47,16 +47,6 @@ const getTvShowData = async (page: string) => {
   return data;
 };
 
-const getVotecolor = (vote: number) => {
-  if (vote >= 8) {
-    return "text-green-500";
-  } else if (vote >= 6) {
-    return "text-yellow-500";
-  } else {
-    return "text-red-500";
-  }
-};
-
 const UpComing = async ({ params }: { params: { page: string } }) => {
   const showData: TVShows = await getTvShowData(params.page.toString());
 
@@ -71,37 +61,36 @@ const UpComing = async ({ params }: { params: { page: string } }) => {
           <span>Movies</span>
         </Link>
       </div>
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-64 mt-4 h-full not-search">
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-64 mt-4 h-full not-search shows-grid">
         {showData.results.map((item) => (
           <Link
             key={item.id}
             href={`/Movies/TVShows/${item.id}`}
-            className="lg:hover:scale-110 w-full transition duration-700 ease-in-out mb-6 card-link"
+            className="lg:hover:scale-110 lg:w-full md:w-[90%] transition duration-700 ease-in-out mb-6 card-link"
           >
-            <div className="sm:w-full sm:h-56 lg:w-full lg:h-96 p-10 relative image-div">
-              <Image
-                src={`${imageURL}${item.poster_path}`}
-                alt={item.name}
-                layout="fill"
-                objectFit="cover"
-                className="w-full h-full absolute"
-                priority
-              />
-            </div>
-            <div className="bg-[#4c545b] h-44 gap-4 cards">
-              <div className="flex ml-4 text-white">
-                <h2 className="">{item.name}</h2>
-                <span
-                  className={`${getVotecolor(
-                    item.vote_average
-                  )} ml-auto mr-5 mt-11`}
-                >
-                  {item.vote_average.toString().slice(0, 3)}
-                </span>
+            {/* Container for the image and content */}
+            <div className="flex flex-col items-center">
+              {/* Image container */}
+              <div className="relative w-full h-56 sm:h-56 lg:h-96">
+                <Image
+                  src={`${imageURL}${item.poster_path}`}
+                  alt={item.name}
+                  layout="fill"
+                  objectFit="cover"
+                  className="absolute w-full h-full"
+                  priority
+                />
               </div>
-              <p className="mt-4 ml-4 text-white">
-                {item.overview.slice(0, 40)}...
-              </p>
+
+              {/* Text container */}
+              <div className="bg-[#4c545b] w-full h-44 gap-4 p-4">
+                <div className="flex justify-between text-white">
+                  <h2>{item.name}</h2>
+                </div>
+                <p className="mt-4 text-white">
+                  {item.overview.slice(0, 40)}...
+                </p>
+              </div>
             </div>
           </Link>
         ))}

@@ -4,30 +4,46 @@
     height: 12rem;
   }
 
-  .card-link {
-    width: 60%;
-    height: 20rem;
-    margin-left: 12rem;
-    z-index: -1;
-  }
-
   .navbar {
     position: fixed;
-    bottom: 0;    
+    bottom: 0;
   }
-
+  .card-link {
+    height: 20rem;
+    z-index: -1;    
+    margin-top: 1.1rem;
+  }
+  .movies-grid, .shows-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 2rem auto;        
+    width: 100%;
+    
+  }
 }
 
-@media(max-width: 768px) {
+@media (max-width: 768px) {
   nav {
     overflow-x: auto;
     width: 100%;
     z-index: 10;
     bottom: 0;
   }
+  .movies-grid, .shows-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 0 auto;    
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+
+  .card-link {
+    width: 80%;
+    height: 20rem;
+    z-index: -1;
+    margin-bottom: 4rem;
+  }
   .image-li a {
     margin-top: 1.1rem;
-    margin-right: -5px; 
+    margin-right: -5px;
   }
   .id-main {
     display: flex;
@@ -36,40 +52,40 @@
     justify-content: center;
     align-items: center;
   }
-  main > div,.rating {
+  main > div,
+  .rating {
     text-align: center;
     justify-content: center;
     align-items: center;
   }
 
   .recommended-movies {
-    grid-template-columns: repeat(2, minmax(0, 1fr));    
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     margin: 0 auto;
   }
 
-  .add-to-watchlist  {
+  .add-to-watchlist {
     margin: 0 auto;
   }
 
   main div.flex.gap-4 {
     flex-direction: column;
   }
-  .recommendation-image-container  {
+  .recommendation-image-container {
     width: 100%;
-    height: 100%;    
+    height: 100%;
   }
 
   .recommended-link {
     margin-bottom: 11rem;
   }
 
-  .image-container  {
+  .image-container,
+  .image-div {
     width: 12rem;
     height: 18rem;
   }
 }
-
-
 
 /* Gia na kanoun fullScreen ta video sto hover */
 .parent-container .clip-container {
@@ -91,11 +107,13 @@
     margin-left: 5rem;
   }
 
-  .nav-for-hover span, .nav-for-hover .logout {
+  .nav-for-hover span,
+  .nav-for-hover .logout {
     display: none;
   }
 
-  .nav-for-hover:hover span, .nav-for-hover:hover .logout {
+  .nav-for-hover:hover span,
+  .nav-for-hover:hover .logout {
     display: block;
   }
 }
@@ -161,7 +179,7 @@ body {
   background-color: #683e5e;
 }
 
-.body-light .trending-button {  
+.body-light .trending-button {
   background-color: #4c545b;
 }
 

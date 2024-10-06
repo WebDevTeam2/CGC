@@ -2,6 +2,7 @@ import Image from "next/legacy/image";
 import { ImTv } from "react-icons/im";
 import Link from "next/link";
 import UpComingMoviesPages from "@/app/components/Movie-components/UpcomingMoviesPages";
+import Filter from "@/app/components/Movie-components/Filter";
 
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/";
@@ -68,7 +69,8 @@ const UpComing = async ({ params }: { params: { page: string } }) => {
   const movieData = allMovies.slice(startIndex, startIndex + moviesPerPage);
 
   return (
-    <div>
+    <div className="overflow-hidden">
+      <Filter />
       <div className="flex justify-end mr-10 mt-2">
         <Link
           href={"/Movies/TVShows/Upcoming-tvshows/1"}
@@ -78,31 +80,37 @@ const UpComing = async ({ params }: { params: { page: string } }) => {
           <span>TV Shows</span>
         </Link>
       </div>
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-64 mt-4 h-full not-search">
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-64 mt-4 h-full not-search movies-grid">
         {movieData.map((item) => (
           <Link
             key={item.id}
             href={`/Movies/${item.id}`}
-            className="lg:hover:scale-110 w-full transition duration-700 ease-in-out mb-6 card-link"
+      className="lg:hover:scale-110 lg:w-full md:w-[90%] transition duration-700 ease-in-out mb-6 card-link"
           >
-            <div className="sm:w-full sm:h-56 lg:w-full lg:h-96 p-10 relative image-div">
-              <Image
-                src={`${imageURL}${item.poster_path}`}
-                alt={item.title}
-                layout="fill"
-                objectFit="cover"
-                className="w-full h-full absolute"
-                priority
-              />
-            </div>
-            <div className="bg-[#4c545b] h-44 gap-4 cards">
-              <div className="flex ml-4 text-white">
-                <h2 className="">{item.title}</h2>
+             {/* Container for the image and content */}
+             <div className="flex flex-col items-center">
+                {/* Image container */}
+                <div className="relative w-full h-56 sm:h-56 lg:h-96">
+                  <Image
+                    src={`${imageURL}${item.poster_path}`}
+                    alt={item.title}
+                    layout="fill"
+                    objectFit="cover"
+                    className="absolute w-full h-full"
+                    priority
+                  />
+                </div>
+
+                {/* Text container */}
+                <div className="bg-[#4c545b] w-full h-44 gap-4 p-4">
+                  <div className="flex justify-between text-white">
+                    <h2>{item.title}</h2>                   
+                  </div>
+                  <p className="mt-4 text-white">
+                    {item.overview.slice(0, 30)}...
+                  </p>
+                </div>
               </div>
-              <p className="mt-4 ml-4 text-white">
-                {item.overview.slice(0, 40)}...
-              </p>
-            </div>
           </Link>
         ))}
       </div>

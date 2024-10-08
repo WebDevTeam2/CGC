@@ -16,7 +16,7 @@ interface RecommendedShow {
 }
 
 const getVotecolor = (vote: number) => {
-  if (vote >= 8) {
+  if (vote >= 7) {
     return "text-green-500";
   } else if (vote >= 6) {
     return "text-yellow-500";
@@ -39,7 +39,6 @@ const TVShowsRecommendations = ({ tvShowID }: {tvShowID: string}) => {
   const [recommendedShows, setRecommendedShows] = useState<RecommendedShow[]>([]);
   const [visible, setVisible] = useState(4);    //4 tainies einai recommended kathe fora    
   const [counter,setCounter] = useState(0);     // Metraei to poses fores tha emfanistei to button
-  
 
   //Pairnoume ta recommendations kai ta vazoume sto reccomendedMovies array
   useEffect(() => {
@@ -59,14 +58,14 @@ const TVShowsRecommendations = ({ tvShowID }: {tvShowID: string}) => {
       <h2 className="sm:ml-5 md:ml-[10rem] lg:ml-[20rem] mt-10 text-[18px] font-bold">
         Recommended TV Shows:{" "}
       </h2>
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-5 md:ml-[10rem] lg:ml-[20rem] h-full not-search">
+      <div className="recommended-shows grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-5 md:ml-[10rem] lg:ml-[20rem] h-full not-search">
         {recommendedShows.slice(0, visible).map((item) => (
           <Link
             key={item.id}
             href={`/Movies/TVShows/${item.id}`}                        
-            className="lg:hover:scale-110 w-full transition duration-700 ease-in-out mb-6"
+            className="lg:hover:scale-110 w-full transition recommended-link duration-700 ease-in-out mb-6"
           >
-            <div className="sm:w-full sm:h-56 lg:w-full lg:h-96 p-10 relative">
+            <div className="recommendation-image-container sm:w-full sm:h-56 lg:w-full lg:h-96 p-10 relative">
               <Image
                 src={`${imageURL}${item.poster_path}`}
                 alt={item.name}

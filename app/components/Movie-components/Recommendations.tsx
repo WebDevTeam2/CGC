@@ -16,7 +16,7 @@ interface RecommendedMovie {
 }
 
 const getVotecolor = (vote: number) => {
-  if (vote >= 8) {
+  if (vote >= 7) {
     return "text-green-500";
   } else if (vote >= 6) {
     return "text-yellow-500";

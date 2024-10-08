@@ -1,27 +1,20 @@
 import Image from "next/legacy/image";
 import Link from "next/link";
-import TvShowPages from "@/app/components/Movie-components/TvShowPages";
+import GenrePages from "@/app/components/Movie-components/GenrePages";
+import Filter from "@/app/components/Movie-components/Filter";
 import TvFilter from "@/app/components/Movie-components/TvFilter";
+import TvGenrePages from "@/app/components/Movie-components/TvGenrePages";
 
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNDhhZDI4OWM2MGZkMGJiM2ZjOWNjMzY2MzkzN2Q3YiIsInN1YiI6IjY1ZTAzYzE3Zjg1OTU4MDE4NjRlZDFhNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.K9v9OEoLELW62sfz4qnwX7lhqTrmT6AipOjL0UlI5vY",
-  },
-};
-
-interface TVShows {
+interface Tv {
   page: number;
-  results: TVResult[];
+  results: TvResult[];
 }
 
-interface TVResult {
+interface TvResult {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -38,31 +31,23 @@ interface TVResult {
   vote_count: number;
 }
 
-interface Genre {
-  id: number;
-  name: string;
-}
+const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNDhhZDI4OWM2MGZkMGJiM2ZjOWNjMzY2MzkzN2Q3YiIsInN1YiI6IjY1ZTAzYzE3Zjg1OTU4MDE4NjRlZDFhNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.K9v9OEoLELW62sfz4qnwX7lhqTrmT6AipOjL0UlI5vY",
+  },
+};
 
-interface Seasons {
-  air_date: string;
-  episode_count: number;
-  id: number;
-  name: string;
-  overview: string;
-  poster_path: string;
-  season_number: number;
-  vote_average: number;
-}
-
-const getTVShowData = async (page: string) => {
+const getTVShowData = async (page: string, genre: string) => {
   const res = await fetch(
-    `${baseUrl}discover/tv?include_adult=false&page=${page}&${apiKey}`,
+    `${baseUrl}discover/tv?include_adult=false&page=${page}&with_genres=${genre}&sort_by=popularity.desc&vote_count.gte=30&with_original_language=en&${apiKey}`,
     options
   );
   const data = await res.json();
   return data;
 };
-
 const getVotecolor = (vote: number) => {
   if (vote >= 7) {
     return "text-green-500";
@@ -73,8 +58,12 @@ const getVotecolor = (vote: number) => {
   }
 };
 
-const Page = async ({ params }: { params: TVShows }) => {
-  const tvShowData: TVShows = await getTVShowData(`${params.page.toString()}`);
+const FilteredByGenre = async ({
+  params,
+}: {
+  params: { genre: string; page: string };
+}) => {
+  const tvShowData: Tv = await getTVShowData(`${params.page}`, params.genre);
   const currentDate = new Date().toISOString().split("T")[0];
 
   return (
@@ -120,10 +109,10 @@ const Page = async ({ params }: { params: TVShows }) => {
           ))}
       </div>
       <div className="">
-        <TvShowPages />
+        <TvGenrePages />
       </div>
     </div>
   );
 };
 
-export default Page;
+export default FilteredByGenre;

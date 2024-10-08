@@ -72,19 +72,21 @@ const TVShowDetails = async ({ params }: { params: TVDetails }) => {
   const tvShow: TVDetails = await getTVDetails(params.id.toString());
 
   return (
-    <main className="font-roboto not-search">
+    <main className="font-roboto not-search id-main">
       <h1 className="sm:ml-5 md:ml-[10rem] lg:ml-[20rem] my-10 font-medium text-4xl">
         {tvShow.name}
       </h1>
       <div className="flex flex-row sm:ml-5 md:ml-[10rem] lg:ml-[20rem] mt-[2rem] gap-4">
-        <Image
-          src={`${imageURL}${tvShow.poster_path}`}
-          alt={`${tvShow.name} poster`}
-          width={300}
-          height={450}
-          objectFit="cover"
-          priority
-        />
+        <div>
+          <Image
+            src={`${imageURL}${tvShow.poster_path}`}
+            alt={`${tvShow.name} poster`}
+            width={300}
+            height={450}
+            objectFit="cover"
+            priority
+          />
+        </div>
 
         <div className="sm:ml-5 md:ml-10 lg:ml-40 flex flex-col text-[18px] gap-3">
           <h2 className="font-bold">Movie title: </h2>
@@ -116,7 +118,7 @@ const TVShowDetails = async ({ params }: { params: TVDetails }) => {
             </div>
           )}
           <h2 className="font-bold">Rating: </h2>
-          <div className="flex flex-row gap-2">
+          <div className="rating flex flex-row gap-2">
             <p>
               {tvShow.vote_average.toString().slice(0, 3)}/10 (
               {tvShow.vote_count})

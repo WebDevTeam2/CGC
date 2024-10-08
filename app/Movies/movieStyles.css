@@ -59,7 +59,7 @@
     align-items: center;
   }
 
-  .recommended-movies {
+  .recommended-movies, .recommended-shows {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     margin: 0 auto;
   }
@@ -186,10 +186,3 @@ body {
 .body-dark .trending-button {
   background-color: #683e5e;
 }
-
-.w-full.overflow-hidden.p-4.text-center h2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 1; /* Limit to 2 lines */
-  -webkit-box-orient: vertical; 
-  overflow: hidden;
-} 

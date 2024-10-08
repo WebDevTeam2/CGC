@@ -161,7 +161,7 @@ export default function Nav() {
             <li className="text-[#b6b6b6] text-l h-20 w-full transition duration-500 ease-in-out not-search image-li">
               <Link
                 href={`/account/${userId}/info/`}
-                className="relative w-10 h-10 lg:mt-2 mx-[1.05rem] block rounded-full overflow-hidden"
+                className="relative w-10 h-10 md:mt-5 lg:mt-2 mx-[1.05rem] block rounded-full overflow-hidden"
               >
                 <Image
                   src={imageUrl || "/assets/images/batman.jpg" } // An o xrhsths exei diko tou image to kanoume display alliws kanoume display ena default

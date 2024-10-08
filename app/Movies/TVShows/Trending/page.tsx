@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/legacy/image";
 import { GiFilmProjector } from "react-icons/gi";
+import TvFilter from "@/app/components/Movie-components/TvFilter";
 
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/";
@@ -59,6 +60,7 @@ const Trending = async () => {
 
   return (
     <div className="overflow-hidden">
+      <TvFilter />
       <div className="flex justify-end mr-10 mt-2">
         <Link
           href={"/Movies/Movies-trending"}

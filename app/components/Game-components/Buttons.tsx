@@ -13,10 +13,6 @@ const Buttons = ({ gamesLength }: { gamesLength: number }) => {
   let currentYear = new Date().getFullYear();
   let yearsPassed = currentYear - startingYear;
 
-  // console.log(gamesLength);
-  // Calculate the total number of pages
-  //204/15 = 13.33 = 14
-
   // Add a new button for each year that has passed
   for (let i = 0; i < yearsPassed; i++) {
     if (buttons.length < totalPages) {

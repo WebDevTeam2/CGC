@@ -186,3 +186,10 @@ body {
 .body-dark .trending-button {
   background-color: #683e5e;
 }
+
+.w-full.overflow-hidden.p-4.text-center h2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* Limit to 2 lines */
+  -webkit-box-orient: vertical; 
+  overflow: hidden;
+} 

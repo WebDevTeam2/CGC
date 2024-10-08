@@ -30,6 +30,7 @@ export interface User {
   verificationToken?: string;
   isVerified?: boolean;
   provider?: string;
+  watchlist?: number[];
 }
 
 let client: MongoClient | undefined;
@@ -335,7 +336,7 @@ export const findUserById = async (id: string) => {
   if (!users) throw new Error("Users collection is not initialized");
   try {
     const objectId = new ObjectId(id);
-    const result = await users.findOne({ _id: objectId });
+    const result = await users.findOne({ _id: objectId });    
     return result;
   } catch (error) {
     console.error("Error fetching user by id:", error);

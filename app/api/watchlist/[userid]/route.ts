@@ -1,5 +1,8 @@
-import { addToWatchlist } from "@/app/collection/connection";
+import { addToWatchlist, findUserById } from "@/app/collection/connection";
 import { NextRequest, NextResponse } from "next/server";
+
+const baseUrl = "https://api.themoviedb.org/3/";
+const imageURL = "https://image.tmdb.org/t/p/w500";
 
 export async function POST(
   req: NextRequest,
@@ -14,6 +17,35 @@ export async function POST(
     await addToWatchlist(userid, movieId);
 
     return NextResponse.json({ message: "Movie added to watchlist" });
+  } catch (error) {
+    console.error("Error in add to watchlist:", error);
+    return NextResponse.json(
+      { message: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { userid: string } }
+) {
+  const userid = params.userid;
+
+  try {
+    const user = await findUserById(userid);
+    if (!user || !user.watchlist || user.watchlist.length === 0)
+      return NextResponse.json({ message: "No movies in the watchlist" });
+
+    const movieDetails = await Promise.all(
+      user.watchlist.map(async (movieId: number) => {
+        const res = await fetch(
+          `${baseUrl}movie/${movieId}?${process.env.MOVIE_API_KEY}`
+        );
+        return res.json();
+      })
+    );
+    return NextResponse.json({ movies: movieDetails });
   } catch (error) {
     console.error("Error in add to watchlist:", error);
     return NextResponse.json(

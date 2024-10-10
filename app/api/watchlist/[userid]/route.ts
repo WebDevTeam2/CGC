@@ -10,8 +10,7 @@ export async function POST(
 ) {
   const userid = params.userid;
   try {
-    const { movieId } = await req.json();
-    console.log("Movie ID:", movieId); // This should log to the server console
+    const { movieId } = await req.json();    
 
     // Now proceed with the logic to add the movie to the user's watchlist
     await addToWatchlist(userid, movieId);
@@ -20,7 +19,7 @@ export async function POST(
   } catch (error) {
     console.error("Error in add to watchlist:", error);
     return NextResponse.json(
-      { message: "Internal Server Error" },
+      { message: "You must be logged in to add movies to your watchlist" },
       { status: 500 }
     );
   }

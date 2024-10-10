@@ -324,6 +324,7 @@ export const fetchUserDets = async (email: string) => {
       _id: user._id.toString(), // Convert _id to string to avoid BSON issues on the client-side
       profilePicture: user.profilePicture || null, // Return the profile picture or null if not set
       library: user.library || null,
+      watchlist: user.watchlist || [],
     };
   } catch (error) {
     console.error("Error fetching profile picture:", error);

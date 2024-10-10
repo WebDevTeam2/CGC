@@ -104,7 +104,9 @@ const MovieDetails = async ({ params }: { params: MovieDetails }) => {
           </div>
         </div>
       </div>
-      <AddToWatchlist movieId={params.id} userId=""/>
+      <div className="sm:ml-5 md:ml-[8rem] lg:ml-[18rem] lg:mt-10">
+        <AddToWatchlist movieId={Number(params.id)}/>
+      </div>
       <div className="sm:ml-5 md:ml-[10rem] lg:ml-[20rem] mt-10 text-[18px]">
         <h2 className="font-bold">Overview:</h2>
         <p>{movie.overview}</p>

@@ -1,19 +1,16 @@
 import Image from "next/legacy/image";
 import Link from "next/link";
 import Pages from "@/app/components/Movie-components/Pages";
+import { FaStar } from "react-icons/fa";
 import Filter from "@/app/components/Movie-components/Filter";
+import AddToWatchlist from "@/app/components/Movie-components/AddToWatchlist";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOptions";
+import { findUserByEmail } from "@/app/collection/connection";
+
 const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
-
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNDhhZDI4OWM2MGZkMGJiM2ZjOWNjMzY2MzkzN2Q3YiIsInN1YiI6IjY1ZTAzYzE3Zjg1OTU4MDE4NjRlZDFhNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.K9v9OEoLELW62sfz4qnwX7lhqTrmT6AipOjL0UlI5vY",
-  },
-};
 
 interface Movie {
   page: number;
@@ -40,72 +37,80 @@ interface MovieResult {
 const getMovieData = async (page: string) => {
   const res = await fetch(
     `${baseUrl}discover/movie?include_adult=false&page=${page}&${apiKey}`,
-    options
+    { headers: { accept: "application/json" } }
   );
   const data = await res.json();
   return data;
 };
 
 const getVotecolor = (vote: number) => {
-  if (vote >= 7) {
-    return "text-green-500";
-  } else if (vote >= 6) {
-    return "text-yellow-500";
-  } else {
-    return "text-red-500";
-  }
+  if (vote >= 7) return "text-green-500";
+  if (vote >= 6) return "text-yellow-500";
+  return "text-red-500";
 };
 
 const Page = async ({ params }: { params: Movie }) => {
   const movieData: Movie = await getMovieData(`${params.page.toString()}`);
   const currentDate = new Date().toISOString().split("T")[0];
+  const session = await getServerSession(authOptions);
+  const userEmail = session?.user?.email;
+  let user;
+  if (userEmail) user = await findUserByEmail(userEmail);
 
   return (
     <div className="overflow-hidden">
       <Filter />
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-64 mt-4 h-full not-search movies-grid">
-        {/* Kanw Link oloklhrh th kartela */}
+      <div className="grid md:grid-cols-3 lg:grid-cols-4 md:gap-8 lg:gap-8 w-3/4 md:ml-32 lg:ml-64 mt-4 h-full not-search movies-grid">
         {movieData.results
           .filter((item) => item.release_date <= currentDate)
           .map((item) => (
-            <Link
+            <div
               key={item.id}
-              href={`/Movies/${item.id}`}
-              className="lg:hover:scale-110 lg:w-full md:w-[90%] transition duration-700 ease-in-out mb-6 card-link"
+              className="flex flex-col items-center hover:scale-110 hover:border hover:shadow-2xl hover:shadow-gray-600 lg:w-full md:w-[90%] transition duration-700 ease-in-out mb-6 card-link"
             >
-              {/* Container for the image and content */}
-              <div className="flex flex-col items-center">
-                {/* Image container */}
-                <div className="relative w-full h-56 sm:h-56 lg:h-96">
-                  <Image
-                    src={`${imageURL}${item.poster_path}`}
-                    alt={item.title}
-                    layout="fill"
-                    objectFit="cover"
-                    className="absolute w-full h-full"
-                    priority
-                  />
-                </div>
+              {/* Image container */}
+              <Link
+                href={`/Movies/${item.id}`}
+                className="relative w-full h-56 sm:h-56 lg:h-96"
+              >
+                <Image
+                  src={`${imageURL}${item.poster_path}`}
+                  alt={item.title}
+                  layout="fill"
+                  objectFit="cover"
+                  className="absolute w-full h-full"
+                  priority
+                />
+              </Link>
 
-                {/* Text container */}
-                <div className="bg-[#4c545b] w-full h-44 gap-4 p-4">
-                  <div className="flex justify-between text-white">
-                    <h2>{item.title}</h2>
+              {/* Text container */}
+              <div className="bg-[#4c545b] w-full h-44 gap-4 p-4 flex cards flex-col">
+                <Link
+                  href={`/Movies/${item.id}`}
+                  className="flex justify-between items-start text-white"
+                >
+                  <h2>{item.title}</h2>
+                  <div className="flex items-center gap-2">
                     <span
                       className={`${getVotecolor(item.vote_average)} mt-auto`}
                     >
                       {item.vote_average.toString().slice(0, 3)}
                     </span>
+                    <FaStar color="yellow" />
                   </div>
-                  <p className="mt-4 text-white">
-                    {item.overview.slice(0, 40)}...
-                  </p>
+                </Link>
+                {/* Add to watchlist button */}
+                <div className="flex justify-center mt-4 ml-[-2rem]">
+                  <AddToWatchlist movieId={item.id} />
                 </div>
+                <span className="text-white justify-center text-center">
+                  Review
+                </span>
               </div>
-            </Link>
+            </div>
           ))}
       </div>
-      <div className="">
+      <div>
         <Pages />
       </div>
     </div>

@@ -1,6 +1,8 @@
 "use client";
+import { FaStar } from "react-icons/fa";
 import UserOptions from "@/app/components/Account-components/UserOptions";
 import { useSession } from "next-auth/react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Image from "next/legacy/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -17,8 +19,28 @@ const Account = ({ params }: { params: { userid: string } }) => {
   const [user, setUser] = useState<any>(null);
   const [imageUrl, setImageUrl] = useState<string>("");
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0); // Track the start of the displayed movies
+  const [curr, setCurr] = useState(0);
   const { userid } = params;
+
+  const getVotecolor = (vote: number) => {
+    if (vote >= 7) return "text-green-500";
+    if (vote >= 6) return "text-yellow-500";
+    return "text-red-500";
+  };
+
+  const handlePrev = () => {
+    setCurr((prevCurr) => {
+      const newIndex = prevCurr - 4;
+      return newIndex < 0 ? 0 : newIndex;
+    });
+  };
+
+  const handleNext = () => {
+    setCurr((prevCurr) => {
+      const newIndex = prevCurr + 4;
+      return newIndex >= movies.length ? prevCurr : newIndex;
+    });
+  };
 
   useEffect(() => {
     const fetchUser = async (userid: string) => {
@@ -54,14 +76,6 @@ const Account = ({ params }: { params: { userid: string } }) => {
     fetchWatchlist();
   }, [user]);
 
-  const handleNext = () => {
-    if (currentIndex < movies.length - 4) setCurrentIndex(currentIndex + 4);
-  };
-
-  const handlePrev = () => {
-    if (currentIndex > 0) setCurrentIndex(currentIndex - 4);
-  };
-
   return (
     <div className="back-img h-screen flex text-center justify-center">
       <Link href={`/`} className="absolute pointer-events-none">
@@ -85,67 +99,60 @@ const Account = ({ params }: { params: { userid: string } }) => {
               </div>
               <span className="text-2xl">Watchlist: </span>
 
-              {/* Carousel container */}
-              <div className="relative w-full flex items-center justify-center">
-                {/* Left Arrow */}
-                <button
-                  onClick={handlePrev}
-                  className="absolute left-0 p-2 bg-gray-500 text-white rounded-full z-10"
-                  style={{ top: "50%", transform: "translateY(-50%)" }}
-                  disabled={currentIndex === 0}
+              {/* Carousel Component */}
+              <div className="overflow-hidden relative w-full">
+                <div
+                  className="flex transition-transform duration-500 ease-out"
+                  style={{ transform: `translateX(-${curr * 25}%)` }} // Each item takes 25% width (4 items)
                 >
-                  &#8249;
-                </button>
-
-                {/* Movie Cards */}
-                <div className="overflow-hidden w-full">
-                  <div className="flex transition-transform gap-2 duration-500">
-                    {movies
-                      .slice(currentIndex, currentIndex + 4)
-                      .map((movie) => (
-                        <Link
-                          href={`/Movies/${movie.id}`}
-                          key={movie.id}
-                          className="lg:hover:scale-110 lg:w-full md:w-[90%] transition duration-700 ease-in-out card-link"
-                        >
-                          <div className="relative w-full h-64">
-                            <Image
-                              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                              alt={movie.title}
-                              layout="fill"
-                              objectFit="cover"
-                              className="absolute w-full h-full"
-                            />
+                  {movies.map((movie) => (
+                    <div className="w-1/4 h-full z-20 p-2" key={movie.id}>
+                      <Link
+                        href={`/Movies/${movie.id}`}
+                        className="flex flex-col z-20 h-full pointer-events-auto" // Make Link fill the div
+                      >
+                        <div className="relative w-full h-64">
+                          <Image
+                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                            alt={movie.title}
+                            layout="fill"
+                            objectFit="cover"
+                            className="absolute w-full h-full"
+                          />
+                        </div>
+                        <div className="bg-[#4c545b] w-full overflow-hidden p-4 text-center text-white">
+                          <h2>{movie.title}</h2>
+                          <div className="mt-auto justify-center flex items-center gap-2">
+                            <span
+                              className={`${getVotecolor(
+                                movie.vote_average
+                              )}`}
+                            >
+                              {movie.vote_average.toString().slice(0, 3)}
+                            </span>
+                            <FaStar color="yellow" />
                           </div>
-                          <div className="bg-[#4c545b] w-full overflow-hidden p-4 text-center text-white">
-                            <h2>{movie.title}</h2>
-                            <p>{movie.vote_average}</p>
-                          </div>
-                        </Link>
-                      ))}
-
-                    {/* Empty Cards to Maintain Layout */}
-                    {movies.length - currentIndex < 4 &&
-                      Array.from(Array(4 - (movies.length - currentIndex))).map(
-                        (_, i) => (
-                          <div
-                            key={`empty-${i}`}
-                            className="w-48 mx-2 flex-shrink-0"
-                          ></div>
-                        )
-                      )}
-                  </div>
+                        </div>
+                      </Link>
+                    </div>
+                  ))}
                 </div>
-
-                {/* Right Arrow */}
-                <button
-                  onClick={handleNext}
-                  className="absolute right-0 p-2 bg-gray-500 text-white rounded-full z-10"
-                  style={{ top: "50%", transform: "translateY(-50%)" }}
-                  disabled={currentIndex >= movies.length - 4}
-                >
-                  &#8250;
-                </button>
+                <div className="absolute z-10 inset-1 flex items-center justify-between p-4">
+                  <button
+                    onClick={handlePrev}
+                    disabled={curr === 0}
+                    className="p-2 bg-gray-500 text-white rounded-full"
+                  >
+                    <FaChevronLeft size={40} />
+                  </button>
+                  <button
+                    onClick={handleNext}
+                    disabled={curr >= movies.length - 4} // Updated to reflect movie count
+                    className="p-2 bg-gray-500 text-white rounded-full"
+                  >
+                    <FaChevronRight size={40} />
+                  </button>
+                </div>
               </div>
             </>
           )}

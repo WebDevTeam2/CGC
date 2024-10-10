@@ -25,7 +25,7 @@ export default function Nav() {
   const [searchVisible, setSearchVisible] = useState(false);
   const [userId, setUserId] = useState<string>();
   const [imageUrl, setImageUrl] = useState<string>("");  
-  const [prevScrollPos, setPrevScrollPos] = useState(0); //Metavlhth pou arxikopoiei to scroll pou kanei o xrhsths se 0
+  const [prevScrollPos, setPrevScrollPos] = useState(0); //Metavlhth pou arxikopoiei to scroll pou kanei o xrhsths se 0  
 
   useEffect(() => {
     const fetchProfileDetails = async () => {

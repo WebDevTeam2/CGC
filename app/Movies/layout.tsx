@@ -1,6 +1,7 @@
 //Components
 import Nav from "@/app/components/Movie-components/Nav";
 import SessionWrapper from "../components/SessionWrapper";
+import { ThemeProvider } from "../context/ThemeContext";
 //layout
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -26,12 +27,14 @@ export default function RootLayout({
 }>) {
   return (
     <SessionWrapper>
-      <html lang="en">
-        <body className={`bg-[#EEE3CB] ${roboto.className}`}>
-          <Nav />
-          {children}
-        </body>
-      </html>
+      <ThemeProvider>
+        <html lang="en">
+          <body className={`bg-[#EEE3CB] ${roboto.className}`}>
+            <Nav />
+            {children}
+          </body>
+        </html>
+      </ThemeProvider>
     </SessionWrapper>
   );
 }

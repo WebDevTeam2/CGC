@@ -1,3 +1,9 @@
+@media ((min-width: 1024px )and (max-width: 1406px)) {
+  .card-text-container {
+    height: 45%;
+  }
+
+}
 @media (max-width: 640px) {
   .image-div {
     width: 100%;
@@ -140,11 +146,11 @@ body {
 }
 
 /* cards */
-.body-light .cards {
+.body-light .card-text-container {
   background-color: #4c545b;
 }
 
-.body-dark .cards {
+.body-dark .card-text-container {
   /* background-color: #704264; */
   background-color: #1f1f1f;
 }

@@ -66,7 +66,7 @@ const Page = async ({ params }: { params: Movie }) => {
           .map((item) => (
             <div
               key={item.id}
-              className="flex flex-col items-center hover:scale-110 hover:border hover:shadow-2xl hover:shadow-gray-600 lg:w-full md:w-[90%] transition duration-700 ease-in-out mb-6 card-link"
+              className="flex flex-col h-55 items-center hover:scale-110 hover:border hover:shadow-2xl hover:shadow-gray-600 lg:w-full md:w-full transition duration-700 ease-in-out mb-6 card-link"
             >
               {/* Image container */}
               <Link
@@ -84,7 +84,7 @@ const Page = async ({ params }: { params: Movie }) => {
               </Link>
 
               {/* Text container */}
-              <div className="bg-[#4c545b] w-full h-44 gap-4 p-4 flex cards flex-col">
+              <div className="bg-[#4c545b] w-full lg:h-48 md:h-[55%] h-full gap-4 p-4 flex flex-col card-text-container">
                 <Link
                   href={`/Movies/${item.id}`}
                   className="flex justify-between items-start text-white"

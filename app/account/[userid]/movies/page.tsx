@@ -7,6 +7,10 @@ import Image from "next/legacy/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import { Navigation, Pagination } from "swiper/modules";
+
 interface Movie {
   id: number;
   title: string;
@@ -100,60 +104,45 @@ const Account = ({ params }: { params: { userid: string } }) => {
               <span className="text-2xl">Watchlist: </span>
 
               {/* Carousel Component */}
-              <div className="overflow-hidden relative w-full">
-                <div
-                  className="flex transition-transform duration-500 ease-out"
-                  style={{ transform: `translateX(-${curr * 25}%)` }} // Each item takes 25% width (4 items)
-                >
-                  {movies.map((movie) => (
-                    <div className="w-1/4 h-full z-20 p-2" key={movie.id}>
-                      <Link
-                        href={`/Movies/${movie.id}`}
-                        className="flex flex-col z-20 h-full pointer-events-auto" // Make Link fill the div
-                      >
-                        <div className="relative w-full h-64">
-                          <Image
-                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                            alt={movie.title}
-                            layout="fill"
-                            objectFit="cover"
-                            className="absolute w-full h-full"
-                          />
+              <Swiper
+                slidesPerView={4}
+                spaceBetween={10}
+                pagination={{
+                  clickable: true,
+                }}                
+                modules={[Pagination]}
+                className="w-full max-w-6xl mySwiper"
+              >
+                {movies.map((movie) => (
+                  <SwiperSlide key={movie.id} className="">
+                    <Link
+                      href={`/Movies/${movie.id}`}
+                      className="w-full h-full"
+                    >
+                      <div className="relative w-full h-64">
+                        <Image
+                          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                          alt={movie.title}
+                          layout="fill"
+                          objectFit="cover"
+                          className="absolute w-full h-full"
+                        />
+                      </div>
+                      <div className="bg-[#4c545b] w-full overflow-hidden p-4 text-center text-white">
+                        <h2>{movie.title}</h2>
+                        <div className="mt-auto justify-center flex items-center gap-2">
+                          <span
+                            className={`${getVotecolor(movie.vote_average)}`}
+                          >
+                            {movie.vote_average.toString().slice(0, 3)}
+                          </span>
+                          <FaStar color="yellow" />
                         </div>
-                        <div className="bg-[#4c545b] w-full overflow-hidden p-4 text-center text-white">
-                          <h2>{movie.title}</h2>
-                          <div className="mt-auto justify-center flex items-center gap-2">
-                            <span
-                              className={`${getVotecolor(
-                                movie.vote_average
-                              )}`}
-                            >
-                              {movie.vote_average.toString().slice(0, 3)}
-                            </span>
-                            <FaStar color="yellow" />
-                          </div>
-                        </div>
-                      </Link>
-                    </div>
-                  ))}
-                </div>
-                <div className="absolute z-10 inset-1 flex items-center justify-between p-4">
-                  <button
-                    onClick={handlePrev}
-                    disabled={curr === 0}
-                    className="p-2 bg-gray-500 text-white rounded-full"
-                  >
-                    <FaChevronLeft size={40} />
-                  </button>
-                  <button
-                    onClick={handleNext}
-                    disabled={curr >= movies.length - 4} // Updated to reflect movie count
-                    className="p-2 bg-gray-500 text-white rounded-full"
-                  >
-                    <FaChevronRight size={40} />
-                  </button>
-                </div>
-              </div>
+                      </div>
+                    </Link>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
             </>
           )}
         </div>

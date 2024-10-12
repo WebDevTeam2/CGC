@@ -1,7 +1,7 @@
 import Image from "next/legacy/image";
 import Recommendations from "@/app/components/Movie-components/Recommendations";
 import { FaStar } from "react-icons/fa6";
-import AddToWatchlist from "@/app/components/Movie-components/AddToWatchlist";
+import AddToWatchlistId from "@/app/components/Movie-components/AddToWatchlistId";
 
 const baseUrl = "https://api.themoviedb.org/3/movie/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
@@ -69,7 +69,7 @@ const MovieDetails = async ({ params }: { params: MovieDetails }) => {
   const movie: MovieDetails = await getMovieDetails(params.id.toString());
 
   return (
-    <main className="font-roboto not-search id-main">
+    <main className="font-roboto not-search id-main lg:-ml-6">
       <h1 className="sm:ml-5 md:ml-[10rem] lg:ml-[20rem] my-10 font-medium text-4xl">
         {movie.title}
       </h1>
@@ -112,8 +112,8 @@ const MovieDetails = async ({ params }: { params: MovieDetails }) => {
           </div>
         </div>
       </div>
-      <div className="sm:ml-5 md:ml-[8rem] lg:ml-[18rem] lg:mt-10">
-        <AddToWatchlist movieId={Number(params.id)}/>
+      <div className="sm:ml-5 md:ml-40 lg:ml-[20rem] lg:mt-10 add-to-watchlist-id-page">
+        <AddToWatchlistId movieId={Number(params.id)}/>
       </div>
       <div className="sm:ml-5 md:ml-[10rem] lg:ml-[20rem] mt-10 text-[18px]">
         <h2 className="font-bold">Overview:</h2>

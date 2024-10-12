@@ -66,56 +66,56 @@ const Recommendations = ({ movieId }: { movieId: string }) => {
   };
 
   return (
-    <div>
+    <div className="overflow-hidden">
       <h2 className="sm:ml-5 md:ml-[10rem] lg:ml-[20rem] mt-10 text-[18px] font-bold">
         Recommended Movies:{" "}
       </h2>
-      <div className="recommended-movies grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full lg:w-3/4 sm:ml-5 md:ml-[10rem] lg:ml-[20rem] h-full not-search">
-        {recommendedMovies.slice(0, visible).map((item) => (
-          <div
-            key={item.id}
-            className="lg:hover:scale-110 hover:border hover:shadow-2xl hover:shadow-gray-600 w-full transition recommended-link duration-700 ease-in-out mb-6"
-          >
-            <Link href={`/Movies/${item.id}`}>
-              <div className="recommendation-image-container sm:w-full sm:h-56 lg:w-full lg:h-96 p-10 relative">
-                <Image
-                  src={`${imageURL}${item.poster_path}`}
-                  alt={item.title}
-                  layout="fill"
-                  objectFit="cover"
-                  className="w-full h-full absolute"
-                  priority
-                />
-              </div>
-            </Link>
-            <div className="bg-[#4c545b] flex flex-col h-44 cards rec-text-container">
-              {/* title and rating container */}
-              <Link
-                href={`/Movies/${item.id}`}
-                className="flex ml-4 title-raing-container h-10 text-white justify-between"
-              >
-                <div className="rec-title-container">
-                  <h2 className="">{item.title}</h2>
-                </div>
-                <div className="flex gap-2">
-                  <span className={`${getVotecolor(item.vote_average)}`}>
-                    {item.vote_average.toString().slice(0, 3)}
-                  </span>
-                  <FaStar color="yellow" />
+      <div className="recommended-movies grid sm:grid-cols-2 w-3/4 md:grid-cols-3 lg:grid-cols-4 md:gap-4 gap-8 lg:w-3/4 sm:ml-5 md:ml-[10rem] lg:ml-[20rem] h-full not-search">
+          {recommendedMovies.slice(0, visible).map((item) => (
+            <div
+              key={item.id}
+              className="lg:hover:scale-110 md:hover:border md:hover:shadow-2xl md:hover:shadow-gray-600 lg:hover:border lg:hover:shadow-2xl lg:hover:shadow-gray-600 w-full transition recommended-link duration-500 ease-in-out mb-6"
+            >
+              <Link href={`/Movies/${item.id}`}>
+                <div className="recommendation-image-container sm:w-full sm:h-56 lg:w-full lg:h-96 p-10 relative">
+                  <Image
+                    src={`${imageURL}${item.poster_path}`}
+                    alt={item.title}
+                    layout="fill"
+                    objectFit="cover"
+                    className="w-full h-full absolute"
+                    priority
+                  />
                 </div>
               </Link>
-              {/* watchlist and review container */}
-              <div className="rec-buttons-container my-auto flex flex-col justify-center gap-4">
-                <div className="flex justify-center mt-4 ml-[-2rem]">
-                  <AddToWatchlist movieId={item.id} />
+              <div className="bg-[#4c545b] flex flex-col h-44 cards rec-text-container">
+                {/* title and rating container */}
+                <Link
+                  href={`/Movies/${item.id}`}
+                  className="flex lg:ml-4 h-10 text-white justify-between"
+                >
+                  <div className="rec-title-container">
+                    <h2 className="">{item.title}</h2>
+                  </div>
+                  <div className="flex gap-2">
+                    <span className={`${getVotecolor(item.vote_average)}`}>
+                      {item.vote_average.toString().slice(0, 3)}
+                    </span>
+                    <FaStar color="yellow" />
+                  </div>
+                </Link>
+                {/* watchlist and review container */}
+                <div className="rec-buttons-container md:mt-6 flex flex-col justify-center gap-4">
+                  <div className="flex justify-center mt-4 ml-[-2rem]">
+                    <AddToWatchlist movieId={item.id} />
+                  </div>
+                  <span className="text-white justify-center text-center">
+                    Review
+                  </span>
                 </div>
-                <span className="text-white justify-center text-center">
-                  Review
-                </span>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
       {counter < 4 && (
         <button

@@ -2,18 +2,32 @@
   .card-text-container {
     height: 45%;
   }
+  .recommended-movies {
+    grid-template-columns: repeat(3, minmax(0, 1fr));    
+    margin-left: 16rem;
+    margin-right: auto;
+    gap: 2px;
+    width: 75%;
+  }
+
+  .recommended-link {
+    width: 90%;
+  }
+  main h1 {
+    margin-left: 10rem;
+  }
 }
 @media (max-width: 640px) {
   .rec-title-container {
-    width: 55%;
-    text-align: start;
+    width: 55%;    
   }
+
   .recommended-movies {
     gap: 12px;
   }
 
   .rec-buttons-container {
-    margin-top: 6px;
+    margin-top: 16px;
   }
   .image-div {
     width: 100%;
@@ -80,6 +94,7 @@
     justify-content: center;
     align-items: center;
   }
+
   main > div,
   .rating {
     text-align: center;
@@ -208,6 +223,14 @@ body {
 }
 
 .body-dark .trending-button {
+  background-color: #1f1f1f;
+}
+
+.body-light .watchlist-button {
+  background-color: #4a5259;
+}
+
+.body-dark .watchlist-button {
   background-color: #1f1f1f;
 }
 

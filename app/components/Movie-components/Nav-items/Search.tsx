@@ -163,23 +163,24 @@ const Search = ({ setSearchVisible }: SearchProps) => {
         />
       </div>
 
+      {/* search result container */}
       {results.length > 0 && (
-        <div className="w-full flex flex-col bg-slate-800 p-4 rounded-xl text-[#d3d3d3] mt-4">
+        <div className="flex flex-col bg-slate-800 p-2 rounded-xl text-[#d3d3d3]">
           {
-            //Theloume sto search na emfanizontai mono 6 apotelesmata apo ton pinaka tou results kai meta ta emfanizoume
-            results.slice(0, 6).map((result, index) => (
+            //only show the first 5 results
+            results.slice(0, 5).map((result, index) => (
               <Link
                 key={result.id}
                 href={`/${
-                  result.media_type === "movie" ? "Movies" : "Movies/TVShows" //An einai tainia tote to path einai to /Movies/result.id an einai seira tote to path einai Movies/TVShows/result.id
+                  result.media_type === "movie" ? "Movies" : "Movies/TVShows" //the path changes based on the media type
                 }/${result.id}`}
                 onClick={() => setSearchVisible(false)}
                 onMouseEnter={() => setFocusedIndex(index)} // Update focusedIndex on hover
-                className={`p-1 flex flex-row border-gray-700 transition duration-200 hover:bg-[#4c545b] ${
+                className={`flex flex-row w-full border-gray-700 transition duration-200 hover:bg-[#4c545b] ${
                   focusedIndex === index ? "bg-[#4c545b]" : ""
                 }`}
               >
-                <div className="mr-4">
+                <div className="w-28">
                   {result.poster_path && (
                     <Image
                       src={`https://image.tmdb.org/t/p/w200${result.poster_path}`}
@@ -191,7 +192,7 @@ const Search = ({ setSearchVisible }: SearchProps) => {
                   )}
                 </div>
                 <div>
-                  <h2 className="text-lg">{result.title || result.name}</h2>
+                  <h2 className="text-lg search-result-title">{result.title || result.name}</h2>
                 </div>
               </Link>
             ))

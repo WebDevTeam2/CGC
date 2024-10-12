@@ -10,11 +10,10 @@
     height: 14rem;
   }
   .searchbar {
-    width: 80%;
+    width: 75%;
   }
-
-  .search {
-    width: 80%;
+  .search-result-title {
+    text-align: center;
   }
 
   form div {

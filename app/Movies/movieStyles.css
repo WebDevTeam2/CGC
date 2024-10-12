@@ -2,9 +2,16 @@
   .card-text-container {
     height: 45%;
   }
-
 }
 @media (max-width: 640px) {
+  .rec-title-container {
+    width: 55%;
+    text-align: start;
+  }
+
+  .rec-buttons-container {
+    margin-top: 6px;
+  }
   .image-div {
     width: 100%;
     height: 14rem;
@@ -13,7 +20,7 @@
     width: 75%;
   }
   .search-result-title {
-    text-align: center;
+    text-align: start;
   }
 
   form div {
@@ -22,7 +29,7 @@
   }
 
   .card-text-container {
-    height:80%
+    height: 80%;
   }
 
   .navbar {
@@ -30,12 +37,13 @@
     bottom: 0;
   }
   .card-link {
-    height: 30rem;        
+    height: 30rem;
   }
-  .movies-grid, .shows-grid {
+  .movies-grid,
+  .shows-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin: 2rem auto;        
-    width: 100%;    
+    margin: 2rem auto;
+    width: 100%;
   }
 }
 
@@ -46,16 +54,17 @@
     z-index: 10;
     bottom: 0;
   }
-  .movies-grid, .shows-grid {
+  .movies-grid,
+  .shows-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin: 0 auto;    
+    margin: 0 auto;
     gap: 1rem;
     margin-top: 1rem;
   }
 
   .card-link {
     width: 80%;
-    height: 20rem;        
+    height: 20rem;
   }
   .image-li a {
     margin-top: 1.1rem;
@@ -75,7 +84,8 @@
     align-items: center;
   }
 
-  .recommended-movies, .recommended-shows {
+  .recommended-movies,
+  .recommended-shows {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     margin: 0 auto;
   }
@@ -153,11 +163,13 @@ body {
 }
 
 /* cards */
-.body-light .card-text-container {
+.body-light .card-text-container,
+.body-light .rec-text-container {
   background-color: #4c545b;
 }
 
-.body-dark .card-text-container {
+.body-dark .card-text-container,
+.body-dark .rec-text-container {
   /* background-color: #704264; */
   background-color: #1f1f1f;
 }
@@ -203,7 +215,7 @@ body {
 
 .swiper-slide {
   text-align: center;
-  font-size: 18px;  
+  font-size: 18px;
   /* Center slide text vertically */
   display: flex;
   justify-content: center;

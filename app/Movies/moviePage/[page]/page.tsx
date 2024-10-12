@@ -44,7 +44,7 @@ interface MovieResult {
 
 const getMovieData = async (page: string) => {
   const res = await fetch(
-    `${baseUrl}discover/movie?include_adult=false&page=${page}&${process.env.API_KEY}`,
+    `${baseUrl}discover/movie?include_adult=false&page=${page}&${process.env.MOVIE_API_KEY}`,
     options
   );
   const data = await res.json();

@@ -3,7 +3,6 @@ import Link from "next/link";
 import Image from "next/legacy/image";
 import { useState, useEffect } from "react";
 
-const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/tv/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
@@ -14,7 +13,14 @@ interface RecommendedShow {
   vote_average: number;
   overview: string;
 }
-
+const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization: `Bearer ${process.env.MOVIE_BEARER_TOKEN}`,
+  },
+  next: { revalidate: 43200 },
+};
 const getVotecolor = (vote: number) => {
   if (vote >= 7) {
     return "text-green-500";
@@ -28,17 +34,20 @@ const getVotecolor = (vote: number) => {
 //Function pou pairnei recommended tv shows apo to API
 const getRecommendedShows = async (id: string) => {
   const res = await fetch(
-    `${baseUrl}${id}/recommendations?include_adult=false&language=en-US&page=1&${apiKey}`
+    `${baseUrl}${id}/recommendations?include_adult=false&language=en-US&page=1&${process.env.MOVIE_API_KEY}`,
+    options
   );
   const data = await res.json();
   return data.results;
 };
 
 //To component ayto pairnei to id ths tainias san props etsi wste na pairnei kathe fora to id ths kathe tainias xexwrista
-const TVShowsRecommendations = ({ tvShowID }: {tvShowID: string}) => {
-  const [recommendedShows, setRecommendedShows] = useState<RecommendedShow[]>([]);
-  const [visible, setVisible] = useState(4);    //4 tainies einai recommended kathe fora    
-  const [counter,setCounter] = useState(0);     // Metraei to poses fores tha emfanistei to button
+const TVShowsRecommendations = ({ tvShowID }: { tvShowID: string }) => {
+  const [recommendedShows, setRecommendedShows] = useState<RecommendedShow[]>(
+    []
+  );
+  const [visible, setVisible] = useState(4); //4 tainies einai recommended kathe fora
+  const [counter, setCounter] = useState(0); // Metraei to poses fores tha emfanistei to button
 
   //Pairnoume ta recommendations kai ta vazoume sto reccomendedMovies array
   useEffect(() => {
@@ -51,7 +60,7 @@ const TVShowsRecommendations = ({ tvShowID }: {tvShowID: string}) => {
 
   const getMoreRecommendations = () => {
     setVisible((previousIndex) => previousIndex + 4);
-  }
+  };
 
   return (
     <div>
@@ -62,7 +71,7 @@ const TVShowsRecommendations = ({ tvShowID }: {tvShowID: string}) => {
         {recommendedShows.slice(0, visible).map((item) => (
           <Link
             key={item.id}
-            href={`/Movies/TVShows/${item.id}`}                        
+            href={`/Movies/TVShows/${item.id}`}
             className="lg:hover:scale-110 w-full transition recommended-link duration-700 ease-in-out mb-6"
           >
             <div className="recommendation-image-container sm:w-full sm:h-56 lg:w-full lg:h-96 p-10 relative">
@@ -94,10 +103,15 @@ const TVShowsRecommendations = ({ tvShowID }: {tvShowID: string}) => {
         ))}
       </div>
       {counter < 4 && (
-      <button className="sm:ml-5 md:ml-[10rem] lg:ml-[20rem] mt-4 bg-[#4c545b] hover:bg-[#3a4045] transition duration-200 text-white font-bold py-2 px-4 rounded rec-button" onClick={() => {
-        getMoreRecommendations();
-        setCounter(counter + 1);
-      }}>Load More</button>
+        <button
+          className="sm:ml-5 md:ml-[10rem] lg:ml-[20rem] mt-4 bg-[#4c545b] hover:bg-[#3a4045] transition duration-200 text-white font-bold py-2 px-4 rounded rec-button"
+          onClick={() => {
+            getMoreRecommendations();
+            setCounter(counter + 1);
+          }}
+        >
+          Load More
+        </button>
       )}
     </div>
   );

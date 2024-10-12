@@ -8,6 +8,9 @@
     width: 55%;
     text-align: start;
   }
+  .recommended-movies {
+    gap: 12px;
+  }
 
   .rec-buttons-container {
     margin-top: 6px;

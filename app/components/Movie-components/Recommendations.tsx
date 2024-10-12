@@ -92,7 +92,7 @@ const Recommendations = ({ movieId }: { movieId: string }) => {
               {/* title and rating container */}
               <Link
                 href={`/Movies/${item.id}`}
-                className="flex ml-4 title-raing-container text-white justify-between"
+                className="flex ml-4 title-raing-container h-10 text-white justify-between"
               >
                 <div className="rec-title-container">
                   <h2 className="">{item.title}</h2>

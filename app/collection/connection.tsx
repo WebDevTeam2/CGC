@@ -1,4 +1,4 @@
-import { Collection, Db, MongoClient, ObjectId, WithId } from "mongodb";
+import { Collection, Db, MongoClient, ObjectId } from "mongodb";
 import clientPromise from "../../lib/mongo/page";
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
@@ -337,7 +337,7 @@ export const findUserById = async (id: string) => {
   if (!users) throw new Error("Users collection is not initialized");
   try {
     const objectId = new ObjectId(id);
-    const result = await users.findOne({ _id: objectId });    
+    const result = await users.findOne({ _id: objectId });
     return result;
   } catch (error) {
     console.error("Error fetching user by id:", error);
@@ -541,35 +541,3 @@ export const removeReview = async (userId: string, reviewId: number) => {
     throw new Error("Failed to remove review");
   }
 };
-
-// export const fetchAllReviews = async (gameId: number) => {
-//   if (!users) await init(); // Ensure the database is initialized
-//   if (!users) throw new Error("Users collection is not initialized");
-
-//   // Fetch all users and their reviews for the specific gameId
-//   const allReviews = await users
-//     .aggregate([
-//       {
-//         $unwind: "$user_reviews", // Unwind the user_reviews array so each review becomes its own document
-//       },
-//       {
-//         $match: { "user_reviews.gameId": gameId }, // Filter for the specific gameId
-//       },
-//       {
-//         $project: {
-//           _id: 0, // Exclude user ID
-//           username: 1, // Include username
-//           reviewId: "$user_reviews.reviewId", // Include review ID
-//           text: "$user_reviews.text", // Include review text
-//           date: "$user_reviews.date", // Include review date
-//           gameId: "$user_reviews.gameId", // Include gameId
-//         },
-//       },
-//       {
-//         $sort: { "user_reviews.date": -1 }, // Sort reviews by date in descending order
-//       },
-//     ])
-//     .toArray();
-
-//   return allReviews;
-// };

@@ -18,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SessionWrapper>      
+    <SessionWrapper>
       <html lang="en">
         <body className={inter.className}>
           <NextSSRPlugin

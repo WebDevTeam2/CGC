@@ -76,7 +76,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
       }
       try {
         const res = await fetch(
-          basePosterUrl + slug + "/screenshots?" + apiPosterKey
+          basePosterUrl + "/" + slug + "/screenshots?" + apiPosterKey
         );
         const data = await res.json();
         cache.current[slug] = data.results;

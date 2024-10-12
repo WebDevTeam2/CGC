@@ -67,10 +67,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ games }) => {
     element.style.width = ""; // Reset width
     element.style.margin = "";
     element.style.padding = "";
+    element.style.right = "";
   };
   const goFull = (element: HTMLElement) => {
     element.style.width = "100vw"; // Set width to 100vw
     element.style.margin = "0";
+    element.style.right = "0";
     element.style.padding = "0 30px 0 15px";
   };
 
@@ -176,7 +178,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ games }) => {
   const imageSizes = "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw";
   return (
     <form
-      className="search fixed top-3 lg:w-[30vw] lg:mx-[35vw] md:mx-[30vw] md:w-[45vw] sm:mx-[25vw] sm:w-[55vw] mx-[20vw] w-[65vw]  z-20"
+      className="search fixed top-3 lg:w-[30vw] lg:mx-[35vw] md:mx-[30vw] md:w-[45vw] sm:mx-[25vw] sm:w-[55vw] max-[640px]:right-6 w-[65vw] max-[640px]:w-[60vw] z-20"
       ref={resultsRef}
       onSubmit={handleSubmit}
     >

@@ -7,8 +7,8 @@ import { authOptions } from "@/lib/authOptions";
 import { findUserByEmail, findAllUsers } from "@/app/collection/connection";
 import AddToList from "@/app/components/Game-components/AddToList";
 
-const basePosterUrl = `https://api.rawg.io/api/games`;
-const apiPosterKey = `key=076eda7a1c0e441eac147a3b0fe9b586`;
+const basePosterUrl = process.env.NEXT_PUBLIC_BASE_POSTER_URL;
+const apiPosterKey = process.env.NEXT_PUBLIC_API_KEY;
 
 interface PostPage {
   id: number; //use
@@ -309,7 +309,7 @@ export default async function Games({ params }: { params: CombinedParams }) {
           </div>
         ) : (
           <div className="my-4 pb-10 flex w-full justify-center items-center">
-            <span className="bg-neutral-600 sm:text-2xl text-xl text-slate-200 z-20 py-4 px-8 rounded-lg">
+            <span className="bg-neutral-600 sm:text-2xl text-lg text-slate-200 z-20 py-4 px-8 rounded-lg">
               No reviews at this moment.
             </span>
           </div>

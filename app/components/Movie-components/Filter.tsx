@@ -7,6 +7,14 @@ interface Genre {
   id: number;
   name: string;
 }
+const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization: `Bearer ${process.env.MOVIE_BEARER_TOKEN}`,
+  },
+  next: { revalidate: 43200 },
+};
 
 const Filter = () => {
   const [isActive, setIsActive] = useState(false);
@@ -16,7 +24,7 @@ const Filter = () => {
   useEffect(() => {
     const fetchMovieGenres = async () => {
       const res = await fetch(
-        `https://api.themoviedb.org/3/genre/movie/list?language=en&api_key=a48ad289c60fd0bb3fc9cc3663937d7b`
+        `https://api.themoviedb.org/3/genre/movie/list?language=en&${process.env.MOVIE_API_KEY}`, options
       );
       const data = await res.json();
       setGenres(data.genres);

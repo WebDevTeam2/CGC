@@ -4,10 +4,17 @@ import Image from "next/legacy/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-const apiKey = "a48ad289c60fd0bb3fc9cc3663937d7b";
 const movieSearchUrl = "https://api.themoviedb.org/3/search/movie";
 const tvSearchUrl = "https://api.themoviedb.org/3/search/tv";
 
+const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization: `Bearer ${process.env.MOVIE_BEARER_TOKEN}`,
+  },
+  next: { revalidate: 43200 },
+};
 interface SearchProps {
   setSearchVisible: (visible: boolean) => void;
 }
@@ -22,7 +29,7 @@ interface Result {
 
 //fetch tis tainies, to function epistrefei ena Promise apo Results
 const getMovies = async (query: string): Promise<Result[]> => {
-  const res = await fetch(`${movieSearchUrl}?query=${query}&api_key=${apiKey}`);
+  const res = await fetch(`${movieSearchUrl}?query=${query}&api_key=${process.env.MOVIE_API_KEY}`, options);
   const data = await res.json();
   //dinw stis tainies ena media_type
   return data.results.map((result: any) => ({
@@ -33,7 +40,7 @@ const getMovies = async (query: string): Promise<Result[]> => {
 
 //fetch tis seires, to function epistrefei ena Promise apo Results
 const getTVShows = async (query: string): Promise<Result[]> => {
-  const res = await fetch(`${tvSearchUrl}?query=${query}&api_key=${apiKey}`);
+  const res = await fetch(`${tvSearchUrl}?query=${query}&api_key=${process.env.MOVIE_API_KEY}`, options);
   const data = await res.json();
   //dinw stis seires ena media_type
   return data.results.map((result: any) => ({ ...result, media_type: "tv" }));

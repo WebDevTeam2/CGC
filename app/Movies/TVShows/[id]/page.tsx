@@ -2,9 +2,16 @@ import Image from "next/legacy/image";
 import TVShowsRecommendations from "@/app/components/Movie-components/TVShowsRecommendations";
 import { FaStar } from "react-icons/fa6";
 
-const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/tv/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
+const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization: `Bearer ${process.env.MOVIE_BEARER_TOKEN}`,
+  },
+  next: { revalidate: 43200 },
+};
 
 interface TVShows {
   page: number;
@@ -63,7 +70,7 @@ interface Seasons {
 }
 
 const getTVDetails = async (id: string) => {
-  const res = await fetch(`${baseUrl}${id}?${apiKey}`);
+  const res = await fetch(`${baseUrl}${id}?${process.env.MOVIE_API_KEY}`, options);
   const data = await res.json();
   return data;
 };

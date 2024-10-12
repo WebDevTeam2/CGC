@@ -3,9 +3,8 @@ import Image from "next/legacy/image";
 import { ImTv } from "react-icons/im";
 import Filter from "./Filter";
 
-const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/";
-const ApiURL = baseUrl + "trending/movie/day?page=1&language=en-US&" + apiKey;
+const ApiURL = baseUrl + "trending/movie/day?page=1&language=en-US&" + process.env.API_KEY;
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
 const options = {
@@ -13,8 +12,9 @@ const options = {
   headers: {
     accept: "application/json",
     Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNDhhZDI4OWM2MGZkMGJiM2ZjOWNjMzY2MzkzN2Q3YiIsInN1YiI6IjY1ZTAzYzE3Zjg1OTU4MDE4NjRlZDFhNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.K9v9OEoLELW62sfz4qnwX7lhqTrmT6AipOjL0UlI5vY",
+      `Bearer ${process.env.MOVIE_BEARER_TOKEN}`,
   },
+  next: { revalidate: 43200 },
 };
 
 interface Movie {

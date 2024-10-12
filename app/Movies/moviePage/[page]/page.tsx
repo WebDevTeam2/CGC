@@ -8,9 +8,17 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { findUserByEmail } from "@/app/collection/connection";
 
-const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
+
+const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization: `Bearer ${process.env.MOVIE_BEARER_TOKEN}`,
+  },
+  next: { revalidate: 43200 },
+};
 
 interface Movie {
   page: number;
@@ -36,8 +44,8 @@ interface MovieResult {
 
 const getMovieData = async (page: string) => {
   const res = await fetch(
-    `${baseUrl}discover/movie?include_adult=false&page=${page}&${apiKey}`,
-    { headers: { accept: "application/json" } }
+    `${baseUrl}discover/movie?include_adult=false&page=${page}&${process.env.API_KEY}`,
+    options
   );
   const data = await res.json();
   return data;
@@ -116,5 +124,4 @@ const Page = async ({ params }: { params: Movie }) => {
     </div>
   );
 };
-
 export default Page;

@@ -3,7 +3,6 @@ import Link from "next/link";
 import GenrePages from "@/app/components/Movie-components/GenrePages";
 import Filter from "@/app/components/Movie-components/Filter";
 
-const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
 const baseUrl = "https://api.themoviedb.org/3/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
@@ -33,14 +32,14 @@ const options = {
   method: "GET",
   headers: {
     accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNDhhZDI4OWM2MGZkMGJiM2ZjOWNjMzY2MzkzN2Q3YiIsInN1YiI6IjY1ZTAzYzE3Zjg1OTU4MDE4NjRlZDFhNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.K9v9OEoLELW62sfz4qnwX7lhqTrmT6AipOjL0UlI5vY",
+    Authorization: `Bearer ${process.env.MOVIE_BEARER_TOKEN}`,
   },
+  next: { revalidate: 43200 },
 };
 
 const getMovieData = async (page: string, genre: string) => {
   const res = await fetch(
-    `${baseUrl}discover/movie?include_adult=false&page=${page}&with_genres=${genre}&sort_by=popularity.desc&vote_count.gte=30&with_original_language=en&${apiKey}`,
+    `${baseUrl}discover/movie?include_adult=false&page=${page}&with_genres=${genre}&sort_by=popularity.desc&vote_count.gte=30&with_original_language=en&${process.env.MOVIE_API_KEY}`,
     options
   );
   const data = await res.json();

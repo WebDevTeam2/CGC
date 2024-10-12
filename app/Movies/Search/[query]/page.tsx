@@ -2,12 +2,19 @@ import Filter from "@/app/components/Movie-components/Filter";
 import Pages from "@/app/components/Movie-components/Pages";
 import Image from "next/legacy/image";
 import Link from "next/link";
-// import Pages from "@/app/components/Movie-components/Pages";
-const apiKey = "api_key=a48ad289c60fd0bb3fc9cc3663937d7b";
+
 const baseMovieUrl = "https://api.themoviedb.org/3/search/movie";
 const baseTVUrl = "https://api.themoviedb.org/3/search/tv";
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
+const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization: `Bearer ${process.env.MOVIE_BEARER_TOKEN}`,
+  },
+  next: { revalidate: 43200 },
+};
 interface Result {
   id: number;
   title?: string; // Movies have 'title'
@@ -21,7 +28,7 @@ interface Result {
 
 const getMovieData = async (query: string): Promise<Result[]> => {
   const res = await fetch(
-    `${baseMovieUrl}?query=${query}&include_adult=false&language=en-US&page=1&${apiKey}`
+    `${baseMovieUrl}?query=${query}&include_adult=false&language=en-US&page=1&${process.env.MOVIE_API_KEY}`, options
   );
   const data = await res.json();
   return data.results.map((result: any) => ({
@@ -32,7 +39,7 @@ const getMovieData = async (query: string): Promise<Result[]> => {
 
 const getTVShowData = async (query: string): Promise<Result[]> => {
   const res = await fetch(
-    `${baseTVUrl}?query=${query}&include_adult=false&language=en-US&page=1&${apiKey}`
+    `${baseTVUrl}?query=${query}&include_adult=false&language=en-US&page=1&${process.env.MOVIE_API_KEY}`, options
   );
   const data = await res.json();
   return data.results.map((result: any) => ({ ...result, media_type: "tv" }));

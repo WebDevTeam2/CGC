@@ -9,9 +9,21 @@
     width: 100%;
     height: 14rem;
   }
+  .searchbar {
+    width: 80%;
+  }
+
+  .search {
+    width: 80%;
+  }
+
+  form div {
+    align-items: center;
+    justify-content: center;
+  }
 
   .card-text-container {
-    height:60%
+    height:80%
   }
 
   .navbar {

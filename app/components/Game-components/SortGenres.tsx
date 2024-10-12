@@ -66,7 +66,7 @@ const Sort: React.FC<SortProps> = ({ currentName }) => {
         Order By
       </button>
       <div
-        className={`pointer-events-auto divide-y text-lg rounded-b-2xl bg-neutral-100 text-black flex flex-col transition-all duration-300 ${
+        className={`pointer-events-auto w-[9.7rem] divide-y text-lg rounded-b-2xl bg-neutral-100 text-black flex flex-col transition-all duration-300 ${
           isOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
         }`}
         style={{ visibility: isOpen ? "visible" : "hidden" }}

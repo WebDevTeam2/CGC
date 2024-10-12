@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
-const basePosterUrl = `https://api.rawg.io/api/games/`;
-const apiPosterKey = `key=076eda7a1c0e441eac147a3b0fe9b586`;
+const basePosterUrl = process.env.NEXT_PUBLIC_BASE_POSTER_URL;
+const apiPosterKey = process.env.NEXT_PUBLIC_API_KEY;
 
 interface PostPage {
   id: number;

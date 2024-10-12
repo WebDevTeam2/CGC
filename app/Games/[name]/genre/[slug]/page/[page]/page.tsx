@@ -13,6 +13,7 @@ import {
   extractGenres,
   shuffleArray,
   fetchByGenreConsole,
+  sortGamesByRelease,
 } from "@/app/utils/functions";
 import SortGenresConsole from "@/app/components/Game-components/SortGenresConsole";
 
@@ -47,9 +48,8 @@ interface PostResult {
 const Posts = async ({ params }: { params: any }) => {
   try {
     const gameData = await fetchByGenreConsole(params.name, params.slug);
-    shuffleArray(gameData);
+
     const genres = await extractGenres();
-    const paginatedGames = paginateGames(gameData, params.page, pageSize);
 
     const platforms = Array.from(
       new Set(
@@ -61,8 +61,12 @@ const Posts = async ({ params }: { params: any }) => {
 
     //fetch game description only for the paginated games not for all the games
     const detailedGames = await Promise.all(
-      paginatedGames.map((item) => fetchGameDetails(item))
+      gameData.map((item) => fetchGameDetails(item))
     );
+    sortGamesByRelease(detailedGames);
+
+    const paginatedGames = paginateGames(detailedGames, params.page, pageSize);
+
     const imageSizes =
       "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw";
     return (
@@ -76,7 +80,7 @@ const Posts = async ({ params }: { params: any }) => {
           />
           <GenresConsole genres={genres} currentName={params.name} />
           <ul className="relative pointer-events-none flex mt-6 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
-            {detailedGames.map(
+            {paginatedGames.map(
               (item) =>
                 item.description_raw && (
                   <li

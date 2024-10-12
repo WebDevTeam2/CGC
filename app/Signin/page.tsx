@@ -126,11 +126,6 @@ function Signin() {
             onClick={() => signIn("google", { callbackUrl: "/" })}
             className="cursor-pointer hover:scale-125 transition-all duration-200 ease-in-out"
           />
-          <FaFacebook
-            size={40}
-            onClick={() => signIn("facebook", { callbackUrl: "/" })}
-            className="cursor-pointer hover:scale-125 transition-all duration-200 ease-in-out"
-          />
         </div>
         {errorMessages.length > 0 && (
           <div className="text-red-600 flex justify-center">

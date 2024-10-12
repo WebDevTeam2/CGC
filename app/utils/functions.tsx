@@ -5,8 +5,8 @@ let client: MongoClient | undefined;
 let db: Db | undefined;
 let games: Collection<Document> | undefined;
 
-const basePosterUrl = `https://api.rawg.io/api/games`;
-const apiPosterKey = "key=076eda7a1c0e441eac147a3b0fe9b586";
+const basePosterUrl = process.env.NEXT_PUBLIC_BASE_POSTER_URL;
+const apiPosterKey = process.env.NEXT_PUBLIC_API_KEY;
 const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}`;
 
 async function init(): Promise<void> {
@@ -74,6 +74,15 @@ const getGameData = async (url: string, page: number) => {
 };
 
 let cachedGames: PostResult[] | null = null;
+
+//function to sort the games based on their release
+export const sortGamesByRelease = (games: PostResult[]) => {
+  return games.sort((a, b) => {
+    const dateA = new Date(a.released);
+    const dateB = new Date(b.released);
+    return dateB.getTime() - dateA.getTime();
+  });
+};
 
 export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
   // Return cached games if already fetched

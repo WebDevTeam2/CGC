@@ -9,6 +9,7 @@ import {
   fetchGameDetails,
   shuffleArray,
   extractGenres,
+  sortGamesByRelease,
 } from "@/app/utils/functions";
 import Link from "next/link";
 import Image from "next/image";
@@ -66,6 +67,8 @@ const Posts = async ({ params }: { params: any }) => {
   const descriptioned = await Promise.all(
     gameData.map((item) => fetchGameDetails(item))
   );
+
+  sortGamesByRelease(descriptioned);
 
   const paginatedGames = paginateGames(descriptioned, params.page, pageSize);
 

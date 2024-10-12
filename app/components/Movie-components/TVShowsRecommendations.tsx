@@ -17,7 +17,7 @@ const options = {
   method: "GET",
   headers: {
     accept: "application/json",
-    Authorization: `Bearer ${process.env.MOVIE_BEARER_TOKEN}`,
+    Authorization: `Bearer ${process.env.NEXT_PUBLIC_MOVIE_BEARER_TOKEN}`,
   },
   next: { revalidate: 43200 },
 };
@@ -34,7 +34,7 @@ const getVotecolor = (vote: number) => {
 //Function pou pairnei recommended tv shows apo to API
 const getRecommendedShows = async (id: string) => {
   const res = await fetch(
-    `${baseUrl}${id}/recommendations?include_adult=false&language=en-US&page=1&${process.env.MOVIE_API_KEY}`,
+    `${baseUrl}${id}/recommendations?include_adult=false&language=en-US&page=1&${process.env.NEXT_PUBLIC_MOVIE_API_KEY}`,
     options
   );
   const data = await res.json();

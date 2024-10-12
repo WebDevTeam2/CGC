@@ -11,7 +11,7 @@ const options = {
   method: "GET",
   headers: {
     accept: "application/json",
-    Authorization: `Bearer ${process.env.MOVIE_BEARER_TOKEN}`,
+    Authorization: `Bearer ${process.env.NEXT_PUBLIC_MOVIE_BEARER_TOKEN}`,
   },
   next: { revalidate: 43200 },
 };
@@ -24,7 +24,7 @@ const TvFilter = () => {
   useEffect(() => {
     const fetchMovieGenres = async () => {
       const res = await fetch(
-        `https://api.themoviedb.org/3/genre/tv/list?language=en&${process.env.MOVIE_API_KEY}`, options
+        `https://api.themoviedb.org/3/genre/tv/list?language=en&${process.env.NEXT_PUBLIC_MOVIE_API_KEY}`, options
       );
       const data = await res.json();
       setGenres(data.genres);

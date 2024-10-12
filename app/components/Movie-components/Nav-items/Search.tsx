@@ -11,7 +11,7 @@ const options = {
   method: "GET",
   headers: {
     accept: "application/json",
-    Authorization: `Bearer ${process.env.MOVIE_BEARER_TOKEN}`,
+    Authorization: `Bearer ${process.env.NEXT_PUBLIC_MOVIE_BEARER_TOKEN}`,
   },
   next: { revalidate: 43200 },
 };
@@ -29,7 +29,7 @@ interface Result {
 
 //fetch tis tainies, to function epistrefei ena Promise apo Results
 const getMovies = async (query: string): Promise<Result[]> => {
-  const res = await fetch(`${movieSearchUrl}?query=${query}&api_key=${process.env.MOVIE_API_KEY}`, options);
+  const res = await fetch(`${movieSearchUrl}?query=${query}&api_key=${process.env.NEXT_PUBLIC_MOVIE_API_KEY}`, options);
   const data = await res.json();
   //dinw stis tainies ena media_type
   return data.results.map((result: any) => ({

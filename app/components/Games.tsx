@@ -50,14 +50,17 @@ function Games() {
       <h1 className="group-hover:opacity-100 transition duration-1000 flex absolute top-2/4 text-white z-10 lg:text-[4rem] text-[2rem] lg:opacity-0">
         Games
       </h1>
-      <video
+       <video
         className="w-full h-screen absolute object-cover -z-10"
-        src="/assets/videos/Sequence4.mp4"
         controls={false}
         ref={videoRef}
         muted
         loop
-      />
+        onError={() => console.error("Error loading video")}
+      >
+        <source src="/assets/videos/Sequence4.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
     </Link>
   );
 }

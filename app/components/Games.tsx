@@ -2,8 +2,6 @@
 import Link from "next/link";
 import React, { useRef, useState } from "react";
 import Image from "next/legacy/image";
-import NextVideo from "next-video";
-import Sequence4 from "@/videos/Sequence4.mp4";
 
 const senuaImagePath = "/assets/images/senua.jpg";
 
@@ -82,14 +80,14 @@ function Games() {
         <source src="/assets/videos/shock.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video> */}
-      <NextVideo
+      {/* <NextVideo
         className="w-full h-screen absolute object-cover -z-10"
         src={Sequence4}
         controls={false}
         ref={videoRef}
         muted
         loop
-      />
+      /> */}
     </Link>
   );
 }

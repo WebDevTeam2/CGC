@@ -23,7 +23,7 @@ function Games() {
             .then(() => {
               // Automatic playback started!
               // Update state to reflect the video is playing
-              setIsPlaying(true);
+              setisPlaying(true);
               // You can add any UI changes here for the playing state
             })
             .catch((error) => {
@@ -42,7 +42,7 @@ function Games() {
     clearTimeout(timer);
     if (isPlaying && videoRef.current) {
       videoRef.current.pause();
-      setIsPlaying(false);
+      setisPlaying(false);
       // You can add UI logic here for the paused state if needed
     }
   };

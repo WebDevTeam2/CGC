@@ -53,12 +53,15 @@ const Movies = () => {
       </h1>
       <video
         className="w-full h-screen absolute object-cover -z-10"
-        src="/assets/videos/Sequence5.mp4"
         controls={false}
         ref={videoRef}
         muted
         loop
-      />
+        onError={() => console.error("Error loading video")}
+      >
+        <source src="/assets/videos/Sequence5.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
     </Link>
   );
 };

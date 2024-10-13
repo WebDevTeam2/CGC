@@ -3,25 +3,30 @@
     height: 45%;
   }
 
-  .main-movies-pages {
+  .main-movies-pages, .main-shows-pages {
     margin-top: 0.5rem;
     margin-left: 6rem;
   }
+
   .recommended-movies,
-  .movies-grid {
+  .movies-grid,
+  .shows-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     margin-left: 16rem;
     margin-right: auto;
     gap: 2px;
     width: 75%;
   }
+
   .card-link {
     width: 85%;
     margin-bottom: 6rem;
   }
+
   .recommended-link {
     width: 90%;
   }
+
   main h1 {
     margin-left: 10rem;
   }
@@ -37,16 +42,20 @@
   }
 
   .rec-buttons-container,
-  .movies-buttons-container {
+  .movies-buttons-container,
+  .shows-buttons-container {
     margin-top: 16px;
   }
+
   .image-div {
     width: 100%;
     height: 14rem;
   }
+
   .searchbar {
     width: 75%;
   }
+
   .search-result-title {
     text-align: start;
   }
@@ -73,10 +82,12 @@
     z-index: 10;
     bottom: 0;
   }
+
   .image-li a {
     margin-top: 1.1rem;
     margin-right: -5px;
   }
+
   .id-main {
     display: flex;
     flex-direction: column;
@@ -94,12 +105,13 @@
 
   .recommended-movies,
   .recommended-shows,
-  .movies-grid {
+  .movies-grid,
+  .shows-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     margin: 0 auto;
   }
 
-  .movies-grid {
+  .movies-grid, .shows-grid {
     gap: 6px;
   }
 
@@ -110,6 +122,7 @@
   main div.flex.gap-4 {
     flex-direction: column;
   }
+
   .recommendation-image-container,
   .card-image-container {
     width: 100%;
@@ -122,7 +135,7 @@
     margin-top: 0.7rem;
   }
 
-  .main-movies-pages {
+  .main-movies-pages, .main-shows-pages {
     justify-content: center;
     align-items: center;
     margin-top: 1rem;
@@ -146,7 +159,7 @@
 }
 
 /* Gia na kanei shift to content tou main otan ginetai hover to navbar sto Movies */
-@media (min-width: 992px) {
+@media (min-width: 1024px) {
   .nav-for-hover span:not(:first-child),
   .nav-for-hover .logout {
     display: none;

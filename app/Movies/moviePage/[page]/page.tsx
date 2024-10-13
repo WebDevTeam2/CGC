@@ -74,7 +74,7 @@ const Page = async ({ params }: { params: Movie }) => {
           .map((item) => (
             <div
               key={item.id}
-              className="lg:hover:scale-110 md:hover:border md:hover:shadow-2xl md:hover:shadow-gray-600 lg:hover:border lg:hover:shadow-2xl lg:hover:shadow-gray-600 w-full transition card-link duration-500 ease-in-out mb-6"
+              className="lg:hover:scale-110 md:hover:scale-110 md:hover:border md:hover:shadow-2xl md:hover:shadow-gray-600 lg:hover:border lg:hover:shadow-2xl lg:hover:shadow-gray-600 w-full transition card-link duration-500 ease-in-out mb-6"
             >
               {/* Image container */}
               <Link href={`/Movies/${item.id}`}>

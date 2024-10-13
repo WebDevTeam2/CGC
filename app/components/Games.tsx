@@ -38,13 +38,12 @@ function Games() {
   };
 
   // Function to stop the video when not hovered
-  const handleMouseLeave = () => {
-    clearTimeout(timer);
-    if (isPlaying && videoRef.current) {
-      videoRef.current.pause();
-      setisPlaying(false);
-      // You can add UI logic here for the paused state if needed
-    }
+  const handleVideoError = (event: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+    const error = event.currentTarget.error; // Get the error object from the video element
+    console.error("Video Error: ", {
+      code: error?.code, // Check if error exists
+      message: error?.message,
+    });
   };
 
 const handleVideoError = (event) => {

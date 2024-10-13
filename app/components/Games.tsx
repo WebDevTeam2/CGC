@@ -79,7 +79,7 @@ function Games() {
         loop
         onError={handleVideoError} // Add the typed error handler
       >
-        <source src="/assets/videos/Sequence4.mp4" type="video/mp4" />
+        <source src="/assets/videos/shock.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video> */}
       <NextVideo

@@ -19,7 +19,7 @@ const TvShowPages = () => {
     }
   }, []);
   return (
-    <div className="flex flex-row mb-2 mt-1 ml-[40rem] gap-4 text-lg not-search">
+    <div className="flex flex-row mb-2 mt-1 lg:ml-8 text-center justify-center gap-4 text-lg not-search main-shows-pages not-search">
       <Link
         className="hover:opacity-[0.5] transition duration-200"
         href={`/Movies/TVShows/TVShowsPage/${page - 1}`}

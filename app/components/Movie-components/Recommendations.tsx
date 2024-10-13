@@ -104,7 +104,7 @@ const Recommendations = ({ movieId }: { movieId: string }) => {
                     <FaStar color="yellow" />
                   </div>
                 </Link>
-                {/* watchlist and review container */}
+                {/* watchlist and r eview container */}
                 <div className="rec-buttons-container md:mt-6 flex flex-col justify-center gap-4">
                   <div className="flex justify-center mt-4 ml-[-2rem]">
                     <AddToWatchlist movieId={item.id} />

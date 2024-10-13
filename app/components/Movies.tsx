@@ -1,16 +1,16 @@
 "use client"; //because we use UseState
 import Link from "next/link";
-import React, { useState, useRef } from "react";
+import React from "react";
 import Image from "next/legacy/image";
 
 const jokerImagePath = "/assets/images/joker.jpg";
 
 const Movies = () => {
-  const [isPlaying, setisPlaying] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null); //to videoRef Kanei anafora se HTML video
-  let timer: ReturnType<typeof setTimeout>;
+  // const [isPlaying, setisPlaying] = useState(false);
+  // const videoRef = useRef<HTMLVideoElement>(null); //to videoRef Kanei anafora se HTML video
+  // let timer: ReturnType<typeof setTimeout>;
 
- // Function to play the video with promise handling
+  // Function to play the video with promise handling
   // const handleMouseEnter = () => {
   //   // Timeout to ensure the hover effect triggers properly
   //   timer = setTimeout(() => {
@@ -47,10 +47,10 @@ const Movies = () => {
   //   }
   // };
 
-// video classnames
-//className="relative clip-container group text-6xl justify-center flex lg:w-2/4 w-full h-screen lg:hover:scale-100  hover:scale-105 overflow-hidden grayscale hover:grayscale-0 transition duration-500 ease-in-out cursor-pointer"
+  // video classnames
+  //className="relative clip-container group text-6xl justify-center flex lg:w-2/4 w-full h-screen lg:hover:scale-100  hover:scale-105 overflow-hidden grayscale hover:grayscale-0 transition duration-500 ease-in-out cursor-pointer"
 
-  return (    
+  return (
     <Link
       href={"/Movies/moviePage/1"}
       className="relative clip-container group text-6xl justify-center flex lg:w-2/4 w-full h-screen overflow-hidden transition duration-500 ease-in-out cursor-pointer"

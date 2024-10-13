@@ -10,25 +10,40 @@ const Movies = () => {
   const videoRef = useRef<HTMLVideoElement>(null); //to videoRef Kanei anafora se HTML video
   let timer: ReturnType<typeof setTimeout>;
 
-  //function gia na paizoun ta video mono otan ginontai hovered
+ // Function to play the video with promise handling
   const handleMouseEnter = () => {
-    //timeout gia na eimaste sigouroi oti to hover tha ginei swsta
+    // Timeout to ensure the hover effect triggers properly
     timer = setTimeout(() => {
       if (!isPlaying && videoRef.current) {
-        //Xekinaei to video na paizei kai kanoume update to state se true
-        videoRef.current.play();
-        setisPlaying(true);
+        // Show loading animation or UI here if needed
+
+        const playPromise = videoRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              // Automatic playback started!
+              // Update state to reflect the video is playing
+              setisPlaying(true);
+              // You can add any UI changes here for the playing state
+            })
+            .catch((error) => {
+              // Auto-play was prevented
+              // Show paused UI or handle the error
+              console.error('Auto-play was prevented:', error);
+              // You can add UI logic here to indicate the video is paused
+            });
+        }
       }
     }, 400);
   };
 
-  //function gia na stamatane ta video na paizoun otan den einai hovered
+  // Function to stop the video when not hovered
   const handleMouseLeave = () => {
     clearTimeout(timer);
     if (isPlaying && videoRef.current) {
-      //Stamataei to video kai kanoume update to state se false
       videoRef.current.pause();
       setisPlaying(false);
+      // You can add UI logic here for the paused state if needed
     }
   };
 

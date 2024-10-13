@@ -47,6 +47,14 @@ function Games() {
     }
   };
 
+const handleVideoError = (event) => {
+  const error = event.target.error;
+  console.error("Video Error: ", {
+    code: error.code,
+    message: error.message,
+  });
+};
+  
   return (
     <Link
       href={`/Games/page/1`}
@@ -72,7 +80,7 @@ function Games() {
         ref={videoRef}
         muted
         loop
-        onError={() => console.error("Error loading video")}
+         onError={handleVideoError}
       >
         <source src="/assets/videos/Sequence4.mp4" type="video/mp4" />
         Your browser does not support the video tag.

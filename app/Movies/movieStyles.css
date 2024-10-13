@@ -2,14 +2,23 @@
   .card-text-container {
     height: 45%;
   }
-  .recommended-movies {
-    grid-template-columns: repeat(3, minmax(0, 1fr));    
+
+  .main-movies-pages {
+    margin-top: 0.5rem;
+    margin-left: 6rem;
+  }
+  .recommended-movies,
+  .movies-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     margin-left: 16rem;
     margin-right: auto;
     gap: 2px;
     width: 75%;
   }
-
+  .card-link {
+    width: 85%;
+    margin-bottom: 6rem;
+  }
   .recommended-link {
     width: 90%;
   }
@@ -18,15 +27,17 @@
   }
 }
 @media (max-width: 640px) {
-  .rec-title-container {
-    width: 55%;    
+  .rec-title-container,
+  .card-title-container {
+    width: 55%;
   }
 
   .recommended-movies {
     gap: 12px;
   }
 
-  .rec-buttons-container {
+  .rec-buttons-container,
+  .movies-buttons-container {
     margin-top: 16px;
   }
   .image-div {
@@ -53,15 +64,6 @@
     position: fixed;
     bottom: 0;
   }
-  .card-link {
-    height: 30rem;
-  }
-  .movies-grid,
-  .shows-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin: 2rem auto;
-    width: 100%;
-  }
 }
 
 @media (max-width: 768px) {
@@ -70,18 +72,6 @@
     width: 100%;
     z-index: 10;
     bottom: 0;
-  }
-  .movies-grid,
-  .shows-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin: 0 auto;
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-
-  .card-link {
-    width: 80%;
-    height: 20rem;
   }
   .image-li a {
     margin-top: 1.1rem;
@@ -103,9 +93,14 @@
   }
 
   .recommended-movies,
-  .recommended-shows {
+  .recommended-shows,
+  .movies-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     margin: 0 auto;
+  }
+
+  .movies-grid {
+    gap: 6px;
   }
 
   .add-to-watchlist {
@@ -115,13 +110,22 @@
   main div.flex.gap-4 {
     flex-direction: column;
   }
-  .recommendation-image-container {
+  .recommendation-image-container,
+  .card-image-container {
     width: 100%;
     height: 100%;
   }
 
-  .recommended-link {
+  .recommended-link,
+  .card-link {
     margin-bottom: 11rem;
+    margin-top: 0.7rem;
+  }
+
+  .main-movies-pages {
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
   }
 
   .image-container,

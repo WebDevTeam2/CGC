@@ -74,46 +74,47 @@ const Page = async ({ params }: { params: Movie }) => {
           .map((item) => (
             <div
               key={item.id}
-              className="flex flex-col h-55 items-center hover:scale-110 hover:border hover:shadow-2xl hover:shadow-gray-600 lg:w-full md:w-full transition duration-700 ease-in-out mb-6 card-link"
+              className="lg:hover:scale-110 md:hover:border md:hover:shadow-2xl md:hover:shadow-gray-600 lg:hover:border lg:hover:shadow-2xl lg:hover:shadow-gray-600 w-full transition card-link duration-500 ease-in-out mb-6"
             >
               {/* Image container */}
-              <Link
-                href={`/Movies/${item.id}`}
-                className="relative w-full h-56 sm:h-56 lg:h-96"
-              >
-                <Image
-                  src={`${imageURL}${item.poster_path}`}
-                  alt={item.title}
-                  layout="fill"
-                  objectFit="cover"
-                  className="absolute w-full h-full"
-                  priority
-                />
+              <Link href={`/Movies/${item.id}`}>
+                <div className="card-image-container sm:w-full sm:h-56 lg:w-full lg:h-96 p-10 relative">
+                  <Image
+                    src={`${imageURL}${item.poster_path}`}
+                    alt={item.title}
+                    layout="fill"
+                    objectFit="cover"
+                    className="absolute w-full h-full"
+                    priority
+                  />
+                </div>
               </Link>
 
               {/* Text container */}
-              <div className="bg-[#4c545b] w-full lg:h-48 md:h-[55%] h-full gap-4 p-4 flex flex-col card-text-container">
+              <div className="bg-[#4c545b] flex flex-col h-44 cards card-text-container">
                 <Link
                   href={`/Movies/${item.id}`}
-                  className="flex justify-between items-start text-white"
+                  className="flex lg:ml-4 h-10 text-white justify-between"
                 >
-                  <h2>{item.title}</h2>
-                  <div className="flex items-center gap-2">
-                    <span
-                      className={`${getVotecolor(item.vote_average)} mt-auto`}
-                    >
+                  <div className="card-title-container">
+                    <h2>{item.title}</h2>
+                  </div>
+                  <div className="flex gap-2">
+                    <span className={`${getVotecolor(item.vote_average)}`}>
                       {item.vote_average.toString().slice(0, 3)}
                     </span>
                     <FaStar color="yellow" />
                   </div>
                 </Link>
-                {/* Add to watchlist button */}
-                <div className="flex justify-center mt-4 ml-[-2rem]">
-                  <AddToWatchlist movieId={item.id} />
+                {/* watchlist and review container */}
+                <div className="movies-buttons-container md:mt-6 flex flex-col justify-center gap-4">
+                  <div className="flex justify-center mt-4 ml-[-2rem]">
+                    <AddToWatchlist movieId={item.id} />
+                  </div>
+                  <span className="text-white justify-center text-center">
+                    Review
+                  </span>
                 </div>
-                <span className="text-white justify-center text-center">
-                  Review
-                </span>
               </div>
             </div>
           ))}

@@ -2,6 +2,8 @@
 import Link from "next/link";
 import React, { useRef, useState } from "react";
 import Image from "next/legacy/image";
+import NextVideo from "next-video";
+import Sequence4 from "@/videos/Sequence4.mp4";
 
 const senuaImagePath = "/assets/images/senua.jpg";
 
@@ -24,7 +26,7 @@ function Games() {
             })
             .catch((error) => {
               // Auto-play was prevented
-              console.error('Auto-play was prevented:', error);
+              console.error("Auto-play was prevented:", error);
             });
         }
       }
@@ -41,7 +43,9 @@ function Games() {
   };
 
   // Event handler for video errors
-  const handleVideoError = (event: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+  const handleVideoError = (
+    event: React.SyntheticEvent<HTMLVideoElement, Event>
+  ) => {
     const error = event.currentTarget.error; // Get the error object from the video element
     console.error("Video Error: ", {
       code: error?.code, // Check if error exists
@@ -67,7 +71,7 @@ function Games() {
       <h1 className="group-hover:opacity-100 transition duration-1000 flex absolute top-2/4 text-white z-10 lg:text-[4rem] text-[2rem] lg:opacity-0">
         Games
       </h1>
-      <video
+      {/* <video
         className="w-full h-screen absolute object-cover -z-10"
         controls={false}
         ref={videoRef}
@@ -77,7 +81,15 @@ function Games() {
       >
         <source src="/assets/videos/shock.mp4" type="video/mp4" />
         Your browser does not support the video tag.
-      </video>
+      </video> */}
+      <NextVideo
+        className="w-full h-screen absolute object-cover -z-10"
+        src={Sequence4}
+        controls={false}
+        ref={videoRef}
+        muted
+        loop
+      />
     </Link>
   );
 }

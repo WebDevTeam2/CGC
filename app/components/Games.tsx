@@ -6,8 +6,8 @@ import Image from "next/legacy/image";
 const senuaImagePath = "/assets/images/senua.jpg";
 
 function Games() {
-  const [isPlaying, setisPlaying] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null); //to videoRef Kanei anafora se HTML video
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   let timer: ReturnType<typeof setTimeout>;
 
   // Function to play the video with promise handling
@@ -15,22 +15,16 @@ function Games() {
     // Timeout to ensure the hover effect triggers properly
     timer = setTimeout(() => {
       if (!isPlaying && videoRef.current) {
-        // Show loading animation or UI here if needed
-
         const playPromise = videoRef.current.play();
         if (playPromise !== undefined) {
           playPromise
             .then(() => {
               // Automatic playback started!
-              // Update state to reflect the video is playing
-              setisPlaying(true);
-              // You can add any UI changes here for the playing state
+              setIsPlaying(true);
             })
             .catch((error) => {
               // Auto-play was prevented
-              // Show paused UI or handle the error
               console.error('Auto-play was prevented:', error);
-              // You can add UI logic here to indicate the video is paused
             });
         }
       }
@@ -38,6 +32,15 @@ function Games() {
   };
 
   // Function to stop the video when not hovered
+  const handleMouseLeave = () => {
+    clearTimeout(timer);
+    if (isPlaying && videoRef.current) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  // Event handler for video errors
   const handleVideoError = (event: React.SyntheticEvent<HTMLVideoElement, Event>) => {
     const error = event.currentTarget.error; // Get the error object from the video element
     console.error("Video Error: ", {
@@ -45,11 +48,11 @@ function Games() {
       message: error?.message,
     });
   };
-  
+
   return (
     <Link
       href={`/Games/page/1`}
-      className="relative clip-container group text-6xl justify-center flex lg:w-2/4 w-full h-screen lg:hover:scale-100  hover:scale-105 overflow-hidden transition duration-500 ease-in-out cursor-pointer"
+      className="relative clip-container group text-6xl justify-center flex lg:w-2/4 w-full h-screen lg:hover:scale-100 hover:scale-105 overflow-hidden transition duration-500 ease-in-out cursor-pointer"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -60,18 +63,17 @@ function Games() {
         objectFit="cover"
         className="absolute lg:hover:opacity-0 transition duration-1000"
         priority
-      ></Image>
+      />
       <h1 className="group-hover:opacity-100 transition duration-1000 flex absolute top-2/4 text-white z-10 lg:text-[4rem] text-[2rem] lg:opacity-0">
         Games
       </h1>
-       <video
+      <video
         className="w-full h-screen absolute object-cover -z-10"
-        preload="none"
         controls={false}
         ref={videoRef}
         muted
         loop
-         onError={handleVideoError}
+        onError={handleVideoError} // Add the typed error handler
       >
         <source src="/assets/videos/Sequence4.mp4" type="video/mp4" />
         Your browser does not support the video tag.

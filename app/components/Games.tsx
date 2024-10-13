@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useRef, useState } from "react";
 import Image from "next/legacy/image";
 import NextVideo from "next-video";
-import shock from "@/videos/shock.mp4";
+import Sequence4 from "@/videos/Sequence4.mp4";
 
 const senuaImagePath = "/assets/images/senua.jpg";
 
@@ -84,7 +84,7 @@ function Games() {
       </video> */}
       <NextVideo
         className="w-full h-screen absolute object-cover -z-10"
-        src={shock}
+        src={Sequence4}
         controls={false}
         ref={videoRef}
         muted

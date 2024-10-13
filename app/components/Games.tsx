@@ -45,14 +45,6 @@ function Games() {
       message: error?.message,
     });
   };
-
-const handleVideoError = (event) => {
-  const error = event.target.error;
-  console.error("Video Error: ", {
-    code: error.code,
-    message: error.message,
-  });
-};
   
   return (
     <Link

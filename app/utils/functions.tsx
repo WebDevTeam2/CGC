@@ -15,8 +15,8 @@ async function init(): Promise<void> {
     client = await clientPromise;
     db = await client.db();
     games = await db.collection("games");
-    await games.createIndex({ id: 1 }, { unique: true });
-    await games.createIndex({ released: 1 });
+    // await games.createIndex({ id: 1 }, { unique: true });
+    // await games.createIndex({ released: 1 });
   } catch (error) {
     throw new Error("Failed to establish connection to database");
   }

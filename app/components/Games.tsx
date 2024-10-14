@@ -5,40 +5,6 @@ import Image from "next/legacy/image";
 const senuaImagePath = "/assets/images/senua.jpg";
 
 function Games() {
-  // const [isPlaying, setIsPlaying] = useState(false);
-  // const videoRef = useRef<HTMLVideoElement>(null);
-  // let timer: ReturnType<typeof setTimeout>;
-
-  // // Function to play the video with promise handling
-  // const handleMouseEnter = () => {
-  //   // Timeout to ensure the hover effect triggers properly
-  //   timer = setTimeout(() => {
-  //     if (!isPlaying && videoRef.current) {
-  //       const playPromise = videoRef.current.play();
-  //       if (playPromise !== undefined) {
-  //         playPromise
-  //           .then(() => {
-  //             // Automatic playback started!
-  //             setIsPlaying(true);
-  //           })
-  //           .catch((error) => {
-  //             // Auto-play was prevented
-  //             console.error("Auto-play was prevented:", error);
-  //           });
-  //       }
-  //     }
-  //   }, 400);
-  // };
-
-  // // Function to stop the video when not hovered
-  // const handleMouseLeave = () => {
-  //   clearTimeout(timer);
-  //   if (isPlaying && videoRef.current) {
-  //     videoRef.current.pause();
-  //     setIsPlaying(false);
-  //   }
-  // };
-
   return (
     <Link
       href={`/Games/page/1`}
@@ -55,17 +21,6 @@ function Games() {
       <h1 className="group-hover:opacity-100 transition duration-1000 flex absolute top-2/4 text-white z-10 lg:text-[4rem] text-[2rem] lg:opacity-0">
         Games
       </h1>
-      {/* <video
-        className="w-full h-screen absolute object-cover -z-10"
-        controls={false}
-        ref={videoRef}
-        muted
-        loop
-        onError={handleVideoError} // Add the typed error handler
-      >
-        <source src="/assets/videos/shock.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video> */}
     </Link>
   );
 }

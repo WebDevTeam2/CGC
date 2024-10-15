@@ -68,7 +68,7 @@ const Page = async ({ params }: { params: Movie }) => {
   return (
     <div className="overflow-hidden">
       <Filter />
-      <div className="grid sm:w-3/4 md:grid-cols-3 lg:grid-cols-4 md:gap-8 lg:gap-8 w-3/4 md:ml-32 lg:ml-64 mt-4 h-full not-search movies-grid">
+      <div className="grid sm:w-5/6 md:grid-cols-3 lg:grid-cols-4 md:gap-8 lg:gap-8 w-3/4 md:ml-32 lg:ml-64 mt-4 h-full not-search movies-grid">
         {movieData.results
           .filter((item) => item.release_date <= currentDate)
           .map((item) => (

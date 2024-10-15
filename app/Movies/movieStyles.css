@@ -118,7 +118,7 @@
     width: 92%;    
   }
   .card-link {
-    width: 100%;
+    width: 100%;    
   }
 
   .add-to-watchlist {
@@ -137,7 +137,7 @@
 
   .recommended-link,
   .card-link {
-    margin-bottom: 11rem;
+    margin-bottom: 12rem;
     margin-top: 0.7rem;
   }
 

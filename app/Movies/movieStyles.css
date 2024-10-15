@@ -3,7 +3,8 @@
     height: 45%;
   }
 
-  .main-movies-pages, .main-shows-pages {
+  .main-movies-pages,
+  .main-shows-pages {
     margin-top: 0.5rem;
     margin-left: 6rem;
   }
@@ -109,10 +110,16 @@
   .shows-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     margin: 0 auto;
-  }
+  }  
 
-  .movies-grid, .shows-grid {
+  .movies-grid,
+  .shows-grid {
     gap: 6px;
+    width: 92%;
+    margin-bottom: 1rem;
+  }
+  .card-link {
+    width: 100%;
   }
 
   .add-to-watchlist {
@@ -135,10 +142,11 @@
     margin-top: 0.7rem;
   }
 
-  .main-movies-pages, .main-shows-pages {
+  .main-movies-pages,
+  .main-shows-pages {
     justify-content: center;
     align-items: center;
-    margin-top: 1rem;
+    margin-top: 2rem;
   }
 
   .image-container,

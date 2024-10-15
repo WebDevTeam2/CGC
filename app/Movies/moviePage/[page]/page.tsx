@@ -103,7 +103,7 @@ const Page = async ({ params }: { params: Movie }) => {
                     <span className={`${getVotecolor(item.vote_average)}`}>
                       {item.vote_average.toString().slice(0, 3)}
                     </span>
-                    <FaStar color="yellow" />
+                    <FaStar color="yellow" style={{ marginTop: "3px;"}} />
                   </div>
                 </Link>
                 {/* watchlist and review container */}

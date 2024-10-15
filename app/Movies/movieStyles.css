@@ -114,9 +114,8 @@
 
   .movies-grid,
   .shows-grid {
-    gap: 6px;
-    width: 92%;
-    margin-bottom: 1rem;
+    gap: 12px;
+    width: 92%;    
   }
   .card-link {
     width: 100%;

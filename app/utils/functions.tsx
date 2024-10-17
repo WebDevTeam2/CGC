@@ -108,11 +108,6 @@ export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
     const startYear: number = currentYear - 15;
     const dateRanges: string[] = [];
 
-    // Create date ranges for each year
-    // for (let year = startYear; year <= currentYear; year++) {
-    //   dateRanges.push(`${year}-01-01,${year}-12-31`);
-    // }
-
     for (let year = startYear; year <= currentYear; year += 5) {
       const endYear = Math.min(year + 4, currentYear);
       dateRanges.push(`${year}-01-01,${endYear}-12-31`);
@@ -155,7 +150,7 @@ export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
 
             const dateRangeUrl = `${apiPosterUrl}&dates=${dateRange}`;
             const gameResults = await getGameData(dateRangeUrl, 1);
-            const slicedResults = gameResults.slice(0, 15);
+            const slicedResults = gameResults.slice(0, 30);
 
             // Upsert games fetched from RAWG API into MongoDB
             if (slicedResults.length) {

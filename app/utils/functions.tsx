@@ -105,7 +105,7 @@ export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
     if (!games) throw new Error("Games collection is not initialized");
 
     const currentYear: number = new Date().getFullYear();
-    const startYear: number = currentYear - 10;
+    const startYear: number = currentYear - 15;
     const dateRanges: string[] = [];
 
     // Create date ranges for each year

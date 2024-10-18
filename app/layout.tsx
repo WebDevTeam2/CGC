@@ -85,6 +85,12 @@ export default function RootLayout({
                 : "index, follow"
             }
           />
+          <link
+            rel="icon"
+            href="/assets/images/site-logo.png"
+            type="image/png"
+            sizes="32x32"
+          />
         </head>
         <body className={inter.className}>
           <NextSSRPlugin

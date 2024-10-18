@@ -50,14 +50,14 @@ const GenrePages = () => {
           </Link>
         </div>
       ))}
-      {page < 10 && (
+      {/* {page < 10 && ( */}
         <Link
           className="hover:opacity-[0.5] transition duration-200"
           href={`/Movies/Genres/${genre}/${page + 1}`}
         >
           {">"}
         </Link>
-      )}
+      {/* )} */}
     </div>
   );
 };

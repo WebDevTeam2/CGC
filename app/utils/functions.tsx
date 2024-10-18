@@ -15,8 +15,7 @@ async function init(): Promise<void> {
     client = await clientPromise;
     db = await client.db();
     games = await db.collection("games");
-    // await games.createIndex({ id: 1 }, { unique: true });
-    // await games.createIndex({ released: 1 });
+    await games.createIndex({ released: 1 });
   } catch (error) {
     throw new Error("Failed to establish connection to database");
   }
@@ -84,11 +83,21 @@ export const sortGamesByRelease = (games: PostResult[]) => {
   });
 };
 
+let cachedG: PostResult[] | null = null;
+let lastUpdated: Date | null = null;
+
 export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
-  // Return cached games if already fetched
-  if (cachedGames) {
-    console.log("Returning cached games");
-    return cachedGames;
+  const currentTime = new Date();
+
+  // If we have cached games and the last update was within the last month, return cached games
+  if (cachedG && lastUpdated) {
+    const timeDifference = currentTime.getTime() - lastUpdated.getTime();
+    const oneMonthInMs = 30 * 24 * 60 * 60 * 1000; // Approximate one month in milliseconds
+
+    if (timeDifference < oneMonthInMs) {
+      console.log("Returning cached games");
+      return cachedG;
+    }
   }
 
   try {
@@ -96,14 +105,13 @@ export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
     if (!games) throw new Error("Games collection is not initialized");
 
     const currentYear: number = new Date().getFullYear();
-    const startYear: number = 2005;
+    const startYear: number = currentYear - 15;
     const dateRanges: string[] = [];
 
-    // Create date ranges for each year
-    for (let year = startYear; year <= currentYear; year++) {
-      dateRanges.push(`${year}-01-01,${year}-12-31`);
+    for (let year = startYear; year <= currentYear; year += 5) {
+      const endYear = Math.min(year + 4, currentYear);
+      dateRanges.push(`${year}-01-01,${endYear}-12-31`);
     }
-
     // Fetch all ranges in parallel
     const allGames = await Promise.all(
       dateRanges.map(async (dateRange) => {
@@ -142,19 +150,20 @@ export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
 
             const dateRangeUrl = `${apiPosterUrl}&dates=${dateRange}`;
             const gameResults = await getGameData(dateRangeUrl, 1);
-            const slicedResults = gameResults.slice(0, 15);
+            const slicedResults = gameResults.slice(0, 30);
 
             // Upsert games fetched from RAWG API into MongoDB
-            await games?.bulkWrite(
-              slicedResults.map((game) => ({
+            if (slicedResults.length) {
+              const bulkOperations = slicedResults.map((game) => ({
                 updateOne: {
                   filter: { id: game.id }, // Use 'id' as unique key
                   update: { $set: { ...game, _id: new ObjectId() } },
-                  upsert: true, // Insert if doesn't exist
+                  upsert: true,
                 },
-              })),
-              { ordered: false }
-            );
+              }));
+
+              await games?.bulkWrite(bulkOperations, { ordered: false });
+            }
 
             // Return the newly fetched results
             return slicedResults;
@@ -170,6 +179,7 @@ export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
 
     // Flatten the array of arrays
     cachedGames = allGames.flat();
+    lastUpdated = new Date(); // Update the last updated time
     return cachedGames;
   } catch (error) {
     console.error("Error fetching and combining data:", error);

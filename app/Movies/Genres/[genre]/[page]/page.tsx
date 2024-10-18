@@ -39,7 +39,7 @@ const options = {
 
 const getMovieData = async (page: string, genre: string) => {
   const res = await fetch(
-    `${baseUrl}discover/movie?include_adult=false&page=${page}&with_genres=${genre}&sort_by=popularity.desc&vote_count.gte=30&with_original_language=en&${process.env.MOVIE_API_KEY}`,
+    `${baseUrl}discover/movie?include_adult=false&page=${page}&with_genres=${genre}&sort_by=primary_release_date.desc&vote_count.gte=10&with_original_language=en&${process.env.MOVIE_API_KEY}`,
     options
   );
   const data = await res.json();

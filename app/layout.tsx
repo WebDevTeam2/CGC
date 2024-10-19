@@ -18,19 +18,6 @@ interface Metadata {
   keywords?: string;
   authors: Author[]; // Ensure authors is an array
   robots?: string;
-  // og?: {
-  //   title: string;
-  //   description: string;
-  //   image: string;
-  //   url: string;
-  //   type: string;
-  // };
-  // twitter?: {
-  //   card: string;
-  //   title: string;
-  //   description: string;
-  //   image: string;
-  // };
 }
 
 export const metadata: Metadata = {

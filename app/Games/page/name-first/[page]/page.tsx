@@ -85,7 +85,7 @@ const Posts = async ({ params }: { params: Post }) => {
                 item.description_raw && (
                   <li
                     key={item.id}
-                    className="text-slate-200 text-balance text-xl hover:scale-110 xl:w-3/5 md:w-4/5 w-4/5 transition-all duration-500 ease-in-out"
+                    className="text-slate-200 text-balance text-lg hover:scale-105 xl:w-3/5 md:w-4/5 w-4/5 transition-all duration-500 ease-in-out"
                   >
                     <Link
                       href={`/Games/${item.slug}`}

@@ -60,7 +60,7 @@ const Sort: React.FC<SortProps> = ({ currentName }) => {
       ref={index}
     >
       <button
-        className={`group-hover:bg-blue-900 pointer-events-auto rounded-2xl bg-blue-950 px-10 py-3 text-lg border-none ${
+        className={`group-hover:bg-blue-900 pointer-events-auto rounded-2xl bg-blue-950 px-10 py-3 text-md border-none ${
           isOpen ? "rounded-b-sm" : "rounded-b-2xl"
         }`}
         onClick={toggleDropdown}
@@ -68,18 +68,12 @@ const Sort: React.FC<SortProps> = ({ currentName }) => {
         Order By
       </button>
       <div
-        className={`pointer-events-auto w-[9.7rem] divide-y text-lg rounded-b-2xl bg-neutral-100 text-black flex flex-col transition-all duration-300 ${
+        className={`pointer-events-auto w-[9.7rem] divide-y text-md rounded-b-2xl bg-neutral-100 text-black flex flex-col transition-all duration-300 ${
           isOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
         }`}
         style={{ visibility: isOpen ? "visible" : "hidden" }}
         onClick={closeDropdown}
       >
-        <Link
-          href={`/Games/${currentName}/page/oldest-first/1`}
-          className="hover:text-blue-600 py-3 px-6"
-        >
-          Oldest First
-        </Link>
         <Link
           href={`/Games/${currentName}/page/rating-first/1`}
           className="hover:text-blue-600 py-3 px-6"

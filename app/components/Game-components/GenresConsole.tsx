@@ -67,7 +67,7 @@ const Genres: React.FC<GenresProps> = ({ genres, currentName }) => {
       ref={index}
     >
       <button
-        className={`group-hover:bg-neutral-600 pointer-events-auto rounded-2xl bg-neutral-500 px-[4.4rem] py-3 text-lg border-none ${
+        className={`group-hover:bg-neutral-600 pointer-events-auto rounded-2xl bg-neutral-500 px-[4.4rem] py-3 text-md border-none ${
           isOpen ? "rounded-b-sm" : "rounded-b-2xl"
         }`}
         onClick={toggleDropdown}
@@ -75,7 +75,7 @@ const Genres: React.FC<GenresProps> = ({ genres, currentName }) => {
         Genres
       </button>
       <div
-        className={`pointer-events-auto top-[3.3rem] absolute overflow-hidden overflow-y-auto divide-y text-lg rounded-b-2xl bg-neutral-100 flex flex-col text-center transition-all duration-300 ${
+        className={`pointer-events-auto top-[3rem] absolute overflow-hidden overflow-y-auto divide-y text-md rounded-b-2xl bg-neutral-100 flex flex-col text-center transition-all duration-300 ${
           isOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
         }`}
         style={{ visibility: isOpen ? "visible" : "hidden" }}
@@ -87,7 +87,7 @@ const Genres: React.FC<GenresProps> = ({ genres, currentName }) => {
             href={`/Games/${currentName}/genre/${genre.slug}/page/1`}
           >
             <ul
-              className="text-black w-[12rem]  text-lg transition delay-50 p-2 rounded-full hover:scale-105"
+              className="text-black w-[12rem] text-md transition delay-50 p-2 rounded-full hover:scale-105"
               onClick={closeDropdown}
             >
               {genre.name}

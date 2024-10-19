@@ -78,6 +78,22 @@ export default function RootLayout({
             type="image/png"
             sizes="32x32"
           />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                name: "CineGame Critic",
+                url: "https://www.cinegamecritic.com", // Replace with your actual site URL
+                logo: "https://www.cinegamecritic.com/assets/images/site-logo.png", // Replace with the actual path to your logo
+                sameAs: [
+                  "https://www.linkedin.com/in/stefanos-kaloulis-b4ba792b6",
+                  "https://www.example.com/apostolos",
+                ],
+              }),
+            }}
+          />
         </head>
         <body className={inter.className}>
           <NextSSRPlugin

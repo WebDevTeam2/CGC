@@ -65,14 +65,16 @@ const Page = async ({ params }: { params: Movie }) => {
             >
               {/* Image container */}
               <Link href={`/Movies/${item.id}`}>
-                <div className="card-image-container sm:w-full sm:h-56 lg:w-full lg:h-96 p-10 relative">
-                  <Image
+              {/* p-10 */}
+                <div className="card-image-container sm:w-full sm:h-56 lg:w-full lg:h-96 relative">
+                  <img
                     src={`${imageURL}${item.poster_path}`}
+                    
                     alt={item.title}
-                    layout="fill"
-                    objectFit="cover"
+                    // layout="fill"
+                    // objectFit="cover"
                     className="absolute w-full h-full"
-                    priority
+                    // priority
                   />
                 </div>
               </Link>

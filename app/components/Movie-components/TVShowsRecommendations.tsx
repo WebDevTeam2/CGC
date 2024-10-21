@@ -2,6 +2,7 @@
 import Link from "next/link";
 import Image from "next/legacy/image";
 import { useState, useEffect } from "react";
+import { options } from "@/app/constants/constants";
 
 const baseUrl = "https://api.themoviedb.org/3/tv/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
@@ -13,14 +14,7 @@ interface RecommendedShow {
   vote_average: number;
   overview: string;
 }
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_MOVIE_BEARER_TOKEN}`,
-  },
-  next: { revalidate: 43200 },
-};
+
 const getVotecolor = (vote: number) => {
   if (vote >= 7) {
     return "text-green-500";

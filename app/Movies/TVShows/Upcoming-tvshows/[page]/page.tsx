@@ -3,18 +3,11 @@ import { GiFilmProjector } from "react-icons/gi";
 import Link from "next/link";
 import UpComingTvShowsPages from "@/app/components/Movie-components/UpcomingTvShowsPages";
 import TvFilter from "@/app/components/Movie-components/TvFilter";
+import { options } from "@/app/constants/constants";
 
 const baseUrl = "https://api.themoviedb.org/3/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${process.env.MOVIE_BEARER_TOKEN}`,
-  },
-  next: { revalidate: 43200 },
-};
 interface TVResult {
   adult: boolean;
   backdrop_path: string;

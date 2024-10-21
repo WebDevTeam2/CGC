@@ -4,18 +4,11 @@ import Image from "next/legacy/image";
 import { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
 import AddToWatchlist from "./AddToWatchlist";
+import { options } from "@/app/constants/constants";
 
 const baseUrl = "https://api.themoviedb.org/3/movie/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_MOVIE_BEARER_TOKEN}`,
-  },
-  next: { revalidate: 43200 },
-};
 interface RecommendedMovie {
   id: number;
   title: string;

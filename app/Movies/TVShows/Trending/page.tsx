@@ -2,19 +2,11 @@ import Link from "next/link";
 import Image from "next/legacy/image";
 import { GiFilmProjector } from "react-icons/gi";
 import TvFilter from "@/app/components/Movie-components/TvFilter";
+import { options } from "@/app/constants/constants";
 
 const baseUrl = "https://api.themoviedb.org/3/";
 const ApiURL = baseUrl + "trending/tv/day?page=1&language=en-US&" + process.env.MOVIE_API_KEY;
 const imageURL = "https://image.tmdb.org/t/p/w500";
-
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${process.env.MOVIE_BEARER_TOKEN}`,
-  },
-  next: { revalidate: 43200 },
-};
 
 interface TVShow {
   page: number;

@@ -1,6 +1,7 @@
 import AddToWatchlist from "@/app/components/Movie-components/AddToWatchlist";
 import Filter from "@/app/components/Movie-components/Filter";
 import Pages from "@/app/components/Movie-components/Pages";
+import { options } from "@/app/constants/constants";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { FaStar } from "react-icons/fa";
@@ -9,14 +10,6 @@ const baseMovieUrl = "https://api.themoviedb.org/3/search/movie";
 const baseTVUrl = "https://api.themoviedb.org/3/search/tv";
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${process.env.MOVIE_BEARER_TOKEN}`,
-  },
-  next: { revalidate: 43200 },
-};
 interface Result {
   id: number;
   title?: string; // Movies have 'title'

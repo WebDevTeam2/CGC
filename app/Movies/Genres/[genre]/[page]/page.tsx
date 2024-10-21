@@ -2,6 +2,7 @@ import Image from "next/legacy/image";
 import Link from "next/link";
 import GenrePages from "@/app/components/Movie-components/GenrePages";
 import Filter from "@/app/components/Movie-components/Filter";
+import { options } from "@/app/constants/constants";
 
 const baseUrl = "https://api.themoviedb.org/3/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
@@ -27,15 +28,6 @@ interface MovieResult {
   vote_average: number;
   vote_count: number;
 }
-
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${process.env.MOVIE_BEARER_TOKEN}`,
-  },
-  next: { revalidate: 43200 },
-};
 
 const getMovieData = async (page: string, genre: string) => {
   const res = await fetch(

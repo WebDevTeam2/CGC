@@ -2,6 +2,7 @@
 import { addUserReview } from "@/app/collection/connection";
 import { NextRequest, NextResponse } from "next/server";
 
+//adding a review in Games
 export async function POST(
   req: NextRequest,
   { params }: { params: { userid: string } }

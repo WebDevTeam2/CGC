@@ -1,5 +1,5 @@
 "use client";
-import { options } from "@/app/constants/constants";
+import { clientOptions } from "@/app/constants/constants";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaLessThan, FaGreaterThan } from "react-icons/fa";
@@ -9,6 +9,7 @@ interface TvGenre {
   name: string;
 }
 
+
 const TvFilter = () => {
   const [isActive, setIsActive] = useState(false);
   const [genres, setGenres] = useState<TvGenre[]>([]);
@@ -17,7 +18,7 @@ const TvFilter = () => {
   useEffect(() => {
     const fetchMovieGenres = async () => {
       const res = await fetch(
-        `https://api.themoviedb.org/3/genre/tv/list?language=en&${process.env.NEXT_PUBLIC_MOVIE_API_KEY}`, options
+        `https://api.themoviedb.org/3/genre/tv/list?language=en&${process.env.NEXT_PUBLIC_MOVIE_API_KEY}`, clientOptions
       );
       const data = await res.json();
       setGenres(data.genres);

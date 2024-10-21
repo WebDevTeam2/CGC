@@ -16,7 +16,7 @@ const options = {
     accept: "application/json",
     Authorization: `Bearer ${process.env.MOVIE_BEARER_TOKEN}`,
   },
-  next: { revalidate: 10 },
+  next: { revalidate: 1000 },
 };
 
 interface Movie {

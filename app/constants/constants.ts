@@ -1,6 +1,6 @@
 export const pageSize = 15;
 
-//TMDB API FETCH OPTIONS
+//TMDB api fetch options
 export const options = {
   method: "GET",
   headers: {
@@ -10,6 +10,7 @@ export const options = {
   next: { revalidate: 1000 },
 };
 
+//TMDB api fetch options for client pages
 export const clientOptions = {
   method: "GET",
   headers: {

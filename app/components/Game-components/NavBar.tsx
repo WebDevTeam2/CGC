@@ -198,12 +198,12 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
               ))}
               {!session ? (
                 <>
-                  <Link href={"/Signup"}>
+                  <Link href={"/Sign/Signup"}>
                     <button className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
                       Sign Up
                     </button>
                   </Link>
-                  <Link href={"/Signin"}>
+                  <Link href={"/Sign/Signin"}>
                     <button className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
                       Log In
                     </button>
@@ -258,12 +258,12 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
               ))}
               {!session ? (
                 <>
-                  <Link href={"/Signup"}>
+                  <Link href={"/Sign/Signup"}>
                     <button className="text-stone-200 text-md transition delay-50 rounded-full hover:scale-110">
                       Sign Up
                     </button>
                   </Link>
-                  <Link href={"/Signin"}>
+                  <Link href={"/Sign/Signin"}>
                     <button className="text-stone-200 text-md transition delay-50  rounded-full hover:scale-110">
                       Log In
                     </button>

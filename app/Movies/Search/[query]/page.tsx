@@ -1,7 +1,7 @@
 import AddToWatchlist from "@/app/components/Movie-components/AddToWatchlist";
 import Filter from "@/app/components/Movie-components/Filter";
 import Pages from "@/app/components/Movie-components/Pages";
-import { options } from "@/app/constants/constants";
+import { getVotecolor, options } from "@/app/constants/constants";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { FaStar } from "react-icons/fa";
@@ -42,15 +42,6 @@ const getTVShowData = async (query: string): Promise<Result[]> => {
   return data.results.map((result: any) => ({ ...result, media_type: "tv" }));
 };
 
-const getVotecolor = (vote: number) => {
-  if (vote >= 7) {
-    return "text-green-500";
-  } else if (vote >= 6) {
-    return "text-yellow-500";
-  } else {
-    return "text-red-500";
-  }
-};
 
 const searchPage = async ({ params }: any) => {
   const movieResults = await getMovieData(`${params.query}`);

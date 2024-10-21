@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Image from "next/legacy/image";
 import { useState, useEffect } from "react";
-import { options } from "@/app/constants/constants";
+import { getVotecolor, options } from "@/app/constants/constants";
 
 const baseUrl = "https://api.themoviedb.org/3/tv/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
@@ -14,16 +14,6 @@ interface RecommendedShow {
   vote_average: number;
   overview: string;
 }
-
-const getVotecolor = (vote: number) => {
-  if (vote >= 7) {
-    return "text-green-500";
-  } else if (vote >= 6) {
-    return "text-yellow-500";
-  } else {
-    return "text-red-500";
-  }
-};
 
 //Function pou pairnei recommended tv shows apo to API
 const getRecommendedShows = async (id: string) => {

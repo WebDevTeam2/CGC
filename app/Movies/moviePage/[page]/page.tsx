@@ -7,7 +7,7 @@ import AddToWatchlist from "@/app/components/Movie-components/AddToWatchlist";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { findUserByEmail } from "@/app/collection/connection";
-import { options } from "@/app/constants/constants";
+import { getVotecolor, options } from "@/app/constants/constants";
 
 const baseUrl = "https://api.themoviedb.org/3/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
@@ -42,12 +42,6 @@ const getMovieData = async (page: string) => {
   );
   const data = await res.json();
   return data;
-};
-
-const getVotecolor = (vote: number) => {
-  if (vote >= 7) return "text-green-500";
-  if (vote >= 6) return "text-yellow-500";
-  return "text-red-500";
 };
 
 const Page = async ({ params }: { params: Movie }) => {
@@ -96,7 +90,7 @@ const Page = async ({ params }: { params: Movie }) => {
                     <span className={`${getVotecolor(item.vote_average)}`}>
                       {item.vote_average.toString().slice(0, 3)}
                     </span>
-                    <FaStar color="yellow" style={{ marginTop: "3px;"}} />
+                    <FaStar color="yellow" style={{ marginTop: "3px"}} />
                   </div>
                 </Link>
                 {/* watchlist and review container */}

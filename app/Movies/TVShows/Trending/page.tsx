@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/legacy/image";
 import { GiFilmProjector } from "react-icons/gi";
 import TvFilter from "@/app/components/Movie-components/TvFilter";
-import { options } from "@/app/constants/constants";
+import { getVotecolor, options } from "@/app/constants/constants";
 
 const baseUrl = "https://api.themoviedb.org/3/";
 const ApiURL = baseUrl + "trending/tv/day?page=1&language=en-US&" + process.env.MOVIE_API_KEY;
@@ -36,15 +36,6 @@ const getTVShowData = async (url: string) => {
   return data;
 };
 
-const getVotecolor = (vote: number) => {
-  if (vote >= 8) {
-    return "text-green-500";
-  } else if (vote >= 6) {
-    return "text-yellow-500";
-  } else {
-    return "text-red-500";
-  }
-};
 
 const Trending = async () => {
   const tvShowData: TVShow = await getTVShowData(ApiURL);

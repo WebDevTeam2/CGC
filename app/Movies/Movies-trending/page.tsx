@@ -4,7 +4,7 @@ import { ImTv } from "react-icons/im";
 import { FaStar } from "react-icons/fa";
 import Filter from "@/app/components/Movie-components/Filter";
 import AddToWatchlist from "@/app/components/Movie-components/AddToWatchlist";
-import { options } from "@/app/constants/constants";
+import { options, getVotecolor } from "@/app/constants/constants";
 
 const baseUrl = "https://api.themoviedb.org/3/";
 const ApiURL =
@@ -39,16 +39,6 @@ const getMovieData = async (url: string) => {
   const res = await fetch(url, options);
   const data = await res.json();
   return data;
-};
-
-const getVotecolor = (vote: number) => {
-  if (vote >= 7) {
-    return "text-green-500";
-  } else if (vote >= 6) {
-    return "text-yellow-500";
-  } else {
-    return "text-red-500";
-  }
 };
 
 const Trending = async () => {

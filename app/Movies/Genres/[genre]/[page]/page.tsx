@@ -2,7 +2,7 @@ import Image from "next/legacy/image";
 import Link from "next/link";
 import GenrePages from "@/app/components/Movie-components/GenrePages";
 import Filter from "@/app/components/Movie-components/Filter";
-import { options } from "@/app/constants/constants";
+import { options, getVotecolor } from "@/app/constants/constants";
 
 const baseUrl = "https://api.themoviedb.org/3/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
@@ -36,15 +36,6 @@ const getMovieData = async (page: string, genre: string) => {
   );
   const data = await res.json();
   return data;
-};
-const getVotecolor = (vote: number) => {
-  if (vote >= 7) {
-    return "text-green-500";
-  } else if (vote >= 6) {
-    return "text-yellow-500";
-  } else {
-    return "text-red-500";
-  }
 };
 
 const FilteredByGenre = async ({

@@ -4,7 +4,7 @@ import GenrePages from "@/app/components/Movie-components/GenrePages";
 import Filter from "@/app/components/Movie-components/Filter";
 import TvFilter from "@/app/components/Movie-components/TvFilter";
 import TvGenrePages from "@/app/components/Movie-components/TvGenrePages";
-import { options } from "@/app/constants/constants";
+import { getVotecolor, options } from "@/app/constants/constants";
 
 const baseUrl = "https://api.themoviedb.org/3/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
@@ -39,15 +39,7 @@ const getTVShowData = async (page: string, genre: string) => {
   const data = await res.json();
   return data;
 };
-const getVotecolor = (vote: number) => {
-  if (vote >= 7) {
-    return "text-green-500";
-  } else if (vote >= 6) {
-    return "text-yellow-500";
-  } else {
-    return "text-red-500";
-  }
-};
+
 
 const FilteredByGenre = async ({
   params,

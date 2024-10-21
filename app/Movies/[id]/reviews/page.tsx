@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 
 const baseUrl = "https://api.themoviedb.org/3/movie/";
 
-const movieReview = ({ params }: { params: { id: string } }) => {
+const MovieReview = ({ params }: { params: { id: string } }) => {
   const movieid = params.id;
   const { data: session } = useSession();
   const [review, setReview] = useState<string>("");
@@ -130,4 +130,4 @@ const movieReview = ({ params }: { params: { id: string } }) => {
   );
 };
 
-export default movieReview;
+export default MovieReview;

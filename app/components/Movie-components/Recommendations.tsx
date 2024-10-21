@@ -4,7 +4,7 @@ import Image from "next/legacy/image";
 import { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
 import AddToWatchlist from "./AddToWatchlist";
-import { getVotecolor, options } from "@/app/constants/constants";
+import { clientOptions, getVotecolor } from "@/app/constants/constants";
 
 const baseUrl = "https://api.themoviedb.org/3/movie/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
@@ -21,7 +21,7 @@ interface RecommendedMovie {
 const getRecommendedMovies = async (id: string) => {
   const res = await fetch(
     `${baseUrl}${id}/recommendations?include_adult=false&language=en-US&page=1&api_key=${process.env.NEXT_PUBLIC_MOVIE_API_KEY}`,
-    options
+    clientOptions
   );
   const data = await res.json();
   return data.results;

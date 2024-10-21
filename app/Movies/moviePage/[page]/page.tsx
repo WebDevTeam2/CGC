@@ -7,18 +7,10 @@ import AddToWatchlist from "@/app/components/Movie-components/AddToWatchlist";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { findUserByEmail } from "@/app/collection/connection";
+import { getVotecolor, options } from "@/app/constants/constants";
 
 const baseUrl = "https://api.themoviedb.org/3/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
-
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${process.env.MOVIE_BEARER_TOKEN}`,
-  },
-  next: { revalidate: 43200 },
-};
 
 interface Movie {
   page: number;
@@ -51,12 +43,6 @@ const getMovieData = async (page: string) => {
   return data;
 };
 
-const getVotecolor = (vote: number) => {
-  if (vote >= 7) return "text-green-500";
-  if (vote >= 6) return "text-yellow-500";
-  return "text-red-500";
-};
-
 const Page = async ({ params }: { params: Movie }) => {
   const movieData: Movie = await getMovieData(`${params.page.toString()}`);
   const currentDate = new Date().toISOString().split("T")[0];
@@ -68,7 +54,8 @@ const Page = async ({ params }: { params: Movie }) => {
   return (
     <div className="overflow-hidden">
       <Filter />
-      <div className="grid sm:w-5/6 md:grid-cols-3 lg:grid-cols-4 md:gap-8 lg:gap-8 w-3/4 md:ml-32 lg:ml-64 mt-4 h-full not-search movies-grid">
+      <div className="grid sm:w-5/6 md:grid-cols-3 lg:grid-cols-4 md:gap-8 lg:gap-8 w-3/4 lg:w-3/4 md:ml-32 lg:ml-64 mt-4 h-full not-search movies-grid">
+        {/* We display the results based on their release year */}
         {movieData.results
           .filter((item) => item.release_date <= currentDate)
           .map((item) => (
@@ -78,14 +65,16 @@ const Page = async ({ params }: { params: Movie }) => {
             >
               {/* Image container */}
               <Link href={`/Movies/${item.id}`}>
-                <div className="card-image-container sm:w-full sm:h-56 lg:w-full lg:h-96 p-10 relative">
-                  <Image
+              {/* p-10 */}
+                <div className="card-image-container sm:w-full sm:h-56 lg:w-full lg:h-96 relative">
+                  <img
                     src={`${imageURL}${item.poster_path}`}
+                    
                     alt={item.title}
-                    layout="fill"
-                    objectFit="cover"
+                    // layout="fill"
+                    // objectFit="cover"
                     className="absolute w-full h-full"
-                    priority
+                    // priority
                   />
                 </div>
               </Link>
@@ -103,7 +92,7 @@ const Page = async ({ params }: { params: Movie }) => {
                     <span className={`${getVotecolor(item.vote_average)}`}>
                       {item.vote_average.toString().slice(0, 3)}
                     </span>
-                    <FaStar color="yellow" style={{ marginTop: "3px;"}} />
+                    <FaStar color="yellow" style={{ marginTop: "3px" }} />
                   </div>
                 </Link>
                 {/* watchlist and review container */}
@@ -112,7 +101,7 @@ const Page = async ({ params }: { params: Movie }) => {
                     <AddToWatchlist movieId={item.id} />
                   </div>
                   <span className="text-white justify-center text-center">
-                    Review
+                    <Link href={`/Movies/${item.id}/reviews`}>Review</Link>
                   </span>
                 </div>
               </div>

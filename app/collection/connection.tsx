@@ -12,6 +12,16 @@ export interface Review {
   text?: string;
   date: string; // ISO date string
 }
+
+export interface MovieReview {
+  reviewId: number;
+  movieId: number;
+  movieName: string;
+  text?: string;
+  rating?: number;
+  date: string;
+}
+
 export interface Library {
   libraryId: number;
   gameId: number;
@@ -422,6 +432,49 @@ export const addToList = async (
     return result;
   } catch (error) {
     console.error("Error adding to List:", error);
+    throw new Error("Failed to update user by id");
+  }
+};
+
+export const addMovieReview = async (
+  userId: string,
+  movieId: number,
+  movieName: string,
+  text: string,
+  rating: number,
+  date: Date
+) => {
+  if (!users) await init();
+  if (!users) throw new Error("Users collection is not initialized");
+
+  const reviewId = Math.floor(Math.random() * 900000) + 100000;
+  const newReview: MovieReview = {
+    reviewId: reviewId,
+    movieId: movieId,
+    movieName: movieName,    
+    text: text,
+    rating: rating,
+    date: new Date(date).toLocaleString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true, // Change to true if you want AM/PM
+    }),
+  };
+
+  try {
+    const objectId = new ObjectId(userId);
+    const result = await users.findOneAndUpdate(
+      { _id: objectId },
+      { $push: { user_movie_reviews: newReview } },
+      { returnDocument: "after" }
+    );
+    return result;
+  } catch (error) {
+    console.error("Error adding to reviews:", error);
     throw new Error("Failed to update user by id");
   }
 };

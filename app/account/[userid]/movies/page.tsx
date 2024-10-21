@@ -2,7 +2,6 @@
 import { FaStar } from "react-icons/fa";
 import UserOptions from "@/app/components/Account-components/UserOptions";
 import { useSession } from "next-auth/react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Image from "next/legacy/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -10,6 +9,7 @@ import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Navigation, Pagination } from "swiper/modules";
+import { getVotecolor } from "@/app/constants/constants";
 
 interface Movie {
   id: number;
@@ -23,28 +23,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
   const [user, setUser] = useState<any>(null);
   const [imageUrl, setImageUrl] = useState<string>("");
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [curr, setCurr] = useState(0);
   const { userid } = params;
-
-  const getVotecolor = (vote: number) => {
-    if (vote >= 7) return "text-green-500";
-    if (vote >= 6) return "text-yellow-500";
-    return "text-red-500";
-  };
-
-  const handlePrev = () => {
-    setCurr((prevCurr) => {
-      const newIndex = prevCurr - 4;
-      return newIndex < 0 ? 0 : newIndex;
-    });
-  };
-
-  const handleNext = () => {
-    setCurr((prevCurr) => {
-      const newIndex = prevCurr + 4;
-      return newIndex >= movies.length ? prevCurr : newIndex;
-    });
-  };
 
   useEffect(() => {
     const fetchUser = async (userid: string) => {

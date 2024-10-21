@@ -4,20 +4,14 @@ import { ImTv } from "react-icons/im";
 import { FaStar } from "react-icons/fa";
 import Filter from "@/app/components/Movie-components/Filter";
 import AddToWatchlist from "@/app/components/Movie-components/AddToWatchlist";
+import { options, getVotecolor } from "@/app/constants/constants";
 
 const baseUrl = "https://api.themoviedb.org/3/";
 const ApiURL =
   baseUrl + "trending/movie/day?page=1&language=en-US&" + process.env.API_KEY;
 const imageURL = "https://image.tmdb.org/t/p/w500";
 
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${process.env.MOVIE_BEARER_TOKEN}`,
-  },
-  next: { revalidate: 43200 },
-};
+
 
 interface Movie {
   page: number;
@@ -45,16 +39,6 @@ const getMovieData = async (url: string) => {
   const res = await fetch(url, options);
   const data = await res.json();
   return data;
-};
-
-const getVotecolor = (vote: number) => {
-  if (vote >= 7) {
-    return "text-green-500";
-  } else if (vote >= 6) {
-    return "text-yellow-500";
-  } else {
-    return "text-red-500";
-  }
 };
 
 const Trending = async () => {

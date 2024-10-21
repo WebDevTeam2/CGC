@@ -2,6 +2,7 @@ import Image from "next/legacy/image";
 import Link from "next/link";
 import GenrePages from "@/app/components/Movie-components/GenrePages";
 import Filter from "@/app/components/Movie-components/Filter";
+import { options, getVotecolor } from "@/app/constants/constants";
 
 const baseUrl = "https://api.themoviedb.org/3/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
@@ -28,15 +29,6 @@ interface MovieResult {
   vote_count: number;
 }
 
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${process.env.MOVIE_BEARER_TOKEN}`,
-  },
-  next: { revalidate: 43200 },
-};
-
 const getMovieData = async (page: string, genre: string) => {
   const res = await fetch(
     `${baseUrl}discover/movie?include_adult=false&page=${page}&with_genres=${genre}&sort_by=primary_release_date.desc&vote_count.gte=10&with_original_language=en&${process.env.MOVIE_API_KEY}`,
@@ -44,15 +36,6 @@ const getMovieData = async (page: string, genre: string) => {
   );
   const data = await res.json();
   return data;
-};
-const getVotecolor = (vote: number) => {
-  if (vote >= 7) {
-    return "text-green-500";
-  } else if (vote >= 6) {
-    return "text-yellow-500";
-  } else {
-    return "text-red-500";
-  }
 };
 
 const FilteredByGenre = async ({

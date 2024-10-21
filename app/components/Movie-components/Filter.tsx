@@ -1,4 +1,5 @@
 "use client";
+import { clientOptions } from "@/app/constants/constants";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaLessThan, FaGreaterThan } from "react-icons/fa";
@@ -7,14 +8,6 @@ interface Genre {
   id: number;
   name: string;
 }
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_MOVIE_BEARER_TOKEN}`,
-  },
-  next: { revalidate: 43200 },
-};
 
 const Filter = () => {
   const [isActive, setIsActive] = useState(false);
@@ -24,7 +17,7 @@ const Filter = () => {
   useEffect(() => {
     const fetchMovieGenres = async () => {
       const res = await fetch(
-        `https://api.themoviedb.org/3/genre/movie/list?language=en&${process.env.NEXT_PUBLIC_MOVIE_API_KEY}`, options
+        `https://api.themoviedb.org/3/genre/movie/list?language=en&api_key=${process.env.NEXT_PUBLIC_MOVIE_API_KEY}`, clientOptions
       );
       const data = await res.json();
       setGenres(data.genres);

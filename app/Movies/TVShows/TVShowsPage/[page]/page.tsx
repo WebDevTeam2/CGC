@@ -4,18 +4,10 @@ import TvShowPages from "@/app/components/Movie-components/TvShowPages";
 import TvFilter from "@/app/components/Movie-components/TvFilter";
 import { FaStar } from "react-icons/fa";
 import AddToWatchlist from "@/app/components/Movie-components/AddToWatchlist";
+import { getVotecolor, options } from "@/app/constants/constants";
 
 const baseUrl = "https://api.themoviedb.org/3/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
-
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${process.env.MOVIE_BEARER_TOKEN}`,
-  },
-  next: { revalidate: 43200 },
-};
 
 interface TVShows {
   page: number;
@@ -62,16 +54,6 @@ const getTVShowData = async (page: string) => {
   );
   const data = await res.json();
   return data;
-};
-
-const getVotecolor = (vote: number) => {
-  if (vote >= 7) {
-    return "text-green-500";
-  } else if (vote >= 6) {
-    return "text-yellow-500";
-  } else {
-    return "text-red-500";
-  }
 };
 
 const Page = async ({ params }: { params: TVShows }) => {

@@ -2,6 +2,7 @@
 import Link from "next/link";
 import Image from "next/legacy/image";
 import { useState, useEffect } from "react";
+import { clientOptions, getVotecolor, options } from "@/app/constants/constants";
 
 const baseUrl = "https://api.themoviedb.org/3/tv/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
@@ -13,29 +14,12 @@ interface RecommendedShow {
   vote_average: number;
   overview: string;
 }
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_MOVIE_BEARER_TOKEN}`,
-  },
-  next: { revalidate: 43200 },
-};
-const getVotecolor = (vote: number) => {
-  if (vote >= 7) {
-    return "text-green-500";
-  } else if (vote >= 6) {
-    return "text-yellow-500";
-  } else {
-    return "text-red-500";
-  }
-};
 
 //Function pou pairnei recommended tv shows apo to API
 const getRecommendedShows = async (id: string) => {
   const res = await fetch(
     `${baseUrl}${id}/recommendations?include_adult=false&language=en-US&page=1&${process.env.NEXT_PUBLIC_MOVIE_API_KEY}`,
-    options
+    clientOptions
   );
   const data = await res.json();
   return data.results;

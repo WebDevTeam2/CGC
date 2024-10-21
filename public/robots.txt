@@ -3,3 +3,5 @@ Disallow: /accounts
 
 User-agent: *
 Allow: /
+
+Sitemap: https://www.cinegame-critic.com/sitemap.xml

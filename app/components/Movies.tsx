@@ -65,6 +65,11 @@ const Movies = () => {
         className="absolute grayscale hover:grayscale-0 transition duration-1000  "
         priority
       ></Image>
+      <img
+        src={jokerImagePath}
+        alt="Joker image placeholder"
+        className="absolute object-cover grayscale hover:grayscale-0 transition duration-1000  "
+      />
       <h1 className="clip-text group-hover:opacity-100 transition duration-1000 flex absolute top-2/4 text-white z-10 lg:text-[4rem] text-[2rem] lg:opacity-0">
         Movies
       </h1>

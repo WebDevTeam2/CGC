@@ -35,7 +35,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
   const [userId, setUserId] = useState<string>("");
   const profileRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
-  const [isWideScreen, setIsWideScreen] = useState<boolean>(false);
+  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > 640);
 
   // Handle window resize
   useEffect(() => {

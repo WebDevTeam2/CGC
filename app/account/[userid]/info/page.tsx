@@ -202,10 +202,9 @@ const Account = ({ params }: { params: { userid: string } }) => {
             {hasProvider ? (
               <>
                 <div className="relative w-20 h-20 rounded-full overflow-hidden">
-                  <Image
+                  <img
                     src={imageUrl || "/assets/images/default_avatar.jpg"}
                     alt="User Avatar"
-                    layout="fill"
                     className="object-cover"
                   />
                 </div>

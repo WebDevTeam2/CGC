@@ -36,7 +36,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
   const [screenshots, setScreenshots] = useState<PostPage["results"]>();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState<"next" | "prev">("next");
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   const imageRef = useRef<HTMLDivElement>(null);
   const cache = useRef<{ [key: string]: PostPage["results"] }>({});
 
@@ -55,16 +55,16 @@ const Screenshots = ({ params }: { params: PostPage }) => {
 
   const handleClick = (index: number) => {
     setCurrentIndex(index);
-    setIsOpen(true);
+    // setIsOpen(true);
   };
 
   const handleClose = () => {
-    setIsOpen(false);
+    // setIsOpen(false);
   };
 
   const handleClickOutside = (e: MouseEvent) => {
     if (imageRef.current && !imageRef.current.contains(e.target as Node)) {
-      setIsOpen(false);
+      // setIsOpen(false);
     }
   };
 
@@ -95,19 +95,19 @@ const Screenshots = ({ params }: { params: PostPage }) => {
     };
   }, [params.name]);
 
-  useEffect(() => {
-    // Prevent scrolling when the modal is open
-    if (isOpen) {
-      document.body.classList.add("overflow-hidden");
-    } else {
-      document.body.classList.remove("overflow-hidden");
-    }
-  }, [isOpen]);
+  // useEffect(() => {
+  //   // Prevent scrolling when the modal is open
+  //   if (isOpen) {
+  //     document.body.classList.add("overflow-hidden");
+  //   } else {
+  //     document.body.classList.remove("overflow-hidden");
+  //   }
+  // }, [isOpen]);
 
   return (
     <>
-      {isOpen && (
-        <div className="fixed w-full h-[80rem] lg:-translate-y-4 min-[780px]:-translate-y-[17rem] min-[480px]:-translate-y-[14rem] -translate-y-[38rem]  lg:pt-0 pt-24 bg-black bg-opacity-75 flex justify-center z-30">
+      {/* {isOpen && (
+        <div className="fixed w-full h-screen lg:-translate-y-4 min-[780px]:-translate-y-[17rem] min-[480px]:-translate-y-[14rem] -translate-y-[38rem]  lg:pt-0 pt-24 bg-black bg-opacity-75 flex justify-center items-center z-30">
           <div
             ref={imageRef}
             className="relative lg:h-[40rem] lg:w-[50rem] min-[800px]:h-[35rem] min-[800px]:w-[40rem] min-[670px]:h-[35rem] min-[670px]:w-[35rem] min-[580px]:h-[35rem] min-[580px]:w-[30rem] min-[480px]:h-[35rem] min-[480px]:w-[25rem] h-[32rem] w-[19rem] transition-all duration-200 text-white"
@@ -137,13 +137,11 @@ const Screenshots = ({ params }: { params: PostPage }) => {
                         : "translate-x-full"
                     } invisible`}
                   >
-                    <Image
+                    <img
                       role="button"
                       alt={`game_screenshot_${item.id}`}
                       src={item.image}
-                      fill={true}
-                      style={{ objectFit: "contain" }}
-                      className="transition-smooth duration-200 ease-in-out"
+                      className="transition-smooth object-contain duration-200 ease-in-out"
                     />
                   </Transition>
                 </>
@@ -183,7 +181,7 @@ const Screenshots = ({ params }: { params: PostPage }) => {
             </button>
           </div>
         </div>
-      )}
+      )} */}
       <div className="relative lg:w-[20vw] w-[90vw] lg:h-[80vh] h-auto lg:-translate-y-4 -translate-y-0 flex items-center flex-col gap-2 lg:pr-12 pr-0 lg:pb-0 pb-20">
         <style jsx>{`
           ::-webkit-scrollbar {
@@ -200,22 +198,21 @@ const Screenshots = ({ params }: { params: PostPage }) => {
             background: #555;
           }
         `}</style>
-        <span className="font-bold text-white text-3xl pb-2">Screenshots</span>
+        <span className="font-bold text-white text-2xl pb-2">Screenshots</span>
         <div
           className={`flex ${styles.scrollbar} items-center overflow-x-auto lg:overflow-auto w-full lg:flex-col min-[480px]:flex-row flex-col gap-2 text-balance transition-all duration-200 text-white`}
         >
           {screenshots && screenshots.length > 0 ? (
             screenshots.map((item) => (
-              <Image
+              <img
                 key={item.id}
                 role="button"
                 alt={`game_screenshot_${item.id}`}
                 src={item.image}
-                sizes="(min-width: 1550px) 15rem, (min-width: 1450px) 12rem, (min-width: 1350px) 11rem, (min-width: 1024px) 11rem, (min-width: 650px) 18rem, (min-width: 480px) 13rem, 15rem"
                 // Make the image display full width
                 width={240}
                 height={300}
-                className=" transition-smooth  duration-200 ease-in-out"
+                className="transition-smooth object-cover duration-200 ease-in-out"
                 onClick={() => handleClick(screenshots.indexOf(item))}
               />
             ))

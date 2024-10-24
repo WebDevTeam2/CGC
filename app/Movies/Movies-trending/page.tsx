@@ -57,51 +57,48 @@ const Trending = async () => {
           <span>TV Shows</span>
         </Link>
       </div>
-      <div className="grid md:grid-cols-3 lg:grid-cols-4 md:gap-8 lg:gap-8 w-3/4 md:ml-32 lg:ml-64 mt-4 h-full not-search movies-grid">
+      <div className="grid msm:grid-cols-2 msm:gap-y-2 msm:mx-auto msm:w-[29rem] md:grid-cols-3 lg:grid-cols-4 md:gap-8 lg:gap-8 lg:w-3/4 md:w-[80%] md:ml-32 lg:ml-64 mt-4 h-full not-search movies-grid">
         {/* Check gia ama exei kykloforisei h tainia akoma */}
         {movieData.results
           .filter((item) => item.release_date <= currentDate)
           .map((item) => (
             <div
               key={item.id}
-              className="lg:hover:scale-110 md:hover:scale-110 md:hover:border md:hover:shadow-2xl md:hover:shadow-gray-600 lg:hover:border lg:hover:shadow-2xl lg:hover:shadow-gray-600 w-full transition card-link duration-500 ease-in-out mb-6"
+              className="lg:hover:scale-110 md:hover:scale-110 md:hover:border md:hover:shadow-2xl md:hover:shadow-gray-600 lg:hover:border lg:hover:shadow-2xl lg:hover:shadow-gray-600 transition msm:w-[85%] msm:h-[50%] msm:mb-52 duration-500 ease-in-out"
             >
               {/* image container */}
               <Link href={`/Movies/${item.id}`}>
-                <div className="card-image-container sm:w-full sm:h-56 lg:w-full lg:h-96 p-10 relative">
-                  <Image
+                <div className="msm:w-full msm:h-full md:w-full md:h-64 lg:w-full lg:h-96 relative">
+                  <img
                     src={`${imageURL}${item.poster_path}`}
                     alt={item.title}
-                    layout="fill"
-                    objectFit="cover"
-                    className="absolute w-full h-full"
-                    priority
+                    className="absolute object-cover w-full h-full"
                   />
                 </div>
               </Link>
               {/* Text container */}
-              <div className="bg-[#4c545b] flex flex-col h-44 cards card-text-container">
+              <div className="bg-[#4c545b] flex flex-col h-44 cards msm:h-full">
                 <Link
                   href={`/Movies/${item.id}`}
                   className="flex lg:ml-4 h-10 text-white justify-between"
                 >
-                  <div className="card-title-container">
+                  <div className="msm:w-[55%]">
                     <h2>{item.title}</h2>
                   </div>
                   <div className="flex gap-2">
                     <span className={`${getVotecolor(item.vote_average)}`}>
                       {item.vote_average.toString().slice(0, 3)}
                     </span>
-                    <FaStar color="yellow" />
+                    <FaStar color="yellow" style={{ marginTop: "3px" }} />
                   </div>
                 </Link>
                 {/* watchlist and review container */}
-                <div className="movies-buttons-container md:mt-6 flex flex-col justify-center gap-4">
+                <div className="movies-buttons-container flex flex-col justify-center gap-4">
                   <div className="flex justify-center mt-4 ml-[-2rem]">
                     <AddToWatchlist movieId={item.id} />
                   </div>
                   <span className="text-white justify-center text-center">
-                    Review
+                    <Link href={`/Movies/${item.id}/reviews`}>Review</Link>
                   </span>
                 </div>
               </div>

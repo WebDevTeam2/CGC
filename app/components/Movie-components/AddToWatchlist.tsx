@@ -82,7 +82,7 @@ const AddToWatchlist = ({ movieId }: AddToWatchlistProps) => {
 
   return (
     <div onClick={(e) => e.stopPropagation()}>
-      <div className="add-to-watchlist text-center">
+      <div className="text-center">
         <button
           onClick={handleAddToWatchlist}
           className={`ml-8 rounded-full py-2 px-6 hover:opacity-75 transition duration-200 bg-[#5d6770] text-white`}

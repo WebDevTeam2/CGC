@@ -14,6 +14,9 @@ export default withUt({
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      screens: {
+        msm: {max: '768px'} //Movie small, used for all screens up to 768px only for the movies side of the page
+      }
     },
     fontFamily: {
       sans: ["open-sans", "sans-serif"],

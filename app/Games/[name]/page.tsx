@@ -104,7 +104,6 @@ const convertToStars = (rating: number) => {
 
 const getGameDets = async (name: string) => {
   const res = await fetch(basePosterUrl + "/" + name + "?" + apiPosterKey);
-  // https://api.rawg.io/api/games/grand-theft-auto-v?key=f0e283f3b0da46e394e48ae406935d25
   const data = await res.json();
   return data;
 };

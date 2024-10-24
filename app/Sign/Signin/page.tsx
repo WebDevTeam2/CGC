@@ -161,7 +161,7 @@ function Signin() {
               "1px 1px 2px black, -1px -1px 2px black, -1px 1px 2px black, 1px -1px 2px black",
           }}
         >
-          Don't have an account? Click here to sign-up
+          Don&apos;t have an account? Click here to sign-up
         </Link>
       </div>
     </div>

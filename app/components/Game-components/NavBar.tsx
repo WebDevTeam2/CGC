@@ -199,12 +199,12 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
               {!session ? (
                 <>
                   <Link href={"/Sign/Signup"}>
-                    <button className="text-orange-600 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
+                    <button className="text-orange-500 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
                       Sign Up
                     </button>
                   </Link>
                   <Link href={"/Sign/Signin"}>
-                    <button className="text-orange-600 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
+                    <button className="text-orange-500 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
                       Log In
                     </button>
                   </Link>
@@ -224,11 +224,9 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
                       My Profile
                     </button>
                   </Link>
-                  <Link href={"/"}>
-                    <button className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
-                      Sign out
-                    </button>
-                  </Link>
+                  <button className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
+                    <Logout />
+                  </button>
                 </div>
               )}
             </ul>
@@ -259,12 +257,12 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
               {!session ? (
                 <>
                   <Link href={"/Sign/Signup"}>
-                    <button className="text-stone-200 text-md transition delay-50 rounded-full hover:scale-110">
+                    <button className="text-orange-600 text-md transition delay-50 rounded-full hover:scale-110">
                       Sign Up
                     </button>
                   </Link>
                   <Link href={"/Sign/Signin"}>
-                    <button className="text-stone-200 text-md transition delay-50  rounded-full hover:scale-110">
+                    <button className="text-orange-600 text-md transition delay-50  rounded-full hover:scale-110">
                       Log In
                     </button>
                   </Link>
@@ -280,15 +278,13 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
               {session && (
                 <div className="min-[900px]:hidden flex gap-3">
                   <Link href={`/account/${userId}/info`}>
-                    <button className="text-stone-200 text-md transition delay-50 rounded-full hover:scale-110">
+                    <button className="text-orange-600 text-md transition delay-50 rounded-full hover:scale-110">
                       My Profile
                     </button>
                   </Link>
-                  <Link href={"/"}>
-                    <button className="text-orange-600 text-md transition delay-50  rounded-full hover:scale-110">
-                      Sign out
-                    </button>
-                  </Link>
+                  <button className="text-stone-200 text-md transition delay-50  rounded-full hover:scale-110">
+                    <Logout />
+                  </button>
                 </div>
               )}
             </ul>

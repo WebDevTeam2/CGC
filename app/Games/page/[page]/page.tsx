@@ -65,8 +65,8 @@ const Posts = async ({ params }: { params: Post }) => {
 
     sortGamesByRelease(descriptioned);
 
-    // Now paginate the unique games list
     const paginatedGames = paginateGames(descriptioned, params.page, pageSize);
+    // Now paginate the unique games list
 
     const imageSizes =
       "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw";
@@ -80,10 +80,10 @@ const Posts = async ({ params }: { params: Post }) => {
           <Genres genres={genres} />
           <ul className="relative pointer-events-none flex mt-6 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
             {paginatedGames.map(
-              (item) =>
+              (item, index) =>
                 item.description_raw && (
                   <li
-                    key={item._id}
+                    key={`${item._id}-${index}`}
                     className="text-slate-200 pointer-events-auto text-balance text-lg hover:scale-105 xl:w-3/5 md:w-4/5 w-4/5 transition-all duration-500 ease-in-out"
                   >
                     <Link

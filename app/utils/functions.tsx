@@ -108,8 +108,8 @@ export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
     const startYear: number = currentYear - 15;
     const dateRanges: string[] = [];
 
-    for (let year = startYear; year <= currentYear; year += 5) {
-      const endYear = Math.min(year + 4, currentYear);
+    for (let year = startYear; year <= currentYear; year += 3) {
+      const endYear = Math.min(year + 2, currentYear);
       dateRanges.push(`${year}-01-01,${endYear}-12-31`);
     }
     // Fetch all ranges in parallel
@@ -150,14 +150,14 @@ export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
 
             const dateRangeUrl = `${apiPosterUrl}&dates=${dateRange}`;
             const gameResults = await getGameData(dateRangeUrl, 1);
-            const slicedResults = gameResults.slice(0, 30);
+            const slicedResults = gameResults.slice(0, 40);
 
             // Upsert games fetched from RAWG API into MongoDB
             if (slicedResults.length) {
               const bulkOperations = slicedResults.map((game) => ({
                 updateOne: {
                   filter: { id: game.id }, // Use 'id' as unique key
-                  update: { $set: { ...game, _id: new ObjectId() } },
+                  update: { $set: { ...game } },
                   upsert: true,
                 },
               }));

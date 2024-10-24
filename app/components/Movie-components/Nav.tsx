@@ -163,11 +163,10 @@ export default function Nav() {
                 href={`/account/${userId}/info/`}
                 className="relative w-10 h-10 md:mt-5 lg:mt-2 mx-[1.05rem] block rounded-full overflow-hidden"
               >
-                <Image
+                <img 
                   src={imageUrl || "/assets/images/batman.jpg" } // An o xrhsths exei diko tou image to kanoume display alliws kanoume display ena default
                   alt="User Avatar"
-                  layout="fill"
-                  className="object-cover"
+                  className="object-cover w-full h-full absolute"
                 />
               </Link>
             </li>

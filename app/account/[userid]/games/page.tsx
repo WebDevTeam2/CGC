@@ -163,11 +163,9 @@ const Account = ({ params }: { params: { userid: string } }) => {
           {/* option content */}
           <div className="flex flex-col items-center h-auto min-[912px]:mx-12 max-[911px]:mb-12 mx-0 gap-0 sm:mt-12 mt-8">
             <div className="relative w-20 h-20 rounded-full overflow-hidden group">
-              <Image
+              <img
                 src={imageUrl || "/assets/images/default_avatar.jpg"}
                 alt="User Avatar"
-                layout="fill"
-                priority={true}
                 className="object-cover"
               />
             </div>
@@ -291,7 +289,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
                         .map((list: any) => (
                           <li
                             key={list.libraryId}
-                            className="overflow-x-auto justify-between flex gap-4 sm:flex-row flex-col items-center relative sm:px-4 px-0 mb-8 sm:mx-8 mx-2 text-start rounded-xl bg-slate-100"
+                            className="overflow-x-auto justify-between flex gap-4 sm:flex-row flex-col sm:items-center items-stretch relative sm:pr-4 pr-0 mb-8 sm:mx-8 mx-2 text-start rounded-xl bg-slate-100"
                           >
                             <button
                               onClick={(event) =>
@@ -307,14 +305,11 @@ const Account = ({ params }: { params: { userid: string } }) => {
                                 onCancel={cancelDeleteLib}
                               />
                             )}
-                            <div className="relative w-full -ml-4 p-16 -mr-4">
-                              <Image
+                            <div className="relative w-full h-full">
+                              <img
                                 src={list.gamePic}
                                 alt={list.gameName}
-                                layout="fill"
-                                objectFit="cover"
-                                sizes={imageSizes}
-                                className="md:border-r-4 border-none sm:rounded-l-lg border-white transition duration-500 ease-in-out"
+                                className="md:border-r-4 w-full sm:h-28 h-38 object-cover border-none sm:rounded-l-lg border-white transition duration-500 ease-in-out"
                               />
                             </div>
                             <span className="sm:mt-0 sm:ml-4 -mt-4 font-black">

@@ -73,7 +73,9 @@ const AddToList = () => {
   useEffect(() => {
     const fetchGame = async () => {
       try {
-        const res = await fetch(basePosterUrl + gameName + "?" + apiPosterKey);
+        const res = await fetch(
+          basePosterUrl + "/" + gameName + "?" + apiPosterKey
+        );
         if (!res.ok) {
           throw new Error("Failed to fetch game data");
         }
@@ -119,7 +121,7 @@ const AddToList = () => {
         <button
           onClick={handleAddToList} // Correct function call
           className={`
-              py-2 px-4 rounded-xl transition-all duration-200 
+              py-1 px-4 rounded-xl transition-all duration-200 
            ${
              isInList
                ? "text-black bg-slate-300"

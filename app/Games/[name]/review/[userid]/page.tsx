@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-const basePosterUrl = `https://api.rawg.io/api/games/`;
-const apiPosterKey = `key=076eda7a1c0e441eac147a3b0fe9b586`;
+const basePosterUrl = process.env.NEXT_PUBLIC_BASE_POSTER_URL;
+const apiPosterKey = process.env.NEXT_PUBLIC_API_KEY;
 
 interface PostPage {
   id: number;
@@ -98,7 +98,7 @@ export default function Games({ params }: { params: CombinedParams }) {
     const fetchGame = async () => {
       try {
         const res = await fetch(
-          basePosterUrl + params.name + "?" + apiPosterKey
+          basePosterUrl + "/" + params.name + "?" + apiPosterKey
         );
         if (!res.ok) {
           throw new Error("Failed to fetch game data");
@@ -161,7 +161,7 @@ export default function Games({ params }: { params: CombinedParams }) {
 
   return isSubmitted ? (
     <div className="bg-black w-full h-screen flex items-center justify-center">
-      <div className="text-slate-200 text-xl text-center">
+      <div className="text-slate-200 text-lg text-center">
         Your review has been submitted successfully!<br></br>Going back to the
         game
       </div>
@@ -169,7 +169,7 @@ export default function Games({ params }: { params: CombinedParams }) {
   ) : (
     <div className="bg-black bg-cover flex flex-col fixed overflow-hidden overflow-y-auto items-center h-screen w-full">
       <Link href={`/Games/${game.slug}`} className="w-full pointer-events-none">
-        <button className="ml-4 mt-4 pointer-events-auto text-2xl text-white transition duration-100 hover:scale-110">
+        <button className="ml-4 mt-4 pointer-events-auto text-xl text-white transition duration-100 hover:scale-110">
           ...Back to the Game
         </button>
       </Link>
@@ -179,10 +179,10 @@ export default function Games({ params }: { params: CombinedParams }) {
       >
         {/* Header of review */}
         <div className="sm:p-8 p-4 flex flex-col gap-3 font-sans border-2 rounded-t-2xl bg-black w-full">
-          <span className="text-orange-400 font-extrabold sm:text-xl text-lg">
+          <span className="text-orange-400 font-extrabold sm:text-xl text-md">
             Write a review
           </span>
-          <span className="text-white sm:text-4xl text-2xl">{game.name}</span>
+          <span className="text-white sm:text-2xl text-xl">{game.name}</span>
         </div>
         {/* Start of reactions */}
         <div className="sm:p-5 p-3 flex flex-wrap flex-row gap-3 font-serif border rounded-b-xl bg-black w-full">
@@ -197,22 +197,22 @@ export default function Games({ params }: { params: CombinedParams }) {
                   : "bg-black"
               } hover:bg-neutral-600 items-center gap-2 border rounded-full pr-6 p-2`}
             >
-              <span className="sm:text-3xl text-xl">
+              <span className="sm:text-xl text-lg">
                 {getReaction(rating.id)}
               </span>
-              <span className="text-white text-xl">{rating.title}</span>
+              <span className="text-white text-lg">{rating.title}</span>
             </div>
           ))}
         </div>
         {/* Start of textarea */}
         <textarea
-          className="text-xl pb-28 pt-8 px-8 rounded-t-2xl outline-none bg-neutral-200"
+          className="text-lg pb-28 pt-8 px-8 rounded-t-2xl outline-none bg-neutral-200"
           placeholder="Type Here..."
           value={reviewText}
           onChange={(e) => setReviewText(e.target.value)}
         ></textarea>
         <button
-          className="text-xl transition-all rounded-b-2xl duration-200 bg-neutral-400 hover:bg-neutral-500 p-3"
+          className="text-lg transition-all rounded-b-2xl duration-200 bg-neutral-400 hover:bg-neutral-500 p-3"
           type="submit"
         >
           Submit

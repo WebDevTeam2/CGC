@@ -90,16 +90,14 @@ const Posts = async ({ params }: { params: any }) => {
                 >
                   <Link
                     href={`/Games/${item.slug}`}
-                    className="relative flex group border-2 md:h-60 h-[35rem] max-[450px]:h-[25rem] border-white rounded-lg transition-all duration-300"
+                    className="relative flex group border-2 md:h-60 h-[32rem]  max-[550px]:h-[25rem] border-white rounded-lg transition-all duration-300"
                   >
                     <div className="bg-black overflow-hidden rounded-lg bg-opacity-[.7] relative flex flex-col md:flex-row md:gap-0 gap-0 transition-all duration-400">
-                      <div className="relative md:pr-52 md:pl-52 md:pt-0 pt-80 max-[550px]:pt-56 max-[400px]:pt-40">
-                        <Image
+                      <div className="relative md:w-[25rem] md:h-[15rem] w-full h-[20rem] max-[550px]:h-[15rem] max-[416px]:h-[10rem] flex-shrink-0 flex-grow-0 ">
+                        <img
                           src={item.background_image}
                           alt={item.name}
-                          fill={true}
-                          sizes={imageSizes}
-                          className="md:border-r-4 object-cover border-none rounded-l-lg border-white transition duration-500 ease-in-out"
+                          className="w-full h-full md:border-r-4 object-cover border-none rounded-l-lg border-white transition duration-500 ease-in-out"
                         />
                       </div>
                       {/* item name on hover */}
@@ -112,7 +110,7 @@ const Posts = async ({ params }: { params: any }) => {
                       >
                         <span className="text-white truncate">{item.name}</span>
                       </div>
-                      <div className="overflow-hidden md:pl-4 pl-4 pt-1  leading-8 md:text-start ">
+                      <div className="overflow-hidden md:pl-4 pl-4 pt-1 leading-7 md:text-start ">
                         <span className="">{item.description_raw}</span>
                       </div>
                     </div>

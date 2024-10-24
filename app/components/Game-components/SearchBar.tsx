@@ -210,21 +210,18 @@ const SearchBar: React.FC<SearchBarProps> = ({ games }) => {
             <Link
               key={index}
               href={`/Games/${result.slug}`}
-              className="flex items-center  flex-row transition-all duration-300 ease-in-out hover:scale-105 pl-3 hover:text-stone-400"
+              className="flex items-center flex-row transition-all duration-300 ease-in-out hover:scale-105 pl-3 hover:text-stone-400"
             >
-              <div className="relative overflow-hidden p-16 max-[550px]:p-12 max-[550px]:-mb-4 -mb-8">
-                <Image
+              <div className="relative overflow-hidden sm:w-44 sm:h-32 min-[420px]:w-40 min-[420px]:h-28 w-36 h-24 flex-shrink-0 flex-grow-0">
+                <img
                   src={result.background_image}
                   alt={result.name}
-                  fill={true}
-                  priority={true}
-                  sizes={imageSizes}
-                  style={{ objectFit: "contain" }}
+                  className="w-full h-full object-contain"
                 />
               </div>
               <div
                 onClick={() => handleAutoComplete(result.name)}
-                className="search-result py-1.5 cursor-pointer flex flex-col pl-6 pr-4"
+                className="search-result py-1.5 cursor-pointer flex flex-col text-md pl-6 pr-4"
               >
                 {result.name}
               </div>

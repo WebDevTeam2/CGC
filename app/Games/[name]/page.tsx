@@ -147,32 +147,37 @@ export default async function Games({ params }: { params: CombinedParams }) {
       </Link>
       <div className="flex pt-20 items-center lg:items-stretch flex-col lg:flex-row h-full justify-evenly xl:gap-20 gap-10 pl-0">
         <div className="flex lg:w-[50vw] h-full w-[85vw] flex-col relative lg:pl-10 pl-0">
-          <div className="relative xl:h-[35vh] lg:h-[25vh] h-auto lg:p-0 min-[780px]:p-60 min-[580px]:p-44 min-[420px]:p-32 p-24 w-full">
-            <Image
+          <div className="relative xl:h-[35vh] lg:h-[25vh] h-auto  w-full">
+            {/* <Image
               src={game.background_image}
               alt={game.name}
               fill={true}
               sizes={imageSizes}
               style={{ objectFit: "cover" }}
+            /> */}
+            <img
+              src={game.background_image}
+              alt={game.name}
+              className="object-cover"
             />
           </div>
           <div className="relative flex flex-col -top-10">
             <div className="fade-bottom"></div>
             <div className="flex flex-col gap-2 text-lg px-4 py-6 text-center font-inter text-white bg-black rounded-b-xl h-full">
               <div className="flex flex-row gap-4 items-stretch justify-between">
-                <span className="lg:text-lg min-[450px]:text-2xl text-xl font-bold">
+                <span className="lg:text-md min-[450px]:text-lg text-md font-bold">
                   Name:
                 </span>
-                <span className="flex gap-1 text-end text-white lg:text-lg min-[450px]:text-xl text-lg">
+                <span className="flex gap-1 text-end text-white lg:text-md min-[450px]:text-lg text-md">
                   {game.name}
                 </span>
               </div>
               <div className="flex flex-row gap-4 items-stretch justify-between">
-                <span className="lg:text-lg min-[450px]:text-2xl text-xl font-bold">
+                <span className="lg:text-md min-[450px]:text-lg text-md font-bold">
                   Rating:
                 </span>
                 {game.rating > 0 ? (
-                  <span className="flex gap-1 text-white lg:text-lg min-[450px]:text-xl text-md">
+                  <span className="flex gap-1 text-white lg:text-md min-[450px]:text-lg text-md">
                     {convertToStars(game.rating)}({roundNum(game.ratings_count)}
                     )
                   </span>
@@ -181,11 +186,11 @@ export default async function Games({ params }: { params: CombinedParams }) {
                 )}
               </div>
               <div className="flex flex-row gap-4 items-stretch justify-between">
-                <span className="lg:text-lg min-[450px]:text-2xl text-xl font-bold">
+                <span className="lg:text-md min-[450px]:text-lg text-md font-bold">
                   Release date:{" "}
                 </span>
                 {game.released ? (
-                  <span className="flex gap-1 text-end text-white lg:text-lg min-[450px]:text-xl text-lg">
+                  <span className="flex gap-1 text-end text-white lg:text-md min-[450px]:text-lg text-md">
                     {game.released}
                   </span>
                 ) : (
@@ -193,10 +198,10 @@ export default async function Games({ params }: { params: CombinedParams }) {
                 )}
               </div>
               <div className="flex flex-row gap-4 items-stretch justify-between">
-                <span className="lg:text-lg min-[450px]:text-2xl text-xl font-bold">
+                <span className="lg:text-md min-[450px]:text-lg text-md font-bold">
                   Genres:
                 </span>
-                <span className="text-end lg:text-lg min-[450px]:text-xl text-lg">
+                <span className="text-end lg:text-md min-[450px]:text-lg text-md">
                   {game.genres && game.genres.length > 0 ? (
                     game.genres.map(
                       (genre: { name: string }, index: number) => (
@@ -213,10 +218,10 @@ export default async function Games({ params }: { params: CombinedParams }) {
                 </span>
               </div>
               <div className="flex flex-row gap-4 items-stretch justify-between">
-                <span className="lg:text-lg min-[450px]:text-2xl text-xl font-bold">
+                <span className="lg:text-md min-[450px]:text-lg text-md font-bold">
                   Platforms:
                 </span>
-                <span className="text-end lg:text-lg min-[450px]:text-xl text-lg">
+                <span className="text-end lg:text-md min-[450px]:text-lg text-md">
                   {game.platforms && game.platforms.length > 0 ? (
                     game.platforms.map(
                       (
@@ -236,11 +241,11 @@ export default async function Games({ params }: { params: CombinedParams }) {
                 </span>
               </div>
               <div className="flex flex-row gap-4 items-stretch justify-between">
-                <span className="lg:text-lg min-[450px]:text-2xl text-xl font-bold">
+                <span className="lg:text-md min-[450px]:text-lg text-md font-bold">
                   Playtime:
                 </span>
                 {game.playtime > 0 ? (
-                  <span className="lg:text-lg min-[450px]:text-xl text-lg">
+                  <span className="lg:text-md min-[450px]:text-lg text-md">
                     about {game.playtime}h
                   </span>
                 ) : (
@@ -249,10 +254,10 @@ export default async function Games({ params }: { params: CombinedParams }) {
               </div>
               {dbUser ? (
                 <>
-                  <div className="mt-4 gap-4 flex sm:flex-row sm:text-xl text-lg flex-col w-full justify-between items-center">
+                  <div className="mt-4 gap-4 flex sm:flex-row sm:text-lg text-md flex-col w-full justify-between items-center">
                     <Link
                       href={`/Games/${game.slug}/review/${dbUser._id}`}
-                      className="bg-neutral-600 hover:bg-neutral-800 py-2 px-6 rounded-xl transition-all duration-200 hover:scale-105"
+                      className="bg-neutral-600 hover:bg-neutral-800 py-1 px-4 rounded-xl transition-all duration-200 hover:scale-105"
                     >
                       Write a review
                     </Link>
@@ -272,7 +277,7 @@ export default async function Games({ params }: { params: CombinedParams }) {
         </div>
 
         {game.description_raw ? (
-          <span className="font-inter lg:mb-0 mb-10 leading-8 border shadow-xl shadow-gray-600 relative lg:w-1/2 w-4/5 lg:h-[78vh] h-96 overflow-y-auto lg:overflow-y-visible bg-stone-900/60 p-6 rounded-2xl md:text-balance xl:text-center text-white text-xl transition-[width] lg:overflow-hidden ease-in-out duration-300">
+          <span className="font-inter lg:mb-0 mb-10 lg:mt-0 -mt-10 leading-8 border shadow-xl shadow-gray-600 relative lg:w-1/2 w-4/5 lg:h-[78vh] h-96 overflow-y-auto lg:overflow-y-visible bg-stone-900/60 p-6 rounded-2xl md:text-balance xl:text-center text-white text-lg transition-[width] lg:overflow-hidden ease-in-out duration-300">
             {game.description_raw}
           </span>
         ) : (
@@ -284,7 +289,7 @@ export default async function Games({ params }: { params: CombinedParams }) {
       <div>
         {gameReviews && gameReviews.length > 0 ? (
           <div className="flex px-10 xl:px-64 lg:px-52 sm:px-24 px-6 lg:py-12 pt-0 pb-10 bg-slate-300 flex-col w-full">
-            <span className="text-white z-10 text-3xl text-center font-extrabold">
+            <span className="text-white z-10 text-2xl text-center font-extrabold">
               User Reviews:
             </span>
             <ul className="mt-6 bg-black border-2 rounded-2xl lg:p-12 p-10 lg:px-24 px-12 z-10">
@@ -292,11 +297,11 @@ export default async function Games({ params }: { params: CombinedParams }) {
                 // console.log(review); // Log the review object to the console
                 return (
                   <div key={review.reviewId}>
-                    <span className="text-white text-xl text-orange-500">
+                    <span className="text-white text-lg text-orange-500">
                       {review.username}
                     </span>
-                    <span className="text-slate-100 text-xl"> said: </span>
-                    <li className="relative overflow-auto text-xl px-4 mb-6 mt-2 py-3 rounded-xl bg-white">
+                    <span className="text-slate-100 text-lg"> said: </span>
+                    <li className="relative overflow-auto text-md px-4 mb-6 mt-2 py-3 rounded-xl bg-white">
                       {review.text} <br />
                       <strong>Date:</strong>{" "}
                       <span className="italic">{review.date}</span>
@@ -308,7 +313,7 @@ export default async function Games({ params }: { params: CombinedParams }) {
           </div>
         ) : (
           <div className="my-4 pb-10 flex w-full justify-center items-center">
-            <span className="bg-neutral-600 sm:text-2xl text-lg text-slate-200 z-20 py-4 px-8 rounded-lg">
+            <span className="bg-neutral-600 sm:text-lg text-md text-slate-200 z-20 py-3 px-6 rounded-lg">
               No reviews at this moment.
             </span>
           </div>

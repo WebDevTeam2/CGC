@@ -57,14 +57,11 @@ const Movies = () => {
       // onMouseEnter={handleMouseEnter}
       // onMouseLeave={handleMouseLeave}
     >
-      <Image
+      <img
         src={jokerImagePath}
         alt="Joker image placeholder"
-        layout="fill"
-        objectFit="cover"
-        className="absolute grayscale hover:grayscale-0 transition duration-1000  "
-        priority
-      ></Image>
+        className="absolute object-cover h-full w-full grayscale hover:grayscale-0 transition duration-1000  "
+      />
       <h1 className="clip-text group-hover:opacity-100 transition duration-1000 flex absolute top-2/4 text-white z-10 lg:text-[4rem] text-[2rem] lg:opacity-0">
         Movies
       </h1>

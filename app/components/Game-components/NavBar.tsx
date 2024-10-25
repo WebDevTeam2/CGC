@@ -43,6 +43,8 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
       setIsWideScreen(window.innerWidth > 640);
     };
 
+    console.log(window.innerWidth);
+    console.log(isWideScreen);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);

@@ -118,6 +118,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
     fetchProfileDetails();
   }, [session?.user?.email]); // Only re-run this effect if the session changes\
 
+  // console.log(imageUrl);
   return (
     <nav className="w-full flex justify-between items-center sticky top-0 bg-black h-20 z-20">
       <div className="pl-3 left-side-elements overflow-hidden h-full flex-1 items-center pointer-events-none">
@@ -137,7 +138,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
             onClick={toggleProfile}
           >
             <img
-              src={imageUrl || session.user?.image || defaultAvatar.src}
+              src={imageUrl}
               alt="image"
               height={120}
               width={45}
@@ -188,12 +189,12 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
             >
               {logos.map((logo) => (
                 <Link key={logo.key} href={`/Games/${logo.slug}/page/1`}>
-                  <button
+                  <div
                     className="text-stone-200 sm:text-3xl text-2xl transition delay-50 p-2 rounded-full hover:scale-110"
                     onClick={closeDropdown}
                   >
                     {logo.component}
-                  </button>
+                  </div>
                 </Link>
               ))}
               {!session ? (
@@ -224,9 +225,9 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
                       My Profile
                     </button>
                   </Link>
-                  <button className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
+                  <div className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
                     <Logout />
-                  </button>
+                  </div>
                 </div>
               )}
             </ul>
@@ -246,12 +247,12 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
             <ul className="bg-neutral-800 w-full gap-3 p-2 flex items-center justify-center flex-wrap order-1 text-slate-100 mt-[4rem] max-[496px]:mt-[6.2rem] transition-all duration-300 ease-in-out">
               {logos.map((logo) => (
                 <Link key={logo.key} href={`/Games/${logo.slug}/page/1`}>
-                  <button
+                  <div
                     className="text-stone-200 text-3xl transition delay-50 p-2 rounded-full hover:scale-110"
                     onClick={closeDropdown}
                   >
                     {logo.component}
-                  </button>
+                  </div>
                 </Link>
               ))}
               {!session ? (
@@ -282,9 +283,9 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
                       My Profile
                     </button>
                   </Link>
-                  <button className="text-stone-200 text-md transition delay-50  rounded-full hover:scale-110">
+                  <div className="text-stone-200 text-md transition delay-50  rounded-full hover:scale-110">
                     <Logout />
-                  </button>
+                  </div>
                 </div>
               )}
             </ul>

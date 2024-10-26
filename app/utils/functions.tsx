@@ -49,6 +49,7 @@ interface PostResult {
   background_image: string;
   rating: number;
   rating_top: number;
+  metacritic: number;
   description: string;
   description_raw: string;
   parent_platforms: Platform[];
@@ -132,6 +133,7 @@ export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
               genres: 1,
               slug: 1,
               name: 1,
+              metacritic: 1,
               background_image: 1,
             })
             .toArray()) as PostResult[];

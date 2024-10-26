@@ -16,6 +16,7 @@ import {
   sortGamesByRelease,
 } from "@/app/utils/functions";
 import SortGenres from "@/app/components/Game-components/SortGenres";
+import GameList from "@/app/components/Game-components/GameList";
 
 interface Platform {
   platform: {
@@ -66,8 +67,6 @@ const Posts = async ({ params }: { params: any }) => {
     sortGamesByRelease(detailedGames);
     const paginatedGames = paginateGames(detailedGames, params.page, pageSize);
 
-    const imageSizes =
-      "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw";
     return (
       <div>
         <MainPage>
@@ -75,47 +74,7 @@ const Posts = async ({ params }: { params: any }) => {
           <SearchBar games={gameData} />
           <SortGenres currentName={params.slug} />
           <Genres genres={genres} />
-          <ul className="relative pointer-events-none flex mt-6 mb-12 w-full flex-col items-center justify-center xl:gap-12 gap-16">
-            {paginatedGames.map(
-              (item) =>
-                item.description_raw && (
-                  <li
-                    key={item.id}
-                    className="text-slate-200 pointer-events-auto text-balance text-lg hover:scale-105 xl:w-3/5 md:w-4/5 w-4/5 transition-all duration-500 ease-in-out"
-                  >
-                    <Link
-                      href={`/Games/${item.slug}`}
-                      className="relative flex group border-2 md:h-60 h-[32rem]  max-[550px]:h-[25rem] border-white rounded-lg transition-all duration-300"
-                    >
-                      <div className="bg-black overflow-hidden rounded-lg bg-opacity-[.7] relative flex flex-col md:flex-row md:gap-0 gap-0 transition-all duration-400">
-                        <div className="relative md:w-[25rem] md:h-[15rem] w-full h-[20rem] max-[550px]:h-[15rem] max-[416px]:h-[10rem] flex-shrink-0 flex-grow-0 ">
-                          <img
-                            src={item.background_image}
-                            alt={item.name}
-                            className="w-full h-full md:border-r-4 object-cover border-none rounded-l-lg border-white transition duration-500 ease-in-out"
-                          />
-                        </div>
-                        {/* item name on hover */}
-                        <div
-                          className="h-0 opacity-0 group-hover:opacity-100 absolute flex group-hover:h-10 max-w-80 items-center border border-black bg-black rounded-b-xl text-md ml-3 p-1"
-                          style={{
-                            transition:
-                              "height 0.5s ease-in-out, opacity 0.5s ease-in-out",
-                          }}
-                        >
-                          <span className="text-white truncate">
-                            {item.name}
-                          </span>
-                        </div>
-                        <div className="overflow-hidden md:pl-4 pl-4 pt-1 leading-7 md:text-start ">
-                          <span className="">{item.description_raw}</span>
-                        </div>
-                      </div>
-                    </Link>
-                  </li>
-                )
-            )}
-          </ul>
+          <GameList paginatedGames={paginatedGames} />
           <Buttons gamesLength={gameData.length} />
         </MainPage>
       </div>

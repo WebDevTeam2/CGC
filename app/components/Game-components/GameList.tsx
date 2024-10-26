@@ -67,7 +67,7 @@ const GameList: React.FC<GameListProps> = ({ paginatedGames }) => {
                   <div className="overflow-hidden md:pl-4 pl-4 pt-1 leading-7 md:text-start">
                     <span>{item.description_raw}</span>
                   </div>
-                  <div className="absolute gap-1 md:left-0 right-0 md:bottom-0 min-[550px]:bottom-[29.3rem] min-[440px]:bottom-[22.3rem] bottom-0 flex h-10 w-24 justify-center items-center md:border min-[440px]:border-0 border border-white bg-black md:rounded-tr-xl min-[440px]:rounded-bl-xl rounded-tl-xl text-md max-[440px]:text-sm">
+                  <div className="absolute gap-1 md:left-0 right-0 md:bottom-0 min-[550px]:bottom-[29.3rem] min-[440px]:bottom-[22.3rem] bottom-0 flex h-10 w-24 max-[440px]:w-20 justify-center items-center md:border min-[440px]:border-0 border border-white bg-black md:rounded-tr-xl min-[440px]:rounded-bl-xl rounded-tl-xl text-md max-[440px]:text-sm">
                     <span className="text-stone-200">{item.rating} / 5</span>
                     <FaStar color="yellow" />
                   </div>

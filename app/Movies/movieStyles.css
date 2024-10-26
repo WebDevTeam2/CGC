@@ -22,12 +22,18 @@
     margin-left: 15rem;
     margin-right: auto;
     gap: 15px;
-    width: 70%;
+    row-gap: 2rem;
+    width: 65%;
   }
 
   .card-link {
     width: 85%;
     margin-bottom: 6rem;
+    height: 100%;
+  }
+
+  .card-text-container {
+    height: 60%;
   }
 
   main h1 {

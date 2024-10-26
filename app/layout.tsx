@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     },
     {
       name: "Apostolos Kyrgidhs",
-      url: "https://www.example.com/apostolos", // Optional: link to author profile
+      url: "www.linkedin.com/in/apostolos-kyrgidis/", // Optional: link to author profile
     },
   ],
   robots: "index, follow",

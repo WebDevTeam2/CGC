@@ -1,7 +1,9 @@
-User-agent: *
-Disallow: /accounts
-
+# *
 User-agent: *
 Allow: /
 
+# Host
+Host: https://www.cinegame-critic.com
+
+# Sitemaps
 Sitemap: https://www.cinegame-critic.com/sitemap.xml

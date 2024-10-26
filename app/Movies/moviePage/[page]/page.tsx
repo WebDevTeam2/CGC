@@ -31,7 +31,7 @@ const Page = async ({ params }: { params: Movie }) => {
       </div>
       <div>
         <Pages />
-      </div>
+      </div>      
     </div>
   );
 };

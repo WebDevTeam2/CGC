@@ -1,16 +1,7 @@
-import Image from "next/legacy/image";
-import Link from "next/link";
-import TvShowPages from "@/app/components/Movie-components/TvShowPages";
 import TvFilter from "@/app/components/Movie-components/TvFilter";
-import { FaStar } from "react-icons/fa";
-import AddToWatchlist from "@/app/components/Movie-components/AddToWatchlist";
-import { getVotecolor, options, TVShows } from "@/app/constants/constants";
+import { baseUrl, options, TVShows } from "@/app/constants/constants";
 import TVShowCards from "@/app/components/Movie-components/TVShowCards";
 import MoviePages from "@/app/components/Movie-components/[page]/Pages";
-
-const baseUrl = "https://api.themoviedb.org/3/";
-const imageURL = "https://image.tmdb.org/t/p/w500";
-
 
 const getTVShowData = async (page: string) => {
   const res = await fetch(

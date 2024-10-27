@@ -1,4 +1,3 @@
-import GenrePages from "@/app/components/Movie-components/GenrePages";
 import Filter from "@/app/components/Movie-components/Filter";
 import { options, baseUrl, Movie } from "@/app/constants/constants";
 import Cards from "@/app/components/Movie-components/Cards";

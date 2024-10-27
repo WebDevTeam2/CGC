@@ -1,9 +1,7 @@
-import Image from "next/legacy/image";
 import { GiFilmProjector } from "react-icons/gi";
 import Link from "next/link";
-import UpComingTvShowsPages from "@/app/components/Movie-components/UpcomingTvShowsPages";
 import TvFilter from "@/app/components/Movie-components/TvFilter";
-import { baseUrl, imageURL, options, TVShows } from "@/app/constants/constants";
+import { baseUrl, options, TVShows } from "@/app/constants/constants";
 import TVShowCards from "@/app/components/Movie-components/TVShowCards";
 import MoviePages from "@/app/components/Movie-components/[page]/Pages";
 

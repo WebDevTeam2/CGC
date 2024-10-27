@@ -69,9 +69,10 @@ const roundNum = (rating_count: number) => {
 
 const convertToStars = (rating: number) => {
   const newR: JSX.Element[] = [];
-  const whole = Math.floor(rating);
-  const remainder = rating - whole;
-  let percentage_r = remainder * 100 + "%";
+  const whole = Math.floor(rating); //2
+  const remainder = rating - whole; // 2.35
+  let percentage_r = remainder * 100 + "%"; //35%
+  let counter = 0;
 
   for (let i = 0; i < whole; i++) {
     newR.push(
@@ -84,6 +85,7 @@ const convertToStars = (rating: number) => {
         }}
       />
     );
+    counter++;
   }
 
   if (remainder > 0) {
@@ -92,6 +94,20 @@ const convertToStars = (rating: number) => {
         key="rest"
         style={{
           background: `linear-gradient(to right, darkgreen ${percentage_r}, grey 15%)`,
+          fontSize: "24px",
+          padding: "2px",
+        }}
+      />
+    );
+    counter++;
+  }
+
+  for (let i = counter; i < 5; i++) {
+    newR.push(
+      <IoStarSharp
+        key={i}
+        style={{
+          background: "grey",
           fontSize: "24px",
           padding: "2px",
         }}

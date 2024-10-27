@@ -43,7 +43,7 @@ const UserOptions = () => {
 
   return (
     <div className="bg-[#23232e] min-[912px]:rounded-l-2xl rounded-lt-xl h-full">
-      <ul className="text-[#b6b6b6] pt-2 sm:text-lg text-md divide-y flex flex-col">
+      <ul className="text-[#b6b6b6] pt-2 sm:text-md text-sm divide-y flex flex-col">
         <Link href={`/account/${userId}/info`}>
           <li className="cursor-pointer transition-all duration-200 hover:text-white p-4">
             Account Details

@@ -109,8 +109,8 @@ export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
     const startYear: number = currentYear - 15;
     const dateRanges: string[] = [];
 
-    for (let year = startYear; year <= currentYear; year += 3) {
-      const endYear = Math.min(year + 2, currentYear);
+    for (let year = startYear; year <= currentYear; year += 5) {
+      const endYear = Math.min(year + 4, currentYear);
       dateRanges.push(`${year}-01-01,${endYear}-12-31`);
     }
     // Fetch all ranges in parallel
@@ -133,10 +133,12 @@ export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
               genres: 1,
               slug: 1,
               name: 1,
-              metacritic: 1,
               background_image: 1,
             })
             .toArray()) as PostResult[];
+          // console.log(
+          //   `MongoDB returned ${gamesInRange.length} games for range ${dateRange}`
+          // );
 
           // Convert ObjectId to string if MongoDB returns games
           const processedGames = gamesInRange.map((game) => ({
@@ -150,9 +152,12 @@ export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
               `No games found for date range: ${dateRange}, fetching from RAWG API...`
             );
 
-            const dateRangeUrl = `${apiPosterUrl}&dates=${dateRange}`;
+            const dateRangeUrl = `${apiPosterUrl}&dates=${dateRange}&page_size=40`;
             const gameResults = await getGameData(dateRangeUrl, 1);
             const slicedResults = gameResults.slice(0, 40);
+            // console.log(
+            //   `Fetched ${slicedResults.length} games from RAWG API for date range ${dateRange}`
+            // );
 
             // Upsert games fetched from RAWG API into MongoDB
             if (slicedResults.length) {
@@ -163,7 +168,9 @@ export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
                   upsert: true,
                 },
               }));
-
+              // console.log(
+              //   `Upserting ${bulkOperations.length} games to MongoDB for date range ${dateRange}`
+              // );
               await games?.bulkWrite(bulkOperations, { ordered: false });
             }
 

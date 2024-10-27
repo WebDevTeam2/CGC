@@ -85,7 +85,7 @@ function Signin() {
   };
 
   return (
-    <div className="flex items-center flex-col overflow-auto fixed py-32 w-full h-screen bg-[url('/assets/images/moon-knight.jpg')] bg-cover bg-center">
+    <div className="flex items-center flex-col overflow-auto fixed py-20 w-full h-screen bg-[url('/assets/images/moon-knight.jpg')] bg-cover bg-center">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col xl:w-[25vw] lg:w-[35vw] md:w-[45vw] w-[55vw] relative  bg-neutral-200 border rounded-lg border-black max-[500px]:w-5/6"

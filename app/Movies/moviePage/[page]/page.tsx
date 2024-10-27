@@ -4,7 +4,7 @@ import { authOptions } from "@/lib/authOptions";
 import { findUserByEmail } from "@/app/collection/connection";
 import { baseUrl, Movie, options } from "@/app/constants/constants";
 import Cards from "@/app/components/Movie-components/Cards";
-import MoviePages from "@/app/components/Movie-components/[page]/Pages";
+import MoviePages from "@/app/components/Movie-components/Pages";
 
 const getMovieData = async (page: string) => {
   const res = await fetch(

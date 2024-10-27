@@ -1,9 +1,7 @@
 "use client";
-import { clientOptions } from "@/app/constants/constants";
+import { baseUrl, clientOptions } from "@/app/constants/constants";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
-
-const baseUrl = "https://api.themoviedb.org/3/movie/";
 
 const MovieReview = ({ params }: { params: { id: string } }) => {
   const movieid = params.id;
@@ -50,7 +48,7 @@ const MovieReview = ({ params }: { params: { id: string } }) => {
     const fetchMovieData = async () => {
       try {
         const response = await fetch(
-          `${baseUrl}${movieid}?${process.env.NEXT_PUBLIC_MOVIE_API_KEY}`,
+          `${baseUrl}/movie/${movieid}?${process.env.NEXT_PUBLIC_MOVIE_API_KEY}`,
           clientOptions
         );
         const data = await response.json();

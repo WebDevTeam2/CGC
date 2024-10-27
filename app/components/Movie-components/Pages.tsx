@@ -6,7 +6,7 @@ interface PagesProps {
 const MoviePages = async ({ page, link }: PagesProps) => {
   const pages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   return (
-    <div className="flex flex-row mb-2 mt-1 lg:ml-8 text-center justify-center gap-4 text-lg not-search main-movies-pages">
+    <div className="flex flex-row mb-2 mt-1 md:ml-12 lg:ml-8 text-center justify-center gap-4 text-lg not-search main-movies-pages">
       <Link
         className="hover:opacity-[0.5] transition duration-200"
         href={`${link}/${page - 1}`}

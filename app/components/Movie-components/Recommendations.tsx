@@ -56,7 +56,7 @@ const Recommendations = ({ movieId }: { movieId: string }) => {
         {recommendedMovies.slice(0, visible).map((item) => (
           <div
             key={item.id}
-            className="lg:hover:scale-110 md:hover:border md:hover:shadow-2xl md:hover:shadow-gray-600 lg:hover:border lg:hover:shadow-2xl lg:hover:shadow-gray-600 w-full transition duration-500 ease-in-out"
+            className="hover:scale-110 hover:border hover:shadow-2xl hover:shadow-gray-600 w-full transition duration-500 ease-in-out"
           >
             <Link href={`/Movies/${item.id}`}>
               <div className="w-full h-56 md:h-56 lg:h-96 relative">

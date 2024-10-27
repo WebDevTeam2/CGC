@@ -47,7 +47,7 @@ const Cards = ({ movieData, upcoming, movieResultData }: MovieProps ) => {
         .map((item) => (
           <div
             key={item.id}
-            className="lg:hover:scale-110 md:hover:scale-110 md:hover:border md:hover:shadow-2xl md:hover:shadow-gray-600 lg:hover:border lg:hover:shadow-2xl lg:hover:shadow-gray-600 transition w-[90%] md:w-full lg:w-full h-[50%] mb-52 md:mb-0 lg:mb-0 duration-500 ease-in-out"
+            className="hover:scale-110 hover:border hover:shadow-2xl card-link hover:shadow-gray-600 transition w-[90%] md:w-full lg:w-full h-1/2 md:h-full lg:h-full mb-52 md:mb-0 lg:mb-0 duration-500 ease-in-out"
           >
             {/* Image container */}
             <Link href={`/Movies/${item.id}`}>

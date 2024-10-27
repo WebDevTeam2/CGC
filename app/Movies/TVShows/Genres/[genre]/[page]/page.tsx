@@ -2,6 +2,7 @@ import TvFilter from "@/app/components/Movie-components/TvFilter";
 import TvGenrePages from "@/app/components/Movie-components/TvGenrePages";
 import { baseUrl, options, TVShows } from "@/app/constants/constants";
 import TVShowCards from "@/app/components/Movie-components/TVShowCards";
+import MoviePages from "@/app/components/Movie-components/[page]/Pages";
 
 const getTVShowData = async (page: string, genre: string) => {
   const res = await fetch(
@@ -28,7 +29,7 @@ const FilteredByGenre = async ({
         <TVShowCards tvShowData={tvShowData} />
       </div>
       <div className="">
-        <TvGenrePages />
+        <MoviePages page={Number(params.page)} link={`/Movies/TVShows/Genres/${params.genre}`} />
       </div>
     </div>
   );

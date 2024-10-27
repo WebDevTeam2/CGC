@@ -6,6 +6,7 @@ import { FaStar } from "react-icons/fa";
 import AddToWatchlist from "@/app/components/Movie-components/AddToWatchlist";
 import { getVotecolor, options, TVShows } from "@/app/constants/constants";
 import TVShowCards from "@/app/components/Movie-components/TVShowCards";
+import MoviePages from "@/app/components/Movie-components/[page]/Pages";
 
 const baseUrl = "https://api.themoviedb.org/3/";
 const imageURL = "https://image.tmdb.org/t/p/w500";
@@ -31,7 +32,7 @@ const Page = async ({ params }: { params: TVShows }) => {
         <TVShowCards tvShowData={tvShowData} />
       </div>
       <div className="">
-        <TvShowPages />
+        <MoviePages page={Number(params.page)} link={"/Movies/TVShows/TVShowsPage"} />
       </div>
     </div>
   );

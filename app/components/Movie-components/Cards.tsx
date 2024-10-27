@@ -16,7 +16,7 @@ const Cards = ({ movieData, upcoming, movieResultData }: MovieProps ) => {
         <Link
           key={item.id}
           href={`/Movies/${item.id}`}
-          className="lg:hover:scale-110 lg:w-full md:w-[90%] transition duration-700 ease-in-out mb-6 card-link"
+          className="lg:hover:scale-110 lg:w-full md:w-[90%] h-full transition duration-700 ease-in-out mb-6 card-link "
         >
           {/* Container for the image and content */}
           <div className="flex flex-col items-center">
@@ -30,7 +30,7 @@ const Cards = ({ movieData, upcoming, movieResultData }: MovieProps ) => {
             </div>
 
             {/* Text container */}
-            <div className="bg-[#4c545b] w-full h-44 gap-4 p-4">
+            <div className="bg-[#4c545b] w-full h-44 gap-4 p-4 card-text-container">
               <div className="flex justify-between text-white">
                 <h2>{item.title}</h2>
               </div>

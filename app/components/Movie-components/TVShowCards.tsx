@@ -27,7 +27,7 @@ const TVShowCards = ({ tvShowData, upcoming }: TVShowProps) => {
             </div>
 
             {/* Text container */}
-            <div className="bg-[#4c545b] w-full h-44 gap-4 p-4">
+            <div className="bg-[#4c545b] w-full h-44 gap-4 p-4 card-text-container">
               <div className="flex justify-between text-white">
                 <h2>{item.name}</h2>
               </div>

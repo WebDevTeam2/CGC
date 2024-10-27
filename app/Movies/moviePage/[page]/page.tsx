@@ -1,4 +1,3 @@
-import Pages from "@/app/components/Movie-components/Pages";
 import Filter from "@/app/components/Movie-components/Filter";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";

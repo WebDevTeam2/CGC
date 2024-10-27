@@ -1,71 +1,24 @@
 import Recommendations from "@/app/components/Movie-components/Recommendations";
 import { FaStar } from "react-icons/fa6";
 import AddToWatchlistId from "@/app/components/Movie-components/AddToWatchlistId";
-import { options } from "@/app/constants/constants";
-
-const baseUrl = "https://api.themoviedb.org/3/movie/";
-const imageURL = "https://image.tmdb.org/t/p/w500";
-
-interface Movies {
-  page: number;
-  results: MovieResult[];
-}
-
-interface MovieResult {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
-
-interface MovieDetails {
-  adult: boolean;
-  backdrop_path: string;
-  genres: Genre[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
-
-interface Genre {
-  id: number;
-  name: string;
-}
+import { options, baseUrl, imageURL, MovieDetails } from "@/app/constants/constants";
 
 const getMovieDetails = async (id: string) => {
-  const res = await fetch(`${baseUrl}${id}?${process.env.MOVIE_API_KEY}`, options);
+  const res = await fetch(`${baseUrl}/movie/${id}?${process.env.MOVIE_API_KEY}`, options);
   const data = await res.json();
   return data;
 };
 
-const MovieDetails = async ({ params }: { params: MovieDetails }) => {
+const MovieDetailsData = async ({ params }: { params: MovieDetails }) => {
   const movie: MovieDetails = await getMovieDetails(params.id.toString());
 
   return (
-    <main className="font-roboto not-search msm:flex msm:flex-col msm:text-center msm:justify-center msm:items-center lg:-ml-6">
+    <main className="font-roboto not-search id-main lg:-ml-6">
       <h1 className="sm:ml-5 md:ml-[10rem] lg:ml-[20rem] my-10 font-medium text-4xl">
         {movie.title}
       </h1>
       <div className="main-content flex md:flex-row mb-6 lg:md:flex-row md:ml-[10rem] lg:ml-[20rem] mt-[2rem] gap-4">
-        <div className="relative msm:w-48 msm:h-72 md:w-72 md:h-96 lg:w-72 lg:h-96">
+        <div className="relative w-48 h-72 md:w-72 md:h-96 lg:w-72 lg:h-96">
           <img
             src={`${imageURL}${movie.poster_path}`}
             alt={`${movie.title} poster`}                                    
@@ -112,4 +65,4 @@ const MovieDetails = async ({ params }: { params: MovieDetails }) => {
   );
 };
 
-export default MovieDetails;
+export default MovieDetailsData;

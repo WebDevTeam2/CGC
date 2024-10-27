@@ -3,18 +3,11 @@ import React, { useEffect, useState, useRef } from "react";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { options } from "@/app/constants/constants";
 
 const movieSearchUrl = "https://api.themoviedb.org/3/search/movie";
 const tvSearchUrl = "https://api.themoviedb.org/3/search/tv";
 
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_MOVIE_BEARER_TOKEN}`,
-  },
-  next: { revalidate: 43200 },
-};
 interface SearchProps {
   setSearchVisible: (visible: boolean) => void;
 }
@@ -40,7 +33,7 @@ const getMovies = async (query: string): Promise<Result[]> => {
 
 //fetch tis seires, to function epistrefei ena Promise apo Results
 const getTVShows = async (query: string): Promise<Result[]> => {
-  const res = await fetch(`${tvSearchUrl}?query=${query}&api_key=${process.env.MOVIE_API_KEY}`, options);
+  const res = await fetch(`${tvSearchUrl}?query=${query}&api_key=${process.env.NEXT_PUBLIC_MOVIE_API_KEY}`, options);
   const data = await res.json();
   //dinw stis seires ena media_type
   return data.results.map((result: any) => ({ ...result, media_type: "tv" }));
@@ -150,14 +143,14 @@ const Search = ({ setSearchVisible }: SearchProps) => {
   return (
     <form
       ref={searchRef}
-      className="w-[440px] flex flex-col gap-2 absolute top-20 left-1/2 transform z-10 -translate-x-1/2 transition duration-700 ease-in-out searchbar"
+      className="md:w-[440px] w-[75%] flex flex-col gap-2 absolute top-20 left-1/2 transform z-10 -translate-x-1/2 transition duration-700 ease-in-out"
       onSubmit={handleSubmit}
     >
       <div className="relative flex flex-row">
         <input
           type="search"
           placeholder="Search... (press enter to submit your search)"
-          className="w-full rounded-full text-[#d3d3d3] p-4 bg-slate-800 search"
+          className="w-full rounded-full text-[#d3d3d3] p-4 bg-slate-800 text-start search"
           value={searchTerm}
           onChange={handleSearch}
         />
@@ -180,19 +173,17 @@ const Search = ({ setSearchVisible }: SearchProps) => {
                   focusedIndex === index ? "bg-[#4c545b]" : ""
                 }`}
               >
-                <div className="w-28">
+                <div className="w-16 lg:w-16 h-full">
                   {result.poster_path && (
-                    <Image
+                    <img
                       src={`https://image.tmdb.org/t/p/w200${result.poster_path}`}
-                      alt={result.title || result.name}
-                      width={64}
-                      height={96}
-                      objectFit="cover"
+                      className="object-cover w-full h-full"
+                      alt={result.title || result.name}                                           
                     />
                   )}
                 </div>
-                <div>
-                  <h2 className="text-lg search-result-title">{result.title || result.name}</h2>
+                <div className="ml-4 w-1/2">
+                  <h2 className="text-lg">{result.title || result.name}</h2>
                 </div>
               </Link>
             ))

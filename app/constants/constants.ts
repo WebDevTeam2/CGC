@@ -43,6 +43,27 @@ export interface Movie {
   results: MovieResult[];
 }
 
+export interface Genre {
+  id: number;
+  name: string;
+}
+
+export interface MovieDetails {
+  adult: boolean;
+  backdrop_path: string;
+  genres: Genre[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
 export interface MovieResult {
   adult: boolean;
   backdrop_path: string;
@@ -68,6 +89,24 @@ export interface TVShowProps {
 export interface TVShows {
   page: number;
   results: TVResult[];
+}
+
+export interface TVDetails {
+  adult: boolean;
+  backdrop_path: string;
+  genres: Genre[];
+  id: number;
+  original_language: string;
+  original_name: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  air_date: string;
+  name: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+  seasons: Seasons[];
 }
 
 export interface TVResult {
@@ -102,4 +141,3 @@ export interface Seasons {
   season_number: number;
   vote_average: number;
 }
-

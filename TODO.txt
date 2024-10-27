@@ -7,3 +7,4 @@ MOVIES:
 
 Εδώ παρατηρουμε ένα κομματι κωδικα του Cards.tsx component. Στο component αυτό περναμε ως props το movieData που ειναι οι πληροφοριες για καποια ταινια που τις παιρνουμε μεσω του TMDB API, το upcoming είναι μια boolean μεταβλητη που αλλαζει το περιεχομενο αναλογα με το αν υπαρχει ή οχι και το movieResultData είναι μια μεταβλητη που περιεχει τα αποτελεσματα του TMDB API σε μορφή πίνακα για συγκεκριμένη χρήση.
  543b95c1b0eedd13bf9e7ab3d0a5c61c8793b1fd
+ https://www.asimenio.gr/el/kolie-me-onoma/kolie-me-onoma-stauro-k-mati.html?ref=bestprice.gr&__bpgid=MXBgclBVWCMtZVIsMWV+NGFjVFUkLVA=

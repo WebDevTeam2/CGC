@@ -52,14 +52,14 @@ const Recommendations = ({ movieId }: { movieId: string }) => {
       <h2 className="md:ml-[10rem] lg:ml-[20rem] mt-10 text-[18px] font-bold">
         Recommended Movies:{" "}
       </h2>
-      <div className="recommended-movies grid msm:grid-cols-2 msm:gap-3 msm:mx-auto md:grid-cols-3 lg:grid-cols-4 md:gap-4 msm:w-[26rem] md:w-3/4 lg:w-3/4 md:mr-auto md:ml-[10rem] lg:ml-[20rem] h-full not-search">
+      <div className="recommended-movies grid grid-cols-2 gap-3 w-[22rem] mx-auto md:grid-cols-3 lg:grid-cols-4 md:gap-4 md:w-3/4 lg:w-3/4 md:mr-auto md:ml-[10rem] lg:ml-[20rem] h-full not-search">
         {recommendedMovies.slice(0, visible).map((item) => (
           <div
             key={item.id}
             className="lg:hover:scale-110 md:hover:border md:hover:shadow-2xl md:hover:shadow-gray-600 lg:hover:border lg:hover:shadow-2xl lg:hover:shadow-gray-600 w-full transition duration-500 ease-in-out"
           >
             <Link href={`/Movies/${item.id}`}>
-              <div className="msm:w-full msm:h-56 md:w-full md:h-56 lg:w-full lg:h-96 relative">
+              <div className="w-full h-56 md:h-56 lg:h-96 relative">
                 <img
                   src={`${imageURL}${item.poster_path}`}
                   alt={item.title}
@@ -73,7 +73,7 @@ const Recommendations = ({ movieId }: { movieId: string }) => {
                 href={`/Movies/${item.id}`}
                 className="flex lg:ml-4 h-10 text-white justify-between"
               >
-                <div className="msm:w-[55%]">
+                <div className="w-[55%]">
                   <h2 className="">{item.title}</h2>
                 </div>
                 <div className="flex gap-2">
@@ -84,7 +84,7 @@ const Recommendations = ({ movieId }: { movieId: string }) => {
                 </div>
               </Link>
               {/* watchlist and review container */}
-              <div className="msm:mt-2 md:mt-6 flex flex-col justify-center gap-4">
+              <div className="mt-2 md:mt-6 flex flex-col justify-center gap-4">
                 <div className="flex justify-center mt-4 ml-[-2rem]">
                   <AddToWatchlist movieId={item.id} />
                 </div>

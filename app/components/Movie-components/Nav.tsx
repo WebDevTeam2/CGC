@@ -11,21 +11,39 @@ import UpComing from "@/app/components/Movie-components/Nav-items/UpComing";
 
 //utils and icons
 import React, { useEffect, useState } from "react";
-import { findUserByEmail } from "@/app/collection/connection";
 import Link from "next/link";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import Login from "./Nav-items/Login";
 import { useSession } from "next-auth/react";
-import Image from "next/legacy/image";
-
-//Ena array apo objects me diaforetiko id gia na mhn epanalamvanetai o kwdikas polles fores
 
 export default function Nav() {
   const { data: session } = useSession();
   const [searchVisible, setSearchVisible] = useState(false);
   const [userId, setUserId] = useState<string>();
-  const [imageUrl, setImageUrl] = useState<string>("");  
-  const [prevScrollPos, setPrevScrollPos] = useState(0); //Metavlhth pou arxikopoiei to scroll pou kanei o xrhsths se 0  
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [prevScrollPos, setPrevScrollPos] = useState(0); //Variable that initializes the user's scroll to 0
+  
+  //Used for the scrolling in nav
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY; //CurrentScrollPos is the position of the user's scroll
+      const isSmallScreen = window.innerWidth < 1024; //Check if the screen is smaller than 1024px
+
+      //If the user has scrolled down and the screen is smaller than 1024px then we hide the nav using a custom css class
+      if (isSmallScreen)
+        currentScrollPos > prevScrollPos
+          ? document.getElementById("scroll-nav")?.classList.add("hide-nav")
+          : document.getElementById("scroll-nav")?.classList.remove("hide-nav");
+
+      setPrevScrollPos(currentScrollPos); //We update the currentScroll position
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [prevScrollPos]);
 
   useEffect(() => {
     const fetchProfileDetails = async () => {
@@ -47,7 +65,7 @@ export default function Nav() {
           // Check if the data contains a valid id
           if (data?._id) {
             setImageUrl(data.profilePicture); // Set the imageUrl state to the saved profile picture
-            setUserId(data._id);            
+            setUserId(data._id);
           } else {
             console.log("No profile found for this user.");
           }
@@ -58,63 +76,41 @@ export default function Nav() {
     };
 
     fetchProfileDetails();
-  }, [session?.user?.email]); // Only re-run this effect if the session changes\
-  //Gia to control tou nav sto scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollPos = window.scrollY; //To torino scroll einai to poso scroll exei ginei apo ton xrhsth
-      const isSmallScreen = window.innerWidth < 1024; //Metavlhth pou elegxei to megethos ths othonhs
+  }, [session?.user?.email]); // Only re-run this effect if the session changes
 
-      //An exoume kanei scroll tote vazoume ena class hide-nav pou exei kapoia css styles
-      if (isSmallScreen)
-        currentScrollPos > prevScrollPos
-          ? document.getElementById("scroll-nav")?.classList.add("hide-nav")
-          : document.getElementById("scroll-nav")?.classList.remove("hide-nav");
 
-      setPrevScrollPos(currentScrollPos); //Kanoume update to position tou previous scroll
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [prevScrollPos]);
-
-  //Gia to searchbar otan to epilegei o xrhsths apo to navbar
+  //This is used to toggle the search bar to visible when a user clicks it from the navBar
   const toggleSearch = () => {
-    setSearchVisible(true); //An kanoume click to search tote to searchbar ginetai visible
+    setSearchVisible(true);
   };
 
-  //Xrhsh useEffect epeidh h react xrhsimpoioei asyncronus updates, an to blur mpei sto toggleSearch kanei to searchVisivle na einai true kai vazei to onoma ths klasshs, alla den prolavainei na kanei render ta styles kai xreiazetai kai 2o click
+  //This useEffect is used to blur the other elements when the search bar is visible
   useEffect(() => {
     const blur = document.querySelectorAll(".not-search");
     const navForHover = document.querySelector(".nav-for-hover");
-    const dummy = document.querySelector(".dummy-class");
-    const body = document.querySelector("body") as HTMLBodyElement;
+    const dummy = document.querySelector(".dummy-class"); //dummy is a class used to target the nav when navForHover is removed
 
     if (searchVisible) {
-      navForHover ? navForHover.classList.remove("nav-for-hover") : null; //An exei epilexthei to search aferw to class pou kanw target sto CSS gia ta hover effects
+      navForHover ? navForHover.classList.remove("nav-for-hover") : null; //If search has been clicked then we remove the class nav-for-hover so that the nav returns to its original position
 
+      //We add the blurred class to the elements that we want to blur
       blur.forEach((e) => {
-        //Dialegoume ola ta classes me to onoma not-search kai ta dinoume mia kainourgia classh pou thn kanoume target me CSS
         e.classList.add("blurred");
-        e.classList.add("pointer-events-none"); //Otan ginetai click gia to search theloume na mporei o xxrhsths na kanei target mono ayto
+        e.classList.add("pointer-events-none"); //We remove the pointer events so that the user will only be able to target the Search bar
       });
     }
-    //Otan den einai epilegmeno to search ta epanaferoume sto arxiko
+    //If search is not open we restore the original state of the elements
     else {
       blur.forEach((e) => {
         e.classList.remove("blurred");
         e.classList.remove("pointer-events-none");
       });
 
-      dummy ? dummy.classList.add("nav-for-hover") : null; //An to dummy class yparxei prothetoume xana to nav-for-hover
+      dummy ? dummy.classList.add("nav-for-hover") : null; //We allow the nav to be hoverable again
     }
   }, [searchVisible]);
 
   return (
-    // Ena wrapper div etsi wste to searchbar na mhn einai mesa sto navbar
     <div className="nav-for-hover dummy-class">
       <nav
         id="scroll-nav"
@@ -156,22 +152,22 @@ export default function Nav() {
           <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
             <UpComing />
           </li>
-          {/* An yparxei session tote vazoume na fainetai h eikona tou xrhsth  */}
+          {/* If we have a user session then we display his profile picture */}
           {session ? (
             <li className="text-[#b6b6b6] text-l h-20 w-full transition duration-500 ease-in-out not-search image-li">
               <Link
                 href={`/account/${userId}/info/`}
                 className="relative w-10 h-10 md:mt-5 lg:mt-2 mx-[1.05rem] block rounded-full overflow-hidden"
               >
-                <img 
-                  src={imageUrl || "/assets/images/batman.jpg" } // An o xrhsths exei diko tou image to kanoume display alliws kanoume display ena default
+                <img
+                  src={imageUrl || "/assets/images/batman.jpg"} // An o xrhsths exei diko tou image to kanoume display alliws kanoume display ena default
                   alt="User Avatar"
                   className="object-cover w-full h-full absolute"
                 />
               </Link>
             </li>
           ) : (
-            // An den yparxei session tote vazoume na fainetai to login
+            // Otherwise we display the option to signup/login
             <li className="text-[#b6b6b6] text-l w-full [&:not(:last-child)]:hover:bg-[#6B6B6B] transition duration-500 ease-in-out not-search last:mt-auto">
               <Login />
             </li>
@@ -182,7 +178,7 @@ export default function Nav() {
         </ul>
       </nav>
 
-      {/* ektos tou nav giati alliws to search bar emfanizetai dipla apo to li pou einai to search kai oxi sth mesh ths selidas */}
+      {/*  This must be placed outside of the navbar otherwise it is shown in the navbar list when opened instead of the center of the page */}
       {searchVisible && <Search setSearchVisible={setSearchVisible} />}
     </div>
   );

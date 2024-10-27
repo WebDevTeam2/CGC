@@ -3,6 +3,7 @@ import Image from "next/legacy/image";
 import { GiFilmProjector } from "react-icons/gi";
 import TvFilter from "@/app/components/Movie-components/TvFilter";
 import { getVotecolor, options } from "@/app/constants/constants";
+import TVShowCards from "@/app/components/Movie-components/TVShowCards";
 
 const baseUrl = "https://api.themoviedb.org/3/";
 const ApiURL = baseUrl + "trending/tv/day?page=1&language=en-US&" + process.env.MOVIE_API_KEY;
@@ -53,47 +54,8 @@ const Trending = async () => {
           <span>Movies</span>
         </Link>
       </div>
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-3/4 sm:ml-20 md:ml-32 lg:ml-64 mt-4 h-full not-search shows-grid">
-        {tvShowData.results.filter(item => item.first_air_date  <= currentDate).map(
-          (item) =>
-            item.overview && (
-              <Link
-                key={item.id}
-                href={`/Movies/TVShows/${item.id}`}
-                 className="lg:hover:scale-110 lg:w-full md:w-[90%] transition duration-700 ease-in-out mb-6 card-link"
-              >
-                 {/* Container for the image and content */}
-              <div className="flex flex-col items-center">
-                {/* Image container */}
-                <div className="relative w-full h-56 sm:h-56 lg:h-96">
-                  <Image
-                    src={`${imageURL}${item.poster_path}`}
-                    alt={item.name}
-                    layout="fill"
-                    objectFit="cover"
-                    className="absolute w-full h-full"
-                    priority
-                  />
-                </div>
-
-                {/* Text container */}
-                <div className="bg-[#4c545b] w-full h-44 gap-4 p-4">
-                  <div className="flex justify-between text-white">
-                    <h2>{item.name}</h2>
-                    <span
-                      className={`${getVotecolor(item.vote_average)} mt-auto`}
-                    >
-                      {item.vote_average.toString().slice(0, 3)}
-                    </span>
-                  </div>
-                  <p className="mt-4 text-white">
-                    {item.overview.slice(0, 40)}...
-                  </p>
-                </div>
-              </div>
-              </Link>
-            )
-        )}
+      <div className="grid grid-cols-2 mt-4 h-full not-search movies-grid gap-y-2 mx-auto w-[92%] md:grid-cols-3 lg:grid-cols-4 md:gap-8 lg:gap-8 lg:w-3/4 md:w-[80%] md:ml-32 lg:ml-64 ">
+       <TVShowCards tvShowData={tvShowData} />
       </div>
     </div>
   );

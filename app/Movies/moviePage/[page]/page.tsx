@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/authOptions";
 import { findUserByEmail } from "@/app/collection/connection";
 import { baseUrl, Movie, options } from "@/app/constants/constants";
 import Cards from "@/app/components/Movie-components/Cards";
+import MoviePages from "@/app/components/Movie-components/[page]/Pages";
 
 const getMovieData = async (page: string) => {
   const res = await fetch(
@@ -30,7 +31,7 @@ const Page = async ({ params }: { params: Movie }) => {
         <Cards movieData={movieData}/>
       </div>
       <div>
-        <Pages />
+        <MoviePages page={params.page} link={`/Movies/moviePage`}/>
       </div>      
     </div>
   );

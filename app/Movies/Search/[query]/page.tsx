@@ -1,14 +1,9 @@
 import AddToWatchlist from "@/app/components/Movie-components/AddToWatchlist";
 import Filter from "@/app/components/Movie-components/Filter";
-import Pages from "@/app/components/Movie-components/Pages";
-import { getVotecolor, options } from "@/app/constants/constants";
-import Image from "next/legacy/image";
+// import Pages from "@/app/components/Movie-components/Pages";
+import { baseUrl, getVotecolor, imageURL, options } from "@/app/constants/constants";
 import Link from "next/link";
 import { FaStar } from "react-icons/fa";
-
-const baseMovieUrl = "https://api.themoviedb.org/3/search/movie";
-const baseTVUrl = "https://api.themoviedb.org/3/search/tv";
-const imageURL = "https://image.tmdb.org/t/p/w500";
 
 interface Result {
   id: number;
@@ -23,7 +18,7 @@ interface Result {
 
 const getMovieData = async (query: string): Promise<Result[]> => {
   const res = await fetch(
-    `${baseMovieUrl}?query=${query}&include_adult=false&language=en-US&page=1&${process.env.MOVIE_API_KEY}`,
+    `${baseUrl}search/movie?query=${query}&include_adult=false&language=en-US&page=1&${process.env.MOVIE_API_KEY}`,
     options
   );
   const data = await res.json();
@@ -35,7 +30,7 @@ const getMovieData = async (query: string): Promise<Result[]> => {
 
 const getTVShowData = async (query: string): Promise<Result[]> => {
   const res = await fetch(
-    `${baseTVUrl}?query=${query}&include_adult=false&language=en-US&page=1&${process.env.MOVIE_API_KEY}`,
+    `${baseUrl}search/tv?query=${query}&include_adult=false&language=en-US&page=1&${process.env.MOVIE_API_KEY}`,
     options
   );
   const data = await res.json();
@@ -48,7 +43,7 @@ const searchPage = async ({ params }: any) => {
   const tvResults = await getTVShowData(`${params.query}`);
   const allResults = [...movieResults, ...tvResults]; //Array me ta apotelesmata kai twn tainiwn kai twn seirwn
 
-  //Kanw sort ta apotelesmata gia na emfanizontai prwta ayta pou exoun ypsili dhmotikotita kai meso oro megalytero tou 0
+  //We sort the results so that the ones with high popularity and a vote average > 0 will appear first 
   allResults.sort((a, b) => {
     if (b.vote_average === a.vote_average) return b.popularity - a.popularity;
     else if (b.vote_average !== a.vote_average)
@@ -59,11 +54,11 @@ const searchPage = async ({ params }: any) => {
   return (
     <div className="overflow-hidden">
       <Filter />
-      <div className="grid md:grid-cols-3 lg:grid-cols-4 md:gap-8 lg:gap-8 w-3/4 md:ml-32 lg:ml-64 mt-4 h-full not-search movies-grid">
+      <div className="grid grid-cols-2 mt-4 h-full not-search movies-grid gap-y-2 mx-auto w-[92%] md:grid-cols-3 lg:grid-cols-4 md:gap-8 lg:gap-8 lg:w-3/4 md:w-[80%] md:ml-32 lg:ml-64 ">
         {allResults.map((item) => (
           <div
             key={item.id}
-            className="lg:hover:scale-110 md:hover:scale-110 md:hover:border md:hover:shadow-2xl md:hover:shadow-gray-600 lg:hover:border lg:hover:shadow-2xl lg:hover:shadow-gray-600 w-full transition card-link duration-500 ease-in-out mb-6"
+            className="lg:hover:scale-110 md:hover:scale-110 md:hover:border md:hover:shadow-2xl md:hover:shadow-gray-600 lg:hover:border lg:hover:shadow-2xl lg:hover:shadow-gray-600 transition w-[90%] md:w-full lg:w-full h-[50%] mb-52 md:mb-0 lg:mb-0 duration-500 ease-in-out"
           >
             {/* Image container */}
             <Link
@@ -71,27 +66,24 @@ const searchPage = async ({ params }: any) => {
                 item.media_type === "tv" ? "Movies/TVShows" : "Movies"
               }/${item.id}`}
             >
-              <div className="card-image-container sm:w-full sm:h-56 lg:w-full lg:h-96 p-10 relative">
-                <Image
+              <div className="w-full h-full md:w-full md:h-64 lg:w-full lg:h-96 relative">
+                <img
                   src={`${imageURL}${item.poster_path}`}
                   alt={item.media_type === "tv" ? item.name : item.title}
-                  layout="fill"
-                  objectFit="cover"
-                  className="w-full h-full absolute"
-                  priority
+                  className="w-full h-full absolute object-cover"
                 />
               </div>
             </Link>
 
             {/* Text container */}
-            <div className="bg-[#4c545b] flex flex-col h-44 cards card-text-container">
+            <div className="bg-[#4c545b] flex flex-col md:h-44 lg:h-52 cards h-full card-text-container">
               <Link
                 href={`/${
                   item.media_type === "tv" ? "Movies/TVShows" : "Movies"
                 }/${item.id}`}
                 className="flex lg:ml-4 h-10 text-white justify-between"
               >
-                <div className="card-title-container">
+                <div className="w-[55%]">
                   <h2>{item.media_type === "tv" ? item.name : item.title}</h2>
                 </div>
                 <div className="flex gap-2">
@@ -101,7 +93,7 @@ const searchPage = async ({ params }: any) => {
                   <FaStar color="yellow" />
                 </div>
               </Link>
-              <div className="movies-buttons-container md:mt-6 flex flex-col justify-center gap-4">
+              <div className="movies-buttons-container h-full flex flex-col justify-center gap-4">
                 <div className="flex justify-center mt-4 ml-[-2rem]">
                   <AddToWatchlist movieId={item.id} />
                 </div>

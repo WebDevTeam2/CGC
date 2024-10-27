@@ -268,7 +268,7 @@ export default async function Games({ params }: { params: CombinedParams }) {
                 <div className="mt-4 flex w-full justify-center items-center">
                   <span className="bg-neutral-600 text-lg py-2 px-6 rounded-xl">
                     You have to be signed in to be able to write a review or add
-                    to your watchlist
+                    to your wishlist
                   </span>
                 </div>
               )}

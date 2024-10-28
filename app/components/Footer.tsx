@@ -1,10 +1,8 @@
 "use client"; //because we use UseState
 import Link from "next/link";
 import React from "react";
-import { FaFacebook } from "react-icons/fa";
-import { FaSquareInstagram } from "react-icons/fa6";
-import { FaLinkedin } from "react-icons/fa";
-import { FaGithub } from "react-icons/fa";
+import { FaFacebook, FaLinkedin, FaGithub } from "react-icons/fa";
+import { FaSquareInstagram, FaXTwitter } from "react-icons/fa6";
 
 function Footer() {
   return (
@@ -36,6 +34,12 @@ function Footer() {
               className="text-4xl text-blue-700 bg-white rounded-full transition-all ease-in-out duration-300 hover:scale-110"
             >
               <FaFacebook />
+            </Link>
+            <Link
+              href={"https://x.com/cinegamecritic"}
+              className="text-4xl text-slate-100 bg-none rounded-full transition-all ease-in-out duration-300 hover:scale-110"
+            >
+              <FaXTwitter />
             </Link>
           </div>
         </div>

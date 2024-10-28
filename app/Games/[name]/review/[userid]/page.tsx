@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Footer from "@/app/components/Footer";
 
 const basePosterUrl = process.env.NEXT_PUBLIC_BASE_POSTER_URL;
 const apiPosterKey = process.env.NEXT_PUBLIC_API_KEY;
@@ -174,7 +175,7 @@ export default function Games({ params }: { params: CombinedParams }) {
         </button>
       </Link>
       <form
-        className="flex mt-12 mx-10 mb-10 flex-col relative bg-neutral-200 rounded-2xl"
+        className="flex mt-12 mx-10 mb-[5.1rem] flex-col flex-1 relative bg-neutral-200 rounded-2xl"
         onSubmit={handleSubmit}
       >
         {/* Header of review */}
@@ -206,7 +207,7 @@ export default function Games({ params }: { params: CombinedParams }) {
         </div>
         {/* Start of textarea */}
         <textarea
-          className="text-lg pb-28 pt-8 px-8 rounded-t-2xl outline-none bg-neutral-200"
+          className="text-lg pb-48 pt-8 px-8 rounded-t-2xl outline-none bg-neutral-200"
           placeholder="Type Here..."
           value={reviewText}
           onChange={(e) => setReviewText(e.target.value)}
@@ -218,6 +219,7 @@ export default function Games({ params }: { params: CombinedParams }) {
           Submit
         </button>
       </form>
+      <Footer />
     </div>
   );
 }

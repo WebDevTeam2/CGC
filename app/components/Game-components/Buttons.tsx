@@ -71,7 +71,7 @@ const Buttons = ({ gamesLength }: { gamesLength: number }) => {
   const pageRange = getPageRange();
 
   return (
-    <div className="relative text-white my-5 flex flex-row items-center justify-center gap-4 max-[450px]:gap-2 transition-all duration-200">
+    <div className="relative text-white my-5 mb-10 flex flex-row items-center justify-center gap-4 max-[450px]:gap-2 transition-all duration-200">
       {page > 3 && (
         <Link href="1">
           <button className="hover:scale-110 transition-all duration-200 border-2 px-2 py-[0.2rem] rounded-md bg-stone-600 border-stone-600">

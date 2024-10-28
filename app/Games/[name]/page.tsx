@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { findUserByEmail, findAllUsers } from "@/app/collection/connection";
 import AddToList from "@/app/components/Game-components/AddToList";
+import Footer from "@/app/components/Footer";
 
 const basePosterUrl = process.env.NEXT_PUBLIC_BASE_POSTER_URL;
 const apiPosterKey = process.env.NEXT_PUBLIC_API_KEY;
@@ -304,13 +305,13 @@ export default async function Games({ params }: { params: CombinedParams }) {
       </div>
       <div>
         {gameReviews && gameReviews.length > 0 ? (
-          <div className="flex px-10 xl:px-64 lg:px-52 sm:px-24 px-6 lg:py-12 pt-0 pb-10 bg-slate-300 flex-col w-full">
+          <div className="flex px-10 xl:px-64 lg:px-52 sm:px-24 px-6 pb-10 lg:py-12 pt-0 bg-slate-300 flex-col w-full">
             <span className="text-white z-10 text-2xl text-center font-extrabold">
               User Reviews:
             </span>
             <ul className="mt-6 bg-black border-2 rounded-2xl lg:p-12 p-10 lg:px-24 px-12 z-10">
               {gameReviews.map((review: any) => {
-                // console.log(review); // Log the review object to the console
+                // console.log(review); // Logthe review object to the console
                 return (
                   <div key={review.reviewId}>
                     <span className="text-white text-lg text-orange-500">
@@ -328,13 +329,15 @@ export default async function Games({ params }: { params: CombinedParams }) {
             </ul>
           </div>
         ) : (
-          <div className="my-4 pb-10 flex w-full justify-center items-center">
+          <div className="my-4 mb-10 flex w-full justify-center items-center">
             <span className="bg-neutral-600 sm:text-lg text-md text-slate-200 z-20 py-3 px-6 rounded-lg">
               No reviews at this moment.
             </span>
           </div>
         )}
       </div>
+
+      <Footer />
     </div>
   );
 }

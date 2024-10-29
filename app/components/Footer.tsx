@@ -20,11 +20,17 @@ function Footer() {
         </div>
         <div className="flex flex-col items-center">
           <span className="sm:text-lg text-md mb-3 text-slate-100 font-bold">
-            Contact Us:
+            Follow Us:
           </span>
           <div className="flex flex-row mb-4 gap-4">
             <Link
-              href={"#"}
+              href={"https://github.com/WebDevTeam2/CGC.git"}
+              className="text-4xl text-stone-950 bg-slate-200 rounded-full transition-all ease-in-out duration-300 hover:scale-110"
+            >
+              <FaGithub />
+            </Link>
+            <Link
+              href={"https://www.instagram.com/cinegamecritic_official/"}
               className="text-4xl text-fuchsia-600 bg-white rounded-lg transition-all ease-in-out duration-300 hover:scale-110"
             >
               <FaSquareInstagram />

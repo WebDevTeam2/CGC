@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
 const basePosterUrl = process.env.NEXT_PUBLIC_BASE_POSTER_URL;
+const message = "Hello from A";
 const apiPosterKey = process.env.NEXT_PUBLIC_API_KEY;
 
 interface PostPage {

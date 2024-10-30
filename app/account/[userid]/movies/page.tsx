@@ -129,7 +129,9 @@ const Account = ({ params }: { params: { userid: string } }) => {
           </div>
         </div>
       </div>
-      <Footer />
+      <div className="fixed mt-auto w-full">
+        <Footer />
+      </div>
     </div>
   );
 };

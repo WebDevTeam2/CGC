@@ -259,11 +259,10 @@ const Account = ({ params }: { params: { userid: string } }) => {
               <>
                 <div className="flex flex-col items-center">
                   <div className="relative w-20 h-20 rounded-full overflow-hidden">
-                    <Image
+                    <img
                       src={imageUrl || "/assets/images/default_avatar.jpg"}
-                      alt="User Avatar"
-                      layout="fill"
-                      className="object-cover"
+                      alt="User Avatar"                      
+                      className="object-cover w-full h-full"
                     />
                   </div>
                   <div className="mt-2">

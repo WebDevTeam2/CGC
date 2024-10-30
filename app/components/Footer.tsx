@@ -51,8 +51,19 @@ function Footer() {
         </div>
       </div>
       <div className="w-full bg-slate-200 h-[0.5px]"></div>
-      <span className="text-sm text-center my-5 text-slate-100 font-thin">
+      <span className="text-sm text-center mt-5 text-slate-100 font-thin">
         © 2024 CineGame Critic. All rights reserved.
+      </span>
+      <span className="text-sm text-center mb-5 text-slate-100 font-thin">
+        Game data provided by{" "}
+        <Link className="text-blue-400" href={"https://rawg.io/"}>
+          RAWG
+        </Link>{" "}
+        API. Movie data provided by{" "}
+        <Link className="text-blue-400" href={"https://www.themoviedb.org/"}>
+          TMDB
+        </Link>{" "}
+        API.
       </span>
     </div>
   );

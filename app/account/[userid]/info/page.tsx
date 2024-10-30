@@ -190,223 +190,216 @@ const Account = ({ params }: { params: { userid: string } }) => {
   };
 
   return (
-    <div className="w-full h-screen items-end flex">
-      <div className="back-img fixed overflow-auto bg-cover w-full h-screen flex text-center justify-center">
-        <Link href={`/`} className="absolute pointer-events-none">
-          <h2 className="ml-4 mt-4 text-white pointer-events-auto text-2xl transition duration-100 p-1 rounded-full hover:scale-110">
-            &#8618; Home
-          </h2>
-        </Link>
-        {isSuccess && user && (
-          <div className="flex sm:flex-row sm:w-auto overflow-hidden overflow-y-auto w-5/6 flex-col rounded-2xl items-strech shadow-lg h-auto sm:my-24 mb-24 mt-20 sm:mx-10 mx-0 bg-slate-300">
-            <UserOptions />
-            <div className="flex flex-col text-md items-center h-auto sm:mx-20 mx-0 gap-0 sm:mt-12 mt-8">
-              {hasProvider ? (
-                <>
+    <div className="back-img fixed overflow-hidden overflow-y-auto bg-cover items-center w-full h-screen flex flex-col text-center">
+      <Link href={`/`} className="w-full pointer-events-none">
+        <h2 className="ml-4 mt-4 text-white pointer-events-auto text-2xl transition duration-100 p-1 rounded-full hover:scale-110">
+          &#8618; Home
+        </h2>
+      </Link>
+      {isSuccess && user && (
+        <div className="flex sm:flex-row flex-col sm:mx-10 mx-4 rounded-2xl shadow-lg mt-12 mb-[5.1rem] flex-1 relative bg-slate-300">
+          <UserOptions />
+          <div className="flex flex-col text-md items-center sm:mx-10 mx-0 gap-0 sm:mt-12 sm:mb-24 mb-8 mt-8">
+            {hasProvider ? (
+              <>
+                <div className="relative w-20 h-20 rounded-full overflow-hidden">
+                  <img
+                    src={imageUrl || "/assets/images/default_avatar.jpg"}
+                    alt="User Avatar"
+                    className="object-cover"
+                  />
+                </div>
+                <form className="flex flex-col gap-4 mt-8 sm:w-80 w-60">
+                  <div className="flex sm:flex-row flex-col gap-2 items-center justify-between">
+                    <label htmlFor="name" className="text-blue-950 font-black">
+                      Username:{" "}
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={session?.user?.name || "No user name found"}
+                      className="text-blue-900 border border-blue-400 rounded-md p-1"
+                      autoComplete="off"
+                      disabled
+                    />
+                  </div>
+                  <div className="flex sm:flex-row flex-col gap-2 items-center justify-between">
+                    <label htmlFor="mail" className="text-blue-950 font-black">
+                      Email:{" "}
+                    </label>
+                    <input
+                      type="email"
+                      name="mail"
+                      value={session?.user?.email || "No email found"}
+                      className="text-blue-900 border border-blue-400 rounded-md p-1"
+                      disabled
+                    />
+                  </div>
+                  <div className="text-slate-200 flex justify-center sm:my-0 my-4">
+                    <div className="bg-slate-400 sm:w-full w-56 text-center p-4 rounded-lg">
+                      Nothing can be edited as you are connected with a
+                      provider.
+                    </div>
+                  </div>
+                  <button
+                    onClick={handleDeleteAccount}
+                    className="bg-red-500 hover:bg-red-800 transition duration-200 text-white rounded-md sm:px-4 px-2 sm:py-2 py-4 mb-4"
+                  >
+                    Delete Account
+                  </button>
+                  {showPopup && (
+                    <Popup
+                      onConfirm={confirmDelete}
+                      onCancel={cancelDelete}
+                      isDeleting={isDeleting}
+                    />
+                  )}
+                </form>
+              </>
+            ) : (
+              <>
+                <div className="flex flex-col items-center">
                   <div className="relative w-20 h-20 rounded-full overflow-hidden">
+                    {/* <Image
+                      src={imageUrl || "/assets/images/default_avatar.jpg"}
+                      alt="User Avatar"
+                      layout="fill"
+                      className="object-cover"
+                    /> */}
                     <img
                       src={imageUrl || "/assets/images/default_avatar.jpg"}
                       alt="User Avatar"
                       className="object-cover"
                     />
                   </div>
-                  <form className="flex flex-col gap-4 mt-8 sm:w-80 w-60">
-                    <div className="flex sm:flex-row flex-col gap-2 items-center justify-between">
-                      <label
-                        htmlFor="name"
-                        className="text-blue-950 font-black"
-                      >
-                        Username:{" "}
-                      </label>
-                      <input
-                        type="text"
-                        name="name"
-                        value={session?.user?.name || "No user name found"}
-                        className="text-blue-900 border border-blue-400 rounded-md p-1"
-                        autoComplete="off"
-                        disabled
-                      />
-                    </div>
-                    <div className="flex sm:flex-row flex-col gap-2 items-center justify-between">
-                      <label
-                        htmlFor="mail"
-                        className="text-blue-950 font-black"
-                      >
-                        Email:{" "}
-                      </label>
-                      <input
-                        type="email"
-                        name="mail"
-                        value={session?.user?.email || "No email found"}
-                        className="text-blue-900 border border-blue-400 rounded-md p-1"
-                        disabled
-                      />
-                    </div>
-                    <div className="text-slate-200 flex justify-center sm:my-0 my-4">
-                      <div className="bg-slate-400 sm:w-full w-56 text-center p-4 rounded-lg">
-                        Nothing can be edited as you are connected with a
-                        provider.
-                      </div>
-                    </div>
-                    <button
-                      onClick={handleDeleteAccount}
-                      className="bg-red-500 hover:bg-red-800 transition duration-200 text-white rounded-md sm:px-4 px-2 sm:py-2 py-4 mb-4"
-                    >
-                      Delete Account
-                    </button>
-                    {showPopup && (
-                      <Popup
-                        onConfirm={confirmDelete}
-                        onCancel={cancelDelete}
-                        isDeleting={isDeleting}
-                      />
-                    )}
-                  </form>
-                </>
-              ) : (
-                <>
-                  <div className="flex flex-col items-center">
-                    <div className="relative w-20 h-20 rounded-full overflow-hidden">
-                      <Image
-                        src={imageUrl || "/assets/images/default_avatar.jpg"}
-                        alt="User Avatar"
-                        layout="fill"
-                        className="object-cover"
-                      />
-                    </div>
-                    <div className="mt-2">
-                      <UploadButton
-                        className="ut-button:bg-slate-600 ut-button:hover:bg-slate-700"
-                        endpoint="imageUploader"
-                        onClientUploadComplete={async (res) => {
-                          const imageUrl = res[0].url;
-                          setImageUrl(imageUrl);
+                  <div className="mt-2">
+                    <UploadButton
+                      className="ut-button:bg-slate-600 ut-button:hover:bg-slate-700"
+                      endpoint="imageUploader"
+                      onClientUploadComplete={async (res) => {
+                        const imageUrl = res[0].url;
+                        setImageUrl(imageUrl);
 
-                          // Save the image URL to the backend (associate with user ID)
-                          await fetch("/api/saveImage", {
-                            method: "POST",
-                            headers: {
-                              "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                              email: session?.user?.email, // Assuming you're using email as the identifier
-                              profilePicture: imageUrl,
-                            }),
-                          });
-                        }}
-                        onUploadError={(error: Error) => {
-                          // Do something with the error.
-                          alert(`ERROR! ${error.message}`);
-                        }}
-                      />
-                    </div>
+                        // Save the image URL to the backend (associate with user ID)
+                        await fetch("/api/saveImage", {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify({
+                            email: session?.user?.email, // Assuming you're using email as the identifier
+                            profilePicture: imageUrl,
+                          }),
+                        });
+                      }}
+                      onUploadError={(error: Error) => {
+                        // Do something with the error.
+                        alert(`ERROR! ${error.message}`);
+                      }}
+                    />
                   </div>
-                  <form
-                    onSubmit={handleSubmit}
-                    className="flex flex-col gap-4 mt-8"
-                  >
-                    <div className="flex sm:flex-row flex-col gap-2 items-center justify-between">
-                      <label
-                        htmlFor="username"
-                        className="text-blue-950 font-black"
-                      >
-                        Username:{" "}
-                      </label>
-                      <input
-                        type="text"
-                        name="username"
-                        value={formData.username}
-                        onChange={handleChange}
-                        className="text-blue-900 border border-blue-400 rounded-md p-1"
-                        autoComplete="off"
-                      />
-                    </div>
-                    <div className="flex sm:flex-row flex-col gap-2 items-center justify-between">
-                      <label
-                        htmlFor="email"
-                        className="text-blue-950 font-black"
-                      >
-                        Email:{" "}
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="text-blue-900 border border-blue-400 rounded-md p-1"
-                        disabled
-                      />
-                    </div>
-                    <div className="flex sm:flex-row flex-col gap-2 items-center text-start justify-between">
-                      <label
-                        htmlFor="password"
-                        className="text-blue-950 font-black"
-                      >
-                        New Password:{" "}
-                      </label>
-                      <input
-                        type="password"
-                        name="password"
-                        placeholder="Enter new password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        className="text-blue-900 border border-blue-400 rounded-md p-1"
-                        autoComplete="off"
-                      />
-                    </div>
-                    <div className="flex sm:flex-row flex-col gap-2 items-center text-start justify-between">
-                      <label
-                        htmlFor="passwordre"
-                        className="text-blue-950 font-black"
-                      >
-                        Re-enter Password:{" "}
-                      </label>
-                      <input
-                        type="password"
-                        name="passwordre"
-                        placeholder="Re-enter password"
-                        value={formData.passwordre}
-                        onChange={handleChange}
-                        className="text-blue-900 border border-blue-400 rounded-md p-1"
-                        autoComplete="off"
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      className="bg-blue-600 hover:bg-blue-800 transition duration-200 text-white rounded-md px-4 sm:py-2 py-4 mt-4"
-                    >
-                      Update
-                    </button>
-                    <button
-                      onClick={handleDeleteAccount}
-                      className="bg-red-500 hover:bg-red-800 transition duration-200 text-white rounded-md sm:px-4 px-2 sm:py-2 py-4 mb-4"
-                    >
-                      Delete Account
-                    </button>
-                    {showPopup && (
-                      <Popup
-                        onConfirm={confirmDelete}
-                        onCancel={cancelDelete}
-                        isDeleting={isDeleting}
-                      />
-                    )}
-                  </form>
-                </>
-              )}
-              {errorMessages.length > 0 && (
-                <div className="text-red-600 flex justify-center">
-                  <ul className="bg-red-200 w-full text-center p-4">
-                    {errorMessages.map((message, index) => (
-                      <li key={index}>{message}</li>
-                    ))}
-                  </ul>
                 </div>
-              )}
-            </div>
+                <form
+                  onSubmit={handleSubmit}
+                  className="flex flex-col gap-4 mt-8"
+                >
+                  <div className="flex sm:flex-row flex-col gap-2 items-center justify-between">
+                    <label
+                      htmlFor="username"
+                      className="text-blue-950 font-black"
+                    >
+                      Username:{" "}
+                    </label>
+                    <input
+                      type="text"
+                      name="username"
+                      value={formData.username}
+                      onChange={handleChange}
+                      className="text-blue-900 border border-blue-400 rounded-md p-1"
+                      autoComplete="off"
+                    />
+                  </div>
+                  <div className="flex sm:flex-row flex-col gap-2 items-center justify-between">
+                    <label htmlFor="email" className="text-blue-950 font-black">
+                      Email:{" "}
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="text-blue-900 border border-blue-400 rounded-md p-1"
+                      disabled
+                    />
+                  </div>
+                  <div className="flex sm:flex-row flex-col gap-2 items-center text-start justify-between">
+                    <label
+                      htmlFor="password"
+                      className="text-blue-950 font-black"
+                    >
+                      New Password:{" "}
+                    </label>
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="Enter new password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      className="text-blue-900 border border-blue-400 rounded-md p-1"
+                      autoComplete="off"
+                    />
+                  </div>
+                  <div className="flex sm:flex-row flex-col gap-2 items-center text-start justify-between">
+                    <label
+                      htmlFor="passwordre"
+                      className="text-blue-950 font-black"
+                    >
+                      Re-enter Password:{" "}
+                    </label>
+                    <input
+                      type="password"
+                      name="passwordre"
+                      placeholder="Re-enter password"
+                      value={formData.passwordre}
+                      onChange={handleChange}
+                      className="text-blue-900 border border-blue-400 rounded-md p-1"
+                      autoComplete="off"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="bg-blue-600 hover:bg-blue-800 transition duration-200 text-white rounded-md px-4 sm:py-2 py-4 mt-4"
+                  >
+                    Update
+                  </button>
+                  <button
+                    onClick={handleDeleteAccount}
+                    className="bg-red-500 hover:bg-red-800 transition duration-200 text-white rounded-md sm:px-4 px-2 sm:py-2 py-4 mb-4"
+                  >
+                    Delete Account
+                  </button>
+                  {showPopup && (
+                    <Popup
+                      onConfirm={confirmDelete}
+                      onCancel={cancelDelete}
+                      isDeleting={isDeleting}
+                    />
+                  )}
+                </form>
+              </>
+            )}
+            {errorMessages.length > 0 && (
+              <div className="text-red-600 flex justify-center">
+                <ul className="bg-red-200 w-full text-center p-4">
+                  {errorMessages.map((message, index) => (
+                    <li key={index}>{message}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-
+        </div>
+      )}
       <Footer />
     </div>
   );

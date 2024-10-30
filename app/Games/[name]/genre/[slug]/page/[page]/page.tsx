@@ -17,6 +17,7 @@ import {
 } from "@/app/utils/functions";
 import SortGenresConsole from "@/app/components/Game-components/SortGenresConsole";
 import GameList from "@/app/components/Game-components/GameList";
+import Footer from "@/app/components/Footer";
 
 interface Platform {
   platform: {
@@ -80,6 +81,7 @@ const Posts = async ({ params }: { params: any }) => {
           <GenresConsole genres={genres} currentName={params.name} />
           <GameList paginatedGames={paginatedGames} />
           <Buttons gamesLength={gameData.length} />
+          <Footer />
         </MainPage>
       </div>
     );

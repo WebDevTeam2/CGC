@@ -101,7 +101,7 @@ export default function RootLayout({
                 logo: "https://www.cinegamecritic.com/assets/images/site-logo-cropped.png", // Replace with the actual path to your logo
                 sameAs: [
                   "https://www.linkedin.com/in/stefanos-kaloulis-b4ba792b6",
-                  "https://www.example.com/apostolos",
+                  "https://www.linkedin.com/in/apostolos-kyrgidis/",
                 ],
               }),
             }}

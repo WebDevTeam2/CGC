@@ -10,6 +10,7 @@ import Image from "next/legacy/image";
 import { UploadButton } from "@/app/utils/uploadthing";
 import Link from "next/link";
 import Popup from "@/app/components/Popup";
+import Footer from "@/app/components/Footer";
 
 const Account = ({ params }: { params: { userid: string } }) => {
   const { data: session } = useSession();
@@ -189,16 +190,16 @@ const Account = ({ params }: { params: { userid: string } }) => {
   };
 
   return (
-    <div className="back-img fixed overflow-auto bg-cover w-full h-screen flex text-center justify-center">
-      <Link href={`/`} className="absolute pointer-events-none">
+    <div className="back-img fixed overflow-hidden overflow-y-auto bg-cover items-center w-full h-screen flex flex-col text-center">
+      <Link href={`/`} className="w-full pointer-events-none">
         <h2 className="ml-4 mt-4 text-white pointer-events-auto text-2xl transition duration-100 p-1 rounded-full hover:scale-110">
           &#8618; Home
         </h2>
       </Link>
       {isSuccess && user && (
-        <div className="flex sm:flex-row sm:w-auto overflow-hidden overflow-y-auto w-5/6 flex-col rounded-2xl items-strech shadow-lg h-auto sm:my-24 mb-10 mt-20 sm:mx-10 mx-0 bg-slate-300">
+        <div className="flex sm:flex-row flex-col sm:mx-10 mx-4 rounded-2xl shadow-lg mt-12 mb-[5.1rem] flex-1 relative bg-slate-300">
           <UserOptions />
-          <div className="flex flex-col text-md items-center h-auto sm:mx-20 mx-0 gap-0 sm:mt-12 mt-8">
+          <div className="flex flex-col text-md items-center sm:mx-10 mx-0 gap-0 sm:mt-12 sm:mb-24 mb-8 mt-8">
             {hasProvider ? (
               <>
                 <div className="relative w-20 h-20 rounded-full overflow-hidden">
@@ -259,10 +260,16 @@ const Account = ({ params }: { params: { userid: string } }) => {
               <>
                 <div className="flex flex-col items-center">
                   <div className="relative w-20 h-20 rounded-full overflow-hidden">
+                    {/* <Image
+                      src={imageUrl || "/assets/images/default_avatar.jpg"}
+                      alt="User Avatar"
+                      layout="fill"
+                      className="object-cover"
+                    /> */}
                     <img
                       src={imageUrl || "/assets/images/default_avatar.jpg"}
-                      alt="User Avatar"                      
-                      className="object-cover w-full h-full"
+                      alt="User Avatar"
+                      className="object-cover"
                     />
                   </div>
                   <div className="mt-2">
@@ -393,6 +400,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 };

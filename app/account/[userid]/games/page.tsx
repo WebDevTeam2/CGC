@@ -9,6 +9,7 @@ import Image from "next/legacy/image";
 import { useEffect, useState, MouseEvent } from "react";
 import Link from "next/link";
 import { User } from "@/app/collection/connection";
+import Footer from "@/app/components/Footer";
 
 type GameData = {
   reviewId?: number;
@@ -151,17 +152,17 @@ const Account = ({ params }: { params: { userid: string } }) => {
   // Fetch the user's profile picture from the database on component mount
   const imageSizes = "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw";
   return (
-    <div className="back-img fixed overflow-auto bg-cover w-full h-screen flex text-center justify-center">
-      <Link href={`/`} className="absolute pointer-events-none">
+    <div className="back-img overflow-auto relative w-full h-full flex flex-col text-center items-center">
+      <Link href={`/`} className="w-full pointer-events-none">
         <h2 className=" ml-4 mt-4 text-white pointer-events-auto text-2xl transition duration-100 p-1 rounded-full hover:scale-110">
           &#8618; Home
         </h2>
       </Link>
       {isSuccess && user && (
-        <div className="flex min-[912px]:flex-row sm:w-auto overflow-hidden overflow-y-auto w-5/6 flex-col rounded-2xl items-strech shadow-lg h-[40rem] sm:my-24 mb-10 mt-20 sm:mx-10 mx-0 bg-slate-300">
+        <div className="flex min-[912px]:flex-row flex-col rounded-2xl shadow-lg mt-12 mb-[5.1rem] sm:mx-10 mx-0 bg-slate-300">
           <UserOptions />
           {/* option content */}
-          <div className="flex flex-col items-center h-auto min-[912px]:mx-12 max-[911px]:mb-12 mx-0 gap-0 sm:mt-12 mt-8">
+          <div className="flex flex-col items-center min-[912px]:mx-12 max-[911px]:mb-12 mx-0 gap-0 sm:mt-12 mb-14 mt-8">
             <div className="relative w-20 h-20 rounded-full overflow-hidden group">
               <img
                 src={imageUrl || "/assets/images/default_avatar.jpg"}
@@ -171,7 +172,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
             </div>
             <div className="flex flex-col gap-4 mt-8 sm:w-[35rem] ">
               <div className="flex min-[912px]:flex-row overflow-hidden flex-col gap-2 items-center justify-between">
-                <label className="text-blue-950 font-black text-lg">
+                <label className="text-blue-950 font-black text-md">
                   My Reviews:{" "}
                 </label>
                 <div className="text-blue-900 overflow-y-auto bg-slate-200 border h-44 sm:w-[28rem] min-[420px]:w-[21rem] w-[15rem] border-blue-400 rounded-md p-1">
@@ -247,7 +248,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
                 </div>
               </div>
               <div className="flex min-[912px]:flex-row flex-col gap-2 items-center justify-between">
-                <label className="text-blue-950 font-black text-lg">
+                <label className="text-blue-950 font-black text-md">
                   My Game Library:{" "}
                 </label>
                 <div className="text-blue-900 bg-slate-300 overflow-y-auto border h-60 min-[912px]:w-[52rem] sm:w-[32rem] min-[420px]:w-[20rem] w-[15rem] border-blue-400 rounded-md p-1">
@@ -331,6 +332,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 };

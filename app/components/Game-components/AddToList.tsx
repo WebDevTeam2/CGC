@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 const basePosterUrl = process.env.NEXT_PUBLIC_BASE_POSTER_URL;
 const apiPosterKey = process.env.NEXT_PUBLIC_API_KEY;
 
-
 interface PostPage {
   id: number;
   slug: string;
@@ -123,7 +122,7 @@ const AddToList = () => {
         // py-1 px-4 rounded-xl transition-all duration-200
           onClick={handleAddToList} // Correct function call
           className={`
-              py-1 px-4 rounded-lg transition duration-100 ease-in-out 
+              py-1 px-4 rounded-md transition-all duration-200 
            ${
              isInList
                ? "text-black bg-slate-300"

@@ -4,9 +4,7 @@ import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
 const basePosterUrl = process.env.NEXT_PUBLIC_BASE_POSTER_URL;
-const message = "Hello from A";
 const apiPosterKey = process.env.NEXT_PUBLIC_API_KEY;
-const hello = "hello from apostolos";
 
 interface PostPage {
   id: number;
@@ -123,7 +121,7 @@ const AddToList = () => {
         <button
           onClick={handleAddToList} // Correct function call
           className={`
-              py-1 px-4 rounded-xl transition-all duration-200 
+              py-1 px-4 rounded-md transition-all duration-200 
            ${
              isInList
                ? "text-black bg-slate-300"

@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 const basePosterUrl = process.env.NEXT_PUBLIC_BASE_POSTER_URL;
 const message = "Hello from A";
 const apiPosterKey = process.env.NEXT_PUBLIC_API_KEY;
+const hello = "hello from apostolos";
 
 interface PostPage {
   id: number;

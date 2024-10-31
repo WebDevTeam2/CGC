@@ -22,6 +22,11 @@ const Account = ({ params }: { params: { userid: string } }) => {
   const [userId, setUserId] = useState<string>("");
   const [showPopup, setShowPopup] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isSuccess && user) setIsLoaded(true);
+  }, [isSuccess, user]);
 
   const handleDeleteAccount = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -260,12 +265,6 @@ const Account = ({ params }: { params: { userid: string } }) => {
               <>
                 <div className="flex flex-col items-center">
                   <div className="relative w-20 h-20 rounded-full overflow-hidden">
-                    {/* <Image
-                      src={imageUrl || "/assets/images/default_avatar.jpg"}
-                      alt="User Avatar"
-                      layout="fill"
-                      className="object-cover"
-                    /> */}
                     <img
                       src={imageUrl || "/assets/images/default_avatar.jpg"}
                       alt="User Avatar"
@@ -400,7 +399,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
           </div>
         </div>
       )}
-      <Footer />
+      {isLoaded && <Footer />}
     </div>
   );
 };

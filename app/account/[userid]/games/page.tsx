@@ -25,6 +25,11 @@ const Account = ({ params }: { params: { userid: string } }) => {
   const [popupRev, setPopupRev] = useState<boolean>(false);
   const [data, setData] = useState<GameData>(null);
   const { userid } = params;
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isSuccess && user) setIsLoaded(true);
+  }, [isSuccess, user]);
 
   // start of review section
   const handleDeleteRev = async (
@@ -332,7 +337,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
           </div>
         </div>
       )}
-      <Footer />
+      {isLoaded && <Footer />}
     </div>
   );
 };

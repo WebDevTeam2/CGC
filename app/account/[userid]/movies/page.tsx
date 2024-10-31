@@ -61,77 +61,73 @@ const Account = ({ params }: { params: { userid: string } }) => {
   }, [user]);
 
   return (
-    <div className="w-full h-screen items-end flex">
-      <div className="back-img fixed overflow-auto bg-cover w-full h-screen flex text-center justify-center">
-        <Link href={`/`} className="absolute pointer-events-none">
-          <h2 className="ml-4 mt-4 text-white pointer-events-auto text-2xl transition duration-100 p-1 rounded-full hover:scale-110">
-            &#8618; Home
-          </h2>
-        </Link>
-        <div className="flex rounded-2xl items-center shadow-lg my-28 bg-slate-300">
-          <UserOptions />
-          <div className="flex flex-col h-full mr-20 gap-0 my-12">
-            {imageUrl && (
-              <>
-                <div className="relative w-20 h-20 mx-auto rounded-full overflow-hidden group">
-                  <Image
-                    src={imageUrl}
-                    alt="User Avatar"
-                    layout="fill"
-                    priority={true}
-                    className="object-cover"
-                  />
-                </div>
-                <span className="text-2xl">Watchlist: </span>
+    <div className="back-img fixed overflow-hidden overflow-y-auto bg-cover items-center w-full h-screen flex flex-col text-center">
+      <Link href={`/`} className="w-full pointer-events-none">
+        <h2 className="ml-4 mt-4 text-white pointer-events-auto text-2xl transition duration-100 p-1 rounded-full hover:scale-110">
+          &#8618; Home
+        </h2>
+      </Link>
+      <div className="flex rounded-2xl grow relative sm:mx-10 mx-4 shadow-lg mt-12 mb-[5.1rem] bg-slate-300">
+        <UserOptions />
+        <div className="flex flex-col text-md items-center sm:mx-10 mx-0 gap-0 sm:mt-12 sm:mb-24 mb-8 mt-8">
+          {imageUrl && (
+            <>
+              <div className="relative w-20 h-20 mx-auto rounded-full overflow-hidden group">
+                <Image
+                  src={imageUrl}
+                  alt="User Avatar"
+                  layout="fill"
+                  priority={true}
+                  className="object-cover"
+                />
+              </div>
+              <span className="text-2xl">Watchlist: </span>
 
-                {/* Carousel Component */}
-                <Swiper
-                  slidesPerView={4}
-                  spaceBetween={10}
-                  pagination={{
-                    clickable: true,
-                  }}
-                  modules={[Pagination]}
-                  className="w-full max-w-6xl mySwiper"
-                >
-                  {movies.map((movie) => (
-                    <SwiperSlide key={movie.id} className="">
-                      <Link
-                        href={`/Movies/${movie.id}`}
-                        className="w-full h-full"
-                      >
-                        <div className="relative w-full h-64">
-                          <Image
-                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                            alt={movie.title}
-                            layout="fill"
-                            objectFit="cover"
-                            className="absolute w-full h-full"
-                          />
+              {/* Carousel Component */}
+              <Swiper
+                slidesPerView={4}
+                spaceBetween={10}
+                pagination={{
+                  clickable: true,
+                }}
+                modules={[Pagination]}
+                className="w-full max-w-6xl mySwiper"
+              >
+                {movies.map((movie) => (
+                  <SwiperSlide key={movie.id} className="">
+                    <Link
+                      href={`/Movies/${movie.id}`}
+                      className="w-full h-full"
+                    >
+                      <div className="relative w-full h-64">
+                        <Image
+                          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                          alt={movie.title}
+                          layout="fill"
+                          objectFit="cover"
+                          className="absolute w-full h-full"
+                        />
+                      </div>
+                      <div className="bg-[#4c545b] w-full overflow-hidden p-4 text-center text-white">
+                        <h2>{movie.title}</h2>
+                        <div className="mt-auto justify-center flex items-center gap-2">
+                          <span
+                            className={`${getVotecolor(movie.vote_average)}`}
+                          >
+                            {movie.vote_average.toString().slice(0, 3)}
+                          </span>
+                          <FaStar color="yellow" />
                         </div>
-                        <div className="bg-[#4c545b] w-full overflow-hidden p-4 text-center text-white">
-                          <h2>{movie.title}</h2>
-                          <div className="mt-auto justify-center flex items-center gap-2">
-                            <span
-                              className={`${getVotecolor(movie.vote_average)}`}
-                            >
-                              {movie.vote_average.toString().slice(0, 3)}
-                            </span>
-                            <FaStar color="yellow" />
-                          </div>
-                        </div>
-                      </Link>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </>
-            )}
-          </div>
+                      </div>
+                    </Link>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </>
+          )}
         </div>
       </div>
-      <div className="fixed mt-auto w-full">
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 };

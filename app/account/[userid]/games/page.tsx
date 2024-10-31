@@ -164,23 +164,23 @@ const Account = ({ params }: { params: { userid: string } }) => {
         </h2>
       </Link>
       {isSuccess && user && (
-        <div className="flex min-[912px]:flex-row flex-col rounded-2xl shadow-lg mt-12 mb-[5.1rem] sm:mx-10 mx-0 bg-slate-300">
+        <div className="flex sm:flex-row grow flex-col rounded-2xl shadow-lg mt-12 mb-[5.1rem] sm:mx-6 mx-4 bg-slate-300">
           <UserOptions />
           {/* option content */}
-          <div className="flex flex-col items-center min-[912px]:mx-12 max-[911px]:mb-12 mx-0 gap-0 sm:mt-12 mb-14 mt-8">
-            <div className="relative w-20 h-20 rounded-full overflow-hidden group">
+          <div className="flex flex-col items-center min-[912px]:mx-12  mx-0 gap-0 mt-8 mb-10">
+            <div className="relative min-[912px]:w-20 min-[912px]:h-20 w-16 h-16 rounded-full overflow-hidden group">
               <img
                 src={imageUrl || "/assets/images/default_avatar.jpg"}
                 alt="User Avatar"
                 className="object-cover"
               />
             </div>
-            <div className="flex flex-col gap-4 mt-8 sm:w-[35rem] ">
+            <div className="flex flex-col gap-4 mt-8 min-[540px]:w-[30rem] w-auto">
               <div className="flex min-[912px]:flex-row overflow-hidden flex-col gap-2 items-center justify-between">
                 <label className="text-blue-950 font-black text-md">
                   My Reviews:{" "}
                 </label>
-                <div className="text-blue-900 overflow-y-auto bg-slate-200 border h-44 sm:w-[28rem] min-[420px]:w-[21rem] w-[15rem] border-blue-400 rounded-md p-1">
+                <div className="text-blue-900 overflow-y-auto bg-slate-200 border h-44 min-[912px]:w-[35rem] sm:w-[24rem] min-[465px]:w-[21rem] w-[16rem] border-blue-400 rounded-md p-1">
                   <style jsx global>{`
                     /* Custom Scrollbar Styling for Consistency */
                     ::-webkit-scrollbar {
@@ -256,7 +256,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
                 <label className="text-blue-950 font-black text-md">
                   My Game Library:{" "}
                 </label>
-                <div className="text-blue-900 bg-slate-300 overflow-y-auto border h-60 min-[912px]:w-[52rem] sm:w-[32rem] min-[420px]:w-[20rem] w-[15rem] border-blue-400 rounded-md p-1">
+                <div className="text-blue-900 bg-slate-300 overflow-y-auto border h-60 min-[912px]:w-[52rem] sm:w-[24rem] min-[465px]:w-[23rem] w-[18rem] border-blue-400 rounded-md p-1">
                   <style jsx global>{`
                     /* Custom Scrollbar Styling for Consistency */
                     ::-webkit-scrollbar {
@@ -295,7 +295,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
                         .map((list: any) => (
                           <li
                             key={list.libraryId}
-                            className="overflow-x-auto justify-between flex gap-4 sm:flex-row flex-col sm:items-center items-stretch relative sm:pr-4 pr-0 mb-8 sm:mx-8 mx-2 text-start rounded-xl bg-slate-100"
+                            className="overflow-x-auto overflow-y-hidden sm:h-24 h-auto justify-between flex sm:gap-2 gap-6 sm:flex-row flex-col sm:items-center items-stretch relative sm:pr-4 pr-0 mb-8 sm:mx-6 mx-10 text-start rounded-xl bg-slate-100"
                           >
                             <button
                               onClick={(event) =>
@@ -315,10 +315,10 @@ const Account = ({ params }: { params: { userid: string } }) => {
                               <img
                                 src={list.gamePic}
                                 alt={list.gameName}
-                                className="md:border-r-4 w-full sm:h-28 h-38 object-cover border-none sm:rounded-l-lg border-white transition duration-500 ease-in-out"
+                                className="md:border-r-4 w-full h-full object-cover border-none sm:rounded-l-lg border-white transition duration-500 ease-in-out"
                               />
                             </div>
-                            <span className="sm:mt-0 sm:ml-4 -mt-4 font-black">
+                            <span className="sm:mt-0 sm:ml-4 -mt-4 text-sm font-black">
                               {list.gameName}
                             </span>
                             <div className="flex sm:flex-col flex-row -mt-4">

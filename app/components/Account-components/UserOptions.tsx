@@ -45,22 +45,22 @@ const UserOptions = () => {
     <div className="bg-[#23232e] sm:rounded-l-2xl sm:border-b-0 border-b-2 border-white sm:rounded-tr-sm rounded-t-md">
       <ul className="text-[#b6b6b6] sm:pt-2 pt-0 sm:text-md text-md divide-y sm:divide-x-0 divide-x sm:border-none border border-white flex sm:flex-col flex-row flex-wrap">
         <Link href={`/account/${userId}/info`} className="grow">
-          <li className="cursor-pointer w-full transition-all grow duration-200 hover:text-white sm:p-4 p-6">
+          <li className="cursor-pointer w-full transition-all grow duration-200 hover:text-white p-4">
             Account Details
           </li>
         </Link>
         <Link href={`/account/${userId}/games`} className="grow">
-          <li className="cursor-pointer w-full transition-all grow duration-200 hover:text-white sm:p-4 p-6">
+          <li className="cursor-pointer w-full transition-all grow duration-200 hover:text-white p-4 ">
             Games
           </li>
         </Link>
         <Link href={`/account/${userId}/movies`} className="grow">
-          <li className="cursor-pointer w-full transition-all duration-200 hover:text-white sm:p-4 p-6">
+          <li className="cursor-pointer w-full transition-all duration-200 hover:text-white p-4">
             Movies
           </li>
         </Link>
         <li
-          className="cursor-pointer w-full transition-all flex-1 duration-200 hover:text-white sm:p-4 p-6"
+          className="cursor-pointer w-full transition-all flex-1 duration-200 hover:text-white p-4 "
           onClick={() => signOut({ callbackUrl: "/" })}
         >
           Sign out

@@ -202,7 +202,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
         </h2>
       </Link>
       {isSuccess && user && (
-        <div className="flex sm:flex-row flex-col sm:mx-10 mx-4 rounded-2xl shadow-lg mt-12 mb-[5.1rem] flex-1 relative bg-slate-300">
+        <div className="flex sm:flex-row flex-col grow sm:mx-10 mx-4 rounded-2xl shadow-lg mt-12 mb-[5.1rem] flex-1 relative bg-slate-300">
           <UserOptions />
           <div className="flex flex-col text-md items-center sm:mx-10 mx-0 gap-0 sm:mt-12 sm:mb-24 mb-8 mt-8">
             {hasProvider ? (

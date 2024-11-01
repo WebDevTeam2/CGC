@@ -1,10 +1,20 @@
 import Recommendations from "@/app/components/Movie-components/Recommendations";
 import { FaStar } from "react-icons/fa6";
 import AddToWatchlistId from "@/app/components/Movie-components/AddToWatchlistId";
-import { options, baseUrl, imageURL, MovieDetails } from "@/app/constants/constants";
+import {
+  options,
+  baseUrl,
+  imageURL,
+  MovieDetails,
+} from "@/app/constants/constants";
+import Link from "next/link";
+import UserMovieReviews from "@/app/components/Movie-components/UserMovieReviews";
 
 const getMovieDetails = async (id: string) => {
-  const res = await fetch(`${baseUrl}/movie/${id}?${process.env.MOVIE_API_KEY}`, options);
+  const res = await fetch(
+    `${baseUrl}/movie/${id}?${process.env.MOVIE_API_KEY}`,
+    options
+  );
   const data = await res.json();
   return data;
 };
@@ -21,8 +31,8 @@ const MovieDetailsData = async ({ params }: { params: MovieDetails }) => {
         <div className="relative w-48 h-72 md:w-72 md:h-96 lg:w-72 lg:h-96">
           <img
             src={`${imageURL}${movie.poster_path}`}
-            alt={`${movie.title} poster`}                                    
-            className="object-cover absolute w-full h-full" 
+            alt={`${movie.title} poster`}
+            className="object-cover absolute w-full h-full"
           />
         </div>
 
@@ -52,9 +62,19 @@ const MovieDetailsData = async ({ params }: { params: MovieDetails }) => {
             <FaStar className="mt-[2.5px]" />
           </div>
         </div>
+        <div className="lg:mx-auto flex flex-col gap-2">
+          <h2 className="font-bold">User Reviews: </h2>
+          <UserMovieReviews movieId={Number(params.id)} />  
+        </div>
       </div>
-      <div className="md:ml-40 lg:ml-[20rem] lg:mt-10">
-        <AddToWatchlistId movieId={Number(params.id)}/>
+      <div className="md:ml-40 lg:ml-[20rem] lg:mt-10 flex gap-2">
+        <AddToWatchlistId movieId={Number(params.id)} />
+        <Link
+          href={`/Movies/${params.id}/reviews`}
+          className="bg-[#6a7f97] text-center p-2 transition duration-200 hover:opacity-75 text-white rounded-sm"
+        >
+          Write a review
+        </Link>
       </div>
       <div className="md:ml-[10rem] lg:ml-[20rem] mt-10 text-[18px]">
         <h2 className="font-bold">Overview:</h2>

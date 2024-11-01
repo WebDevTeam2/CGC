@@ -4,12 +4,13 @@ import Filter from "@/app/components/Movie-components/Filter";
 import { options, baseUrl, Movie } from "@/app/constants/constants";
 import Cards from "@/app/components/Movie-components/Cards";
 
-const ApiURL = baseUrl+ "trending/movie/day?page=1&language=en-US&" + process.env.API_KEY;
+const ApiURL = baseUrl+ "trending/movie/day?page=1&language=en-US&" + process.env.MOVIE_API_KEY ;
 
 
 const getMovieData = async (url: string) => {
   const res = await fetch(url, options);
   const data = await res.json();
+  console.log(url);
   return data;
 };
 

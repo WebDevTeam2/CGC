@@ -5,6 +5,14 @@ MOVIES:
    5. Να μπουν σχολια παντου
 
 
-Εδώ παρατηρουμε ένα κομματι κωδικα του Cards.tsx component. Στο component αυτό περναμε ως props το movieData που ειναι οι πληροφοριες για καποια ταινια που τις παιρνουμε μεσω του TMDB API, το upcoming είναι μια boolean μεταβλητη που αλλαζει το περιεχομενο αναλογα με το αν υπαρχει ή οχι και το movieResultData είναι μια μεταβλητη που περιεχει τα αποτελεσματα του TMDB API σε μορφή πίνακα για συγκεκριμένη χρήση.
- 543b95c1b0eedd13bf9e7ab3d0a5c61c8793b1fd
  https://www.asimenio.gr/el/kolie-me-onoma/kolie-me-onoma-stauro-k-mati.html?ref=bestprice.gr&__bpgid=MXBgclBVWCMtZVIsMWV+NGFjVFUkLVA=
+
+
+WORD TODO:
+1) καλυτερα ονοματα στα modules
+2) θεωρητικα κομματια του client,server components να φυγουν απο την αρχιτεκτονικη και να πανε στο θεωρητικο μερος της React
+3) Optimization στο κομματι του κωδικα που κανει τις συνδεσεςι για τη βαση για καλυτερη αποδοση
+4) Περισσοτερες λεπτομεριες στη βιβλιογραφια σε οσα links δεν ειναι απο documentation(πχ απο blog να εχει author, τιτλο) 
+5) Τα images και tables να μπουν με indexing 
+6) Πιθανη αλλαγη στο κομματι της αρχιτεκτονικης του cinegame, στα client και server components να μπει ενα table που να εξηγει.
+7) αλλαγη ονοματος κεφαλαιου των external services σε κατι αλλο που να ταιριαζει περισσοτερο(πχ libraries)

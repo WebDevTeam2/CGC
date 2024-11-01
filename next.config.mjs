@@ -27,6 +27,9 @@ const nextConfig = {
       },
     ],
   },
+  compiler: {
+    styledComponents: true,
+  }
 };
 
 export default bundleAnalyzer(nextConfig);

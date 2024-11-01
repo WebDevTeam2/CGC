@@ -32,7 +32,7 @@ const Cards = ({ movieData, upcoming, movieResultData }: MovieProps ) => {
             {/* Text container */}
             <div className="bg-[#4c545b] w-full h-44 gap-4 p-4 card-text-container">
               <div className="flex justify-between text-white">
-                <h2>{item.title}</h2>
+                <h2 className="lg:text-xl">{item.title}</h2>
               </div>
               <p className="mt-4 text-white">{item.overview.slice(0, 40)}...</p>
             </div>
@@ -71,7 +71,7 @@ const Cards = ({ movieData, upcoming, movieResultData }: MovieProps ) => {
                 className="flex lg:ml-4 h-10 text-white justify-between"
               >
                 <div className="w-[55%]">
-                  <h2>{item.title}</h2>
+                <h2 className="lg:text-xl">{item.title}</h2>
                 </div>
                 <div className="flex gap-2">
                   <span className={`${getVotecolor(item.vote_average)}`}>

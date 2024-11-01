@@ -4,16 +4,15 @@ import SessionWrapper from "../components/SessionWrapper";
 import { ThemeProvider } from "../context/ThemeContext";
 //layout
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import { Roboto } from "next/font/google";
 import "./movieStyles.css";
 
-const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto({
-  weight: ["400", "700"],
-  subsets: ["latin"],
-  display: "swap",
-});
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: "Movies",
@@ -28,8 +27,8 @@ export default function RootLayout({
   return (
     <SessionWrapper>
       <ThemeProvider>
-        <html lang="en">
-          <body className={`bg-[#EEE3CB] ${roboto.className}`}>
+        <html lang="en" className={`${roboto.className}`}>
+          <body className={` bg-[#EEE3CB] `}>
             <Nav />
             {children}
           </body>

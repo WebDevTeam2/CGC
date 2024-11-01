@@ -1,11 +1,19 @@
 // import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import SessionWrapper from "./components/SessionWrapper";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "../app/api/uploadthing/core";
 const inter = Inter({ subsets: ["latin"] });
+const roboto = Roboto({
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
+  display: 'swap',
+})
+
 
 interface Author {
   name: string;
@@ -107,7 +115,7 @@ export default function RootLayout({
             }}
           />
         </head>
-        <body className={inter.className}>
+        <body className={` ${roboto.className} `}>
           <NextSSRPlugin
             /**
              * The `extractRouterConfig` will extract **only** the route configs

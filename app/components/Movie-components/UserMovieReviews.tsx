@@ -4,13 +4,14 @@ const UserMovieReviews = async ({ movieId }: { movieId: Number }) => {
   const allUsers = await findAllUsers();
   //Since the movie reviews are all inside the users and there is no collection for the movies
   //what we do is that we make a new array of users with only the users that have made a review using flatmap
-  ///and then we filter the array to only get the reviews that match the movieId
+  //and then we filter the array to only get the reviews that match the movieId
+  //We then sort it based on the date
   const reviewsForMovie = allUsers
     .flatMap((user: any) =>
       (user.user_movie_reviews || []).map((review: any) => ({
         ...review,
         username: user.username || user.name,
-      }))
+      })) //We want to be able to also display the username of the user who made the review
     )
     .filter((review: any) => review.movieId === movieId)
     .sort(

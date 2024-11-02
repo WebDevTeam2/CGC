@@ -11,7 +11,7 @@ import {
   fetchGameDetails,
   extractGenres,
   fetchByGenreName,
-} from "@/app/utils/functions";
+} from "@/app/Game Collection/functions";
 import SortGenres from "@/app/components/Game-components/SortGenres";
 import Genres from "@/app/components/Game-components/Genres";
 import GameList from "@/app/components/Game-components/GameList";

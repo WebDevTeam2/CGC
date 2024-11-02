@@ -1,4 +1,4 @@
-import { addToWatchlist, findUserById } from "@/app/collection/connection";
+import { addToWatchlist, findUserById } from "@/app/User Collection/connection";
 import { NextRequest, NextResponse } from "next/server";
 
 const baseUrl = "https://api.themoviedb.org/3/";
@@ -10,7 +10,7 @@ export async function POST(
 ) {
   const userid = params.userid;
   try {
-    const { movieId } = await req.json();    
+    const { movieId } = await req.json();
 
     // Now proceed with the logic to add the movie to the user's watchlist
     await addToWatchlist(userid, movieId);

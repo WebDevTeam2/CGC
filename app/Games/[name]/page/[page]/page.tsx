@@ -10,7 +10,7 @@ import {
   shuffleArray,
   extractGenres,
   sortGamesByRelease,
-} from "@/app/utils/functions";
+} from "@/app/Game Collection/functions";
 import Link from "next/link";
 import Image from "next/image";
 import Buttons from "@/app/components/Game-components/Buttons";

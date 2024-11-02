@@ -1,7 +1,7 @@
 import Filter from "@/app/components/Movie-components/Filter";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
-import { findUserByEmail } from "@/app/collection/connection";
+import { findUserByEmail } from "@/app/User Collection/connection";
 import { baseUrl, Movie, options } from "@/app/constants/constants";
 import Cards from "@/app/components/Movie-components/Cards";
 import MoviePages from "@/app/components/Movie-components/Pages";
@@ -27,11 +27,11 @@ const Page = async ({ params }: { params: Movie }) => {
       <Filter />
       <div className="grid grid-cols-2 mt-4 h-full not-search movies-grid gap-y-2 mx-auto w-[92%] md:grid-cols-3 lg:grid-cols-4 md:gap-8 lg:gap-8 lg:w-3/4 md:w-[80%] md:ml-32 lg:ml-64 ">
         {/* We display the results based on their release year */}
-        <Cards movieData={movieData}/>
+        <Cards movieData={movieData} />
       </div>
       <div>
-        <MoviePages page={Number(params.page)} link={`/Movies/moviePage`}/>
-      </div>      
+        <MoviePages page={Number(params.page)} link={`/Movies/moviePage`} />
+      </div>
     </div>
   );
 };

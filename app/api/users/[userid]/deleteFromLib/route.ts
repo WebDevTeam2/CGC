@@ -1,5 +1,5 @@
 // pages/api/users/[userid].ts
-import { removeGame } from "@/app/collection/connection";
+import { removeGame } from "@/app/User Collection/connection";
 import { NextRequest } from "next/server";
 
 export async function DELETE(req: NextRequest) {

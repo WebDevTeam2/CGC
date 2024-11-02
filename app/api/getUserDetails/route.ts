@@ -1,4 +1,4 @@
-import { fetchUserDets } from "@/app/collection/connection";
+import { fetchUserDets } from "@/app/User Collection/connection";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {

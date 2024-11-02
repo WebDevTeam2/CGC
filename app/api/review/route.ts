@@ -1,4 +1,4 @@
-import { addMovieReview } from "@/app/collection/connection";
+import { addMovieReview } from "@/app/User Collection/connection";
 import { NextRequest, NextResponse } from "next/server";
 
 //Function to add the rating to the TMDB API
@@ -23,7 +23,7 @@ async function postRatingToTmdb(
 
     if (!response.ok) {
       throw new Error(`Failed to post rating to TMDb: ${response.statusText}`);
-    }    
+    }
     const responseData = await response.json();
 
     return responseData;
@@ -36,7 +36,7 @@ async function postRatingToTmdb(
 // Adding a review in Movies and posting the rating to TMDb
 export async function POST(req: NextRequest) {
   try {
-    const { userId, movieid, movieName, review, rating } = await req.json();    //We take the userId, movieid, movieName, review, and rating from the form
+    const { userId, movieid, movieName, review, rating } = await req.json(); //We take the userId, movieid, movieName, review, and rating from the form
 
     //we store the review in the database
     const result = await addMovieReview(

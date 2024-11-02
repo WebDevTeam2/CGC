@@ -17,7 +17,7 @@ function Verified() {
     setHasToken(true);
     // Delay navigation to the login page
     const timeoutId = setTimeout(() => {
-      router.push("/Sign/Signin");
+      router.push("/Authentication/Signin");
     }, 3000); // 3000 milliseconds = 3 seconds
 
     // Cleanup timeout if the component unmounts

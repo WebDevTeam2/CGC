@@ -14,7 +14,7 @@ import {
   extractGenres,
   shuffleArray,
   sortGamesByRelease,
-} from "@/app/utils/functions";
+} from "@/app/Game Collection/functions";
 import SortGenres from "@/app/components/Game-components/SortGenres";
 import GameList from "@/app/components/Game-components/GameList";
 import Footer from "@/app/components/Footer";

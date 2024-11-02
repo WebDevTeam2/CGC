@@ -1,5 +1,5 @@
 // pages/api/users/[userid].ts
-import { deleteUserById } from "@/app/collection/connection";
+import { deleteUserById } from "@/app/User Collection/connection";
 import { NextRequest } from "next/server";
 
 export async function DELETE(req: NextRequest) {

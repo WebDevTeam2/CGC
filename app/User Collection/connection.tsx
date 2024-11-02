@@ -1,5 +1,5 @@
 import { Collection, Db, MongoClient, ObjectId } from "mongodb";
-import clientPromise from "../../lib/mongo/page";
+import clientPromise from "../../authDbConnection/mongo/page";
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
@@ -451,7 +451,7 @@ export const addMovieReview = async (
   const newReview: MovieReview = {
     reviewId: reviewId,
     movieId: movieId,
-    movieName: movieName,    
+    movieName: movieName,
     text: text,
     rating: rating,
     date: new Date(date).toLocaleString("en-US", {

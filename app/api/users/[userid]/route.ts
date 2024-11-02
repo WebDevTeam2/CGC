@@ -1,4 +1,4 @@
-import { findUserById, updateUserById } from "@/app/collection/connection";
+import { findUserById, updateUserById } from "@/app/User Collection/connection";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(

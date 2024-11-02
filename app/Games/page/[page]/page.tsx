@@ -11,7 +11,7 @@ import {
   fetchGameDetails,
   extractGenres,
   sortGamesByRelease,
-} from "@/app/utils/functions";
+} from "@/app/Game Collection/functions";
 import Sort from "@/app/components/Game-components/Sort";
 import GameList from "@/app/components/Game-components/GameList";
 import Footer from "@/app/components/Footer";

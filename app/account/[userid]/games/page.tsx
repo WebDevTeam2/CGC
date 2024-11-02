@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/legacy/image";
 import { useEffect, useState, MouseEvent } from "react";
 import Link from "next/link";
-import { User } from "@/app/collection/connection";
+import { User } from "@/app/User Collection/connection";
 import Footer from "@/app/components/Footer";
 
 type GameData = {

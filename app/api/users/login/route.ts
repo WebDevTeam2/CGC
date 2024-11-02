@@ -1,6 +1,6 @@
 // /app/api/users/login.ts
 
-import { findUserByEmail } from "@/app/collection/connection";
+import { findUserByEmail } from "@/app/User Collection/connection";
 import { signIn } from "next-auth/react";
 import { NextRequest, NextResponse } from "next/server";
 

@@ -1,6 +1,6 @@
 import Games from "./components/Games";
 import Movies from "./components/Movies";
-import { authOptions } from "@/lib/authOptions";
+import { authOptions } from "@/authDbConnection/authOptions";
 import { getServerSession } from "next-auth";
 
 const Home = async () => {

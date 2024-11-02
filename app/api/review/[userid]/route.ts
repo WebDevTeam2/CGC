@@ -1,5 +1,5 @@
 // pages/api/review.ts
-import { addUserReview } from "@/app/collection/connection";
+import { addUserReview } from "@/app/User Collection/connection";
 import { NextRequest, NextResponse } from "next/server";
 
 //adding a review in Games

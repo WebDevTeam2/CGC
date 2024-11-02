@@ -7,7 +7,7 @@ import bcrypt from "bcryptjs";
 import { useEffect, useState, FormEvent, MouseEvent } from "react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/legacy/image";
-import { UploadButton } from "@/app/utils/uploadthing";
+import { UploadButton } from "@/app/Game Collection/uploadthing";
 import Link from "next/link";
 import Popup from "@/app/components/Popup";
 import Footer from "@/app/components/Footer";

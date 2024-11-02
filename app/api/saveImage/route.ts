@@ -1,4 +1,4 @@
-import { updateUserImage } from "@/app/collection/connection";
+import { updateUserImage } from "@/app/User Collection/connection";
 import { NextRequest } from "next/server";
 
 // import { connectToDatabase } from "@/utils/mongodb"; // A helper function to connect to your MongoDB

@@ -3,8 +3,11 @@ import { IoStarSharp } from "react-icons/io5";
 import Screenshots from "@/app/components/Game-components/Screenshots";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/authOptions";
-import { findUserByEmail, findAllUsers } from "@/app/collection/connection";
+import { authOptions } from "@/authDbConnection/authOptions";
+import {
+  findUserByEmail,
+  findAllUsers,
+} from "@/app/User Collection/connection";
 import AddToList from "@/app/components/Game-components/AddToList";
 import Footer from "@/app/components/Footer";
 

@@ -1,4 +1,4 @@
-import { addToList } from "@/app/collection/connection";
+import { addToList } from "@/app/User Collection/connection";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(

@@ -1,5 +1,3 @@
-import Link from "next/link";
-import Image from "next/image";
 import React from "react";
 import Buttons from "@/app/components/Game-components/Buttons";
 import MainPage from "@/app/components/Game-components/MainPage";

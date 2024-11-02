@@ -1,7 +1,7 @@
-import Filter from "@/app/components/Movie-components/Filter";
-import { options, baseUrl, Movie } from "@/app/constants/constants";
-import Cards from "@/app/components/Movie-components/Cards";
-import MoviePages from "@/app/components/Movie-components/Pages";
+import Filter from "@/app/Components-2/Movie-components/Filter";
+import { options, baseUrl, Movie } from "@/app/Constants-2/constants";
+import Cards from "@/app/Components-2/Movie-components/Cards";
+import MoviePages from "@/app/Components-2/Movie-components/Pages";
 
 const getMovieData = async (page: string, genre: string) => {
   const res = await fetch(

@@ -2,7 +2,7 @@
 import { Inter } from "next/font/google";
 import { Roboto } from "next/font/google";
 import "./globals.css";
-import SessionWrapper from "./components/SessionWrapper";
+import SessionWrapper from "./Components-2/SessionWrapper";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "../app/api/uploadthing/core";

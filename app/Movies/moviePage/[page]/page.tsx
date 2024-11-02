@@ -1,10 +1,10 @@
-import Filter from "@/app/components/Movie-components/Filter";
+import Filter from "@/app/Components-2/Movie-components/Filter";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/authDbConnection/authOptions";
 import { findUserByEmail } from "@/app/User Collection/connection";
-import { baseUrl, Movie, options } from "@/app/constants/constants";
-import Cards from "@/app/components/Movie-components/Cards";
-import MoviePages from "@/app/components/Movie-components/Pages";
+import { baseUrl, Movie, options } from "@/app/Constants-2/constants";
+import Cards from "@/app/Components-2/Movie-components/Cards";
+import MoviePages from "@/app/Components-2/Movie-components/Pages";
 
 const getMovieData = async (page: string) => {
   const res = await fetch(

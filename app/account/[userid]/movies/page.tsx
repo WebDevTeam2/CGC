@@ -1,6 +1,6 @@
 "use client";
 import { FaStar } from "react-icons/fa";
-import UserOptions from "@/app/components/Account-components/UserOptions";
+import UserOptions from "@/app/Components-2/Account-components/UserOptions";
 import { useSession } from "next-auth/react";
 import Image from "next/legacy/image";
 import { useEffect, useState } from "react";
@@ -9,8 +9,8 @@ import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Navigation, Pagination } from "swiper/modules";
-import { getVotecolor } from "@/app/constants/constants";
-import Footer from "@/app/components/Footer";
+import { getVotecolor } from "@/app/Constants-2/constants";
+import Footer from "@/app/Components-2/Footer";
 
 interface Movie {
   id: number;

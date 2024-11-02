@@ -13,15 +13,15 @@ import {
 } from "@/app/Game Collection/functions";
 import Link from "next/link";
 import Image from "next/image";
-import Buttons from "@/app/components/Game-components/Buttons";
-import MainPage from "@/app/components/Game-components/MainPage";
-import NavBar from "@/app/components/Game-components/NavBar";
-import SearchBar from "@/app/components/Game-components/SearchBar";
-import { pageSize } from "@/app/constants/constants";
-import SortConsole from "@/app/components/Game-components/SortConsole";
-import GenresConsole from "@/app/components/Game-components/GenresConsole";
-import GameList from "@/app/components/Game-components/GameList";
-import Footer from "@/app/components/Footer";
+import Buttons from "@/app/Components-2/Game-components/Buttons";
+import MainPage from "@/app/Components-2/Game-components/MainPage";
+import NavBar from "@/app/Components-2/Game-components/NavBar";
+import SearchBar from "@/app/Components-2/Game-components/SearchBar";
+import { pageSize } from "@/app/Constants-2/constants";
+import SortConsole from "@/app/Components-2/Game-components/SortConsole";
+import GenresConsole from "@/app/Components-2/Game-components/GenresConsole";
+import GameList from "@/app/Components-2/Game-components/GameList";
+import Footer from "@/app/Components-2/Footer";
 
 interface Platform {
   platform: {

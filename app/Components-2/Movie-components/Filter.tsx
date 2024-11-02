@@ -1,5 +1,5 @@
 "use client";
-import { clientOptions } from "@/app/constants/constants";
+import { clientOptions } from "@/app/Constants-2/constants";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaLessThan, FaGreaterThan } from "react-icons/fa";

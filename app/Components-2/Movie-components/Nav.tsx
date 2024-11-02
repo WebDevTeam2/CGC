@@ -1,13 +1,13 @@
 "use client";
 //components
-import HomePage from "@/app/components/Movie-components/Nav-items/HomePage";
-import Random from "@/app/components/Movie-components/Nav-items/Random";
-import Trending from "@/app/components/Movie-components/Nav-items/Trending";
-import MovieHomePage from "@/app/components/Movie-components/Nav-items/MovieHomePage";
+import HomePage from "@/app/Components-2/Movie-components/Nav-items/HomePage";
+import Random from "@/app/Components-2/Movie-components/Nav-items/Random";
+import Trending from "@/app/Components-2/Movie-components/Nav-items/Trending";
+import MovieHomePage from "@/app/Components-2/Movie-components/Nav-items/MovieHomePage";
 import ChangeTheme from "./Nav-items/ChangeTheme";
 import Search from "./Nav-items/Search";
-import TVShowHomePage from "@/app/components/Movie-components/Nav-items/TVShowsHomePage";
-import UpComing from "@/app/components/Movie-components/Nav-items/UpComing";
+import TVShowHomePage from "@/app/Components-2/Movie-components/Nav-items/TVShowsHomePage";
+import UpComing from "@/app/Components-2/Movie-components/Nav-items/UpComing";
 
 //utils and icons
 import React, { useEffect, useState } from "react";

@@ -1,5 +1,5 @@
-import Games from "./components/Games";
-import Movies from "./components/Movies";
+import Games from "./Components-2/Games";
+import Movies from "./Components-2/Movies";
 import { authOptions } from "@/authDbConnection/authOptions";
 import { getServerSession } from "next-auth";
 

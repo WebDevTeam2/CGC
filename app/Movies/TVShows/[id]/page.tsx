@@ -1,7 +1,7 @@
-import TVShowsRecommendations from "@/app/components/Movie-components/TVShowsRecommendations";
+import TVShowsRecommendations from "@/app/Components-2/Movie-components/TVShowsRecommendations";
 import { FaStar } from "react-icons/fa6";
-import { baseUrl, imageURL, options, TVDetails } from "@/app/constants/constants";
-import AddToWatchlistId from "@/app/components/Movie-components/AddToWatchlistId";
+import { baseUrl, imageURL, options, TVDetails } from "@/app/Constants-2/constants";
+import AddToWatchlistId from "@/app/Components-2/Movie-components/AddToWatchlistId";
 
 
 const getTVDetails = async (id: string) => {

@@ -1,9 +1,9 @@
 import { ImTv } from "react-icons/im";
 import Link from "next/link";
-import Filter from "@/app/components/Movie-components/Filter";
-import { baseUrl, MovieResult, options } from "@/app/constants/constants";
-import Cards from "@/app/components/Movie-components/Cards";
-import MoviePages from "@/app/components/Movie-components/Pages";
+import Filter from "@/app/Components-2/Movie-components/Filter";
+import { baseUrl, MovieResult, options } from "@/app/Constants-2/constants";
+import Cards from "@/app/Components-2/Movie-components/Cards";
+import MoviePages from "@/app/Components-2/Movie-components/Pages";
 
 
 //Kanw fetch tis upcoming tainies, to fetch ginetai apo pollaples selides an den ginei 20 tainiwn apo mia selida

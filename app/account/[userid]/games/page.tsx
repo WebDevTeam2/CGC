@@ -1,7 +1,7 @@
 "use client";
 //components
-import UserOptions from "@/app/components/Account-components/UserOptions";
-import PopupForLib from "@/app/components/Game-components/PopupForLib";
+import UserOptions from "@/app/Components-2/Account-components/UserOptions";
+import PopupForLib from "@/app/Components-2/Game-components/PopupForLib";
 
 //utils
 import { useSession } from "next-auth/react";
@@ -9,7 +9,7 @@ import Image from "next/legacy/image";
 import { useEffect, useState, MouseEvent } from "react";
 import Link from "next/link";
 import { User } from "@/app/User Collection/connection";
-import Footer from "@/app/components/Footer";
+import Footer from "@/app/Components-2/Footer";
 
 type GameData = {
   reviewId?: number;

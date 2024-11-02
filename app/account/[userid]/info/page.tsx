@@ -1,6 +1,6 @@
 "use client";
 //components
-import UserOptions from "@/app/components/Account-components/UserOptions";
+import UserOptions from "@/app/Components-2/Account-components/UserOptions";
 
 //utills
 import bcrypt from "bcryptjs";
@@ -9,8 +9,8 @@ import { signOut, useSession } from "next-auth/react";
 import Image from "next/legacy/image";
 import { UploadButton } from "@/app/Game Collection/uploadthing";
 import Link from "next/link";
-import Popup from "@/app/components/Popup";
-import Footer from "@/app/components/Footer";
+import Popup from "@/app/Components-2/Popup";
+import Footer from "@/app/Components-2/Footer";
 
 const Account = ({ params }: { params: { userid: string } }) => {
   const { data: session } = useSession();

@@ -1,14 +1,14 @@
-import Recommendations from "@/app/components/Movie-components/Recommendations";
+import Recommendations from "@/app/Components-2/Movie-components/Recommendations";
 import { FaStar } from "react-icons/fa6";
-import AddToWatchlistId from "@/app/components/Movie-components/AddToWatchlistId";
+import AddToWatchlistId from "@/app/Components-2/Movie-components/AddToWatchlistId";
 import {
   options,
   baseUrl,
   imageURL,
   MovieDetails,
-} from "@/app/constants/constants";
+} from "@/app/Constants-2/constants";
 import Link from "next/link";
-import UserMovieReviews from "@/app/components/Movie-components/UserMovieReviews";
+import UserMovieReviews from "@/app/Components-2/Movie-components/UserMovieReviews";
 
 const getMovieDetails = async (id: string) => {
   const res = await fetch(

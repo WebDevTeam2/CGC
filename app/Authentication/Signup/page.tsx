@@ -1,99 +1,110 @@
 "use client"; // Ensure this component is treated as a Client Component
-import { FormEvent, useEffect, useState, Suspense } from "react";
+import { FormEvent, useState } from "react";
+import bcrypt from "bcryptjs";
 import { FaGoogle, FaGithub, FaFacebook } from "react-icons/fa";
 import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
-function Signin() {
+export default function Signup() {
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
+  const [incoming, setIncoming] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const error = searchParams.get("error"); // Use `get` to retrieve specific query parameter
-
-  useEffect(() => {
-    if (error === "EmailInUse") {
-      setErrorMessages([
-        "The email you used is already associated with another account. Please use a different email or log in with the existing credentials.",
-      ]);
-    }
-  }, [error]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setErrorMessages([]); // Clear previous errors
 
     const formData = new FormData(event.target as HTMLFormElement);
+    const username = formData.get("username") as string;
     const email = formData.get("email") as string;
     let password = formData.get("password") as string;
+    let passwordre = formData.get("passwordre") as string;
 
     const errors: string[] = [];
 
-    // Check if email exists with a provider
-    const response = await fetch(`/api/users/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email }), // Send the email to the backend
-    });
-    const result = await response.json();
+    // Username validation
+    const usernameRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W]{10,}$/;
+    if (!usernameRegex.test(username)) {
+      errors.push(
+        "Username must be at least 10 characters long, contain at least one capital letter, one number, and may include symbols."
+      );
+    }
 
-    if (!response.ok) {
-      throw new Error("Failed to check email existence");
+    // Password validation
+    const passwordRegex = /^(?=.*[A-Z])[A-Za-z\d\W]{10,}$/;
+    if (!passwordRegex.test(password)) {
+      errors.push(
+        "Password must be at least 10 characters long, contain at least one capital letter, and may include symbols."
+      );
+    }
+
+    if (password !== passwordre) {
+      errors.push("Passwords do not match");
     }
 
     if (errors.length > 0) {
       setErrorMessages(errors);
+      setIncoming("");
       return;
     }
 
-    if (
-      result.data.provider === "google" ||
-      result.data.provider === "github" ||
-      result.data.provider === "facebook"
-    ) {
-      setLoading(false);
-      setErrorMessages([
-        `This email is already associated with another provider: ${result.data.provider}`,
-      ]);
-      return;
-    }
+    // Hash the password using bcrypt
+    const hashedPassword = await bcrypt.hash(password, 10);
 
+    const data = {
+      username,
+      email,
+      password: hashedPassword,
+    };
+    setIncoming("");
     setLoading(true);
     try {
-      const result = await signIn("credentials", {
-        redirect: false, // Disable automatic redirect
-        email,
-        password,
-        callbackUrl: "/", // The URL to redirect to after sign-in
+      // Send a POST request to your API route
+      const response = await fetch("/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
 
-      if (result?.error) {
+      const result = await response.json();
+
+      if (!response.ok) {
         setLoading(false);
-        setErrorMessages(["email or password is incorrect"]);
+        setIncoming("");
+        setErrorMessages([result.message]);
       } else {
-        console.log("User credentials OK.");
-        router.push(result?.url || "/");
+        setLoading(false);
+        setIncoming("A verification message has been sent to your email");
       }
     } catch (error) {
-      setLoading(false);
-      console.error("Error during credentials' check:", error);
+      console.error("Error during user addition:", error);
+      setIncoming("");
       setErrorMessages(["An unexpected error occurred"]);
     }
   };
 
   return (
-    <div className="flex items-center flex-col overflow-auto fixed py-20 w-full h-screen bg-[url('/assets/images/moon-knight.jpg')] bg-cover bg-center">
+    <div className="flex items-center flex-col overflow-auto fixed py-10 w-full h-screen bg-[url('/assets/images/dishonored.jpg')] bg-cover bg-right">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col xl:w-[25vw] lg:w-[35vw] md:w-[45vw] w-[55vw] relative  bg-neutral-200 border rounded-lg border-black max-[500px]:w-5/6"
+        className="flex flex-col xl:w-[25vw] lg:w-[35vw] md:w-[45vw] sm:w-[55vw] w-[80vw] relative  bg-neutral-200 border rounded-lg border-black"
       >
         <div className="bg-black flex items-center justify-center rounded-t-md p-5">
-          <h1 className="sm:text-5xl text-3xl text-white">Sign-In</h1>
+          <h1 className="sm:text-5xl text-3xl text-white">Sign-Up</h1>
         </div>
-
+        <div className="flex flex-col items-center w-full mt-12">
+          <label className="sm:text-lg text-md">Username</label>
+          <input
+            type="text"
+            name="username"
+            className="border-2 text-lg sm:w-auto w-52 border-black sm:p-2 p-1 rounded-2xl"
+            required
+          />
+        </div>
         <div className="flex flex-col w-full items-center sm:mt-6 mt-4 ">
           <label className="sm:text-lg text-md">Email</label>
           <input
@@ -103,11 +114,20 @@ function Signin() {
             required
           />
         </div>
-        <div className="flex flex-col w-full items-center sm:mt-6 mt-8 mb-10">
+        <div className="flex flex-col w-full items-center sm:mt-6 mt-4">
           <label className="sm:text-lg text-md">Password</label>
           <input
             type="password"
             name="password"
+            className="border-2 text-lg sm:w-auto w-52 border-black sm:p-2 p-1 rounded-2xl"
+            required
+          />
+        </div>
+        <div className="flex flex-col w-full items-center mb-8 sm:mt-6 mt-4 ">
+          <label className="sm:text-lg text-md">Re-enter Password</label>
+          <input
+            type="password"
+            name="passwordre"
             className="border-2 text-lg sm:w-auto w-52 border-black sm:p-2 p-1 rounded-2xl"
             required
           />
@@ -136,6 +156,13 @@ function Signin() {
             </ul>
           </div>
         )}
+        {incoming && (
+          <div className="text-slate-200 flex justify-center">
+            <div className="bg-slate-500 w-full text-center p-4">
+              {incoming}
+            </div>
+          </div>
+        )}
         {loading && (
           <div className="flex mb-8 items-center justify-center">
             <p className="bg-neutral-400 rounded-md p-4">
@@ -154,23 +181,16 @@ function Signin() {
       </form>
       <div className="mt-8 mx-10">
         <Link
-          href="/Sign/Signup"
+          href="/Authentication/Signin"
           className="hover:text-neutral-400 hover:underline sm:text-white text-slate-300 sm:bg-black sm:p-4 p-0 rounded-xl text-lg"
           style={{
             textShadow:
               "1px 1px 2px black, -1px -1px 2px black, -1px 1px 2px black, 1px -1px 2px black",
           }}
         >
-          Don&apos;t have an account? Click here to sign-up
+          Already have an account? Click here to sign-in
         </Link>
       </div>
     </div>
-  );
-}
-export default function SigninFallBack() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Signin />
-    </Suspense>
   );
 }

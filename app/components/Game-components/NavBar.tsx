@@ -201,12 +201,12 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
               ))}
               {!session ? (
                 <>
-                  <Link href={"/Sign/Signup"}>
+                  <Link href={"/Authentication/Signup"}>
                     <button className="text-orange-500 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
                       Sign Up
                     </button>
                   </Link>
-                  <Link href={"/Sign/Signin"}>
+                  <Link href={"/Authentication/Signin"}>
                     <button className="text-orange-500 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
                       Log In
                     </button>

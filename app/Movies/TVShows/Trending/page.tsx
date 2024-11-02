@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/legacy/image";
 import { GiFilmProjector } from "react-icons/gi";
-import TvFilter from "@/app/Components-2/Movie-components/TvFilter";
-import { getVotecolor, options } from "@/app/Constants-2/constants";
-import TVShowCards from "@/app/Components-2/Movie-components/TVShowCards";
+import TvFilter from "@/app/Components/Movie-components/TvFilter";
+import { getVotecolor, options } from "@/app/Constants/constants";
+import TVShowCards from "@/app/Components/Movie-components/TVShowCards";
 
 const baseUrl = "https://api.themoviedb.org/3/";
 const ApiURL = baseUrl + "trending/tv/day?page=1&language=en-US&" + process.env.MOVIE_API_KEY;

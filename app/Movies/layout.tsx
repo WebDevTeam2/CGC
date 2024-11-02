@@ -1,6 +1,6 @@
 //Components
-import Nav from "@/app/Components-2/Movie-components/Nav";
-import SessionWrapper from "../Components-2/SessionWrapper";
+import Nav from "@/app/Components/Movie-components/Nav";
+import SessionWrapper from "../Components/SessionWrapper";
 import { ThemeProvider } from "../DarkTheme/ThemeContext";
 //layout
 import type { Metadata } from "next";

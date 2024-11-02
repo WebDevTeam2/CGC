@@ -1,7 +1,7 @@
-import AddToWatchlist from "@/app/Components-2/Movie-components/AddToWatchlist";
-import Filter from "@/app/Components-2/Movie-components/Filter";
+import AddToWatchlist from "@/app/Components/Movie-components/AddToWatchlist";
+import Filter from "@/app/Components/Movie-components/Filter";
 // import Pages from "@/app/components/Movie-components/Pages";
-import { baseUrl, getVotecolor, imageURL, options } from "@/app/Constants-2/constants";
+import { baseUrl, getVotecolor, imageURL, options } from "@/app/Constants/constants";
 import Link from "next/link";
 import { FaStar } from "react-icons/fa";
 

@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Footer from "@/app/Components-2/Footer";
+import Footer from "@/app/Components/Footer";
 
 const basePosterUrl = process.env.NEXT_PUBLIC_BASE_POSTER_URL;
 const apiPosterKey = process.env.NEXT_PUBLIC_API_KEY;

@@ -1,4 +1,4 @@
-import { getVotecolor, imageURL, TVShowProps } from "@/app/Constants-2/constants";
+import { getVotecolor, imageURL, TVShowProps } from "@/app/Constants/constants";
 import { FaStar } from "react-icons/fa";
 import Link from "next/link";
 import AddToWatchlist from "./AddToWatchlist";

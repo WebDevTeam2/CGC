@@ -1,7 +1,7 @@
-import TvFilter from "@/app/Components-2/Movie-components/TvFilter";
-import { baseUrl, options, TVShows } from "@/app/Constants-2/constants";
-import TVShowCards from "@/app/Components-2/Movie-components/TVShowCards";
-import MoviePages from "@/app/Components-2/Movie-components/Pages";
+import TvFilter from "@/app/Components/Movie-components/TvFilter";
+import { baseUrl, options, TVShows } from "@/app/Constants/constants";
+import TVShowCards from "@/app/Components/Movie-components/TVShowCards";
+import MoviePages from "@/app/Components/Movie-components/Pages";
 
 const getTVShowData = async (page: string) => {
   const res = await fetch(

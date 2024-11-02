@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { pageSize } from "@/app/Constants-2/constants";
+import { pageSize } from "@/app/Constants/constants";
 
 const Buttons = ({ gamesLength }: { gamesLength: number }) => {
   const totalPages = Math.ceil(gamesLength / pageSize);

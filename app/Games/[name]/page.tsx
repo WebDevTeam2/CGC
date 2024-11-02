@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { IoStarSharp } from "react-icons/io5";
-import Screenshots from "@/app/Components-2/Game-components/Screenshots";
+import Screenshots from "@/app/Components/Game-components/Screenshots";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/authDbConnection/authOptions";
@@ -8,8 +8,8 @@ import {
   findUserByEmail,
   findAllUsers,
 } from "@/app/User Collection/connection";
-import AddToList from "@/app/Components-2/Game-components/AddToList";
-import Footer from "@/app/Components-2/Footer";
+import AddToList from "@/app/Components/Game-components/AddToList";
+import Footer from "@/app/Components/Footer";
 
 const basePosterUrl = process.env.NEXT_PUBLIC_BASE_POSTER_URL;
 const apiPosterKey = process.env.NEXT_PUBLIC_API_KEY;

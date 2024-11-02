@@ -1,12 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
-import Buttons from "@/app/Components-2/Game-components/Buttons";
-import MainPage from "@/app/Components-2/Game-components/MainPage";
-import NavBar from "@/app/Components-2/Game-components/NavBar";
-import SearchBar from "@/app/Components-2/Game-components/SearchBar";
-import Genres from "@/app/Components-2/Game-components/Genres";
-import { pageSize } from "@/app/Constants-2/constants";
+import Buttons from "@/app/Components/Game-components/Buttons";
+import MainPage from "@/app/Components/Game-components/MainPage";
+import NavBar from "@/app/Components/Game-components/NavBar";
+import SearchBar from "@/app/Components/Game-components/SearchBar";
+import Genres from "@/app/Components/Game-components/Genres";
+import { pageSize } from "@/app/Constants/constants";
 import {
   fetchByGenre,
   paginateGames,
@@ -15,9 +15,9 @@ import {
   shuffleArray,
   sortGamesByRelease,
 } from "@/app/Game Collection/functions";
-import SortGenres from "@/app/Components-2/Game-components/SortGenres";
-import GameList from "@/app/Components-2/Game-components/GameList";
-import Footer from "@/app/Components-2/Footer";
+import SortGenres from "@/app/Components/Game-components/SortGenres";
+import GameList from "@/app/Components/Game-components/GameList";
+import Footer from "@/app/Components/Footer";
 
 interface Platform {
   platform: {

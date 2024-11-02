@@ -1,5 +1,5 @@
 "use client";
-import { baseUrl, clientOptions, imageURL } from "@/app/Constants-2/constants";
+import { baseUrl, clientOptions, imageURL } from "@/app/Constants/constants";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 

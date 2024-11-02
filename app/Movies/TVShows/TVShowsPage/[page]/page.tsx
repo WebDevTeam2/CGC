@@ -1,5 +1,5 @@
 import TvFilter from "@/app/components/Movie-components/TvFilter";
-import { baseUrl, options, TVShows } from "@/app/Constants/constants";
+import { baseUrl, options, TVShows } from "@/app/constants/constants";
 import TVShowCards from "@/app/components/Movie-components/TVShowCards";
 import MoviePages from "@/app/components/Movie-components/Pages";
 

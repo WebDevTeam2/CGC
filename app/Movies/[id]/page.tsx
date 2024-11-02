@@ -6,7 +6,7 @@ import {
   baseUrl,
   imageURL,
   MovieDetails,
-} from "@/app/Constants/constants";
+} from "@/app/constants/constants";
 import Link from "next/link";
 import UserMovieReviews from "@/app/components/Movie-components/UserMovieReviews";
 

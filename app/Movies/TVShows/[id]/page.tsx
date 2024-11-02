@@ -1,6 +1,6 @@
 import TVShowsRecommendations from "@/app/components/Movie-components/TVShowsRecommendations";
 import { FaStar } from "react-icons/fa6";
-import { baseUrl, imageURL, options, TVDetails } from "@/app/Constants/constants";
+import { baseUrl, imageURL, options, TVDetails } from "@/app/constants/constants";
 import AddToWatchlistId from "@/app/components/Movie-components/AddToWatchlistId";
 
 

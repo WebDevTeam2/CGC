@@ -9,7 +9,7 @@ import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Navigation, Pagination } from "swiper/modules";
-import { getVotecolor } from "@/app/Constants/constants";
+import { getVotecolor } from "@/app/constants/constants";
 import Footer from "@/app/components/Footer";
 
 interface Movie {

@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { options } from "@/app/Constants/constants";
+import { options } from "@/app/constants/constants";
 
 const movieSearchUrl = "https://api.themoviedb.org/3/search/movie";
 const tvSearchUrl = "https://api.themoviedb.org/3/search/tv";

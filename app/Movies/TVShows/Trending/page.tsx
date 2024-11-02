@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/legacy/image";
 import { GiFilmProjector } from "react-icons/gi";
 import TvFilter from "@/app/components/Movie-components/TvFilter";
-import { getVotecolor, options } from "@/app/Constants/constants";
+import { getVotecolor, options } from "@/app/constants/constants";
 import TVShowCards from "@/app/components/Movie-components/TVShowCards";
 
 const baseUrl = "https://api.themoviedb.org/3/";

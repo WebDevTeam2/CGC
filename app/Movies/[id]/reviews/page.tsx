@@ -101,7 +101,7 @@ const MovieReview = ({ params }: { params: { id: string } }) => {
           placeholder="Write your review here..."
           value={review}
           onChange={(e) => setReview(e.target.value)}
-          className="p-2 border"
+          className="p-8 border"
           required
         />
         <label>

@@ -1,5 +1,5 @@
 import { Collection, Db, MongoClient, Document, ObjectId } from "mongodb";
-import clientPromise from "../../lib/mongo/page";
+import clientPromise from "../../authDbConnection/mongo/page";
 
 let client: MongoClient | undefined;
 let db: Db | undefined;

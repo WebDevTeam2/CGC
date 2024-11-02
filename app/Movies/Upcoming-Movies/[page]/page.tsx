@@ -56,7 +56,7 @@ const UpComing = async ({ params }: { params: { page: string } }) => {
        <Cards movieResultData={movieData} upcoming/>
       </div>
       <div>
-        <MoviePages page={Number(params.page)} link={`Moviess/Upcoming-Movies`} />
+        <MoviePages page={Number(params.page)} link={`Movies/Upcoming-Movies`} />
       </div>
     </div>
   );

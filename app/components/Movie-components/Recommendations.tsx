@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
 import AddToWatchlist from "./AddToWatchlist";
-import { clientOptions, getVotecolor } from "@/app/constants/constants";
+import { clientOptions, getVotecolor } from "@/app/Constants/constants";
 
 const baseUrl = "https://api.themoviedb.org/3/movie/";
 const imageURL = "https://image.tmdb.org/t/p/w500";

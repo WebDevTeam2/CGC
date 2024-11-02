@@ -1,7 +1,7 @@
 import { ImTv } from "react-icons/im";
 import Link from "next/link";
 import Filter from "@/app/components/Movie-components/Filter";
-import { baseUrl, MovieResult, options } from "@/app/constants/constants";
+import { baseUrl, MovieResult, options } from "@/app/Constants/constants";
 import Cards from "@/app/components/Movie-components/Cards";
 import MoviePages from "@/app/components/Movie-components/Pages";
 

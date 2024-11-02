@@ -2,7 +2,7 @@ import Filter from "@/app/components/Movie-components/Filter";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { findUserByEmail } from "@/app/collection/connection";
-import { baseUrl, Movie, options } from "@/app/constants/constants";
+import { baseUrl, Movie, options } from "@/app/Constants/constants";
 import Cards from "@/app/components/Movie-components/Cards";
 import MoviePages from "@/app/components/Movie-components/Pages";
 

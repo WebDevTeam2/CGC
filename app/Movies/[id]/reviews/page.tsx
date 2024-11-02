@@ -1,5 +1,5 @@
 "use client";
-import { baseUrl, clientOptions } from "@/app/constants/constants";
+import { baseUrl, clientOptions, imageURL } from "@/app/Constants/constants";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 
@@ -52,7 +52,8 @@ const MovieReview = ({ params }: { params: { id: string } }) => {
           clientOptions
         );
         const data = await response.json();
-        setMovieData(data);        
+        setMovieData(data);
+        console.log(data);
       } catch (error) {
         console.error("Failed to fetch movie data:", error);
       }
@@ -93,15 +94,22 @@ const MovieReview = ({ params }: { params: { id: string } }) => {
     }
   };
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center gap-8 items-center h-screen">
+      <div className="relative w-48 h-72 md:w-72 md:h-96 lg:w-72 lg:h-96">
+        <img
+          src={`${imageURL}${movieData?.poster_path}`}
+          alt={`${movieData?.title} poster`}
+          className="object-cover absolute w-full h-full"
+        />
+      </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <h1>Write a Review for {movieData?.title || "Loading..."}</h1>
+        <h1 className="font-bold text-2xl">Write a Review for {movieData?.title || "Loading..."}</h1>
         <textarea
           name="reviewText"
           placeholder="Write your review here..."
           value={review}
           onChange={(e) => setReview(e.target.value)}
-          className="p-8 border"
+          className="border border-gray-300 shadow-gray-600 text-slate-300 bg-[#5d676f] p-4 rounded-lg shadow-md w-80 h-64 md:w-60 md:h-96 lg:h-96 lg:w-72 overflow-auto user-review-container"
           required
         />
         <label>

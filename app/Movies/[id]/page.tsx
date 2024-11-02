@@ -6,7 +6,7 @@ import {
   baseUrl,
   imageURL,
   MovieDetails,
-} from "@/app/constants/constants";
+} from "@/app/Constants/constants";
 import Link from "next/link";
 import UserMovieReviews from "@/app/components/Movie-components/UserMovieReviews";
 
@@ -28,13 +28,13 @@ const MovieDetailsData = async ({ params }: { params: MovieDetails }) => {
         {movie.title}
       </h1>
       <div className="main-content flex md:flex-row mb-6 lg:md:flex-row md:ml-[10rem] lg:ml-[20rem] mt-[2rem] gap-4">
-        <div className="relative w-48 h-72 md:w-72 md:h-96 lg:w-72 lg:h-96">
-          <img
-            src={`${imageURL}${movie.poster_path}`}
-            alt={`${movie.title} poster`}
-            className="object-cover absolute w-full h-full"
-          />
-        </div>
+          <div className="relative w-48 h-72 md:w-72 md:h-96 lg:w-72 lg:h-96">
+            <img
+              src={`${imageURL}${movie.poster_path}`}
+              alt={`${movie.title} poster`}
+              className="object-cover absolute w-full h-full"
+            />
+          </div>
 
         <div className="md:ml-10 lg:ml-40 flex flex-col text-[18px] gap-3">
           <h2 className="font-bold">Movie title: </h2>

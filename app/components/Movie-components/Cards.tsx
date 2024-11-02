@@ -3,7 +3,7 @@ import {
   imageURL,
   Movie,
   MovieProps,
-} from "@/app/constants/constants";
+} from "@/app/Constants/constants";
 import { FaStar } from "react-icons/fa";
 import Link from "next/link";
 import AddToWatchlist from "./AddToWatchlist";

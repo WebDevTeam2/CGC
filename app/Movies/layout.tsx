@@ -1,7 +1,7 @@
 //Components
 import Nav from "@/app/components/Movie-components/Nav";
 import SessionWrapper from "../components/SessionWrapper";
-import { ThemeProvider } from "../context/ThemeContext";
+import { ThemeProvider } from "../DarkTheme/ThemeContext";
 //layout
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";

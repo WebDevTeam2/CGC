@@ -2,7 +2,7 @@
 import { FaStar } from "react-icons/fa";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { baseUrl, clientOptions, getVotecolor, imageURL } from "@/app/constants/constants";
+import { baseUrl, clientOptions, getVotecolor, imageURL } from "@/app/Constants/constants";
 import AddToWatchlist from "./AddToWatchlist";
 
 interface RecommendedShow {

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ImTv } from "react-icons/im";
 import Filter from "@/app/components/Movie-components/Filter";
-import { options, baseUrl, Movie } from "@/app/constants/constants";
+import { options, baseUrl, Movie } from "@/app/Constants/constants";
 import Cards from "@/app/components/Movie-components/Cards";
 
 const ApiURL = baseUrl+ "trending/movie/day?page=1&language=en-US&" + process.env.MOVIE_API_KEY ;

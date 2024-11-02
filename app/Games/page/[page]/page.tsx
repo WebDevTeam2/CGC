@@ -4,7 +4,7 @@ import MainPage from "@/app/components/Game-components/MainPage";
 import NavBar from "@/app/components/Game-components/NavBar";
 import SearchBar from "@/app/components/Game-components/SearchBar";
 import Genres from "@/app/components/Game-components/Genres";
-import { pageSize } from "@/app/constants/constants";
+import { pageSize } from "@/app/Constants/constants";
 import {
   fetchAndCombineDataSimple,
   paginateGames,

@@ -1,6 +1,6 @@
 // ChangeTheme.js
 "use client";
-import { useTheme } from "@/app/context/ThemeContext";
+import { useTheme } from "@/app/DarkTheme/ThemeContext";
 import { CiSun } from "react-icons/ci";
 import { IoMoon } from "react-icons/io5";
 

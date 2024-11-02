@@ -1,5 +1,5 @@
 import Filter from "@/app/components/Movie-components/Filter";
-import { options, baseUrl, Movie } from "@/app/constants/constants";
+import { options, baseUrl, Movie } from "@/app/Constants/constants";
 import Cards from "@/app/components/Movie-components/Cards";
 import MoviePages from "@/app/components/Movie-components/Pages";
 

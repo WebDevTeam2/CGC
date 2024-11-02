@@ -6,7 +6,7 @@ import MainPage from "@/app/components/Game-components/MainPage";
 import NavBar from "@/app/components/Game-components/NavBar";
 import SearchBar from "@/app/components/Game-components/SearchBar";
 import GenresConsole from "@/app/components/Game-components/GenresConsole";
-import { pageSize } from "@/app/constants/constants";
+import { pageSize } from "@/app/Constants/constants";
 import {
   paginateGames,
   fetchGameDetails,

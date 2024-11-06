@@ -31,6 +31,95 @@ export const getVotecolor = (vote: number) => {
   return "text-red-500";
 };
 
+//interfaces used on layout
+export interface Author {
+  name: string;
+  url?: string; // Optional
+}
+
+export interface Metadata {
+  title: string;
+  description: string;
+  keywords?: string;
+  authors: Author[]; // Ensure authors is an array
+  robots?: string;
+}
+
+//interfaces used on games
+interface Platform {
+  platform: {
+    id: number;
+    name: string;
+    slug: string;
+  };
+}
+interface Post {
+  page: number;
+  results: PostResult[];
+  onSearch: (name: string) => void;
+}
+
+interface PostResult {
+  _id: string;
+  id: number;
+  slug: string;
+  name: string;
+  released: string;
+  tba: boolean;
+  background_image: string;
+  rating: number;
+  rating_top: number;
+  description: string;
+  description_raw: string;
+  parent_platforms: Platform[];
+}
+
+interface PostPage {
+  id: number; //use
+  slug: string; //use
+  name: string; //use
+  playtime: number;
+  ratings_count: number;
+  next: string;
+  previous: string;
+  count: number;
+  results: [
+    {
+      id: number;
+      image: string;
+      width: number;
+      height: number;
+      is_deleted: boolean;
+      name: string;
+      preview: string;
+      data: {
+        480: string;
+        max: string;
+      };
+    }
+  ];
+  platforms: [
+    {
+      platform: {
+        name: string;
+        slug: string;
+      };
+    }
+  ];
+  genres: [
+    {
+      id: number;
+      name: string;
+      slug: string;
+    }
+  ];
+  released: string;
+  background_image: string;
+  rating: number;
+  rating_top: number;
+  description_raw: string;
+}
+
 //interfaces used throught the movie pages
 export interface MovieProps {
   movieData?: Movie;

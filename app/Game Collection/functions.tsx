@@ -1,5 +1,7 @@
 import { Collection, Db, MongoClient, Document, ObjectId } from "mongodb";
 import clientPromise from "../../authDbConnection/mongo/page";
+import { IoStarSharp } from "react-icons/io5";
+import { Review, User } from "../User Collection/connection";
 
 let client: MongoClient | undefined;
 let db: Db | undefined;
@@ -481,4 +483,83 @@ export const fetchGameDetails = async (game: PostResult) => {
     console.error("Error fetching game details:", error);
     throw error;
   }
+};
+
+export const roundNum = (rating_count: number) => {
+  let newNum;
+  if (rating_count >= 1000) newNum = (rating_count / 1000).toFixed(1) + "K";
+  else return rating_count;
+  return newNum;
+};
+
+export const convertToStars = (rating: number) => {
+  const newR: JSX.Element[] = [];
+  const whole = Math.floor(rating); //2
+  const remainder = rating - whole; // 2.35
+  let percentage_r = remainder * 100 + "%"; //35%
+  let counter = 0;
+
+  for (let i = 0; i < whole; i++) {
+    newR.push(
+      <IoStarSharp
+        key={i}
+        style={{
+          background: "darkgreen",
+          fontSize: "24px",
+          padding: "2px",
+        }}
+      />
+    );
+    counter++;
+  }
+
+  if (remainder > 0) {
+    newR.push(
+      <IoStarSharp
+        key="rest"
+        style={{
+          background: `linear-gradient(to right, darkgreen ${percentage_r}, grey 15%)`,
+          fontSize: "24px",
+          padding: "2px",
+        }}
+      />
+    );
+    counter++;
+  }
+
+  for (let i = counter; i < 5; i++) {
+    newR.push(
+      <IoStarSharp
+        key={i}
+        style={{
+          background: "grey",
+          fontSize: "24px",
+          padding: "2px",
+        }}
+      />
+    );
+  }
+
+  return newR;
+};
+
+export const getGameDets = async (name: string) => {
+  const res = await fetch(basePosterUrl + "/" + name + "?" + apiPosterKey);
+  const data = await res.json();
+  return data;
+};
+
+export const getUserReviews = async (allUsers: User[], gameId: number) => {
+  // Process all users asynchronously and return reviews filtered by gameId
+  const gameReviews = allUsers
+    ?.flatMap((user) =>
+      (user.user_reviews || []).map((review) => ({
+        ...review,
+        username: user.username || user.name,
+      }))
+    ) // Flatten all user reviews from each user
+    .filter((review) => review.gameId === gameId) // Filter reviews by gameId
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+  return gameReviews;
 };

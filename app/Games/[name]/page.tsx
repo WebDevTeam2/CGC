@@ -1,137 +1,23 @@
-import Image from "next/image";
-import { IoStarSharp } from "react-icons/io5";
 import Screenshots from "@/app/Components/Game-components/Screenshots";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/authDbConnection/authOptions";
+import AddToList from "@/app/Components/Game-components/AddToList";
+import Footer from "@/app/Components/Footer";
 import {
   findUserByEmail,
   findAllUsers,
 } from "@/app/User Collection/connection";
-import AddToList from "@/app/Components/Game-components/AddToList";
-import Footer from "@/app/Components/Footer";
+import {
+  roundNum,
+  convertToStars,
+  getGameDets,
+  getUserReviews,
+} from "@/app/Game Collection/functions";
 
-const basePosterUrl = process.env.NEXT_PUBLIC_BASE_POSTER_URL;
-const apiPosterKey = process.env.NEXT_PUBLIC_API_KEY;
-
-interface PostPage {
-  id: number; //use
-  slug: string; //use
-  name: string; //use
-  playtime: number;
-  ratings_count: number;
-  next: string;
-  previous: string;
-  count: number;
-  results: [
-    {
-      id: number;
-      image: string;
-      width: number;
-      height: number;
-      is_deleted: boolean;
-      name: string;
-      preview: string;
-      data: {
-        480: string;
-        max: string;
-      };
-    }
-  ];
-  platforms: [
-    {
-      platform: {
-        name: string;
-        slug: string;
-      };
-    }
-  ];
-  genres: [
-    {
-      id: number;
-      name: string;
-      slug: string;
-    }
-  ];
-  released: string;
-  background_image: string;
-  rating: number;
-  rating_top: number;
-  description_raw: string;
-}
-interface Post {
-  page: number;
-}
-interface CombinedParams extends PostPage, Post {}
-
-const roundNum = (rating_count: number) => {
-  let newNum;
-  if (rating_count >= 1000) newNum = (rating_count / 1000).toFixed(1) + "K";
-  else return rating_count;
-  return newNum;
-};
-
-const convertToStars = (rating: number) => {
-  const newR: JSX.Element[] = [];
-  const whole = Math.floor(rating); //2
-  const remainder = rating - whole; // 2.35
-  let percentage_r = remainder * 100 + "%"; //35%
-  let counter = 0;
-
-  for (let i = 0; i < whole; i++) {
-    newR.push(
-      <IoStarSharp
-        key={i}
-        style={{
-          background: "darkgreen",
-          fontSize: "24px",
-          padding: "2px",
-        }}
-      />
-    );
-    counter++;
-  }
-
-  if (remainder > 0) {
-    newR.push(
-      <IoStarSharp
-        key="rest"
-        style={{
-          background: `linear-gradient(to right, darkgreen ${percentage_r}, grey 15%)`,
-          fontSize: "24px",
-          padding: "2px",
-        }}
-      />
-    );
-    counter++;
-  }
-
-  for (let i = counter; i < 5; i++) {
-    newR.push(
-      <IoStarSharp
-        key={i}
-        style={{
-          background: "grey",
-          fontSize: "24px",
-          padding: "2px",
-        }}
-      />
-    );
-  }
-
-  return newR;
-};
-
-const getGameDets = async (name: string) => {
-  const res = await fetch(basePosterUrl + "/" + name + "?" + apiPosterKey);
-  const data = await res.json();
-  return data;
-};
-
-export default async function Games({ params }: { params: CombinedParams }) {
+export default async function Games({ params }: { params: any }) {
   const game = await getGameDets(params.name);
   const session = await getServerSession(authOptions);
-  const imageSizes = "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw";
   const userEmail = session?.user?.email; // You get this from session
 
   let dbUser;
@@ -144,19 +30,8 @@ export default async function Games({ params }: { params: CombinedParams }) {
   // Fetch all users from MongoDB
   allUsers = await findAllUsers();
 
-  const gameReviews = allUsers
-    ?.flatMap(
-      (user: any) =>
-        (user.user_reviews || []).map((review: any) => ({
-          ...review,
-          username: user.username || user.name,
-        })) // Attach the username to each review
-    ) // Flatten all user reviews from each user
-    .filter((review: any) => review.gameId === game.id) // Filter reviews by gameId
-    .sort(
-      (a: any, b: any) =>
-        new Date(b.date).getTime() - new Date(a.date).getTime()
-    );
+  const gameReviews = await getUserReviews(allUsers, game.id);
+
   return (
     <div>
       <div className="bg-black z-0 bg-cover fixed h-screen w-screen"></div>
@@ -168,13 +43,6 @@ export default async function Games({ params }: { params: CombinedParams }) {
       <div className="flex pt-20 items-center lg:items-stretch flex-col lg:flex-row h-full justify-evenly xl:gap-20 gap-10 pl-0">
         <div className="flex lg:w-[50vw] h-full w-[85vw] flex-col relative lg:pl-10 pl-0">
           <div className="relative xl:h-[35vh] lg:h-[25vh] h-auto  w-full">
-            {/* <Image
-              src={game.background_image}
-              alt={game.name}
-              fill={true}
-              sizes={imageSizes}
-              style={{ objectFit: "cover" }}
-            /> */}
             <img
               src={game.background_image}
               alt={game.name}
@@ -314,7 +182,6 @@ export default async function Games({ params }: { params: CombinedParams }) {
             </span>
             <ul className="mt-6 bg-black border-2 rounded-2xl lg:p-12 p-10 lg:px-24 px-12 z-10">
               {gameReviews.map((review: any) => {
-                // console.log(review); // Logthe review object to the console
                 return (
                   <div key={review.reviewId}>
                     <span className="text-white text-lg text-orange-500">

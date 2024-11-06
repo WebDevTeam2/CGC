@@ -129,7 +129,7 @@ const MovieReview = ({ params }: { params: { id: string } }) => {
               onChange={(e) => setRating(Number(e.target.value))}
               className="border border-gray-300 rounded-md w-12 ml-2 p-1 rating-select focus:outline-none focus:ring-2 focus:ring-black"
             >
-              <option value={0}>Select rating</option>
+              <option value={0}>--</option>
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((rate) => (
                 <option key={rate} value={rate}>
                   {rate}

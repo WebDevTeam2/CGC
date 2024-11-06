@@ -2,6 +2,7 @@
 import { baseUrl, clientOptions, imageURL } from "@/app/Constants/constants";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
+import { FaStar } from "react-icons/fa6";
 
 const MovieReview = ({ params }: { params: { id: string } }) => {
   const movieid = params.id;
@@ -64,9 +65,15 @@ const MovieReview = ({ params }: { params: { id: string } }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    //We don't allow the users to post a review if they are not connected
+    if (!session) {
+      setError("You must be connected to post a review");
+      return;
+    }
+
     //We don't allow the users to rate however they want
     if (rating < 1 || rating > 10) {
-      setError("Rating must be between 1 and 5");
+      setError("Rating must be between 1 and 10");
       return;
     }
 
@@ -86,51 +93,58 @@ const MovieReview = ({ params }: { params: { id: string } }) => {
       });
       alert("Review added successfully");
     } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "You must be connected to post a review"
-      );
+      setError(err instanceof Error ? err.message : String(err));
     }
   };
   return (
-    <div className="flex justify-center gap-8 items-center h-screen">
-      <div className="relative w-48 h-72 md:w-72 md:h-96 lg:w-72 lg:h-96">
-        <img
-          src={`${imageURL}${movieData?.poster_path}`}
-          alt={`${movieData?.title} poster`}
-          className="object-cover absolute w-full h-full"
-        />
+    <div className="flex flex-col gap-2 justify-center text-center items-center">
+      <h1 className="text-bold text-2xl lg:text-3xl flex justify-center">
+        {movieData?.title}
+      </h1>
+      <div className="flex justify-center gap-4 items-center md:mb-2 review-page">
+        <div className="relative w-56 h-72 md:w-72 md:h-96 lg:w-72 lg:h-96">
+          <img
+            src={`${imageURL}${movieData?.poster_path}`}
+            alt={`${movieData?.title} poster`}
+            className="object-cover absolute w-full h-full"
+          />
+        </div>
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-4 review-form"
+        >
+          <textarea
+            name="reviewText"
+            placeholder="Write your review here..."
+            value={review}
+            onChange={(e) => setReview(e.target.value)}
+            className="lg:mt-10 md:mt-8 border border-gray-300 shadow-gray-600 bg-[#e8e8e8] p-4 rounded-lg shadow-md w-60 h-52 md:h-64 lg:h-64 md:w-60 lg:w-72 overflow-auto user-review-text resize-none"
+            required
+          />
+
+          <label className="flex items-center gap-2">
+            Rating (1-10):
+            <select
+              value={rating}
+              onChange={(e) => setRating(Number(e.target.value))}
+              className="border border-gray-300 rounded-md w-12 ml-2 p-1 rating-select focus:outline-none focus:ring-2 focus:ring-black"
+            >
+              <option value={0}>Select rating</option>
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((rate) => (
+                <option key={rate} value={rate}>
+                  {rate}
+                </option>
+              ))}
+            </select>
+            <FaStar style={{ color: "gold" }} />
+          </label>
+
+          {error && <p className="text-red-500">{error}</p>}
+          <button type="submit" className="p-2 bg-blue-500 text-white mb-12">
+            Submit Review
+          </button>
+        </form>
       </div>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <h1 className="font-bold text-2xl">Write a Review for {movieData?.title || "Loading..."}</h1>
-        <textarea
-          name="reviewText"
-          placeholder="Write your review here..."
-          value={review}
-          onChange={(e) => setReview(e.target.value)}
-          className="border border-gray-300 shadow-gray-600 text-slate-300 bg-[#5d676f] p-4 rounded-lg shadow-md w-80 h-64 md:w-60 md:h-96 lg:h-96 lg:w-72 overflow-auto user-review-container"
-          required
-        />
-        <label>
-          Rating (1-10):
-          <select
-            value={rating}
-            onChange={(e) => setRating(Number(e.target.value))}
-          >
-            <option value={0}>Select rating</option>
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((rate) => (
-              <option key={rate} value={rate}>
-                {rate}
-              </option>
-            ))}
-          </select>
-        </label>
-        {error && <p className="text-red-500">{error}</p>}
-        <button type="submit" className="p-2 bg-blue-500 text-white">
-          Submit Review
-        </button>
-      </form>
     </div>
   );
 };

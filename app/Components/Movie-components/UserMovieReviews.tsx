@@ -23,7 +23,7 @@ const UserMovieReviews = async ({ movieId }: { movieId: Number }) => {
   return (
     <>
       {reviewsForMovie && reviewsForMovie.length > 0 ? (
-        <div className="border border-gray-300 shadow-gray-600 text-slate-900 bg-[#5d676f] p-4 rounded-lg shadow-md w-80 h-64 md:w-60 md:h-96 lg:h-96 lg:w-72 overflow-auto user-review-container">
+        <div className="border border-gray-300 shadow-gray-600 bg-[#5d676f] p-4 rounded-lg shadow-md w-80 h-64 md:w-60 md:h-96 lg:h-96 lg:w-72 overflow-auto user-review-container">
           {reviewsForMovie.map((review: any) => {
             return (
               <div
@@ -48,7 +48,7 @@ const UserMovieReviews = async ({ movieId }: { movieId: Number }) => {
           })}
         </div>
       ) : (
-        <div className="border border-gray-300 shadow-gray-600 text-slate-100 bg-[#5d676f] p-4 rounded-lg shadow-md w-80 md:w-60 lg:w-72 overflow-auto user-review-container">
+        <div className="border border-gray-300 shadow-gray-600 bg-[#5d676f] p-4 rounded-lg shadow-md w-80 md:w-60 lg:w-72 overflow-auto user-review-container-empty">
           <span className="">No reviews at this moment.</span>
         </div>
       )}

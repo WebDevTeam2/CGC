@@ -29,7 +29,7 @@ const UpComing = async ({ params }: { params: { page: string } }) => {
             <span>Movies</span>
           </Link>
       </div>
-      <div className="grid grid-cols-2 mt-4 h-full not-search shows-grid gap-2 mx-auto w-[92%] md:grid-cols-3 lg:grid-cols-4 md:gap-0 lg:gap-8 lg:w-3/4 md:w-[80%] md:ml-32 lg:ml-64 ">
+      <div className="grid grid-cols-2 mt-4 h-full not-search shows-grid gap-2 mx-auto w-[92%] md:grid-cols-3 lg:grid-cols-4 md:gap-4 lg:gap-8 lg:w-3/4 md:w-[80%] md:ml-32 lg:ml-64 ">
         <TVShowCards tvShowData={showData} upcoming />
       </div>
       <div>

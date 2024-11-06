@@ -13,7 +13,7 @@ const TVShowCards = ({ tvShowData, upcoming }: TVShowProps) => {
         <Link
           key={item.id}
           href={`/Movies/TVShows/${item.id}`}
-          className="lg:hover:scale-110 lg:w-full md:w-[90%] transition duration-700 ease-in-out mb-6 card-link"
+          className="hover:scale-110 hover:z-9 md:hover:border lg:hover:border md:hover:shadow-2xl lg:hover:shadow-2xl card-link lg:hover:shadow-gray-600 md:hover:shadow-gray-600 transition w-[90%] md:w-full lg:w-full h-1/2 md:h-full lg:h-full md:mb-0 lg:mb-0 duration-500 ease-in-out"
         >
           {/* Container for the image and content */}
           <div className="flex flex-col items-center">
@@ -44,7 +44,7 @@ const TVShowCards = ({ tvShowData, upcoming }: TVShowProps) => {
         .map((item) => (
           <div
             key={item.id}
-            className="lg:hover:scale-110 md:hover:scale-110 md:hover:border md:hover:shadow-2xl md:hover:shadow-gray-600 lg:hover:border lg:hover:shadow-2xl lg:hover:shadow-gray-600 transition w-[90%] md:w-full lg:w-full h-[50%] mb-52 md:mb-0 lg:mb-0 duration-500 ease-in-out"
+              className="hover:scale-110 hover:z-9 hover:border hover:shadow-2xl card-link hover:shadow-gray-600 transition w-[90%] md:w-full lg:w-full h-1/2 md:h-full lg:h-full mb-52 md:mb-0 lg:mb-0 duration-500 ease-in-out"
           >
             {/* Image container */}
             <Link href={`/Movies/TVShows/${item.id}`}>
@@ -70,7 +70,7 @@ const TVShowCards = ({ tvShowData, upcoming }: TVShowProps) => {
                   <span className={`${getVotecolor(item.vote_average)}`}>
                     {item.vote_average.toString().slice(0, 3)}
                   </span>
-                  <FaStar color="yellow" style={{ marginTop: "3px" }} />
+                  <FaStar color="gold" style={{ marginTop: "3px" }} />
                 </div>
               </Link>
               {/* watchlist and review container */}

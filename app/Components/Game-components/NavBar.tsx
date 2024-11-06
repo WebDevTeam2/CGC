@@ -222,7 +222,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
               </Link>
               {session && (
                 <div className="min-[900px]:hidden flex flex-col items-center gap-5">
-                  <Link href={`/account/${userId}/info`}>
+                  <Link href={`/Account/${userId}/info`}>
                     <button className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
                       My Profile
                     </button>

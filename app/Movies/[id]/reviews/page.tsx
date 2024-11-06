@@ -97,8 +97,8 @@ const MovieReview = ({ params }: { params: { id: string } }) => {
     }
   };
   return (
-    <div className="flex flex-col gap-2 justify-center text-center items-center">
-      <h1 className="text-bold text-2xl lg:text-3xl flex justify-center">
+    <div className="flex flex-col gap-2 justify-center text-center md:mt-12 lg:mt-16 items-center">
+      <h1 className="text-bold text-3xl mb-4 md:mb-0 lg:mb-0">
         {movieData?.title}
       </h1>
       <div className="flex justify-center gap-4 items-center md:mb-2 review-page">

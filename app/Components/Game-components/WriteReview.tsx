@@ -75,6 +75,8 @@ const WriteReview: React.FC<Info> = ({ userId, game }) => {
         console.log("Review submitted successfully:", data);
         setTimeout(() => {
           router.push(`/Games/${game.slug}`);
+          //this command is for the reviews to be updated automatically when navigating back to the game
+          router.refresh();
         }, 2000);
       } else {
         console.error("Error submitting review:", data.error);

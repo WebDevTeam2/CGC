@@ -25,7 +25,7 @@ interface PostPage {
 }
 
 const AddToList = () => {
-  const [userId, setUserId] = useState<string>(); //So that we can store the user id from the session
+  const [userId, setUserId] = useState<string>();
   const [isInList, setIsInList] = useState(false);
   const [game, setGame] = useState<PostPage | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -90,7 +90,7 @@ const AddToList = () => {
   }, [game?.slug]);
 
   // Add the movie to the watchlist of the user
-  const handleAddToList = async () => {
+  const addGameToList = async () => {
     const ListData = {
       gameId: game?.id,
       gameName: game?.name, // Game's name
@@ -115,11 +115,17 @@ const AddToList = () => {
     }
   };
 
+  const handleAddToList = () => {
+    startTransition(() => {
+      addGameToList();
+    });
+  };
+
   return (
     <div>
       <span>
         <button
-        // py-1 px-4 rounded-xl transition-all duration-200
+          // py-1 px-4 rounded-xl transition-all duration-200
           onClick={handleAddToList} // Correct function call
           className={`
               py-1 px-4 rounded-xl transition-all duration-200 

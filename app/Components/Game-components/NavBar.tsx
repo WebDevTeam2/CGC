@@ -1,14 +1,13 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { IoReturnUpBack, IoMenu } from "react-icons/io5";
-import { FaXbox, FaPlaystation, FaArrowLeft } from "react-icons/fa";
+import { IoMenu } from "react-icons/io5";
+import { FaXbox, FaPlaystation } from "react-icons/fa";
 import { BsNintendoSwitch } from "react-icons/bs";
 import { SiEpicgames } from "react-icons/si";
 import { IoIosArrowDown } from "react-icons/io";
 import Link from "next/link";
 import Logout from "../Logout";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 import defaultAvatar from "@/public/assets/images/default_avatar.jpg";
 
 interface Platform {
@@ -140,7 +139,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
             onClick={toggleProfile}
           >
             <img
-              src={imageUrl}
+              src={imageUrl || defaultAvatar.src}
               alt="image"
               height={120}
               width={45}
@@ -157,7 +156,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
             onClick={closeProfile}
           >
             <ul className="py-2 divide-y text-black">
-              <Link href={`/account/${userId}/info`}>
+              <Link href={`/Account/${userId}/info`}>
                 <li className="px-4 py-3 hover:bg-gray-100 cursor-pointer">
                   Profile
                 </li>
@@ -222,7 +221,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
               </Link>
               {session && (
                 <div className="min-[900px]:hidden flex flex-col items-center gap-5">
-                  <Link href={`/account/${userId}/info`}>
+                  <Link href={`/Account/${userId}/info`}>
                     <button className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
                       My Profile
                     </button>
@@ -280,7 +279,7 @@ const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
               </Link>
               {session && (
                 <div className="min-[900px]:hidden flex gap-3">
-                  <Link href={`/account/${userId}/info`}>
+                  <Link href={`/Account/${userId}/info`}>
                     <button className="text-orange-600 text-md transition delay-50 rounded-full hover:scale-110">
                       My Profile
                     </button>

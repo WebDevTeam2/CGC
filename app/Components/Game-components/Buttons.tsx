@@ -1,13 +1,17 @@
-"use client";
-import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { pageSize } from "@/app/Constants/constants";
 
-const Buttons = ({ gamesLength }: { gamesLength: number }) => {
+interface ButtonsProps {
+  gamesLength: number;
+  page: number;
+  link: string;
+}
+
+const Buttons = ({ gamesLength, page, link }: ButtonsProps) => {
   const totalPages = Math.ceil(gamesLength / pageSize);
   let buttons = Array.from({ length: totalPages }, (_, i) => i + 1);
-  const [page, setPage] = useState(1);
-  const [windowWidth, setWindowWidth] = useState<number | undefined>(undefined);
+  // const [page, setPage] = useState(1);
+  // const [windowWidth, setWindowWidth] = useState<number | undefined>(undefined);
 
   const startingYear = 2024;
   let currentYear = new Date().getFullYear();
@@ -21,28 +25,28 @@ const Buttons = ({ gamesLength }: { gamesLength: number }) => {
   }
   // console.log(buttons.length);
   //Xrhsimopoioume ayto to useEffect gia na paroume to page number mesa apo to URL
-  useEffect(() => {
-    const pathname = window.location.pathname;
-    if (pathname) {
-      const currentPage = parseInt(pathname.split("/").pop() || ""); //Gia na paroume to page number apo to url
-      //An to currentPage yparxei tote kanoume set to page
-      if (!isNaN(currentPage) && currentPage !== page) {
-        setPage(currentPage);
-      }
-    }
-  }, [page]);
+  // useEffect(() => {
+  //   const pathname = window.location.pathname;
+  //   if (pathname) {
+  //     const currentPage = parseInt(pathname.split("/").pop() || ""); //Gia na paroume to page number apo to url
+  //     //An to currentPage yparxei tote kanoume set to page
+  //     if (!isNaN(currentPage) && currentPage !== page) {
+  //       setPage(currentPage);
+  //     }
+  //   }
+  // }, [page]);
 
   // Update window width on resize
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setWindowWidth(window.innerWidth);
+  //   };
 
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  //   window.addEventListener("resize", handleResize);
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, []);
 
   // Determine the range of page buttons to display
   const getPageRange = () => {
@@ -61,10 +65,12 @@ const Buttons = ({ gamesLength }: { gamesLength: number }) => {
     // returning 4 last
     else if (page > buttons.length - 2) {
       return buttons.slice(buttons.length - 4);
-    } else if (windowWidth !== undefined && windowWidth < 450) {
-      // For screens below 450px, return [page - 1, page, page + 1]
-      return [page - 1, page, page + 1];
-    } else {
+    }
+    // } else if (windowWidth !== undefined && windowWidth < 450) {
+    //   // For screens below 450px, return [page - 1, page, page + 1]
+    //   return [page - 1, page, page + 1];
+    // }
+    else {
       return [page - 2, page - 1, page, page + 1, page + 2];
     }
   };
@@ -72,14 +78,17 @@ const Buttons = ({ gamesLength }: { gamesLength: number }) => {
 
   return (
     <div className="relative text-white my-5 mb-10 flex flex-row items-center justify-center gap-4 max-[450px]:gap-2 transition-all duration-200">
-      {page > 3 && (
+      <span className="text-lg bg-stone-800 p-3 rounded-lg">
+        Wokring on the buttons
+      </span>
+      {/* {page > 3 && (
         <Link href="1">
           <button className="hover:scale-110 transition-all duration-200 border-2 px-2 py-[0.2rem] rounded-md bg-stone-600 border-stone-600">
             {"<<"}
           </button>
         </Link>
-      )}
-      {page > 1 && (
+      )} */}
+      {/* {page > 1 && (
         <Link href={`${Math.max(page - 1, 1)}`}>
           <button className="hover:scale-110 transition-all duration-200 border-2 px-2 py-[0.2rem] rounded-md bg-stone-600 border-stone-600">
             {"<"}
@@ -96,8 +105,8 @@ const Buttons = ({ gamesLength }: { gamesLength: number }) => {
         >
           {item}
         </Link>
-      ))}
-      {page < buttons.length && (
+      ))} */}
+      {/* {page < buttons.length && (
         <Link href={`${Math.min(page + 1, buttons.length)}`}>
           <button className="hover:scale-110 transition-all duration-200 border-2 px-2 py-[0.2rem] rounded-md  bg-stone-600 border-stone-600">
             {">"}
@@ -111,6 +120,7 @@ const Buttons = ({ gamesLength }: { gamesLength: number }) => {
           </button>
         </Link>
       )}
+          ); */}
     </div>
   );
 };

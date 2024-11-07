@@ -9,41 +9,12 @@ import {
   paginateGames,
   fetchGameDetails,
   extractGenres,
-  shuffleArray,
   fetchByGenreConsole,
   sortGamesByRelease,
 } from "@/app/Game Collection/functions";
 import SortGenresConsole from "@/app/Components/Game-components/SortGenresConsole";
 import GameList from "@/app/Components/Game-components/GameList";
 import Footer from "@/app/Components/Footer";
-
-interface Platform {
-  platform: {
-    id: number;
-    name: string;
-    slug: string;
-  };
-}
-interface Post {
-  page: number;
-  results: PostResult[];
-  onSearch: (name: string) => void;
-}
-
-interface PostResult {
-  _id: string;
-  id: number;
-  slug: string;
-  name: string;
-  released: string;
-  tba: boolean;
-  background_image: string;
-  rating: number;
-  rating_top: number;
-  description: string;
-  description_raw: string;
-  parent_platforms: Platform[];
-}
 
 const Posts = async ({ params }: { params: any }) => {
   try {

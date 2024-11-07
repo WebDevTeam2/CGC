@@ -250,12 +250,12 @@ const NavBar = () => {
               ))}
               {!session ? (
                 <>
-                  <Link href={"/Sign/Signup"}>
+                  <Link href={"/Authentication/Signup"}>
                     <button className="text-orange-600 text-md transition delay-50 rounded-full hover:scale-110">
                       Sign Up
                     </button>
                   </Link>
-                  <Link href={"/Sign/Signin"}>
+                  <Link href={"/Authentication/Signin"}>
                     <button className="text-orange-600 text-md transition delay-50  rounded-full hover:scale-110">
                       Log In
                     </button>

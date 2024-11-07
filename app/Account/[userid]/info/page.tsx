@@ -4,13 +4,14 @@ import UserOptions from "@/app/Components/Account-components/UserOptions";
 
 //utills
 import bcrypt from "bcryptjs";
-import { useEffect, useState, FormEvent, MouseEvent } from "react";
+import { useEffect, useState, MouseEvent } from "react";
 import { signOut, useSession } from "next-auth/react";
-import Image from "next/legacy/image";
 import { UploadButton } from "@/app/Game Collection/uploadthing";
 import Link from "next/link";
 import Popup from "@/app/Components/Popup";
 import Footer from "@/app/Components/Footer";
+import NavBar from "@/app/Components/Game-components/NavBar";
+import SearchBar from "@/app/Components/Game-components/SearchBar";
 
 const Account = ({ params }: { params: { userid: string } }) => {
   const { data: session } = useSession();

@@ -10,14 +10,6 @@ import Logout from "../Logout";
 import { useSession } from "next-auth/react";
 import defaultAvatar from "@/public/assets/images/default_avatar.jpg";
 
-interface Platform {
-  platform: {
-    id: number;
-    name: string;
-    slug: string;
-  };
-}
-
 const logos = [
   { component: <FaXbox />, key: 3, slug: "xbox" },
   { component: <FaPlaystation />, key: 2, slug: "playstation" },
@@ -25,7 +17,7 @@ const logos = [
   { component: <SiEpicgames />, key: 1, slug: "pc" },
 ];
 
-const NavBar = ({ parent_platforms }: { parent_platforms: Platform[] }) => {
+const NavBar = () => {
   const [showmenu, setShowMenu] = useState(false);
   const [openMenu, setisOpenMenu] = useState(false);
   const [showProfile, setShowProfile] = useState(false);

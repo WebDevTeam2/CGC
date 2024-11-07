@@ -25,14 +25,6 @@ const Posts = async ({ params }: { params: any }) => {
 
   const genres = await extractGenres();
 
-  const platforms = Array.from(
-    new Set(
-      gameData.flatMap((game) =>
-        game.parent_platforms.map((p) => JSON.stringify(p.platform))
-      )
-    )
-  ).map((str) => ({ platform: JSON.parse(str) }));
-
   const descriptioned = await Promise.all(
     gameData.map((item) => fetchGameDetails(item))
   );
@@ -44,7 +36,7 @@ const Posts = async ({ params }: { params: any }) => {
   return (
     <div>
       <MainPage>
-        <NavBar parent_platforms={platforms} />
+        <NavBar />
         <SearchBar games={gameData} />
         <SortConsole currentName={params.name} />
         <GenresConsole genres={genres} currentName={params.name} />

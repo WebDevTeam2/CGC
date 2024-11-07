@@ -21,14 +21,6 @@ const Posts = async ({ params }: { params: any }) => {
     const genres = await extractGenres();
     const paginatedGames = paginateGames(gameData, params.page, pageSize);
 
-    const platforms = Array.from(
-      new Set(
-        gameData.flatMap((game) =>
-          game.parent_platforms.map((p) => JSON.stringify(p.platform))
-        )
-      )
-    ).map((str) => ({ platform: JSON.parse(str) }));
-
     //fetch game description only for the paginated games not for all the games
     const detailedGames = await Promise.all(
       paginatedGames.map((item) => fetchGameDetails(item))
@@ -37,7 +29,7 @@ const Posts = async ({ params }: { params: any }) => {
     return (
       <div>
         <MainPage>
-          <NavBar parent_platforms={platforms} />
+          <NavBar />
           <SearchBar games={gameData} />
           <SortGenres currentName={params.slug} />
           <Genres genres={genres} />

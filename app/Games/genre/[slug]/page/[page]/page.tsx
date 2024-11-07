@@ -45,7 +45,11 @@ const Posts = async ({ params }: { params: any }) => {
           <SortGenres currentName={params.slug} />
           <Genres genres={genres} />
           <GameList paginatedGames={paginatedGames} />
-          <Buttons gamesLength={gameData.length} />
+          <Buttons
+            link={`/Games/page`}
+            page={Number(params.page)}
+            gamesLength={gameData.length}
+          />
           <Footer />
         </MainPage>
       </div>

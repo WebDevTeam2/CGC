@@ -114,7 +114,7 @@ export default function Nav() {
     <div className="nav-for-hover dummy-class">
       <nav
         id="scroll-nav"
-        className="lg:w-20 lg:h-full sm:w-full overflow-auto fixed bg-[#23232e] sm:z-10 sm:bottom-0 lg:hover:w-56 group duration-700 ease-in-out not-search navbar"
+        className="lg:w-20 lg:h-full sm:w-full overflow-auto overflow-x-auto fixed bg-[#23232e] sm:z-10 sm:bottom-0 lg:hover:w-56 group duration-700 ease-in-out not-search navbar"
       >
         <ul className="flex sm:flex-row lg:flex-col items-center p-0 m-0 h-full not-search">
           <li className="text-[#b6b6b6] text-l w-full transition duration-500 ease-in-out not-search last:mt-auto last:hover:none">
@@ -156,7 +156,7 @@ export default function Nav() {
           {session ? (
             <li className="text-[#b6b6b6] text-l h-20 w-full transition duration-500 ease-in-out not-search image-li">
               <Link
-                href={`/account/${userId}/info/`}
+                href={`/Account/${userId}/info/`}
                 className="relative w-10 h-10 md:mt-5 lg:mt-2 mx-[1.05rem] block rounded-full overflow-hidden"
               >
                 <img

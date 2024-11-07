@@ -16,7 +16,7 @@ const Cards = ({ movieData, upcoming, movieResultData }: MovieProps ) => {
         <Link
           key={item.id}
           href={`/Movies/${item.id}`}
-          className="lg:hover:scale-110 lg:w-full md:w-[90%] h-full transition duration-700 ease-in-out mb-6 card-link "
+          className="hover:scale-110 hover:z-9 md:hover:border lg:hover:border md:hover:shadow-2xl lg:hover:shadow-2xl card-link lg:hover:shadow-gray-600 md:hover:shadow-gray-600 transition w-[90%] md:w-full lg:w-full h-1/2 md:h-full lg:h-full md:mb-0 lg:mb-0 duration-500 ease-in-out"
         >
           {/* Container for the image and content */}
           <div className="flex flex-col items-center">
@@ -47,7 +47,7 @@ const Cards = ({ movieData, upcoming, movieResultData }: MovieProps ) => {
         .map((item) => (
           <div
             key={item.id}
-            className="hover:scale-110 hover:border hover:shadow-2xl card-link hover:shadow-gray-600 transition w-[90%] md:w-full lg:w-full h-1/2 md:h-full lg:h-full mb-52 md:mb-0 lg:mb-0 duration-500 ease-in-out"
+            className="hover:scale-110 hover:border hover:z-9 hover:shadow-2xl card-link hover:shadow-gray-600 transition w-[90%] md:w-full lg:w-full h-1/2 md:h-full lg:h-full mb-52 md:mb-0 lg:mb-0 duration-500 ease-in-out"
           >
             {/* Image container */}
             <Link href={`/Movies/${item.id}`}>
@@ -77,7 +77,7 @@ const Cards = ({ movieData, upcoming, movieResultData }: MovieProps ) => {
                   <span className={`${getVotecolor(item.vote_average)}`}>
                     {item.vote_average.toString().slice(0, 3)}
                   </span>
-                  <FaStar color="yellow" style={{ marginTop: "3px" }} />
+                  <FaStar color="gold" style={{ marginTop: "3px" }} />
                 </div>
               </Link>
               {/* watchlist and review container */}

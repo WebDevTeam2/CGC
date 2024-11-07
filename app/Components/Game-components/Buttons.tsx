@@ -1,16 +1,16 @@
+"use client";
 import Link from "next/link";
 import { pageSize } from "@/app/Constants/constants";
+import { useState } from "react";
 
 interface ButtonsProps {
   gamesLength: number;
-  page: number;
-  link: string;
 }
 
-const Buttons = ({ gamesLength, page, link }: ButtonsProps) => {
+const Buttons = ({ gamesLength }: ButtonsProps) => {
   const totalPages = Math.ceil(gamesLength / pageSize);
   let buttons = Array.from({ length: totalPages }, (_, i) => i + 1);
-  // const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1);
   // const [windowWidth, setWindowWidth] = useState<number | undefined>(undefined);
 
   const startingYear = 2024;

@@ -90,7 +90,7 @@ const AddToList = () => {
   }, [game?.slug]);
 
   // Add the movie to the watchlist of the user
-  const addGameToList = async () => {
+  const handleAddToList = async () => {
     const ListData = {
       gameId: game?.id,
       gameName: game?.name, // Game's name
@@ -113,12 +113,6 @@ const AddToList = () => {
       setIsInList(false);
       console.error(data.message);
     }
-  };
-
-  const handleAddToList = () => {
-    startTransition(() => {
-      addGameToList();
-    });
   };
 
   return (

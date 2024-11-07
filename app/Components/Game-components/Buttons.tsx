@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { pageSize } from "@/app/Constants/constants";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ButtonsProps {
   gamesLength: number;
@@ -25,16 +25,16 @@ const Buttons = ({ gamesLength }: ButtonsProps) => {
   }
   // console.log(buttons.length);
   //Xrhsimopoioume ayto to useEffect gia na paroume to page number mesa apo to URL
-  // useEffect(() => {
-  //   const pathname = window.location.pathname;
-  //   if (pathname) {
-  //     const currentPage = parseInt(pathname.split("/").pop() || ""); //Gia na paroume to page number apo to url
-  //     //An to currentPage yparxei tote kanoume set to page
-  //     if (!isNaN(currentPage) && currentPage !== page) {
-  //       setPage(currentPage);
-  //     }
-  //   }
-  // }, [page]);
+  useEffect(() => {
+    const pathname = window.location.pathname;
+    if (pathname) {
+      const currentPage = parseInt(pathname.split("/").pop() || ""); //Gia na paroume to page number apo to url
+      //An to currentPage yparxei tote kanoume set to page
+      if (!isNaN(currentPage) && currentPage !== page) {
+        setPage(currentPage);
+      }
+    }
+  }, [page]);
 
   // Update window width on resize
   // useEffect(() => {

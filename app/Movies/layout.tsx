@@ -6,6 +6,7 @@ import { ThemeProvider } from "../DarkTheme/ThemeContext";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./movieStyles.css";
+import Footer from "../Components/Footer";
 
 const roboto = Roboto({
   weight: ['400', '700'],
@@ -31,6 +32,7 @@ export default function RootLayout({
           <body className={` bg-[#EEE3CB] `}>
             <Nav />
             {children}
+            <Footer />
           </body>
         </html>
       </ThemeProvider>

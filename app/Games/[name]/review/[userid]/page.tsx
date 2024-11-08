@@ -10,10 +10,10 @@ export default async function Games({ params }: { params: any }) {
   const games = await getGameDets(params.name);
   const gameData = await fetchAndCombineDataSimple();
   return (
-    <>
+    <div className="w-full h-screen items-center bg-stone-700 overflow-hidden overflow-y-auto bg-cover ">
       <NavBar />
       <SearchBar games={gameData} />
-      <WriteReview userId={params.userid} game={games} />;
-    </>
+      <WriteReview userId={params.userid} game={games} />
+    </div>
   );
 }

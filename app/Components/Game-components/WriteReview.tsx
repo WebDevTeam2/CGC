@@ -97,7 +97,7 @@ const WriteReview: React.FC<Info> = ({ userId, game }) => {
       </div>
     </div>
   ) : (
-    <div className="bg-stone-700 bg-cover flex flex-col fixed overflow-hidden overflow-y-auto items-center h-screen w-full">
+    <div className="flex flex-col items-center">
       <Link
         href={`/Games/${game.slug}`}
         className="w-full invisible pointer-events-none"

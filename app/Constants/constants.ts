@@ -31,6 +31,78 @@ export const getVotecolor = (vote: number) => {
   return "text-red-500";
 };
 
+//user interfaces
+export interface Review {
+  reviewId: number;
+  gameId: number;
+  gameName: string;
+  reaction?: string;
+  text?: string;
+  date: string; // ISO date string
+}
+
+export interface MovieReview {
+  reviewId: number;
+  movieId: number;
+  movieName: string;
+  text?: string;
+  rating?: number;
+  date: string;
+}
+
+export interface Library {
+  libraryId: number;
+  gameId: number;
+  gameName: string;
+  gamePic: string;
+  date: string; // ISO date string
+}
+export interface User {
+  username?: string;
+  name?: string;
+  email: string;
+  password?: string;
+  profilePicture?: string;
+  user_reviews?: Review[];
+  library?: Library[];
+  verificationToken?: string;
+  isVerified?: boolean;
+  provider?: string;
+  watchlist?: number[];
+}
+
+//game interfaces
+export interface Platform {
+  platform: {
+    id: number;
+    name: string;
+    slug: string;
+  };
+}
+
+export interface Genre {
+  id: number;
+  name: string;
+  slug: string;
+}
+
+export interface PostResult {
+  _id: string;
+  id: number;
+  slug: string;
+  name: string;
+  released: string;
+  tba: boolean;
+  background_image: string;
+  rating: number;
+  rating_top: number;
+  metacritic: number;
+  description: string;
+  description_raw: string;
+  parent_platforms: Platform[];
+  genres: Genre[];
+}
+
 //interfaces used on layout
 export interface Author {
   name: string;
@@ -45,36 +117,13 @@ export interface Metadata {
   robots?: string;
 }
 
-//interfaces used on games
-interface Platform {
-  platform: {
-    id: number;
-    name: string;
-    slug: string;
-  };
-}
 interface Post {
   page: number;
   results: PostResult[];
   onSearch: (name: string) => void;
 }
 
-interface PostResult {
-  _id: string;
-  id: number;
-  slug: string;
-  name: string;
-  released: string;
-  tba: boolean;
-  background_image: string;
-  rating: number;
-  rating_top: number;
-  description: string;
-  description_raw: string;
-  parent_platforms: Platform[];
-}
-
-interface PostPage {
+export interface PostPage {
   id: number; //use
   slug: string; //use
   name: string; //use

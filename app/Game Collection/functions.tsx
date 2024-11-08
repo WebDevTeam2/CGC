@@ -1,7 +1,8 @@
 import { Collection, Db, MongoClient, Document, ObjectId } from "mongodb";
 import clientPromise from "../../authDbConnection/mongo/page";
 import { IoStarSharp } from "react-icons/io5";
-import { Review, User } from "../User Collection/connection";
+import { User } from "../Constants/constants";
+import { PostResult, Genre, Platform } from "../Constants/constants";
 
 let client: MongoClient | undefined;
 let db: Db | undefined;
@@ -26,37 +27,6 @@ async function init(): Promise<void> {
 (async () => {
   await init();
 })();
-
-interface Platform {
-  platform: {
-    id: number;
-    name: string;
-    slug: string;
-  };
-}
-
-interface Genre {
-  id: number;
-  name: string;
-  slug: string;
-}
-
-interface PostResult {
-  _id: string;
-  id: number;
-  slug: string;
-  name: string;
-  released: string;
-  tba: boolean;
-  background_image: string;
-  rating: number;
-  rating_top: number;
-  metacritic: number;
-  description: string;
-  description_raw: string;
-  parent_platforms: Platform[];
-  genres: Genre[];
-}
 
 const getGameData = async (url: string, page: number) => {
   try {
@@ -563,3 +533,25 @@ export const getUserReviews = async (allUsers: User[], gameId: number) => {
 
   return gameReviews;
 };
+
+export async function getScreenshots(slug: string) {
+  try {
+    const res = await fetch(
+      `${basePosterUrl}/${slug}/screenshots?${apiPosterKey}`,
+      {
+        // Adding `cache: "no-store"` ensures fresh data on each request if needed
+        cache: "no-store",
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch screenshots: ${res.statusText}`);
+    }
+
+    const data = await res.json();
+    return data.results;
+  } catch (error) {
+    console.error("Error fetching screenshots:", error);
+    return undefined;
+  }
+}

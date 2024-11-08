@@ -26,16 +26,20 @@ const NavBar = () => {
   const [userId, setUserId] = useState<string>("");
   const profileRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
-  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > 640);
+  const [isWideScreen, setIsWideScreen] = useState<boolean | undefined>(
+    undefined
+  );
 
   // Handle window resize
   useEffect(() => {
+    // Set initial `isWideScreen` value based on the window width after mount
+    setIsWideScreen(window.innerWidth > 640);
+
+    // Handle window resize to update `isWideScreen` on resize events
     const handleResize = () => {
       setIsWideScreen(window.innerWidth > 640);
     };
 
-    console.log(window.innerWidth);
-    console.log(isWideScreen);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -160,131 +164,132 @@ const NavBar = () => {
           </div>
         </div>
       )}
-      {isWideScreen ? (
-        <div className="right-side-elements flex items-center w-28 relative h-full">
-          <div
-            ref={menuRef}
-            style={{ transitionProperty: "transform" }}
-            className={`w-36 w-full items-center transition-all duration-300 ease-in-out flex flex-col tems-center mt-0`}
-          >
-            <button
-              className={`text-white rounded-full p-2 hover:bg-neutral-800 transition-all duration-200 ease-in-out text-5xl w-16 py-2 px-2 `}
-              onClick={toggleMenu}
+      {isWideScreen !== undefined &&
+        (isWideScreen ? (
+          <div className="right-side-elements flex items-center w-28 relative h-full">
+            <div
+              ref={menuRef}
+              style={{ transitionProperty: "transform" }}
+              className={`w-36 w-full items-center transition-all duration-300 ease-in-out flex flex-col tems-center mt-0`}
             >
-              <IoMenu />
+              <button
+                className={`text-white rounded-full p-2 hover:bg-neutral-800 transition-all duration-200 ease-in-out text-5xl w-16 py-2 px-2 `}
+                onClick={toggleMenu}
+              >
+                <IoMenu />
+              </button>
+
+              <ul
+                style={{ transitionProperty: "max-height, opacity, transform" }}
+                className={`${
+                  showmenu ? "max-h-[30rem] opacity-100" : "max-h-0 opacity-0"
+                }  bg-black py-3 absolute z-30 right-0 top-16 transition-all duration-300 ease-in-out overflow-hidden rounded-b-lg gap-5 flex items-center justify-center flex-col`}
+              >
+                {logos.map((logo) => (
+                  <Link key={logo.key} href={`/Games/${logo.slug}/page/1`}>
+                    <div
+                      className="text-stone-200 sm:text-3xl text-2xl transition delay-50 p-2 rounded-full hover:scale-110"
+                      onClick={closeDropdown}
+                    >
+                      {logo.component}
+                    </div>
+                  </Link>
+                ))}
+                {!session ? (
+                  <>
+                    <Link href={"/Authentication/Signup"}>
+                      <button className="text-orange-500 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
+                        Sign Up
+                      </button>
+                    </Link>
+                    <Link href={"/Authentication/Signin"}>
+                      <button className="text-orange-500 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
+                        Log In
+                      </button>
+                    </Link>
+                  </>
+                ) : (
+                  <div className="hidden"></div>
+                )}
+                <Link href={"/Games/page/1"}>
+                  <button className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
+                    All Games
+                  </button>
+                </Link>
+                {session && (
+                  <div className="min-[900px]:hidden flex flex-col items-center gap-5">
+                    <Link href={`/Account/${userId}/info`}>
+                      <button className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
+                        My Profile
+                      </button>
+                    </Link>
+                    <div className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
+                      <Logout />
+                    </div>
+                  </div>
+                )}
+              </ul>
+            </div>
+          </div>
+        ) : (
+          <div className="menu flex flex-col w-full absolute translate-y-[3.7rem] items-center transition-all duration-300 ease-in-out">
+            <button
+              onClick={toggleMenu2}
+              className="text-slate-100 order-2 bg-neutral-800 hover:bg-neutral-600 transition-colors duration-300 ease-in-out w-full py-2 text-md"
+            >
+              Screen Menu
             </button>
 
-            <ul
-              style={{ transitionProperty: "max-height, opacity, transform" }}
-              className={`${
-                showmenu ? "max-h-[30rem] opacity-100" : "max-h-0 opacity-0"
-              }  bg-black py-3 absolute z-30 right-0 top-16 transition-all duration-300 ease-in-out overflow-hidden rounded-b-lg gap-5 flex items-center justify-center flex-col`}
-            >
-              {logos.map((logo) => (
-                <Link key={logo.key} href={`/Games/${logo.slug}/page/1`}>
-                  <div
-                    className="text-stone-200 sm:text-3xl text-2xl transition delay-50 p-2 rounded-full hover:scale-110"
-                    onClick={closeDropdown}
-                  >
-                    {logo.component}
-                  </div>
+            {/* Conditional rendering of the ul based on isOpen state */}
+            {openMenu && (
+              <ul className="bg-neutral-800 w-full gap-3 p-2 flex items-center justify-center flex-wrap order-1 text-slate-100 mt-[4rem] max-[496px]:mt-[6.2rem] transition-all duration-300 ease-in-out">
+                {logos.map((logo) => (
+                  <Link key={logo.key} href={`/Games/${logo.slug}/page/1`}>
+                    <div
+                      className="text-stone-200 text-3xl transition delay-50 p-2 rounded-full hover:scale-110"
+                      onClick={closeDropdown}
+                    >
+                      {logo.component}
+                    </div>
+                  </Link>
+                ))}
+                {!session ? (
+                  <>
+                    <Link href={"/Authentication/Signup"}>
+                      <button className="text-orange-600 text-md transition delay-50 rounded-full hover:scale-110">
+                        Sign Up
+                      </button>
+                    </Link>
+                    <Link href={"/Authentication/Signin"}>
+                      <button className="text-orange-600 text-md transition delay-50  rounded-full hover:scale-110">
+                        Log In
+                      </button>
+                    </Link>
+                  </>
+                ) : (
+                  <div className="hidden"></div>
+                )}
+                <Link href={"/Games/page/1"}>
+                  <button className="text-stone-200 text-md transition delay-50  rounded-full hover:scale-110">
+                    All Games
+                  </button>
                 </Link>
-              ))}
-              {!session ? (
-                <>
-                  <Link href={"/Authentication/Signup"}>
-                    <button className="text-orange-500 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
-                      Sign Up
-                    </button>
-                  </Link>
-                  <Link href={"/Authentication/Signin"}>
-                    <button className="text-orange-500 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
-                      Log In
-                    </button>
-                  </Link>
-                </>
-              ) : (
-                <div className="hidden"></div>
-              )}
-              <Link href={"/Games/page/1"}>
-                <button className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
-                  All Games
-                </button>
-              </Link>
-              {session && (
-                <div className="min-[900px]:hidden flex flex-col items-center gap-5">
-                  <Link href={`/Account/${userId}/info`}>
-                    <button className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
-                      My Profile
-                    </button>
-                  </Link>
-                  <div className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
-                    <Logout />
+                {session && (
+                  <div className="min-[900px]:hidden flex gap-3">
+                    <Link href={`/Account/${userId}/info`}>
+                      <button className="text-orange-600 text-md transition delay-50 rounded-full hover:scale-110">
+                        My Profile
+                      </button>
+                    </Link>
+                    <div className="text-stone-200 text-md transition delay-50  rounded-full hover:scale-110">
+                      <Logout />
+                    </div>
                   </div>
-                </div>
-              )}
-            </ul>
+                )}
+              </ul>
+            )}
           </div>
-        </div>
-      ) : (
-        <div className="menu flex flex-col w-full absolute translate-y-[3.7rem] items-center transition-all duration-300 ease-in-out">
-          <button
-            onClick={toggleMenu2}
-            className="text-slate-100 order-2 bg-neutral-800 hover:bg-neutral-600 transition-colors duration-300 ease-in-out w-full py-2 text-md"
-          >
-            Screen Menu
-          </button>
-
-          {/* Conditional rendering of the ul based on isOpen state */}
-          {openMenu && (
-            <ul className="bg-neutral-800 w-full gap-3 p-2 flex items-center justify-center flex-wrap order-1 text-slate-100 mt-[4rem] max-[496px]:mt-[6.2rem] transition-all duration-300 ease-in-out">
-              {logos.map((logo) => (
-                <Link key={logo.key} href={`/Games/${logo.slug}/page/1`}>
-                  <div
-                    className="text-stone-200 text-3xl transition delay-50 p-2 rounded-full hover:scale-110"
-                    onClick={closeDropdown}
-                  >
-                    {logo.component}
-                  </div>
-                </Link>
-              ))}
-              {!session ? (
-                <>
-                  <Link href={"/Authentication/Signup"}>
-                    <button className="text-orange-600 text-md transition delay-50 rounded-full hover:scale-110">
-                      Sign Up
-                    </button>
-                  </Link>
-                  <Link href={"/Authentication/Signin"}>
-                    <button className="text-orange-600 text-md transition delay-50  rounded-full hover:scale-110">
-                      Log In
-                    </button>
-                  </Link>
-                </>
-              ) : (
-                <div className="hidden"></div>
-              )}
-              <Link href={"/Games/page/1"}>
-                <button className="text-stone-200 text-md transition delay-50  rounded-full hover:scale-110">
-                  All Games
-                </button>
-              </Link>
-              {session && (
-                <div className="min-[900px]:hidden flex gap-3">
-                  <Link href={`/Account/${userId}/info`}>
-                    <button className="text-orange-600 text-md transition delay-50 rounded-full hover:scale-110">
-                      My Profile
-                    </button>
-                  </Link>
-                  <div className="text-stone-200 text-md transition delay-50  rounded-full hover:scale-110">
-                    <Logout />
-                  </div>
-                </div>
-              )}
-            </ul>
-          )}
-        </div>
-      )}
+        ))}
     </nav>
   );
 };

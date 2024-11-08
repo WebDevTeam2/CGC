@@ -3,45 +3,7 @@ import clientPromise from "../../authDbConnection/mongo/page";
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
-
-export interface Review {
-  reviewId: number;
-  gameId: number;
-  gameName: string;
-  reaction?: string;
-  text?: string;
-  date: string; // ISO date string
-}
-
-export interface MovieReview {
-  reviewId: number;
-  movieId: number;
-  movieName: string;
-  text?: string;
-  rating?: number;
-  date: string;
-}
-
-export interface Library {
-  libraryId: number;
-  gameId: number;
-  gameName: string;
-  gamePic: string;
-  date: string; // ISO date string
-}
-export interface User {
-  username?: string;
-  name?: string;
-  email: string;
-  password?: string;
-  profilePicture?: string;
-  user_reviews?: Review[];
-  library?: Library[];
-  verificationToken?: string;
-  isVerified?: boolean;
-  provider?: string;
-  watchlist?: number[];
-}
+import { User, Library, MovieReview, Review } from "../Constants/constants";
 
 let client: MongoClient | undefined;
 let db: Db | undefined;

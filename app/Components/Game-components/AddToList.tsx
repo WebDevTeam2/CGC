@@ -3,9 +3,6 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
-const basePosterUrl = process.env.NEXT_PUBLIC_BASE_POSTER_URL;
-const apiPosterKey = process.env.NEXT_PUBLIC_API_KEY;
-
 interface PostPage {
   id: number;
   slug: string;
@@ -24,15 +21,15 @@ interface PostPage {
   background_image: string;
 }
 
-const AddToList = () => {
+const AddToList = ({ gameName }: { gameName: string }) => {
   const [userId, setUserId] = useState<string>();
   const [isInList, setIsInList] = useState(false);
   const [game, setGame] = useState<PostPage | null>(null);
   const [error, setError] = useState<string | null>(null);
   const { data: session } = useSession();
 
-  const pathname = usePathname(); // Get the current path
-  const gameName = pathname?.split("/")[2];
+  // const pathname = usePathname(); // Get the current path
+  // const gameName = pathname?.split("/")[2];
 
   useEffect(() => {
     const fetchProfileDetails = async () => {
@@ -74,7 +71,7 @@ const AddToList = () => {
     const fetchGame = async () => {
       try {
         const res = await fetch(
-          basePosterUrl + "/" + gameName + "?" + apiPosterKey
+          `/api/fetchGame?gameName=${encodeURIComponent(gameName)}`
         );
         if (!res.ok) {
           throw new Error("Failed to fetch game data");
@@ -82,12 +79,13 @@ const AddToList = () => {
         const data = await res.json();
         setGame(data);
       } catch (error) {
-        setError((error as Error).message);
+        console.error("Error fetching game data:", error);
+        setError("Failed to fetch game data");
       }
     };
 
     fetchGame();
-  }, [game?.slug]);
+  }, [gameName]);
 
   // Add the movie to the watchlist of the user
   const handleAddToList = async () => {

@@ -2,9 +2,9 @@
 import React, { MouseEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import UserOptions from "./UserOptions";
-import Footer from "../Footer";
 import PopupForLib from "../Game-components/PopupForLib";
-import { User } from "@/app/User Collection/connection";
+import { User } from "@/app/Constants/constants";
+import Footer from "../Footer"; 
 
 interface GamesProps {
   userid: string;

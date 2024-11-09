@@ -1,5 +1,5 @@
 "use client";
-import { baseUrl, clientOptions, imageURL } from "@/app/Constants/constants";
+import { baseUrl, clientOptions, imageURL, profanityList } from "@/app/Constants/constants";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa6";
@@ -54,7 +54,6 @@ const MovieReview = ({ params }: { params: { id: string } }) => {
         );
         const data = await response.json();
         setMovieData(data);
-        console.log(data);
       } catch (error) {
         console.error("Failed to fetch movie data:", error);
       }
@@ -65,6 +64,14 @@ const MovieReview = ({ params }: { params: { id: string } }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    //We don't allow the users to post a review if it contains any profanity
+    const words = review.toLowerCase().trim().split(" ");
+    for (const word of words) {
+      if (profanityList.has(word)) {
+        setError("Your review contains inappropriate language.");        
+        return;
+      }
+    }
     //We don't allow the users to post a review if they are not connected
     if (!session) {
       setError("You must be connected to post a review");

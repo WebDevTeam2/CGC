@@ -1,3 +1,4 @@
+import { profanityList } from "@/app/Constants/constants";
 import { addMovieReview } from "@/app/User Collection/connection";
 import { NextRequest, NextResponse } from "next/server";
 

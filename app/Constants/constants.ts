@@ -279,3 +279,23 @@ export interface Seasons {
   season_number: number;
   vote_average: number;
 }
+
+export const profanityList = new Set([
+  "fuck",
+  "fucks",
+  "fucking",
+  "fucked",
+  "fucker",
+  "fuckers",
+  "motherfucker",
+  "motherfuckers",
+  "motherfucking",
+  "motherfucked",
+  "fuckin",
+  "shit",
+  "ass",
+  "bitch",
+  "staboultzis",
+  "faggot",
+  "faggots",
+])

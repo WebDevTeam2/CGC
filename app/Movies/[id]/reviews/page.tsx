@@ -1,5 +1,6 @@
 "use client";
-import { baseUrl, clientOptions, imageURL, profanityList } from "@/app/Constants/constants";
+import { baseUrl, clientOptions, imageURL } from "@/app/Constants/constants";
+import { profanityList } from "@/app/Constants/profanity";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";

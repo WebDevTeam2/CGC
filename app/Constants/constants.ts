@@ -279,30 +279,3 @@ export interface Seasons {
   season_number: number;
   vote_average: number;
 }
-
-//This is a list of profanity words that are used to filter out profanity from the reviews
-export const profanityList = new Set([
-  "fuck",
-  "fucks",
-  "fucking",
-  "fucked",
-  "fucker",
-  "fuckers",
-  "f u c k",
-  "f u c k e r",
-  "f u c k e r s",
-  "f u c k i n g",
-  "f u c k e d",  
-  "f u",
-  "motherfucker",
-  "motherfuckers",
-  "motherfucking",
-  "motherfucked",
-  "fuckin",
-  "shit",
-  "ass",
-  "bitch",
-  "staboultzis",
-  "faggot",
-  "faggots",
-])

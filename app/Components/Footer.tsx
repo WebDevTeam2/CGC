@@ -1,6 +1,4 @@
-"use client"; //because we use UseState
 import Link from "next/link";
-import React, { useState } from "react";
 import { FaFacebook, FaGithub } from "react-icons/fa";
 import { FaSquareInstagram, FaXTwitter } from "react-icons/fa6";
 

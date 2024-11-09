@@ -100,10 +100,9 @@ const MovieReview = ({ params }: { params: { id: string } }) => {
           rating,
         }),
       });
-      alert("Review added successfully");
       //redirecting user to the movie page
       setTimeout(() => {
-        alert(`Redirecting to ${movieData?.title} page`);
+        alert(`Review added successfully, redirecting to ${movieData?.title} page`);
         router.push(`/Movies/${movieid}`);
         router.refresh();
       }, 1000);

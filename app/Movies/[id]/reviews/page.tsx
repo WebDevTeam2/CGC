@@ -1,6 +1,7 @@
 "use client";
 import { baseUrl, clientOptions, imageURL, profanityList } from "@/app/Constants/constants";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa6";
 
@@ -12,6 +13,7 @@ const MovieReview = ({ params }: { params: { id: string } }) => {
   const [error, setError] = useState<string>("");
   const [userId, setUserId] = useState<string>();
   const [movieData, setMovieData] = useState<any>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchProfileDetails = async () => {
@@ -49,7 +51,7 @@ const MovieReview = ({ params }: { params: { id: string } }) => {
     const fetchMovieData = async () => {
       try {
         const response = await fetch(
-          `${baseUrl}/movie/${movieid}?${process.env.NEXT_PUBLIC_MOVIE_API_KEY}`,
+          `${baseUrl}movie/${movieid}?api_key=${process.env.NEXT_PUBLIC_MOVIE_API_KEY}`,
           clientOptions
         );
         const data = await response.json();
@@ -99,6 +101,13 @@ const MovieReview = ({ params }: { params: { id: string } }) => {
         }),
       });
       alert("Review added successfully");
+      //redirecting user to the movie page
+      setTimeout(() => {
+        alert(`Redirecting to ${movieData?.title} page`);
+        router.push(`/Movies/${movieid}`);
+        router.refresh();
+      }, 1000);
+
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     }

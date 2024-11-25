@@ -48,7 +48,7 @@ const UserMovieReviews = async ({ movieId }: { movieId: Number }) => {
           })}
         </div>
       ) : (
-        <div className="border border-gray-300 shadow-gray-600 bg-[#5d676f] p-4 rounded-lg shadow-md w-80 md:w-60 lg:w-72 overflow-auto user-review-container-empty">
+        <div className="border border-gray-300 user-review-containe text-[#e3e3e3] shadow-gray-600 bg-[#5d676f] p-4 rounded-lg shadow-md w-80 md:w-60 lg:w-72 overflow-auto user-review-container-empty">
           <span className="">No reviews at this moment.</span>
         </div>
       )}

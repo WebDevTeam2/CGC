@@ -1,10 +1,7 @@
 General:
   1.Optimization στο κομματι του κωδικα που κανει τις συνδεσεςι για τη βαση για καλυτερη αποδοση
-  
-
 
 MOVIES:
-   1. Σωστο Styling στο watchlist
-   2. Πιθανο section για completed movies, to watch movies
-   4. Να δουλεψει πιο σωστα το Random
-   5. Να μπουν σχολια παντου
+   1. Πιθανο section για completed movies, to watch movies
+   2. Να δουλεψει πιο σωστα το Random
+   3. Να μπουν σχολια παντου

@@ -80,7 +80,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
                   className="object-cover w-full h-full absolute"
                 />
               </div>
-              <div className="w-full max-w-sm md:max-w-md lg:max-w-4xl mx-auto">
+              <div className="w-full max-w-xs md:max-w-md lg:max-w-4xl mx-auto">
                 <span className="text-2xl">Watchlist: </span>
                 {/* Carousel Component */}
                 <Swiper

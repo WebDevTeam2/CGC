@@ -1,18 +1,10 @@
+General:
+  1.Optimization στο κομματι του κωδικα που κανει τις συνδεσεςι για τη βαση για καλυτερη αποδοση
+  
+
+
 MOVIES:
    1. Σωστο Styling στο watchlist
    2. Πιθανο section για completed movies, to watch movies
    4. Να δουλεψει πιο σωστα το Random
    5. Να μπουν σχολια παντου
-
-
- https://www.asimenio.gr/el/kolie-me-onoma/kolie-me-onoma-stauro-k-mati.html?ref=bestprice.gr&__bpgid=MXBgclBVWCMtZVIsMWV+NGFjVFUkLVA=
-
-
-WORD TODO:
-1) καλυτερα ονοματα στα modules
-2) θεωρητικα κομματια του client,server components να φυγουν απο την αρχιτεκτονικη και να πανε στο θεωρητικο μερος της React
-3) Optimization στο κομματι του κωδικα που κανει τις συνδεσεςι για τη βαση για καλυτερη αποδοση
-4) Περισσοτερες λεπτομεριες στη βιβλιογραφια σε οσα links δεν ειναι απο documentation(πχ απο blog να εχει author, τιτλο) 
-5) Τα images και tables να μπουν με indexing 
-6) Πιθανη αλλαγη στο κομματι της αρχιτεκτονικης του cinegame, στα client και server components να μπει ενα table που να εξηγει.
-7) αλλαγη ονοματος κεφαλαιου των external services σε κατι αλλο που να ταιριαζει περισσοτερο(πχ libraries)

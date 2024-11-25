@@ -160,7 +160,7 @@ const AccountGames = ({ userid }: GamesProps) => {
         <div className="flex sm:flex-row grow flex-col rounded-2xl shadow-lg mt-12 mb-[5.1rem] sm:mx-6 mx-4 bg-slate-300">
           <UserOptions />
           {/* option content */}
-          <div className="flex flex-col items-center min-[912px]:mx-12  mx-0 gap-0 mt-8 mb-10">
+          <div className="flex flex-col items-center min-[912px]:mx-12 mx-0 gap-0 mt-8 mb-10">
             <div className="relative min-[912px]:w-20 min-[912px]:h-20 w-16 h-16 rounded-full overflow-hidden group">
               <img
                 src={imageUrl || "/assets/images/default_avatar.jpg"}

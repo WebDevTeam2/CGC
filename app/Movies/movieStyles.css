@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @media ((min-width: 1024px )and (max-width: 1406px)) {
   /* .main-movies-pages,
   .main-shows-pages {
@@ -24,7 +28,8 @@
   }
 }
 @media (max-width: 768px) {
-  .id-main, .review-page {
+  .id-main,
+  .review-page {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -185,8 +190,7 @@ body {
   background-color: #1f1f1f;
 }
 
-
-.body-light .user-review-text, 
+.body-light .user-review-text,
 .body-light .rating-select {
   background-color: #e8e8e8;
   --tw-text-opacity: 1;
@@ -246,7 +250,6 @@ body {
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  /* Center slide text vertically */
   display: flex;
   justify-content: center;
   align-items: center;

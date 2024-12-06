@@ -1,7 +1,7 @@
 // app/api/fetchGame/route.ts
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const gameName = searchParams.get("gameName");
   const apiPosterKey = process.env.NEXT_PUBLIC_API_KEY;

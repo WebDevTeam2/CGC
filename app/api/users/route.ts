@@ -9,17 +9,13 @@ export async function POST(req: NextRequest) {
       email,
       password,
     });
-    return Response.json({
+    return NextResponse.json({
       message:
         "User added successfully, please check your email for verification.",
       result,
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Failed to add user:", error);
-    // Determine the appropriate status code and message
-    let status = 400;
-    let message = error.message || "Failed to add user";
-
-    return new Response(JSON.stringify({ message }), { status });
+    return NextResponse.json("Failed to add user", { status: 400 });
   }
 }

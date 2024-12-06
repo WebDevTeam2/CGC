@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "User not found" });
     }
 
-    return Response.json({
+    return NextResponse.json({
       message: "Profile picture updated successfully",
       profilePicture: updatedUserImage,
     });

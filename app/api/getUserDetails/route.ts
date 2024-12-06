@@ -1,12 +1,12 @@
 import { fetchUserDets } from "@/app/User Collection/connection";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const email = searchParams.get("email");
 
   if (!email || typeof email !== "string") {
-    return Response.json({ message: "Invalid email" });
+    return NextResponse.json({ message: "Invalid email" });
   }
 
   try {
@@ -15,11 +15,11 @@ export async function GET(req: NextRequest) {
     );
 
     if (!_id) {
-      return Response.json({ message: "User not found" });
+      return NextResponse.json({ message: "User not found" });
     }
-    return Response.json({ _id, profilePicture, library, watchlist });
+    return NextResponse.json({ _id, profilePicture, library, watchlist });
   } catch (error) {
     console.error("Error fetching User:", error);
-    return Response.json({ message: "Internal server error" });
+    return NextResponse.json({ message: "Internal server error" });
   }
 }

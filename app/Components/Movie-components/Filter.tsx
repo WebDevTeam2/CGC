@@ -16,9 +16,7 @@ const Filter = () => {
 
   useEffect(() => {
     const fetchMovieGenres = async () => {
-      const res = await fetch(
-        `https://api.themoviedb.org/3/genre/movie/list?language=en&api_key=${process.env.NEXT_PUBLIC_MOVIE_API_KEY}`, clientOptions
-      );
+      const res = await fetch(`/api/Movies/FetchGenres`);
       const data = await res.json();
       setGenres(data.genres);
     };

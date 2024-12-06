@@ -2,7 +2,12 @@
 import { FaStar } from "react-icons/fa";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { baseUrl, clientOptions, getVotecolor, imageURL } from "@/app/Constants/constants";
+import {
+  baseUrl,
+  clientOptions,
+  getVotecolor,
+  imageURL,
+} from "@/app/Constants/constants";
 import AddToWatchlist from "./AddToWatchlist";
 
 interface RecommendedShow {
@@ -15,10 +20,7 @@ interface RecommendedShow {
 
 //Function pou pairnei recommended tv shows apo to API
 const getRecommendedShows = async (id: string) => {
-  const res = await fetch(
-    `${baseUrl}/tv/${id}/recommendations?include_adult=false&language=en-US&page=1&${process.env.NEXT_PUBLIC_MOVIE_API_KEY}`,
-    clientOptions
-  );
+  const res = await fetch(`/api/Movies/FetchShowRecommendations/${id}`);
   const data = await res.json();
   return data.results;
 };
@@ -56,7 +58,7 @@ const TVShowsRecommendations = ({ tvShowID }: { tvShowID: string }) => {
             className="lg:hover:scale-110 md:hover:border md:hover:shadow-2xl md:hover:shadow-gray-600 lg:hover:border lg:hover:shadow-2xl lg:hover:shadow-gray-600 w-full transition duration-500 ease-in-out"
           >
             <Link href={`/Movies/TVShows/${item.id}`}>
-            <div className="w-full h-56 md:h-56 lg:h-96 relative">
+              <div className="w-full h-56 md:h-56 lg:h-96 relative">
                 <img
                   src={`${imageURL}${item.poster_path}`}
                   alt={item.name}

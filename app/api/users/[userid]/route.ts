@@ -8,9 +8,9 @@ export async function GET(
   const userid = params.userid;
   try {
     const result = await findUserById(userid);
-    return Response.json({ success: true, data: result });
+    return NextResponse.json({ success: true, data: result });
   } catch (err) {
-    return Response.json({ success: false, message: "No data found" });
+    return NextResponse.json({ success: false, message: "No data found" });
   }
 }
 
@@ -38,8 +38,8 @@ export async function PUT(
     // Update user in the database
     const result = await updateUserById(userid, updatedFields);
 
-    return Response.json({ success: true, data: result });
+    return NextResponse.json({ success: true, data: result });
   } catch (err) {
-    return Response.json({ success: false, message: "No data found" });
+    return NextResponse.json({ success: false, message: "No data found" });
   }
 }

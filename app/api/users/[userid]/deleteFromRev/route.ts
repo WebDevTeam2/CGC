@@ -1,6 +1,6 @@
 // pages/api/users/[userid].ts
 import { removeReview } from "@/app/User Collection/connection";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(req: NextRequest) {
   const { userid, reviewId } = await req.json();
@@ -10,15 +10,15 @@ export async function DELETE(req: NextRequest) {
     const removedGame = await removeReview(userid, reviewId);
 
     if (!removedGame) {
-      return Response.json({ success: false, message: "Game not found" });
+      return NextResponse.json({ success: false, message: "Game not found" });
     }
 
-    return Response.json({
+    return NextResponse.json({
       success: true,
       message: "Game removed successfully",
     });
   } catch (error) {
     console.error("Failed to remove game:", error);
-    return Response.json({ success: false, message: "Failed to remove game" });
+    return NextResponse.json({ success: false, message: "Failed to remove game" });
   }
 }

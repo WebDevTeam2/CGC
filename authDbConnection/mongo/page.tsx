@@ -5,7 +5,7 @@ const options: MongoClientOptions = {};
 
 if (!URI) throw new Error("Please add your Mongo URI to .env.local file");
 
-let client: MongoClient = new MongoClient(URI, options);
+const client: MongoClient = new MongoClient(URI, options);
 let clientPromise: Promise<MongoClient>;
 
 // Allow access to the global object in TypeScript
@@ -16,9 +16,7 @@ declare global {
 /* If the environment is not production, the code stores the 
 MongoDB client promise (clientPromise) in a global variable 
 (global._mongoClientPromise). This prevents creating a new 
-MongoDB connection every time the code is executed 
-(e.g., when your application reloads during development).
-*/
+MongoDB connection every time the code is executed */
 if (process.env.NODE_ENV !== "production") {
   if (!global._mongoClientPromise) {
     global._mongoClientPromise = client.connect();

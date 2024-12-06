@@ -13,8 +13,8 @@ async function init(): Promise<void> {
   if (db) return;
   try {
     client = await clientPromise;
-    db = await client.db();
-    users = await db.collection("users");
+    db = client.db();
+    users = db.collection("users");
   } catch (error) {
     console.error("Error during initialization:", error);
     throw new Error("Failed to establish connection to database");

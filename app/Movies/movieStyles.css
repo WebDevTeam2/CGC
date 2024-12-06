@@ -136,6 +136,14 @@ body {
   height: 100%;
 }
 
+.body-light {
+  background-color: #EEE3CB;
+}
+
+.body-dark {
+  background-color: #131313;
+}
+
 /* cards */
 .body-light .card-text-container,
 .body-light .rec-text-container {

@@ -29,7 +29,7 @@ export default function RootLayout({
     <SessionWrapper>
       <ThemeProvider>
         <html lang="en" className={`${roboto.className}`}>
-          <body className={` bg-[#EEE3CB] `}>
+          <body>
             <Nav />
             {children}
             <Footer />

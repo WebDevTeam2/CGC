@@ -41,7 +41,7 @@ export default function RootLayout({
 }>) {
   return (
     <SessionWrapper>
-      <html lang="en">
+      <html lang="en" className={ `${roboto.className}` }>
         <head>
           <title>
             {typeof metadata.title === "string"
@@ -102,7 +102,7 @@ export default function RootLayout({
             }}
           />
         </head>
-        <body className={` ${roboto.className} `}>
+        <body>
           <NextSSRPlugin
             /**
              * The `extractRouterConfig` will extract **only** the route configs

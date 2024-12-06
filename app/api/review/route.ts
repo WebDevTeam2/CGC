@@ -1,4 +1,3 @@
-import { profanityList } from "@/app/Constants/profanity";
 import { addMovieReview } from "@/app/User Collection/connection";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -49,7 +48,7 @@ export async function POST(req: NextRequest) {
       new Date()
     );
     if (!result?._id) {
-      return new Response("User not found or review not added", {
+      return NextResponse.json("User not found or review not added", {
         status: 400,
       });
     }
@@ -62,7 +61,7 @@ export async function POST(req: NextRequest) {
     const guestSessionId = guestSessionData.guest_session_id;
 
     if (!guestSessionId) {
-      return new Response("Failed to create a guest session", {
+      return NextResponse.json("Failed to create a guest session", {
         status: 500,
       });
     }
@@ -75,6 +74,6 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.error("Error adding review and posting rating:", error);
-    return new Response("Internal Server Error", { status: 500 });
+    return NextResponse.json("Internal Server Error", { status: 500 });
   }
 }

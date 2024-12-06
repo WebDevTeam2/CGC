@@ -18,7 +18,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
         body.classList.add("body-dark");
         body.classList.remove("text-black");
         body.classList.remove("body-light");
-        body.style.backgroundColor = "#131313";
+        // body.style.backgroundColor = "#131313";
         setIsDark(true);
       }
     } else {
@@ -27,7 +27,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
         body.classList.add("body-light");
         body.classList.remove("text-white");
         body.classList.remove("body-dark");
-        body.style.backgroundColor = "#EEE3CB";
+        // body.style.backgroundColor = "#EEE3CB";
       }
       setIsDark(false);
     }

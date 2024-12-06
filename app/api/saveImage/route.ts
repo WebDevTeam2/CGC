@@ -1,5 +1,5 @@
 import { updateUserImage } from "@/app/User Collection/connection";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 // import { connectToDatabase } from "@/utils/mongodb"; // A helper function to connect to your MongoDB
 // import User from "@/models/User"; // Your Mongoose User model
@@ -10,13 +10,13 @@ export async function POST(req: NextRequest) {
 
     // Ensure we have both email and profilePicture from the client
     if (!email || !profilePicture) {
-      return Response.json({ message: "Missing email or profile picture URL" });
+      return NextResponse.json({ message: "Missing email or profile picture URL" });
     }
 
     const updatedUserImage = await updateUserImage(email, profilePicture);
 
     if (!updatedUserImage) {
-      return Response.json({ message: "User not found" });
+      return NextResponse.json({ message: "User not found" });
     }
 
     return Response.json({
@@ -25,6 +25,6 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.error("Error updating profile picture:", error);
-    return Response.json({ message: "Internal server error" });
+    return NextResponse.json({ message: "Internal server error" });
   }
 }

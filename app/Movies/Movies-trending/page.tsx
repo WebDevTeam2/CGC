@@ -10,7 +10,6 @@ const ApiURL = baseUrl+ "trending/movie/day?page=1&language=en-US&" + process.en
 const getMovieData = async (url: string) => {
   const res = await fetch(url, options);
   const data = await res.json();
-  console.log(url);
   return data;
 };
 

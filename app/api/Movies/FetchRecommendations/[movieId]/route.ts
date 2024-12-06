@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest, {params}: {params: {movieId: string}}) {
   try {
     const {movieId} = params;
-    console.log(movieId);
     if (!movieId) {
       return NextResponse.json(
         { message: "Movie ID is required" },

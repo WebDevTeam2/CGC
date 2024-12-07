@@ -12,7 +12,7 @@ export async function GET(req: NextRequest, {params}: any) {
     if (!existingUser) {
       return NextResponse.json("User not found", { status: 404 });
     }
-
+    console.log(existingUser);
     return NextResponse.json(existingUser);
   } catch (error) {
     console.error("Error fetching user:", error);

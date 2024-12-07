@@ -3,5 +3,4 @@ General:
 
 MOVIES:
    1. Πιθανο section για completed movies, to watch movies
-   2. Να δουλεψει πιο σωστα το Random
    3. Να μπουν σχολια παντου

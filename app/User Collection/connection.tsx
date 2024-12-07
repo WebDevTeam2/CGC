@@ -125,6 +125,7 @@ export const addUserOath = async (data: User) => {
   }
 };
 
+//FUNCTION SENDING VERIFICATION TO EMAIL
 const sendVerificationEmail = async (email: string, token: string) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -157,6 +158,7 @@ const sendVerificationEmail = async (email: string, token: string) => {
   await transporter.sendMail(mailOptions);
 };
 
+//FUNCTION CHECKS USER EXISTANCE (USERNAME AND EMAIL FOR ERROR CLARIFICATION)
 export const checkUserExists = async (username: string, email: string) => {
   if (!users) throw new Error("Users collection is not initialized");
   try {
@@ -173,7 +175,7 @@ export const checkUserExists = async (username: string, email: string) => {
   }
 };
 
-//this function is being called in the api (signup)
+//FUNCTION CALLED IN THE API (SIGNUP)
 export const verifyUserEmail = async (token: string) => {
   if (!users) await init();
   if (!users) throw new Error("Users collection is not initialized");
@@ -208,13 +210,13 @@ export const verifyUserEmail = async (token: string) => {
   }
 };
 
+//FUNCTION USED IN SIGNIN
 export const logUser = async (email: string, password: string) => {
   if (!users) await init();
   if (!users) throw new Error("Users collection is not initialized");
 
   try {
     const user = await users.findOne({ email });
-    console.log("logUser worked");
     if (!user) {
       return { status: 400, message: "User does not exist" };
     }
@@ -247,6 +249,7 @@ export const logUser = async (email: string, password: string) => {
   }
 };
 
+//FUNCTION TO FIND USER BY EMAIL
 export const findUserByEmail = async (email: string) => {
   if (!users) await init();
   if (!users) throw new Error("Users collection is not initialized");
@@ -254,6 +257,7 @@ export const findUserByEmail = async (email: string) => {
   return await users.findOne({ email });
 };
 
+//FIND ALL USERS FROM DB (USED FOR RENDERING ALL REVIEWS FOR A GAME)
 export const findAllUsers = async () => {
   if (!users) await init();
   if (!users) throw new Error("Users collection is not initialized");
@@ -261,6 +265,7 @@ export const findAllUsers = async () => {
   return await users.find({}).toArray();
 };
 
+//FUNCTION TO UPDATE USER IMAGE
 export const updateUserImage = async (
   email: string,
   profilePicture: string
@@ -278,7 +283,7 @@ export const updateUserImage = async (
   return result?.profilePicture;
 };
 
-// Function to fetch the user's profile picture from the database
+// FUNCTION TO FETCH USER DETAILS SPECIFIC FOR PROFILE
 export const fetchUserDets = async (email: string) => {
   if (!users) await init(); // Initialize the database if not already done
   if (!users) throw new Error("Users collection is not initialized");
@@ -291,7 +296,6 @@ export const fetchUserDets = async (email: string) => {
       throw new Error("User not found");
     }
 
-    // console.log(user._id);
     return {
       _id: user._id.toString(), // Convert _id to string to avoid BSON issues on the client-side
       profilePicture: user.profilePicture || null, // Return the profile picture or null if not set
@@ -317,6 +321,7 @@ export const findUserById = async (id: string) => {
   }
 };
 
+//FUNCTION TO UPDATE USER FIELDS
 export const updateUserById = async (
   id: string,
   updatedFields: { username?: string; password?: string }
@@ -338,7 +343,7 @@ export const updateUserById = async (
   }
 };
 
-//Add to watchlist
+//FUNTION ADDING A MOVIE TO WATCHLIST
 export const addToWatchlist = async (userId: string, movieId: number) => {
   if (!users) await init();
   if (!users) throw new Error("Users collection is not initialized");
@@ -357,6 +362,7 @@ export const addToWatchlist = async (userId: string, movieId: number) => {
   }
 };
 
+//ADD GAME TO LIBRARY
 export const addToList = async (
   userId: string,
   gameId: number,
@@ -398,6 +404,7 @@ export const addToList = async (
   }
 };
 
+//ADD MOVIE REVIEW
 export const addMovieReview = async (
   userId: string,
   movieId: number,
@@ -441,6 +448,7 @@ export const addMovieReview = async (
   }
 };
 
+//ADDING USER REVIEW
 export const addUserReview = async (
   userId: string,
   gameId: number,
@@ -484,7 +492,7 @@ export const addUserReview = async (
   }
 };
 
-// Function to delete user by ID
+// FUNCTION TO DELETE USER FROM PROFILE
 export const deleteUserById = async (userId: string) => {
   try {
     if (!users) await init();
@@ -507,6 +515,7 @@ export const deleteUserById = async (userId: string) => {
   }
 };
 
+//FUNCTION TO REMOVE GAME FROM PROFILE
 export const removeGame = async (userId: string, libraryId: number) => {
   try {
     if (!users) await init();
@@ -532,6 +541,7 @@ export const removeGame = async (userId: string, libraryId: number) => {
   }
 };
 
+//FUNCTION TO REMOVE REVIEW FROM PROFILE
 export const removeReview = async (userId: string, reviewId: number) => {
   try {
     if (!users) await init();

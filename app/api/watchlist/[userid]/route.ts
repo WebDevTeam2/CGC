@@ -1,8 +1,6 @@
+import { baseUrl } from "@/app/Constants/constants";
 import { addToWatchlist, findUserById } from "@/app/User Collection/connection";
 import { NextRequest, NextResponse } from "next/server";
-
-const baseUrl = "https://api.themoviedb.org/3/";
-const imageURL = "https://image.tmdb.org/t/p/w500";
 
 export async function POST(
   req: NextRequest,

@@ -169,7 +169,6 @@ const AccountInfo = ({ userid }: AccountProps) => {
     // Prepare the data object to be sent in the update
     const updatedData: any = {
       username: formData.username,
-      email: formData.email,
     };
 
     // Only include password if it is not empty and valid

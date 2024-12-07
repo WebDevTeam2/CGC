@@ -3,7 +3,7 @@ import { useEffect, useState, MouseEvent } from "react";
 import UserOptions from "./UserOptions";
 import Popup from "../Popup";
 import bcrypt from "bcryptjs";
-import { UploadButton } from "@/app/api/uploadthing/route";
+import { UploadButton } from "@/app/Uploadthing/uploadthing";
 import { useSession, signOut } from "next-auth/react";
 import Footer from "../Footer";
 import Link from "next/link";

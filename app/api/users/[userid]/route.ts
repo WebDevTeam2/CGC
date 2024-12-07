@@ -27,7 +27,6 @@ export async function PUT(
     // Prepare the updated fields
     const updatedFields: any = {
       username: username || currentUser?.username, // Default to current username if not provided
-      email: email || currentUser?.email, // Default to current email if not provided
     };
 
     // Only update password if it's provided and non-empty

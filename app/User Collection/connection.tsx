@@ -319,7 +319,7 @@ export const findUserById = async (id: string) => {
 
 export const updateUserById = async (
   id: string,
-  updatedFields: { username?: string; email?: string; password?: string }
+  updatedFields: { username?: string; password?: string }
 ) => {
   if (!users) await init();
   if (!users) throw new Error("Users collection is not initialized");

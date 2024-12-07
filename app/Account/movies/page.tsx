@@ -20,11 +20,10 @@ interface Movie {
   poster_path: string;
 }
 
-const Account = ({ params }: { params: { userid: string } }) => {
+const ViewWatchlist = () => {
   const { data: session } = useSession();
   const [user, setUser] = useState<any>(null);
   const [watchlistMovies, setWatchlistMovies] = useState<Movie[]>([]);
-  const { userid } = params;
 
   useEffect(() => {
     const fetchProfileDetails = async () => {
@@ -44,7 +43,7 @@ const Account = ({ params }: { params: { userid: string } }) => {
 
           // Check if the data contains a valid id
           if (data?._id) {
-            setUser(data);           
+            setUser(data);
           } else {
             console.log("No profile found for this user.");
           }
@@ -148,4 +147,4 @@ const Account = ({ params }: { params: { userid: string } }) => {
   );
 };
 
-export default Account;
+export default ViewWatchlist;

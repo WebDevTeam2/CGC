@@ -8,12 +8,10 @@ const UserOptions = () => {
   const { data: session } = useSession();
   const [userId, setUserId] = useState<string>("");
 
-  // // Fetch the user's details from the database on component mount
   useEffect(() => {
     const fetchProfileDetails = async () => {
       if (session?.user?.email) {
         try {
-          // Fetch response using the email as a query param
           const response = await fetch(
             `/api/getUserDetails/${session.user.email}`
           );
@@ -54,7 +52,7 @@ const UserOptions = () => {
             Games
           </li>
         </Link>
-        <Link href={`/Account/${userId}/movies`} className="grow">
+        <Link href={`/Account/movies`} className="grow">
           <li className="cursor-pointer w-full transition-all duration-200 hover:text-white p-4">
             Movies
           </li>

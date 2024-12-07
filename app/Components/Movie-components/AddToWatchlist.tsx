@@ -18,7 +18,7 @@ const AddToWatchlist = ({ movieId }: AddToWatchlistProps) => {
         try {
           // Fetch the user details using the email
           const response = await fetch(
-            `/api/getUserDetails?email=${session.user.email}`
+            `/api/getUserDetails/${session.user.email}`
           );
 
           if (!response.ok) {

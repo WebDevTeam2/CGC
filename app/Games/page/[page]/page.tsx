@@ -8,9 +8,9 @@ import { pageSize } from "@/app/Constants/constants";
 import {
   fetchAndCombineDataSimple,
   paginateGames,
-  fetchGameDetails,
   extractGenres,
   sortGamesByRelease,
+  fetchGameDetails,
 } from "@/app/Game Collection/functions";
 import Sort from "@/app/Components/Game-components/Sort";
 import GameList from "@/app/Components/Game-components/GameList";

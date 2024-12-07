@@ -8,11 +8,11 @@ import { authOptions } from "@/authDbConnection/authOptions";
 import {
   convertToStars,
   roundNum,
-  getGameDets,
+  getGameInfoByName,
 } from "@/app/Game Collection/functions";
 
 const GameDets = async ({ params }: { params: any }) => {
-  const game = await getGameDets(params.name);
+  const game = await getGameInfoByName(params.name);
   const session = await getServerSession(authOptions);
   const userEmail = session?.user?.email; // You get this from session
 

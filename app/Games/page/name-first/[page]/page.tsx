@@ -6,9 +6,9 @@ import SearchBar from "@/app/Components/Game-components/SearchBar";
 import { pageSize } from "@/app/Constants/constants";
 import {
   paginateGames,
-  fetchGameDetails,
   fetchByName,
   extractGenres,
+  fetchGameDetails,
 } from "@/app/Game Collection/functions";
 import Sort from "@/app/Components/Game-components/Sort";
 import Genres from "@/app/Components/Game-components/Genres";

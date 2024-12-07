@@ -28,6 +28,7 @@ async function init(): Promise<void> {
   await init();
 })();
 
+//THIS FUNCTION RETURNS THE GAME DATA PER PAGE (STARTING FROM PAGE 1)
 const getGameData = async (url: string, page: number) => {
   try {
     const res = await fetch(`${url}&page=${page}`);
@@ -47,22 +48,11 @@ const getGameData = async (url: string, page: number) => {
 
 let cachedGames: PostResult[] | null = null;
 
-//function to sort the games based on their release
-export const sortGamesByRelease = (games: PostResult[]) => {
-  return games.sort((a, b) => {
-    const dateA = new Date(a.released);
-    const dateB = new Date(b.released);
-    return dateB.getTime() - dateA.getTime();
-  });
-};
-
-let cachedG: PostResult[] | null = null;
-let lastUpdated: Date | null = null;
-
+//MAIN FUNCTION RETURNING GAMES BASED ON YEAR
 export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
   const currentTime = new Date();
 
-  // If we have cached games and the last update was within the last month, return cached games
+  //LOGIC TO RETURN NEW UPDATED CONTENT IF A MONTH HAS PASSED
   if (cachedG && lastUpdated) {
     const timeDifference = currentTime.getTime() - lastUpdated.getTime();
     const oneMonthInMs = 30 * 24 * 60 * 60 * 1000; // Approximate one month in milliseconds
@@ -108,9 +98,6 @@ export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
               background_image: 1,
             })
             .toArray()) as PostResult[];
-          // console.log(
-          //   `MongoDB returned ${gamesInRange.length} games for range ${dateRange}`
-          // );
 
           // Convert ObjectId to string if MongoDB returns games
           const processedGames = gamesInRange.map((game) => ({
@@ -127,9 +114,6 @@ export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
             const dateRangeUrl = `${apiPosterUrl}&dates=${dateRange}&page_size=40`;
             const gameResults = await getGameData(dateRangeUrl, 1);
             const slicedResults = gameResults.slice(0, 40);
-            // console.log(
-            //   `Fetched ${slicedResults.length} games from RAWG API for date range ${dateRange}`
-            // );
 
             // Upsert games fetched from RAWG API into MongoDB
             if (slicedResults.length) {
@@ -140,9 +124,6 @@ export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
                   upsert: true,
                 },
               }));
-              // console.log(
-              //   `Upserting ${bulkOperations.length} games to MongoDB for date range ${dateRange}`
-              // );
               await games?.bulkWrite(bulkOperations, { ordered: false });
             }
 
@@ -167,6 +148,17 @@ export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
     throw error;
   }
 };
+//function to sort the games based on their release
+export const sortGamesByRelease = (games: PostResult[]) => {
+  return games.sort((a, b) => {
+    const dateA = new Date(a.released);
+    const dateB = new Date(b.released);
+    return dateB.getTime() - dateA.getTime();
+  });
+};
+
+let cachedG: PostResult[] | null = null;
+let lastUpdated: Date | null = null;
 
 export const extractGenres = async () => {
   try {
@@ -197,12 +189,12 @@ export const extractGenres = async () => {
   }
 };
 
-export const shuffleArray = <T,>(array: T[]): void => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-};
+// export const shuffleArray = <T,>(array: T[]): void => {
+//   for (let i = array.length - 1; i > 0; i--) {
+//     const j = Math.floor(Math.random() * (i + 1));
+//     [array[i], array[j]] = [array[j], array[i]];
+//   }
+// };
 
 const platformIds: { [key: string]: number } = {
   pc: 1,
@@ -211,7 +203,7 @@ const platformIds: { [key: string]: number } = {
   nintendo: 7,
 };
 
-//this works for the company page games
+//this works for the company logo games
 export const fetchAndCombineData = async (name: string) => {
   const platformId = platformIds[name.toLowerCase()];
   if (!platformId) {
@@ -408,18 +400,19 @@ export const fetchByRatingConsole = async (name: string) => {
   return sortedGames;
 };
 
-//this function sorts the greatest games first
+//this function sorts by name alphabetically
 export const fetchByNameConsole = async (name: string) => {
   // Get all games fetched by the first function
   const allGames = await fetchAndCombineData(name);
 
-  // Sort the games by rating in descending order
+  // Sort the games by name in descending order
   const sortedGames = allGames.sort((a, b) => a.name.localeCompare(b.name));
 
   // Return the sorted games
   return sortedGames;
 };
 
+//FUNCTION THAT RETURNS 15 GAMES PER PAGE
 export const paginateGames = (
   games: PostResult[],
   page: number,
@@ -427,12 +420,10 @@ export const paginateGames = (
 ) => {
   const start = (page - 1) * pageSize;
   const end = start + pageSize;
-  console.log(
-    `Page: ${page}, Start: ${start}, End: ${end}, Total Games: ${games.length}`
-  );
   return games.slice(start, end);
 };
 
+//FUNCTION TO GET GAME DETAILS
 export const fetchGameDetails = async (game: PostResult) => {
   try {
     const gameRes = await fetch(`${basePosterUrl}/${game.id}?${apiPosterKey}`);
@@ -455,6 +446,7 @@ export const fetchGameDetails = async (game: PostResult) => {
   }
 };
 
+//FUNCTION THAT ROUNDS NUMBER OF RATING (USED ON GAME DETAILS)
 export const roundNum = (rating_count: number) => {
   let newNum;
   if (rating_count >= 1000) newNum = (rating_count / 1000).toFixed(1) + "K";
@@ -462,6 +454,7 @@ export const roundNum = (rating_count: number) => {
   return newNum;
 };
 
+//FUNCTION THAT CONVERTS RATING TO STARS (USED ON GAME DETAILS)
 export const convertToStars = (rating: number) => {
   const newR: JSX.Element[] = [];
   const whole = Math.floor(rating); //2
@@ -513,12 +506,14 @@ export const convertToStars = (rating: number) => {
   return newR;
 };
 
-export const getGameDets = async (name: string) => {
+//FUNCTION TO FETCH GAME INFORMATION (USED ON PAGE UNDER NAME)
+export const getGameInfoByName = async (name: string) => {
   const res = await fetch(basePosterUrl + "/" + name + "?" + apiPosterKey);
   const data = await res.json();
   return data;
 };
 
+//FUNCTIONS TO FETCH USER REVIEWS ON ALL USERS BASED ON GAME
 export const getUserReviews = async (allUsers: User[], gameId: number) => {
   // Process all users asynchronously and return reviews filtered by gameId
   const gameReviews = allUsers
@@ -534,12 +529,13 @@ export const getUserReviews = async (allUsers: User[], gameId: number) => {
   return gameReviews;
 };
 
+//FUNCTION TO FETCH GAME SCREENSHOTS
 export async function getScreenshots(slug: string) {
   try {
     const res = await fetch(
       `${basePosterUrl}/${slug}/screenshots?${apiPosterKey}`,
       {
-        // Adding `cache: "no-store"` ensures fresh data on each request if needed
+        // Adding no-store ensures fresh data on each request if needed
         cache: "no-store",
       }
     );

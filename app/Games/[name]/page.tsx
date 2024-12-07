@@ -12,7 +12,7 @@ export default async function Games({ params }: { params: any }) {
     <div>
       <NavBar />
       <SearchBar games={gameData} />
-      <div className="bg-stone-700 z-0 bg-cover fixed h-screen w-screen"></div>
+      <div className="bg-stone-800 z-0 bg-cover fixed h-screen w-screen"></div>
       <GameDets params={params} />
       <UserReviews params={params} />
       <Footer />

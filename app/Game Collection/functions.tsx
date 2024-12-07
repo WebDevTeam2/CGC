@@ -319,8 +319,6 @@ export const fetchByGenreConsoleRelease = async (
   const filteredGames = allGames.sort((a, b) => {
     const dateA = new Date(a.released);
     const dateB = new Date(b.released);
-    // console.log(dateA);
-    // console.log(dateB.getTime() - dateA.getTime());
     return dateB.getTime() - dateA.getTime();
   });
 
@@ -337,12 +335,8 @@ export const fetchByRelease = async () => {
   const filteredGames = allGames.sort((a, b) => {
     const dateA = new Date(b.released);
     const dateB = new Date(a.released);
-    // console.log(dateA);
-    // console.log(dateB.getTime() - dateA.getTime());
     return dateB.getTime() - dateA.getTime();
   });
-
-  // console.log(filteredGames);
   return filteredGames;
 };
 

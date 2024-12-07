@@ -37,7 +37,7 @@ const AddToList = ({ gameName }: { gameName: string }) => {
         try {
           // Fetch the profile picture using the email as a query param
           const response = await fetch(
-            `/api/getUserDetails?email=${session.user.email}`
+            `/api/getUserDetails/${session.user.email}`
           );
 
           if (!response.ok) {

@@ -49,9 +49,9 @@ export default function Nav() {
     const fetchProfileDetails = async () => {
       if (session?.user?.email) {
         try {
-          // Fetch the profile picture using the email as a query param
+          // Fetch the profile picture 
           const response = await fetch(
-            `/api/getUserDetails?email=${session.user.email}`
+            `/api/getUserDetails/${session.user.email}`
           );
 
           if (!response.ok) {

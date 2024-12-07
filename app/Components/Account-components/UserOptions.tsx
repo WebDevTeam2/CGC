@@ -15,7 +15,7 @@ const UserOptions = () => {
         try {
           // Fetch response using the email as a query param
           const response = await fetch(
-            `/api/getUserDetails?email=${session.user.email}`
+            `/api/getUserDetails/${session.user.email}`
           );
 
           if (!response.ok) {

@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa6";
 
 const MovieReview = ({ params }: { params: { id: string } }) => {
-  const movieid = params.id;
+  const movieId = params.id;
   const { data: session } = useSession();
   const [review, setReview] = useState<string>("");
   const [rating, setRating] = useState<number>(0);
@@ -22,7 +22,7 @@ const MovieReview = ({ params }: { params: { id: string } }) => {
         try {
           // Fetch the profile picture using the email as a query param
           const response = await fetch(
-            `/api/getUserDetails?email=${session.user.email}`
+            `/api/getUserDetails/${session.user.email}`
           );
 
           if (!response.ok) {
@@ -51,10 +51,7 @@ const MovieReview = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     const fetchMovieData = async () => {
       try {
-        const response = await fetch(
-          `${baseUrl}movie/${movieid}?api_key=${process.env.NEXT_PUBLIC_MOVIE_API_KEY}`,
-          clientOptions
-        );
+        const response = await fetch(`/api/Movies/FetchMovie/${movieId}`);
         const data = await response.json();
         setMovieData(data);
       } catch (error) {
@@ -62,7 +59,7 @@ const MovieReview = ({ params }: { params: { id: string } }) => {
       }
     };
     fetchMovieData();
-  }, [movieid]);
+  }, [movieId]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -71,7 +68,7 @@ const MovieReview = ({ params }: { params: { id: string } }) => {
     const words = review.toLowerCase().trim().split(" ");
     for (const word of words) {
       if (profanityList.has(word)) {
-        setError("Your review contains inappropriate language.");        
+        setError("Your review contains inappropriate language.");
         return;
       }
     }
@@ -95,7 +92,7 @@ const MovieReview = ({ params }: { params: { id: string } }) => {
         },
         body: JSON.stringify({
           userId,
-          movieid: Number(movieid),
+          movieid: Number(movieId),
           movieName: movieData?.title,
           review,
           rating,
@@ -103,11 +100,12 @@ const MovieReview = ({ params }: { params: { id: string } }) => {
       });
       //redirecting user to the movie page
       setTimeout(() => {
-        alert(`Review added successfully, redirecting to ${movieData?.title} page`);
-        router.push(`/Movies/${movieid}`);
+        alert(
+          `Review added successfully, redirecting to ${movieData?.title} page`
+        );
+        router.push(`/Movies/${movieId}`);
         router.refresh();
       }, 1000);
-
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     }

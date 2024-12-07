@@ -8,7 +8,6 @@ const UserOptions = () => {
   const { data: session } = useSession();
   const [userId, setUserId] = useState<string>("");
 
-  // // Fetch the user's details from the database on component mount
   useEffect(() => {
     const fetchProfileDetails = async () => {
       if (session?.user?.email) {

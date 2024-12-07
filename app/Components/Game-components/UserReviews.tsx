@@ -1,11 +1,14 @@
-import { getGameDets, getUserReviews } from "@/app/Game Collection/functions";
+import {
+  getGameInfoByName,
+  getUserReviews,
+} from "@/app/Game Collection/functions";
 import { findAllUsers } from "@/app/User Collection/connection";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/authDbConnection/authOptions";
 import React from "react";
 
 const UserReviews = async ({ params }: { params: any }) => {
-  const game = await getGameDets(params.name);
+  const game = await getGameInfoByName(params.name);
   const session = await getServerSession(authOptions);
   let allUsers;
   // Fetch all users from MongoDB

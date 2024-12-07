@@ -433,6 +433,7 @@ export const paginateGames = (
   return games.slice(start, end);
 };
 
+//FUNCTION TO GET GAME DETAILS
 export const fetchGameDetails = async (game: PostResult) => {
   try {
     const gameRes = await fetch(`${basePosterUrl}/${game.id}?${apiPosterKey}`);
@@ -455,6 +456,7 @@ export const fetchGameDetails = async (game: PostResult) => {
   }
 };
 
+//FUNCTION THAT ROUNDS NUMBER OF RATING (USED ON GAME DETAILS)
 export const roundNum = (rating_count: number) => {
   let newNum;
   if (rating_count >= 1000) newNum = (rating_count / 1000).toFixed(1) + "K";
@@ -462,6 +464,7 @@ export const roundNum = (rating_count: number) => {
   return newNum;
 };
 
+//FUNCTION THAT CONVERTS RATING TO STARS (USED ON GAME DETAILS)
 export const convertToStars = (rating: number) => {
   const newR: JSX.Element[] = [];
   const whole = Math.floor(rating); //2
@@ -513,12 +516,14 @@ export const convertToStars = (rating: number) => {
   return newR;
 };
 
-export const getGameDets = async (name: string) => {
+//FUNCTION TO FETCH GAME INFORMATION (USED ON PAGE UNDER NAME)
+export const getGameInfoByName = async (name: string) => {
   const res = await fetch(basePosterUrl + "/" + name + "?" + apiPosterKey);
   const data = await res.json();
   return data;
 };
 
+//FUNCTIONS TO FETCH USER REVIEWS ON ALL USERS BASED ON GAME
 export const getUserReviews = async (allUsers: User[], gameId: number) => {
   // Process all users asynchronously and return reviews filtered by gameId
   const gameReviews = allUsers
@@ -534,12 +539,13 @@ export const getUserReviews = async (allUsers: User[], gameId: number) => {
   return gameReviews;
 };
 
+//FUNCTION TO FETCH GAME SCREENSHOTS
 export async function getScreenshots(slug: string) {
   try {
     const res = await fetch(
       `${basePosterUrl}/${slug}/screenshots?${apiPosterKey}`,
       {
-        // Adding `cache: "no-store"` ensures fresh data on each request if needed
+        // Adding no-store ensures fresh data on each request if needed
         cache: "no-store",
       }
     );

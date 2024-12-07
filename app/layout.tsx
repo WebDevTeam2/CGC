@@ -15,6 +15,7 @@ const roboto = Roboto({
   display: "swap",
 });
 
+//Metadata of site, all help increasing of SEO
 export const metadata: Metadata = {
   title: "CineGame Critic - Reviews of Movies & Games",
   description:
@@ -41,7 +42,7 @@ export default function RootLayout({
 }>) {
   return (
     <SessionWrapper>
-      <html lang="en" className={ `${roboto.className}` }>
+      <html lang="en" className={`${roboto.className}`}>
         <head>
           <title>
             {typeof metadata.title === "string"

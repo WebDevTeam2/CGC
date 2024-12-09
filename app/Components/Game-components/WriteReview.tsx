@@ -1,9 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../Footer";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ObjectId } from "mongodb";
+import { useSession } from "next-auth/react";
 
 const reactions = [
   { id: 5, reaction: "😃" },
@@ -35,12 +35,13 @@ interface PostPage {
 }
 
 interface Info {
-  userId: ObjectId;
   game: PostPage;
 }
 
-const WriteReview: React.FC<Info> = ({ userId, game }) => {
+const WriteReview: React.FC<Info> = ({ game }) => {
+  const { data: session } = useSession();
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [user, setUser] = useState<any>(null);
   const [reviewText, setReviewText] = useState<string>("");
   const [selectedReaction, setSelectedReaction] = useState<string | null>(null);
   const router = useRouter();
@@ -48,6 +49,24 @@ const WriteReview: React.FC<Info> = ({ userId, game }) => {
   const handleReactionClick = (title: string) => {
     setSelectedReaction(title);
   };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (session?.user?.email) {
+        const response = await fetch(
+          `/api/getUserDetails/${session.user.email}`
+        );
+        const data = await response.json();
+        if(data._id) {
+          setUser(data);
+        } else {
+          console.error("Error fetching user details:", response.statusText);
+        }
+      }
+    };
+    fetchUser();
+  }, [session?.user?.email]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -60,7 +79,7 @@ const WriteReview: React.FC<Info> = ({ userId, game }) => {
     };
 
     try {
-      const response = await fetch(`/api/review/${userId}`, {
+      const response = await fetch(`/api/review/${user._id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

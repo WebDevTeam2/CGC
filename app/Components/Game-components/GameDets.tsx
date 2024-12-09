@@ -123,7 +123,7 @@ const GameDets = async ({ params }: { params: any }) => {
               <>
                 <div className="mt-4 gap-4 flex sm:flex-row sm:text-lg text-md flex-col w-full justify-between items-center">
                   <Link
-                    href={`/Games/${game.slug}/review/${dbUser._id}`}
+                    href={`/Games/${game.slug}/review`}
                     className="bg-neutral-600 hover:bg-neutral-800 py-1 px-4 rounded-xl transition-all duration-200 hover:scale-105"
                   >
                     Write a review

@@ -7,7 +7,6 @@ export async function GET(
 ) {
   try {
     const { tvShowID } = params;
-    console.log(tvShowID);
     if (!tvShowID) {
       return NextResponse.json(
         { message: "Movie ID is required" },

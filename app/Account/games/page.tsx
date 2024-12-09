@@ -1,10 +1,10 @@
 "use client";
 import AccountGames from "@/app/Components/Account-components/AccountGames";
 
-const Account = ({ params }: { params: { userid: string } }) => {
+const Account = () => {
   return (
     <div>
-      <AccountGames userid={params.userid} />
+      <AccountGames />
     </div>
   );
 };

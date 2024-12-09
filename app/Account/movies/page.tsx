@@ -10,7 +10,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
-import { getVotecolor } from "@/app/Constants/constants";
+import { getVotecolor, User } from "@/app/Constants/constants";
 import Footer from "@/app/Components/Footer";
 
 interface Movie {

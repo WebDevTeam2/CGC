@@ -58,19 +58,19 @@ export interface Library {
   gamePic: string;
   date: string; // ISO date string
 }
-export interface User {
-  username?: string;
-  name?: string;
-  email: string;
-  password?: string;
-  profilePicture?: string;
-  user_reviews?: Review[];
-  library?: Library[];
-  verificationToken?: string;
-  isVerified?: boolean;
-  provider?: string;
-  watchlist?: number[];
-}
+  export interface User {
+    username?: string;
+    name?: string;
+    email: string;
+    password?: string;
+    profilePicture?: string;
+    user_reviews?: Review[];
+    library?: Library[];
+    verificationToken?: string;
+    isVerified?: boolean;
+    provider?: string;
+    watchlist?: number[];
+  }
 
 //game interfaces
 export interface Platform {

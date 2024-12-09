@@ -4,20 +4,18 @@ import Link from "next/link";
 import UserOptions from "./UserOptions";
 import PopupForLib from "../Game-components/PopupForLib";
 import { User } from "@/app/Constants/constants";
-import Footer from "../Footer"; 
+import Footer from "../Footer";
+import { useSession } from "next-auth/react";
 
-interface GamesProps {
-  userid: string;
-}
 type GameData = {
   reviewId?: number;
   libraryId?: number;
 } | null;
 
-const AccountGames = ({ userid }: GamesProps) => {
-  const [user, setUser] = useState<User | null>(null);
+const AccountGames = () => {
+  const { data: session } = useSession();
+  const [user, setUser] = useState<any>(null);
   const [isSuccess, setIsSuccess] = useState(true);
-  const [imageUrl, setImageUrl] = useState<string>("");
   const [popupLib, setPopupLib] = useState<boolean>(false);
   const [popupRev, setPopupRev] = useState<boolean>(false);
   const [data, setData] = useState<GameData>(null);
@@ -26,6 +24,31 @@ const AccountGames = ({ userid }: GamesProps) => {
   useEffect(() => {
     if (isSuccess && user) setIsLoaded(true);
   }, [isSuccess, user]);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (session?.user?.email) {
+        try {
+          const res = await fetch(`/api/getUserDetails/${session.user.email}`, {
+            method: "GET",
+          });
+          if (!res.ok) {
+            console.error("Error fetching user details");
+            return;
+          }
+          const data = await res.json();
+          if (data?._id) {
+            setUser(data);
+          } else {
+            console.log("No profile found for this user.");
+          }
+        } catch (error) {
+          console.error("failed to fetch user profile", error);
+        }
+      }
+    };
+    fetchUser();
+  }, [session?.user?.email]);
 
   // start of review section
   const handleDeleteRev = async (
@@ -39,22 +62,22 @@ const AccountGames = ({ userid }: GamesProps) => {
 
   const confirmDeleteRev = async () => {
     try {
-      const response = await fetch(`/api/users/${userid}/deleteFromRev`, {
+      const response = await fetch(`/api/users/${user._id}/deleteFromRev`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userid: userid, reviewId: data?.reviewId }), // Ensure you are passing the correct userId
+        body: JSON.stringify({ userid: user._id, reviewId: data?.reviewId }), // Ensure you are passing the correct userId
       });
 
       if (response.ok) {
         alert("Review removed from list");
-        setUser((prevUser) => {
+        setUser((prevUser: any) => {
           if (!prevUser) return prevUser; // Handle the case when user is null
           return {
             ...prevUser,
             user_reviews: prevUser.user_reviews?.filter(
-              (game) => game.reviewId !== data?.reviewId
+              (game: any) => game.reviewId !== data?.reviewId
             ),
           };
         });
@@ -90,22 +113,22 @@ const AccountGames = ({ userid }: GamesProps) => {
 
   const confirmDeleteLib = async () => {
     try {
-      const response = await fetch(`/api/users/${userid}/deleteFromLib`, {
+      const response = await fetch(`/api/users/${user._id}/deleteFromLib`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userid: userid, libraryId: data?.libraryId }), // Ensure you are passing the correct userId
+        body: JSON.stringify({ userid: user._id, libraryId: data?.libraryId }), // Ensure you are passing the correct userId
       });
 
       if (response.ok) {
         alert("Game was removed from library");
-        setUser((prevUser) => {
+        setUser((prevUser: any) => {
           if (!prevUser) return prevUser; // Handle the case when user is null
           return {
             ...prevUser,
             library: prevUser.library?.filter(
-              (game) => game.libraryId !== data?.libraryId
+              (game: any) => game.libraryId !== data?.libraryId
             ),
           };
         });
@@ -129,26 +152,6 @@ const AccountGames = ({ userid }: GamesProps) => {
   };
   // end of list section
 
-  // Fetch the user's profile picture from the database on component mount
-  useEffect(() => {
-    const fetchUser = async (userid: String) => {
-      try {
-        const response = await fetch(`/api/users/${userid}`, {
-          method: "GET",
-        });
-        const responseData = await response.json();
-        setUser(responseData.data);
-        setImageUrl(responseData.data.profilePicture);
-        setIsSuccess(responseData.success);
-      } catch (error) {
-        console.error("Failed to fetch user:", error);
-        setIsSuccess(false);
-      }
-    };
-    if (userid) {
-      fetchUser(userid);
-    }
-  }, [userid]);
   return (
     <div className="back-img overflow-auto relative w-full h-full flex flex-col text-center items-center">
       <Link href={`/`} className="w-full pointer-events-none">
@@ -163,7 +166,7 @@ const AccountGames = ({ userid }: GamesProps) => {
           <div className="flex flex-col items-center min-[912px]:mx-12 mx-0 gap-0 mt-8 mb-10">
             <div className="relative min-[912px]:w-20 min-[912px]:h-20 w-16 h-16 rounded-full overflow-hidden group">
               <img
-                src={imageUrl || "/assets/images/default_avatar.jpg"}
+                src={user.profilePicture || "/assets/images/default_avatar.jpg"}
                 alt="User Avatar"
                 className="object-cover"
               />
@@ -205,7 +208,7 @@ const AccountGames = ({ userid }: GamesProps) => {
                       {user.user_reviews
                         .slice()
                         .sort(
-                          (a, b) =>
+                          (a: any, b: any) =>
                             new Date(b.date).getTime() -
                             new Date(a.date).getTime()
                         )
@@ -281,7 +284,7 @@ const AccountGames = ({ userid }: GamesProps) => {
                       {user.library
                         .slice()
                         .sort(
-                          (a, b) =>
+                          (a: any, b: any) =>
                             new Date(b.date).getTime() -
                             new Date(a.date).getTime()
                         )

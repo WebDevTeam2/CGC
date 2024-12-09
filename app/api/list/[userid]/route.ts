@@ -8,7 +8,6 @@ export async function POST(
   const userid = params.userid;
   try {
     const { gameId, gameName, gamePic, date } = await req.json();
-    console.log("Game ID:", gameId); // This should log to the server console
 
     // Now proceed with the logic to add the movie to the user's watchlist
     await addToList(userid, gameId, gameName, gamePic, date);

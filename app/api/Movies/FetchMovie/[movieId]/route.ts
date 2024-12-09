@@ -22,7 +22,6 @@ export async function GET(req: NextRequest, {params}: {params: {movieId: string}
       throw new Error(`Failed to fetch: ${response.statusText}`);
     }
     const data = await response.json();
-    console.log(data)
     return NextResponse.json(data);
   } catch (error) {
     console.error("Error fetching movie:", error);

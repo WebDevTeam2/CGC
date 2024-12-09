@@ -18,9 +18,8 @@ import { useSession } from "next-auth/react";
 
 export default function Nav() {
   const { data: session } = useSession();
+  const [user, setUser] = useState<any>(null);
   const [searchVisible, setSearchVisible] = useState(false);
-  const [userId, setUserId] = useState<string>();
-  const [imageUrl, setImageUrl] = useState<string>("");
   const [prevScrollPos, setPrevScrollPos] = useState(0); //Variable that initializes the user's scroll to 0
   
   //Used for the scrolling in nav
@@ -51,7 +50,9 @@ export default function Nav() {
         try {
           // Fetch the profile picture 
           const response = await fetch(
-            `/api/getUserDetails/${session.user.email}`
+             `/api/getUserDetails/${session.user.email}`, {
+              method:"GET"
+             }
           );
 
           if (!response.ok) {
@@ -64,8 +65,7 @@ export default function Nav() {
 
           // Check if the data contains a valid id
           if (data?._id) {
-            setImageUrl(data.profilePicture); // Set the imageUrl state to the saved profile picture
-            setUserId(data._id);
+            setUser(data);
           } else {
             console.log("No profile found for this user.");
           }
@@ -156,11 +156,11 @@ export default function Nav() {
           {session ? (
             <li className="text-[#b6b6b6] text-l h-20 w-full transition duration-500 ease-in-out not-search image-li">
               <Link
-                href={`/Account/${userId}/info/`}
+                href={`/Account/info/`}
                 className="relative w-10 h-10 md:mt-5 lg:mt-2 mx-[1.05rem] block rounded-full overflow-hidden"
               >
                 <img
-                  src={imageUrl || "/assets/images/batman.jpg"} // An o xrhsths exei diko tou image to kanoume display alliws kanoume display ena default
+                  src={user?.profilePicture || "/assets/images/batman.jpg"} // An o xrhsths exei diko tou image to kanoume display alliws kanoume display ena default
                   alt="User Avatar"
                   className="object-cover w-full h-full absolute"
                 />

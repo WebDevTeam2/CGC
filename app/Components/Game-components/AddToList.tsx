@@ -51,7 +51,6 @@ const AddToList = ({ gameName }: { gameName: string }) => {
           // Check if the data contains a valid id
           if (data?._id) {
             setUserId(data._id);
-            // console.log(data);
             if (data.library.some((item: any) => item.gameId === game?.id)) {
               setIsInList(true); // Game is already in the list
             }

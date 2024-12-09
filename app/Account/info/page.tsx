@@ -1,9 +1,9 @@
 import AccountInfo from "@/app/Components/Account-components/AccountInfo";
 
-const Account = ({ params }: { params: any }) => {
+const Account = () => {
   return (
     <div>
-      <AccountInfo userid={params.userid} />
+      <AccountInfo  />
     </div>
   );
 };

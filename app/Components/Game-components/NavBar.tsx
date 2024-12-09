@@ -18,12 +18,11 @@ const logos = [
 ];
 
 const NavBar = () => {
+  const [user, setUser] = useState<any>(null)
   const [showmenu, setShowMenu] = useState(false);
   const [openMenu, setisOpenMenu] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const { data: session, status } = useSession();
-  const [imageUrl, setImageUrl] = useState<string>("");
-  const [userId, setUserId] = useState<string>("");
   const profileRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const [isWideScreen, setIsWideScreen] = useState<boolean | undefined>(
@@ -101,8 +100,7 @@ const NavBar = () => {
 
           // Check if the data contains a valid id
           if (data?._id) {
-            setImageUrl(data.profilePicture); // Set the imageUrl state to the saved profile picture
-            setUserId(data._id);
+            setUser(data);
           } else {
             console.log("No profile found for this user.");
           }
@@ -115,7 +113,6 @@ const NavBar = () => {
     fetchProfileDetails();
   }, [session?.user?.email]); // Only re-run this effect if the session changes\
 
-  // console.log(imageUrl);
   return (
     <nav className="w-full flex justify-between items-center sticky top-0 bg-black h-20 z-20">
       <div className="pl-3 left-side-elements overflow-hidden h-full flex-1 items-center pointer-events-none">
@@ -135,7 +132,7 @@ const NavBar = () => {
             onClick={toggleProfile}
           >
             <img
-              src={imageUrl || defaultAvatar.src}
+              src={user?.profilePicture || defaultAvatar.src}
               alt="image"
               height={120}
               width={45}
@@ -152,7 +149,7 @@ const NavBar = () => {
             onClick={closeProfile}
           >
             <ul className="py-2 divide-y text-black">
-              <Link href={`/Account/${userId}/info`}>
+              <Link href={`/Account/info`}>
                 <li className="px-4 py-3 hover:bg-gray-100 cursor-pointer">
                   Profile
                 </li>
@@ -218,7 +215,7 @@ const NavBar = () => {
                 </Link>
                 {session && (
                   <div className="min-[900px]:hidden flex flex-col items-center gap-5">
-                    <Link href={`/Account/${userId}/info`}>
+                    <Link href={`/Account/info`}>
                       <button className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
                         My Profile
                       </button>
@@ -276,7 +273,7 @@ const NavBar = () => {
                 </Link>
                 {session && (
                   <div className="min-[900px]:hidden flex gap-3">
-                    <Link href={`/Account/${userId}/info`}>
+                    <Link href={`/Account/info`}>
                       <button className="text-orange-600 text-md transition delay-50 rounded-full hover:scale-110">
                         My Profile
                       </button>

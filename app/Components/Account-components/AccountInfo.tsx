@@ -8,18 +8,12 @@ import { useSession, signOut } from "next-auth/react";
 import Footer from "../Footer";
 import Link from "next/link";
 
-interface AccountProps {
-  userid: string;
-}
-
-const AccountInfo = ({ userid }: AccountProps) => {
+const AccountInfo = () => {
   const { data: session } = useSession();
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const [user, setUser] = useState<any>(null);
-  const [imageUrl, setImageUrl] = useState<string>("");
   const [isSuccess, setIsSuccess] = useState(true);
   const [hasProvider, setHasProvider] = useState(false);
-  const [userId, setUserId] = useState<string>("");
   const [showPopup, setShowPopup] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -37,12 +31,12 @@ const AccountInfo = ({ userid }: AccountProps) => {
     setIsDeleting(true); // Indicate that the deletion process is starting
 
     try {
-      const response = await fetch(`/api/users/${userid}/deleteAccount`, {
+      const response = await fetch(`/api/users/${user._id}/deleteAccount`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userid: userId }), // Ensure you are passing the correct userId
+        body: JSON.stringify({ userid: user._id }), // Ensure you are passing the correct userId
       });
 
       if (response.ok) {
@@ -82,43 +76,41 @@ const AccountInfo = ({ userid }: AccountProps) => {
   //   const { userid } = params;
 
   useEffect(() => {
-    const fetchUser = async (userid: String) => {
+    const fetchUser = async () => {
       try {
-        const response = await fetch(`/api/users/${userid}`, {
-          method: "GET",
-        });
-        const responseData = await response.json();
-        setUser(responseData.data);
-        setUserId(responseData.data._id);
-        setImageUrl(responseData.data.profilePicture);
-        setIsSuccess(responseData.success);
+        const response = await fetch(
+          `/api/getUserDetails/${session?.user?.email}`,
+          {
+            method: "GET",
+          }
+        );
+        const data = await response.json();
+        setUser(data);
 
         // Check if user has a provider
-        if (responseData.data.provider !== "credentials") {
+        if (data.provider !== "credentials") {
           setHasProvider(true);
         } else {
           setHasProvider(false);
         }
         // Set both the initial and current form data with the fetched data
         const fetchedData = {
-          username: responseData.data.username,
-          email: responseData.data.email,
+          username: data.username,
+          email: data.email,
           password: "",
           passwordre: "",
         };
 
         setInitialData(fetchedData);
         setFormData(fetchedData);
-        console.log(responseData.data);
       } catch (error) {
         console.error("Failed to fetch user:", error);
         setIsSuccess(false);
       }
     };
-    if (userid) {
-      fetchUser(userid);
-    }
-  }, [userid]);
+
+    fetchUser();
+  }, [session?.user?.email]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -177,7 +169,7 @@ const AccountInfo = ({ userid }: AccountProps) => {
       updatedData.password = hashedPassword;
     }
 
-    const response = await fetch(`/api/users/${userid}`, {
+    const response = await fetch(`/api/users/${user._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -208,7 +200,7 @@ const AccountInfo = ({ userid }: AccountProps) => {
               <>
                 <div className="relative w-20 h-20 rounded-full overflow-hidden">
                   <img
-                    src={imageUrl || "/assets/images/default_avatar.jpg"}
+                    src={user.profilePicture || "/assets/images/default_avatar.jpg"}
                     alt="User Avatar"
                     className="object-cover"
                   />
@@ -265,7 +257,7 @@ const AccountInfo = ({ userid }: AccountProps) => {
                 <div className="flex flex-col items-center">
                   <div className="relative w-20 h-20 rounded-full overflow-hidden">
                     <img
-                      src={imageUrl || "/assets/images/default_avatar.jpg"}
+                      src={user?.profilePicture || "/assets/images/default_avatar.jpg"}
                       alt="User Avatar"
                       className="object-cover"
                     />
@@ -276,7 +268,6 @@ const AccountInfo = ({ userid }: AccountProps) => {
                       endpoint="imageUploader"
                       onClientUploadComplete={async (res) => {
                         const imageUrl = res[0].url;
-                        setImageUrl(imageUrl);
 
                         // Save the image URL to the backend (associate with user ID)
                         await fetch("/api/saveImage", {

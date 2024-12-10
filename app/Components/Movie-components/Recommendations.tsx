@@ -4,9 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
 import AddToWatchlist from "./AddToWatchlist";
-import { getVotecolor } from "@/app/Constants/constants";
-
-const imageURL = "https://image.tmdb.org/t/p/w500";
+import { getVotecolor, imageURL } from "@/app/Constants/constants";
 
 interface RecommendedMovie {
   id: number;
@@ -88,7 +86,7 @@ const Recommendations = ({ movieId }: { movieId: string }) => {
               </Link>
               <div className="mt-2 md:mt-6 flex flex-col justify-center gap-4">
                 <div className="flex justify-center mt-4 ml-[-2rem]">
-                  <AddToWatchlist movieId={item.id} />
+                  <AddToWatchlist id={item.id} media_type="movie" />
                 </div>
                 <span className="text-white justify-center text-center">
                   Review

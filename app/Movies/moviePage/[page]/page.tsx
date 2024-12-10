@@ -2,17 +2,39 @@ import Filter from "@/app/Components/Movie-components/Filter";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/authDbConnection/authOptions";
 import { findUserByEmail } from "@/app/User Collection/connection";
-import { baseUrl, Movie, options } from "@/app/Constants/constants";
+import { baseUrl, Movie, MovieResult, options } from "@/app/Constants/constants";
 import Cards from "@/app/Components/Movie-components/Cards";
 import MoviePages from "@/app/Components/Movie-components/Pages";
 
-const getMovieData = async (page: string) => {
-  const res = await fetch(
-    `${baseUrl}discover/movie?include_adult=false&page=${page}&${process.env.MOVIE_API_KEY}`,
-    options
-  );
-  const data = await res.json();
-  return data;
+const getMovieData = async (page: string): Promise<Movie> => {
+  try {
+    const res = await fetch(
+      `${baseUrl}discover/movie?include_adult=false&page=${page}&${process.env.MOVIE_API_KEY}`,
+      options
+    );
+
+    if (!res.ok) {
+      console.error(`Failed to fetch movies: ${res.statusText}`);
+      return { page: 0, results: [] }; // Return an empty Movie object
+    }
+
+    const data = await res.json();
+
+    // Add media_type to each movie
+    const resultsWithMedia = data.results.map((movie: MovieResult) => ({
+      ...movie,
+      media_type: "movie",
+    }));
+
+    // Return the modified data
+    return {
+      page: data.page,
+      results: resultsWithMedia,
+    };
+  } catch (error) {
+    console.error("Error fetching movie data:", error);
+    return { page: 0, results: [] }; // Return an empty Movie object on error
+  }
 };
 
 const Page = async ({ params }: { params: Movie }) => {

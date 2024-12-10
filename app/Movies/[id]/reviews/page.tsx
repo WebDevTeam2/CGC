@@ -53,7 +53,12 @@ const MovieReview = ({ params }: { params: { id: string } }) => {
       try {
         const response = await fetch(`/api/Movies/FetchMovie/${movieId}`);
         const data = await response.json();
-        setMovieData(data);
+
+        const moviesWithMediaType = {
+          ...data,
+          media_type: "movie",
+        };
+        setMovieData(moviesWithMediaType);
       } catch (error) {
         console.error("Failed to fetch movie data:", error);
       }

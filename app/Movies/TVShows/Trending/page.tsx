@@ -1,13 +1,10 @@
 import Link from "next/link";
-import Image from "next/legacy/image";
 import { GiFilmProjector } from "react-icons/gi";
 import TvFilter from "@/app/Components/Movie-components/TvFilter";
-import { getVotecolor, options } from "@/app/Constants/constants";
+import { baseUrl, options } from "@/app/Constants/constants";
 import TVShowCards from "@/app/Components/Movie-components/TVShowCards";
 
-const baseUrl = "https://api.themoviedb.org/3/";
 const ApiURL = baseUrl + "trending/tv/day?page=1&language=en-US&" + process.env.MOVIE_API_KEY;
-const imageURL = "https://image.tmdb.org/t/p/w500";
 
 interface TVShow {
   page: number;
@@ -40,7 +37,6 @@ const getTVShowData = async (url: string) => {
 
 const Trending = async () => {
   const tvShowData: TVShow = await getTVShowData(ApiURL);
-  const currentDate = new Date().toISOString().split('T')[0];
 
   return (
     <div className="overflow-hidden">

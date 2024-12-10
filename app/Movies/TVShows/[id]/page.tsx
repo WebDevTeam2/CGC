@@ -70,7 +70,7 @@ const TVShowDetails = async ({ params }: { params: TVDetails }) => {
         </div>
       </div>
       <div className="md:ml-40 lg:ml-[20rem] lg:mt-10">
-        <AddToWatchlistId movieId={Number(params.id)} />
+        <AddToWatchlistId id={Number(params.id)} media_type="tv" />
       </div>
       <div className="md:ml-[10rem] lg:ml-[20rem] mt-10 text-[18px]">
         <h2 className="font-bold">Overview:</h2>

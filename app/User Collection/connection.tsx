@@ -344,7 +344,7 @@ export const updateUserById = async (
 };
 
 //FUNTION ADDING A MOVIE TO WATCHLIST
-export const addToWatchlist = async (userId: string, movieId: number) => {
+export const addToWatchlist = async (userId: string, item: {id: number; media_type:string}) => {
   if (!users) await init();
   if (!users) throw new Error("Users collection is not initialized");
 
@@ -352,7 +352,7 @@ export const addToWatchlist = async (userId: string, movieId: number) => {
     const objectId = new ObjectId(userId);
     const result = await users.findOneAndUpdate(
       { _id: objectId },
-      { $addToSet: { watchlist: movieId } }, // Use $addToSet to add the movieId to the watchlist array
+      { $addToSet: { watchlist: item } }, // Use $addToSet to add the movieId to the watchlist array
       { returnDocument: "after" } // Return the updated document
     );
     return result;

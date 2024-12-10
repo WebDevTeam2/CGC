@@ -76,7 +76,7 @@ const TVShowCards = ({ tvShowData, upcoming }: TVShowProps) => {
               {/* watchlist and review container */}
               <div className="movies-buttons-container flex flex-col justify-center gap-4">
                 <div className="flex justify-center mt-4 ml-[-2rem]">
-                  <AddToWatchlist movieId={item.id} />
+                  <AddToWatchlist id={item.id} media_type="tv" />
                 </div>
                 <span className="text-white justify-center text-center">
                   <Link href={`/Movies/TVShows/${item.id}/reviews`}>

@@ -16,7 +16,12 @@ const getMovieDetails = async (id: string) => {
     options
   );
   const data = await res.json();
-  return data;
+  const movieWithMediaType = {
+    ...data,
+    media_type: "movie",
+  }; 
+
+  return movieWithMediaType;
 };
 
 const MovieDetailsData = async ({ params }: { params: MovieDetails }) => {
@@ -70,7 +75,7 @@ const MovieDetailsData = async ({ params }: { params: MovieDetails }) => {
       </div>
       {movie.release_date < currentDate ? (
         <div className="md:ml-40 lg:ml-[20rem] lg:mt-10 flex gap-2">
-          <AddToWatchlistId movieId={Number(params.id)} />
+          <AddToWatchlistId id={Number(params.id)} media_type="movie" />
           <Link
             href={`/Movies/${params.id}/reviews`}
             className="bg-[#6a7f97] text-center p-2 transition duration-200 hover:opacity-75 text-white rounded-sm"

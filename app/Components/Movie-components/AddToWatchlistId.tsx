@@ -4,11 +4,12 @@ import { useSession } from "next-auth/react";
 import { FaPlus, FaCheck } from "react-icons/fa";
 
 interface AddToWatchlistProps {
-  movieId: number;
+  id: number;
+  media_type: "movie" | "tv";
 }
 
-const AddToWatchlistId = ({ movieId }: AddToWatchlistProps) => {
-  const [userId, setUserId] = useState<string | undefined>(); // Store the user ID from the session
+const AddToWatchlistId = ({ id, media_type }: AddToWatchlistProps) => {
+  const[user, setUser] = useState<any>(null);
   const [isInWatchlist, setIsInWatchlist] = useState(false);
   const { data: session } = useSession();
 
@@ -29,14 +30,14 @@ const AddToWatchlistId = ({ movieId }: AddToWatchlistProps) => {
           const data = await response.json();          
 
           if (data?._id) {
-            setUserId(data._id);
+            setUser(data);
 
             // Check if the movie is already in the user's watchlist
             if (data.watchlist && Array.isArray(data.watchlist)) {
-              const movieInWatchlist = data.watchlist.some(
-                (item: any) => item === movieId
+              const itemInWatchlist = data.watchlist.some(
+                (item: any) => item.id === id && item.media_type === media_type
               );              
-              setIsInWatchlist(movieInWatchlist);
+              setIsInWatchlist(itemInWatchlist);
             } else {
               console.error("Watchlist not found or is not an array.");
             }
@@ -50,22 +51,22 @@ const AddToWatchlistId = ({ movieId }: AddToWatchlistProps) => {
     };
 
     fetchProfileDetails();
-  }, [session?.user?.email, movieId]); // Add movieId as dependency
+  }, [session?.user?.email, id]); // Add movieId as dependency
 
   // Add the movie to the watchlist of the user
   const handleAddToWatchlist = async () => {
-    if (!userId) {
+    if (!user?._id) {
       console.error("No user ID found, cannot add to watchlist.");
       return;
     }
 
     try {
-      const response = await fetch(`/api/watchlist/${userId}`, {
+      const response = await fetch(`/api/watchlist/${user._id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ movieId }),
+        body: JSON.stringify({ id, media_type }),
       });
 
       const data = await response.json();

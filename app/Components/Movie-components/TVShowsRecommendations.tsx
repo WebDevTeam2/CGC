@@ -85,7 +85,7 @@ const TVShowsRecommendations = ({ tvShowID }: { tvShowID: string }) => {
               {/* watchlist and review container */}
               <div className="mt-2 md:mt-6 flex flex-col justify-center gap-4">
                 <div className="flex justify-center mt-4 ml-[-2rem]">
-                  <AddToWatchlist movieId={item.id} />
+                  <AddToWatchlist id={item.id} media_type="tv" />
                 </div>
                 <span className="text-white justify-center text-center">
                   Review

@@ -33,10 +33,13 @@ const getTVShowData = async (query: string): Promise<Result[]> => {
     `${baseUrl}search/tv?query=${query}&include_adult=false&language=en-US&page=1&${process.env.MOVIE_API_KEY}`,
     options
   );
+  
   const data = await res.json();
-  return data.results.map((result: any) => ({ ...result, media_type: "tv" }));
+  return data.results.map((result: any) => ({
+    ...result,
+    media_type: "tv",
+  }));
 };
-
 
 const searchPage = async ({ params }: any) => {
   const movieResults = await getMovieData(`${params.query}`);
@@ -58,7 +61,7 @@ const searchPage = async ({ params }: any) => {
         {allResults.map((item) => (
           <div
             key={item.id}
-            className="lg:hover:scale-110 md:hover:scale-110 md:hover:border md:hover:shadow-2xl md:hover:shadow-gray-600 lg:hover:border lg:hover:shadow-2xl lg:hover:shadow-gray-600 transition w-[90%] md:w-full lg:w-full h-[50%] mb-52 md:mb-0 lg:mb-0 duration-500 ease-in-out"
+            className="hover:scale-110 hover:border hover:z-9 hover:shadow-2xl card-link hover:shadow-gray-600 transition w-[90%] md:w-full lg:w-full h-1/2 md:h-full lg:h-full mb-52 md:mb-0 lg:mb-0 duration-500 ease-in-out"
           >
             {/* Image container */}
             <Link
@@ -87,18 +90,25 @@ const searchPage = async ({ params }: any) => {
                   <h2>{item.media_type === "tv" ? item.name : item.title}</h2>
                 </div>
                 <div className="flex gap-2">
-                  <span className={`${getVotecolor(item.vote_average)}`}>
-                    {item.vote_average.toString().slice(0, 3)}
-                  </span>
-                  <FaStar color="yellow" />
+                  {item?.vote_average ? (
+                    <>
+                      <span className={`${getVotecolor(item.vote_average)}`}>
+                        {item.vote_average.toString().slice(0, 3)}
+                      </span>
+                      <FaStar color="gold" style={{ marginTop: "3px" }} />
+                    </>
+                  ) : (
+                    <div></div>
+                  )}
                 </div>
               </Link>
+              {/* watchlist and review container */}
               <div className="movies-buttons-container h-full flex flex-col justify-center gap-4">
                 <div className="flex justify-center mt-4 ml-[-2rem]">
-                  <AddToWatchlist movieId={item.id} />
+                  <AddToWatchlist id={item.id} media_type={item.media_type} />
                 </div>
                 <span className="text-white justify-center text-center">
-                  Review
+                  <Link href={`/Movies/${item.id}/reviews`}>Review</Link>
                 </span>
               </div>
             </div>

@@ -69,7 +69,11 @@ export interface Library {
     verificationToken?: string;
     isVerified?: boolean;
     provider?: string;
-    watchlist?: number[];
+    watchlist?: WatchlistItem[];
+  }
+  interface WatchlistItem {
+    id: number;
+    media_type: "movie" | "tv";
   }
 
 //game interfaces
@@ -218,6 +222,7 @@ export interface MovieResult {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  media_type: string;
 }
 
 export interface TVShowProps {

@@ -15,12 +15,12 @@ export async function GET(req: NextRequest, {params}: {params: {movieId: string}
       `${baseUrl}movie/${movieId}/recommendations?include_adult=false&language=en-US&page=1&api_key=${process.env.MOVIE_API_KEY}`,
       options
     );
-
     if (!response.ok) {
       throw new Error(`Failed to fetch: ${response.statusText}`);
     }
+    const data = await response.json();
 
-    return NextResponse.json(await response.json());
+    return NextResponse.json(data);
   } catch (error) {
     console.error("Error fetching recommendations:", error);
     return NextResponse.json(

@@ -1,7 +1,6 @@
 import {
   getVotecolor,
   imageURL,
-  Movie,
   MovieProps,
 } from "@/app/Constants/constants";
 import { FaStar } from "react-icons/fa";
@@ -83,7 +82,7 @@ const Cards = ({ movieData, upcoming, movieResultData }: MovieProps ) => {
               {/* watchlist and review container */}
               <div className="movies-buttons-container h-full flex flex-col justify-center gap-4">
                 <div className="flex justify-center mt-4 ml-[-2rem]">
-                  <AddToWatchlist movieId={item.id} />
+                  <AddToWatchlist id={item.id} media_type="movie" />
                 </div>
                 <span className="text-white justify-center text-center">
                   <Link href={`/Movies/${item.id}/reviews`}>Review</Link>

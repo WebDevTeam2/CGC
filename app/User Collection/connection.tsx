@@ -3,7 +3,7 @@ import clientPromise from "../../authDbConnection/mongo/page";
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
-import { User, Library, MovieReview, Review } from "../Constants/constants";
+import { User, Library, MovieReview, Review, ShowReview } from "../Constants/constants";
 
 let client: MongoClient | undefined;
 let db: Db | undefined;
@@ -439,6 +439,50 @@ export const addMovieReview = async (
     const result = await users.findOneAndUpdate(
       { _id: objectId },
       { $push: { user_movie_reviews: newReview } },
+      { returnDocument: "after" }
+    );
+    return result;
+  } catch (error) {
+    console.error("Error adding to reviews:", error);
+    throw new Error("Failed to update user by id");
+  }
+};
+
+//ADD SHOW REVIEW
+export const addShowReview = async (
+  userId: string,
+  showId: number,
+  showName: string,
+  text: string,
+  rating: number,
+  date: Date
+) => {
+  if (!users) await init();
+  if (!users) throw new Error("Users collection is not initialized");
+
+  const reviewId = Math.floor(Math.random() * 900000) + 100000;
+  const newReview: ShowReview = {
+    reviewId: reviewId,
+    showId: showId,
+    showName: showName,
+    text: text,
+    rating: rating,
+    date: new Date(date).toLocaleString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true, // Change to true if you want AM/PM
+    }),
+  };
+
+  try {
+    const objectId = new ObjectId(userId);
+    const result = await users.findOneAndUpdate(
+      { _id: objectId },
+      { $push: { user_show_reviews: newReview } },
       { returnDocument: "after" }
     );
     return result;

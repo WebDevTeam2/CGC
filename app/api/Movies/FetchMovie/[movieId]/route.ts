@@ -14,7 +14,7 @@ export async function GET(req: NextRequest, {params}: {params: {movieId: string}
     }
 
     const response = await fetch(
-      `${baseUrl}movie/${movieId}?api_key=${process.env.MOVIE_API_KEY}`,
+      `${baseUrl}movie/${movieId}?${process.env.MOVIE_API_KEY}`,
       options
     );
 

@@ -108,7 +108,7 @@ const searchPage = async ({ params }: any) => {
                   <AddToWatchlist id={item.id} media_type={item.media_type} />
                 </div>
                 <span className="text-white justify-center text-center">
-                  <Link href={`/Movies/${item.id}/reviews`}>Review</Link>
+                  <Link href={ item.media_type === "movie" ? `/Movies/${item.id}/reviews` : `/Movies/TVShows/${item.id}/reviews`}>Review</Link>
                 </span>
               </div>
             </div>

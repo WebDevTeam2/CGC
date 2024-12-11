@@ -51,6 +51,15 @@ export interface MovieReview {
   date: string;
 }
 
+export interface ShowReview {
+  reviewId: number;
+  showId: number;
+  showName: string;
+  text?: string;
+  rating?: number;
+  date: string;
+}
+
 export interface Library {
   libraryId: number;
   gameId: number;

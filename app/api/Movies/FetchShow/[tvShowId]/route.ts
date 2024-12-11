@@ -1,30 +1,32 @@
+
+
 import { baseUrl, options } from "@/app/Constants/constants";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, {params}: {params: {movieId: string}}) {
+export async function GET(req: NextRequest, {params}: {params: {tvShowId: string}}) {
   try {
-    const {movieId} = params;
-    if (!movieId) {
+    const {tvShowId} = params;
+    if (!tvShowId) {
       return NextResponse.json(
-        { message: "Movie ID is required" },
+        { message: "Show ID is required" },
         { status: 400 }
       );
     }
 
     const response = await fetch(
-      `${baseUrl}movie/${movieId}/recommendations?include_adult=false&language=en-US&page=1&${process.env.MOVIE_API_KEY}`,
+      `${baseUrl}tv/${tvShowId}?${process.env.MOVIE_API_KEY}`,
       options
     );
+
     if (!response.ok) {
       throw new Error(`Failed to fetch: ${response.statusText}`);
     }
     const data = await response.json();
-
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Error fetching recommendations:", error);
+    console.error("Error fetching movie:", error);
     return NextResponse.json(
-      { message: "Failed to fetch recommendations" },
+      { message: "Failed to fetch movie" },
       { status: 500 }
     );
   }

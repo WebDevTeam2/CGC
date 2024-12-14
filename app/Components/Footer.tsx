@@ -4,7 +4,7 @@ import { FaSquareInstagram, FaXTwitter } from "react-icons/fa6";
 
 function Footer() {
   return (
-    <div className="flex w-full lg:px-44 sm:px-20 px-6 items-center flex-col sticky h-auto bg-stone-900 mt-6">
+    <div className="flex w-full lg:px-44 sm:px-20 px-6 items-center flex-col sticky h-auto bg-black mt-6">
       <div className="w-full pt-4 justify-between flex lg:flex-row flex-col items-center">
         <div className="flex lg:flex-row flex-col w-full lg:justify-normal justify-center items-center lg:gap-3 gap-0">
           <img

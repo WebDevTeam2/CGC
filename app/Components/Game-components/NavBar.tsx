@@ -18,7 +18,7 @@ const logos = [
 ];
 
 const NavBar = () => {
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<any>(null);
   const [showmenu, setShowMenu] = useState(false);
   const [openMenu, setisOpenMenu] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -163,11 +163,27 @@ const NavBar = () => {
       )}
       {isWideScreen !== undefined &&
         (isWideScreen ? (
-          <div className="right-side-elements flex items-center w-28 relative h-full">
+          <div className="right-side-elements flex items-center gap-3 pr-6 relative h-full">
+            {!session ? (
+              <div className="lg:flex hidden">
+                <Link href={"/Authentication/Signup"}>
+                  <button className="text-white font-black italic uppercase sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
+                    SignUp
+                  </button>
+                </Link>
+                <Link href={"/Authentication/Signin"}>
+                  <button className="text-white font-black italic uppercase sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
+                    LogIn
+                  </button>
+                </Link>
+              </div>
+            ) : (
+              <div className="hidden"></div>
+            )}
             <div
               ref={menuRef}
               style={{ transitionProperty: "transform" }}
-              className={`w-36 w-full items-center transition-all duration-300 ease-in-out flex flex-col tems-center mt-0`}
+              className={` items-center transition-all duration-300 ease-in-out flex flex-col mt-0`}
             >
               <button
                 className={`text-white rounded-full p-2 hover:bg-neutral-800 transition-all duration-200 ease-in-out text-5xl w-16 py-2 px-2 `}
@@ -180,7 +196,7 @@ const NavBar = () => {
                 style={{ transitionProperty: "max-height, opacity, transform" }}
                 className={`${
                   showmenu ? "max-h-[30rem] opacity-100" : "max-h-0 opacity-0"
-                }  bg-black py-3 absolute z-30 right-0 top-16 transition-all duration-300 ease-in-out overflow-hidden rounded-b-lg gap-5 flex items-center justify-center flex-col`}
+                }  bg-black w-28 py-3 absolute z-30 right-0 top-16 transition-all duration-300 ease-in-out overflow-hidden rounded-b-lg gap-5 flex items-center justify-center flex-col`}
               >
                 {logos.map((logo) => (
                   <Link key={logo.key} href={`/Games/${logo.slug}/page/1`}>
@@ -193,23 +209,23 @@ const NavBar = () => {
                   </Link>
                 ))}
                 {!session ? (
-                  <>
+                  <div className="lg:hidden flex flex-col items-center justify-center gap-5">
                     <Link href={"/Authentication/Signup"}>
-                      <button className="text-orange-500 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
+                      <button className="uppercase italic text-white font-black sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
                         Sign Up
                       </button>
                     </Link>
                     <Link href={"/Authentication/Signin"}>
-                      <button className="text-orange-500 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
+                      <button className="uppercase italic text-white font-black sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
                         Log In
                       </button>
                     </Link>
-                  </>
+                  </div>
                 ) : (
                   <div className="hidden"></div>
                 )}
                 <Link href={"/Games/page/1"}>
-                  <button className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
+                  <button className="font-black italic text-white uppercase sm:text-lg text-lg transition delay-50 p-2 rounded-full hover:scale-110">
                     All Games
                   </button>
                 </Link>
@@ -229,17 +245,17 @@ const NavBar = () => {
             </div>
           </div>
         ) : (
-          <div className="menu flex flex-col w-full absolute translate-y-[3.7rem] items-center transition-all duration-300 ease-in-out">
+          <div className="menu flex flex-col drop-shadow-lg w-full absolute translate-y-[3.7rem] items-center transition-all duration-300 ease-in-out">
             <button
               onClick={toggleMenu2}
-              className="text-slate-100 order-2 bg-neutral-800 hover:bg-neutral-600 transition-colors duration-300 ease-in-out w-full py-2 text-md"
+              className="text-black font-black uppercase order-2 bg-white  transition-colors duration-300 ease-in-out w-full py-2 text-lg"
             >
-              Screen Menu
+              Menu
             </button>
 
             {/* Conditional rendering of the ul based on isOpen state */}
             {openMenu && (
-              <ul className="bg-neutral-800 w-full gap-3 p-2 flex items-center justify-center flex-wrap order-1 text-slate-100 mt-[4rem] max-[496px]:mt-[6.2rem] transition-all duration-300 ease-in-out">
+              <ul className="bg-black w-full gap-3 p-2 flex items-center justify-center flex-wrap order-1 text-slate-100 mt-[4.1rem] transition-all duration-300 ease-in-out">
                 {logos.map((logo) => (
                   <Link key={logo.key} href={`/Games/${logo.slug}/page/1`}>
                     <div
@@ -251,23 +267,23 @@ const NavBar = () => {
                   </Link>
                 ))}
                 {!session ? (
-                  <>
+                  <div className="flex gap-5">
                     <Link href={"/Authentication/Signup"}>
-                      <button className="text-orange-600 text-md transition delay-50 rounded-full hover:scale-110">
-                        Sign Up
+                      <button className="text-white uppercase italic font-black text-md transition delay-50 rounded-full hover:scale-110">
+                        SignUp
                       </button>
                     </Link>
                     <Link href={"/Authentication/Signin"}>
-                      <button className="text-orange-600 text-md transition delay-50  rounded-full hover:scale-110">
-                        Log In
+                      <button className="text-white uppercase italic font-black text-md transition delay-50  rounded-full hover:scale-110">
+                        LogIn
                       </button>
                     </Link>
-                  </>
+                  </div>
                 ) : (
                   <div className="hidden"></div>
                 )}
                 <Link href={"/Games/page/1"}>
-                  <button className="text-stone-200 text-md transition delay-50  rounded-full hover:scale-110">
+                  <button className="text-white uppercase italic font-black text-md transition delay-50  rounded-full hover:scale-110">
                     All Games
                   </button>
                 </Link>

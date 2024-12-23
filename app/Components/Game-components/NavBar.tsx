@@ -9,6 +9,8 @@ import Link from "next/link";
 import Logout from "../Logout";
 import { useSession } from "next-auth/react";
 import defaultAvatar from "@/public/assets/images/default_avatar.jpg";
+import SearchBar from "./SearchBar";
+import { PostResult } from "@/app/Constants/constants";
 
 const logos = [
   { component: <FaXbox />, key: 3, slug: "xbox" },
@@ -21,6 +23,7 @@ const NavBar = () => {
   const [user, setUser] = useState<any>(null);
   const [showmenu, setShowMenu] = useState(false);
   const [openMenu, setisOpenMenu] = useState(false);
+  const [games, setGames] = useState<PostResult[]>([]);
   const [showProfile, setShowProfile] = useState(false);
   const { data: session, status } = useSession();
   const profileRef = useRef<HTMLDivElement>(null);
@@ -113,54 +116,92 @@ const NavBar = () => {
     fetchProfileDetails();
   }, [session?.user?.email]); // Only re-run this effect if the session changes\
 
+  useEffect(() => {
+    const fetchGames = async () => {
+      try {
+        // Fetch response using the email as a query param
+        const response = await fetch(`/api/fetchGames/`);
+
+        if (!response.ok) {
+          console.error("Error fetching user details:", response.statusText);
+          return;
+        }
+
+        // Parse the response as JSON
+        const data = await response.json();
+
+        // Check if the data contains a valid id
+        if (data.results && Array.isArray(data.results)) {
+          setGames(data.results);
+        } else {
+          console.log("No games found.");
+        }
+      } catch (error) {
+        console.error("Failed to fetch games:", error);
+      }
+    };
+
+    fetchGames();
+  }, []);
+
   return (
-    <nav className="w-full flex justify-between items-center sticky top-0 bg-black h-20 z-20">
-      <div className="pl-3 left-side-elements overflow-hidden h-full flex-1 items-center pointer-events-none">
-        <Link href="/" className="flex items-center h-full">
-          <span className="title text-white text-4xl font-black pointer-events-auto italic font-sans">
+    <nav className="w-full flex justify-between gap-6 items-center sticky top-0 bg-black h-20 z-20">
+      <div className="pl-4 left-side-elements  h-full flex-1 items-center pointer-events-none">
+        <div className="flex gap-9 items-center h-full">
+          <Link
+            href="/"
+            className="title text-white text-4xl font-black pointer-events-auto italic font-sans"
+          >
             CGC
-          </span>
-        </Link>
-      </div>
-      {session && (
-        <div
-          className="relative pointer-events-none z-10 group text-white flex flex-col max-[900px]:hidden"
-          ref={profileRef}
-        >
-          <div
-            className="pointer-events-auto flex flex-row items-center justify-center gap-1 hover:cursor-pointer hover:brightness-75 w-auto h-auto"
-            onClick={toggleProfile}
+          </Link>
+          <Link
+            href="/Movies/moviePage/1"
+            className="title hover:scale-105 transition-all duration-200 text-cyan-400 text-2xl font-extrabold pointer-events-auto italic font-sans"
           >
-            <img
-              src={user?.profilePicture || defaultAvatar.src}
-              alt="image"
-              height={120}
-              width={45}
-              className="rounded-full object-cover"
-            />
-            <IoIosArrowDown className="text-white text-2xl" />
-          </div>
-          <div
-            ref={profileRef}
-            className={`pointer-events-auto absolute flex flex-col overflow-hidden right-0 top-14 w-24 bg-white rounded-md shadow-lg transition-all duration-200 ${
-              showProfile ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-            }`}
-            style={{ transitionProperty: "max-height, opacity" }}
-            onClick={closeProfile}
-          >
-            <ul className="py-2 divide-y text-black">
-              <Link href={`/Account/info`}>
-                <li className="px-4 py-3 hover:bg-gray-100 cursor-pointer">
-                  Profile
-                </li>
-              </Link>
-              <li className="px-3 text-md py-4 hover:bg-gray-100 cursor-pointer">
-                <Logout />
-              </li>
-            </ul>
-          </div>
+            MOVIES
+          </Link>
+          {session && (
+            <div
+              className="relative pointer-events-none z-10 group text-white flex flex-col max-[900px]:hidden"
+              ref={profileRef}
+            >
+              <div
+                className="pointer-events-auto flex flex-row items-center justify-center gap-1 hover:cursor-pointer hover:brightness-75 w-auto h-auto"
+                onClick={toggleProfile}
+              >
+                <img
+                  src={user?.profilePicture || defaultAvatar.src}
+                  alt="image"
+                  height={120}
+                  width={45}
+                  className="rounded-full object-cover"
+                />
+                <IoIosArrowDown className="text-white text-2xl" />
+              </div>
+              <div
+                ref={profileRef}
+                className={`pointer-events-auto absolute flex flex-col overflow-hidden right-0 top-14 w-24 bg-white rounded-md shadow-lg transition-all duration-200 ${
+                  showProfile ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                }`}
+                style={{ transitionProperty: "max-height, opacity" }}
+                onClick={closeProfile}
+              >
+                <ul className="py-2 divide-y text-black">
+                  <Link href={`/Account/info`}>
+                    <li className="px-4 py-3 hover:bg-gray-100 cursor-pointer">
+                      Profile
+                    </li>
+                  </Link>
+                  <li className="px-3 text-md py-4 hover:bg-gray-100 cursor-pointer">
+                    <Logout />
+                  </li>
+                </ul>
+              </div>
+            </div>
+          )}
         </div>
-      )}
+      </div>
+      <SearchBar games={games} />
       {isWideScreen !== undefined &&
         (isWideScreen ? (
           <div className="right-side-elements flex items-center gap-3 pr-6 relative h-full">
@@ -183,10 +224,25 @@ const NavBar = () => {
             <div
               ref={menuRef}
               style={{ transitionProperty: "transform" }}
-              className={` items-center transition-all duration-300 ease-in-out flex flex-col mt-0`}
+              className={` items-center transition-all duration-300 ease-in-out flex gap-2 flex-row mt-0`}
             >
+              {logos.map((logo) => (
+                <Link key={logo.key} href={`/Games/${logo.slug}/page/1`}>
+                  <div
+                    className="text-stone-200 sm:text-3xl text-2xl transition delay-50 p-2 rounded-full hover:scale-110"
+                    onClick={closeDropdown}
+                  >
+                    {logo.component}
+                  </div>
+                </Link>
+              ))}
+              <Link href={"/Games/page/1"}>
+                <button className="font-black italic text-white uppercase sm:text-lg text-lg transition delay-50 p-2 rounded-full hover:scale-110">
+                  All Games
+                </button>
+              </Link>
               <button
-                className={`text-white rounded-full p-2 hover:bg-neutral-800 transition-all duration-200 ease-in-out text-5xl w-16 py-2 px-2 `}
+                className={`text-white lg:hidden block rounded-full p-2 hover:bg-neutral-800 transition-all duration-200 ease-in-out text-5xl w-16 py-2 px-2 `}
                 onClick={toggleMenu}
               >
                 <IoMenu />

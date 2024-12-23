@@ -12,7 +12,6 @@ export default async function Games({ params }: { params: any }) {
   return (
     <div className="w-full h-screen items-center bg-stone-700 overflow-hidden overflow-y-auto bg-cover ">
       <NavBar />
-      <SearchBar games={gameData} />
       <WriteReview game={games} />
     </div>
   );

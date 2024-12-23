@@ -456,32 +456,90 @@ export const convertToStars = (rating: number) => {
   let percentage_r = remainder * 100 + "%"; //35%
   let counter = 0;
 
-  for (let i = 0; i < whole; i++) {
-    newR.push(
-      <IoStarSharp
-        key={i}
-        style={{
-          background: "darkgreen",
-          fontSize: "24px",
-          padding: "2px",
-        }}
-      />
-    );
-    counter++;
-  }
+  if (rating < 3) {
+    for (let i = 0; i < whole; i++) {
+      newR.push(
+        <IoStarSharp
+          key={i}
+          style={{
+            background: "darkorange",
+            fontSize: "24px",
+            padding: "2px",
+          }}
+        />
+      );
+      counter++;
+    }
 
-  if (remainder > 0) {
-    newR.push(
-      <IoStarSharp
-        key="rest"
-        style={{
-          background: `linear-gradient(to right, darkgreen ${percentage_r}, grey 15%)`,
-          fontSize: "24px",
-          padding: "2px",
-        }}
-      />
-    );
-    counter++;
+    if (remainder > 0) {
+      newR.push(
+        <IoStarSharp
+          key="rest"
+          style={{
+            background: `linear-gradient(to right, darkorange ${percentage_r}, grey 15%)`,
+            fontSize: "24px",
+            padding: "2px",
+          }}
+        />
+      );
+      counter++;
+    }
+  } else if (rating >= 3 && rating < 4) {
+    for (let i = 0; i < whole; i++) {
+      newR.push(
+        <IoStarSharp
+          key={i}
+          style={{
+            background: "#32CD32",
+            fontSize: "24px",
+            padding: "2px",
+          }}
+        />
+      );
+      counter++;
+    }
+
+    if (remainder > 0) {
+      newR.push(
+        <IoStarSharp
+          key="rest"
+          style={{
+            background: `linear-gradient(to right, #32CD32 ${percentage_r}, grey 15%)`,
+            fontSize: "24px",
+            padding: "2px",
+          }}
+        />
+      );
+      counter++;
+    }
+  } else {
+    for (let i = 0; i < whole; i++) {
+      newR.push(
+        <IoStarSharp
+          key={i}
+          style={{
+            background: "darkgreen",
+            fontSize: "24px",
+            padding: "2px",
+          }}
+        />
+      );
+      counter++;
+    }
+
+    if (remainder > 0) {
+      newR.push(
+        <IoStarSharp
+          key="rest"
+          style={{
+            background: `linear-gradient(to right, darkgreen ${percentage_r}, grey 15%)`,
+            fontSize: "24px",
+            padding: "2px",
+          }}
+        />
+      );
+      counter++;
+    }
   }
 
   for (let i = counter; i < 5; i++) {

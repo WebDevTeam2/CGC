@@ -35,7 +35,6 @@ const Posts = async ({ params }: { params: any }) => {
       <div>
         <MainPage>
           <NavBar />
-          <SearchBar games={gameData} />
           <Sort />
           <Genres genres={genres} />
           <GameList paginatedGames={paginatedGames} />

@@ -4,6 +4,8 @@ import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
+import { FaStar } from "react-icons/fa";
+import { IoStarSharp } from "react-icons/io5";
 
 interface PostResult {
   id: number;
@@ -20,6 +22,115 @@ interface PostResult {
 interface SearchBarProps {
   games: PostResult[];
 }
+
+const convertToStars = (rating: number) => {
+  const newR: JSX.Element[] = [];
+  const whole = Math.floor(rating); //2
+  const remainder = rating - whole; // 2.35
+  let percentage_r = remainder * 100 + "%"; //35%
+  let counter = 0;
+
+  if (rating < 3) {
+    for (let i = 0; i < whole; i++) {
+      newR.push(
+        <IoStarSharp
+          key={i}
+          style={{
+            background: "darkorange",
+            fontSize: "24px",
+            padding: "2px",
+          }}
+        />
+      );
+      counter++;
+    }
+
+    if (remainder > 0) {
+      newR.push(
+        <IoStarSharp
+          key="rest"
+          style={{
+            background: `linear-gradient(to right, darkorange ${percentage_r}, grey 15%)`,
+            fontSize: "24px",
+            padding: "2px",
+          }}
+        />
+      );
+      counter++;
+    }
+  } else if (rating >= 3 && rating < 4) {
+    for (let i = 0; i < whole; i++) {
+      newR.push(
+        <IoStarSharp
+          key={i}
+          style={{
+            background: "#32CD32",
+            fontSize: "24px",
+            padding: "2px",
+          }}
+        />
+      );
+      counter++;
+    }
+
+    if (remainder > 0) {
+      newR.push(
+        <IoStarSharp
+          key="rest"
+          style={{
+            background: `linear-gradient(to right, #32CD32 ${percentage_r}, grey 15%)`,
+            fontSize: "24px",
+            padding: "2px",
+          }}
+        />
+      );
+      counter++;
+    }
+  } else {
+    for (let i = 0; i < whole; i++) {
+      newR.push(
+        <IoStarSharp
+          key={i}
+          style={{
+            background: "darkgreen",
+            fontSize: "24px",
+            padding: "2px",
+          }}
+        />
+      );
+      counter++;
+    }
+
+    if (remainder > 0) {
+      newR.push(
+        <IoStarSharp
+          key="rest"
+          style={{
+            background: `linear-gradient(to right, darkgreen ${percentage_r}, grey 15%)`,
+            fontSize: "24px",
+            padding: "2px",
+          }}
+        />
+      );
+      counter++;
+    }
+  }
+
+  for (let i = counter; i < 5; i++) {
+    newR.push(
+      <IoStarSharp
+        key={i}
+        style={{
+          background: "grey",
+          fontSize: "24px",
+          padding: "2px",
+        }}
+      />
+    );
+  }
+
+  return newR;
+};
 
 const SearchBar: React.FC<SearchBarProps> = ({ games }) => {
   const [search, setSearch] = useState<PostResult[]>([]);
@@ -175,10 +286,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ games }) => {
       window.location.href = `/Games/${search[selectedIndex].slug}`;
     }
   };
-  const imageSizes = "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw";
+
   return (
     <form
-      className="search fixed top-3 lg:w-[30vw] lg:mx-[35vw] md:mx-[30vw] md:w-[45vw] sm:mx-[25vw] sm:w-[55vw] max-[640px]:right-6 w-[65vw] max-[640px]:w-[60vw] z-20"
+      className="search relative w-full"
       ref={resultsRef}
       onSubmit={handleSubmit}
     >
@@ -186,12 +297,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ games }) => {
         <input
           type="search"
           placeholder="Type Here"
-          className="subpixel-antialiased h-14 w-full outline-none rounded-full bg-slate-200 pl-10 pr-11 text-slate-600"
+          className="subpixel-antialiased h-12 w-full outline-none rounded-full bg-slate-200 pl-10 pr-11 text-slate-600"
           onChange={handleInputChange}
           value={inputValue}
         />
         <div
-          className="absolute  left-3 top-16 bg-black text-white rounded-2xl w-[93%]"
+          className="absolute divide-y top-16 bg-black text-white rounded-2xl w-full"
           style={{
             height:
               visible && search.length > 0
@@ -210,7 +321,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ games }) => {
             <Link
               key={index}
               href={`/Games/${result.slug}`}
-              className="flex items-center flex-row transition-all duration-300 ease-in-out hover:scale-105 pl-3 hover:text-stone-400"
+              className="flex flex-row transition-all duration-300 ease-in-out hover:scale-[1.02] pl-6 hover:text-stone-400"
             >
               <div className="relative overflow-hidden sm:w-44 sm:h-32 min-[420px]:w-40 min-[420px]:h-28 w-36 h-24 flex-shrink-0 flex-grow-0">
                 <img
@@ -219,11 +330,21 @@ const SearchBar: React.FC<SearchBarProps> = ({ games }) => {
                   className="w-full h-full object-contain"
                 />
               </div>
-              <div
-                onClick={() => handleAutoComplete(result.name)}
-                className="search-result py-1.5 cursor-pointer flex flex-col text-md pl-6 pr-4"
-              >
-                {result.name}
+              <div className="flex flex-col">
+                <div
+                  onClick={() => handleAutoComplete(result.name)}
+                  className="search-result pt-3 uppercase font-bold italic cursor-pointer text-[16px] pl-6 pr-4"
+                >
+                  {result.name}
+                </div>
+                <div className="pt-3 flex flex-row items-center italic cursor-pointer text-black font-black text-[16px] pl-6 pr-4">
+                  <span className="flex gap-[0.9px] text-white rounded-md p-1">
+                    {convertToStars(result.rating)}
+                  </span>
+                </div>
+                <div className="py-2 cursor-pointer text-[15px] pl-6 pr-4">
+                  Release Date: {result.released}
+                </div>
               </div>
             </Link>
           ))}

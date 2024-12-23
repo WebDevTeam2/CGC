@@ -47,7 +47,7 @@ const GameDets = async ({ params }: { params: any }) => {
                 Rating:
               </span>
               {game.rating > 0 ? (
-                <span className="flex gap-1 text-white lg:text-md min-[450px]:text-lg text-md">
+                <span className="flex gap-[1px] text-white lg:text-md min-[450px]:text-lg text-md">
                   {convertToStars(game.rating)}({roundNum(game.ratings_count)})
                 </span>
               ) : (

@@ -67,23 +67,23 @@ export interface Library {
   gamePic: string;
   date: string; // ISO date string
 }
-  export interface User {
-    username?: string;
-    name?: string;
-    email: string;
-    password?: string;
-    profilePicture?: string;
-    user_reviews?: Review[];
-    library?: Library[];
-    verificationToken?: string;
-    isVerified?: boolean;
-    provider?: string;
-    watchlist?: WatchlistItem[];
-  }
-  interface WatchlistItem {
-    id: number;
-    media_type: "movie" | "tv";
-  }
+export interface User {
+  username?: string;
+  name?: string;
+  email: string;
+  password?: string;
+  profilePicture?: string;
+  user_reviews?: Review[];
+  library?: Library[];
+  verificationToken?: string;
+  isVerified?: boolean;
+  provider?: string;
+  watchlist?: WatchlistItem[];
+}
+interface WatchlistItem {
+  id: number;
+  media_type: "movie" | "tv";
+}
 
 //game interfaces
 export interface Platform {
@@ -110,6 +110,7 @@ export interface PostResult {
   background_image: string;
   rating: number;
   rating_top: number;
+  ratings_count: number;
   metacritic: number;
   description: string;
   description_raw: string;

@@ -2,9 +2,6 @@
 import { AiOutlineSearch } from "react-icons/ai";
 import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { useSearchParams } from "next/navigation";
-import { FaStar } from "react-icons/fa";
 import { IoStarSharp } from "react-icons/io5";
 
 interface PostResult {
@@ -24,102 +21,53 @@ interface SearchBarProps {
 }
 
 const convertToStars = (rating: number) => {
-  const newR: JSX.Element[] = [];
-  const whole = Math.floor(rating); //2
-  const remainder = rating - whole; // 2.35
-  let percentage_r = remainder * 100 + "%"; //35%
-  let counter = 0;
+  const stars: JSX.Element[] = [];
+  const whole = Math.floor(rating);
+  const remainder = rating - whole;
+  const percentage_r = `${remainder * 100}%`;
 
-  if (rating < 3) {
-    for (let i = 0; i < whole; i++) {
-      newR.push(
-        <IoStarSharp
-          key={i}
-          style={{
-            background: "darkorange",
-            fontSize: "24px",
-            padding: "2px",
-          }}
-        />
-      );
-      counter++;
-    }
+  // Define colors based on rating range
+  const getColor = (rating: number) => {
+    if (rating < 3) return "darkorange";
+    if (rating < 4) return "#32CD32";
+    return "darkgreen";
+  };
 
-    if (remainder > 0) {
-      newR.push(
-        <IoStarSharp
-          key="rest"
-          style={{
-            background: `linear-gradient(to right, darkorange ${percentage_r}, grey 15%)`,
-            fontSize: "24px",
-            padding: "2px",
-          }}
-        />
-      );
-      counter++;
-    }
-  } else if (rating >= 3 && rating < 4) {
-    for (let i = 0; i < whole; i++) {
-      newR.push(
-        <IoStarSharp
-          key={i}
-          style={{
-            background: "#32CD32",
-            fontSize: "24px",
-            padding: "2px",
-          }}
-        />
-      );
-      counter++;
-    }
+  const color = getColor(rating);
 
-    if (remainder > 0) {
-      newR.push(
-        <IoStarSharp
-          key="rest"
-          style={{
-            background: `linear-gradient(to right, #32CD32 ${percentage_r}, grey 15%)`,
-            fontSize: "24px",
-            padding: "2px",
-          }}
-        />
-      );
-      counter++;
-    }
-  } else {
-    for (let i = 0; i < whole; i++) {
-      newR.push(
-        <IoStarSharp
-          key={i}
-          style={{
-            background: "darkgreen",
-            fontSize: "24px",
-            padding: "2px",
-          }}
-        />
-      );
-      counter++;
-    }
-
-    if (remainder > 0) {
-      newR.push(
-        <IoStarSharp
-          key="rest"
-          style={{
-            background: `linear-gradient(to right, darkgreen ${percentage_r}, grey 15%)`,
-            fontSize: "24px",
-            padding: "2px",
-          }}
-        />
-      );
-      counter++;
-    }
-  }
-
-  for (let i = counter; i < 5; i++) {
-    newR.push(
+  // Add full stars
+  for (let i = 0; i < whole; i++) {
+    stars.push(
       <IoStarSharp
         key={i}
+        style={{
+          background: color,
+          fontSize: "24px",
+          padding: "2px",
+        }}
+      />
+    );
+  }
+
+  // Add partial star if there's a remainder
+  if (remainder > 0) {
+    stars.push(
+      <IoStarSharp
+        key="partial"
+        style={{
+          background: `linear-gradient(to right, ${color} ${percentage_r}, grey ${percentage_r})`,
+          fontSize: "24px",
+          padding: "2px",
+        }}
+      />
+    );
+  }
+
+  // Add empty stars to complete 5
+  while (stars.length < 5) {
+    stars.push(
+      <IoStarSharp
+        key={stars.length}
         style={{
           background: "grey",
           fontSize: "24px",
@@ -129,22 +77,21 @@ const convertToStars = (rating: number) => {
     );
   }
 
-  return newR;
+  return stars;
 };
 
 const SearchBar: React.FC<SearchBarProps> = ({ games }) => {
   const [search, setSearch] = useState<PostResult[]>([]);
   const [inputValue, setInputValue] = useState(""); // State to manage input value // State to manage input value
   const [visible, setVisible] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1); // State to manage the selected index
   const resultsRef = useRef<HTMLFormElement>(null);
-
-  const searchParams = useSearchParams();
-  const page = searchParams.get("page");
 
   //handle case as you are writting in the search
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    setIsTyping(e.target.value.length > 0);
     setInputValue(value);
     setVisible(true);
     const lowercaseValue = value.toLowerCase();
@@ -164,13 +111,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ games }) => {
             .replaceAll("'", "")
             .startsWith(lowercaseValue)
         )
-        .slice(0, 6);
+        .slice(0, 5);
 
       setSearch(filteredGames);
       setSelectedIndex(-1);
-      if (searchElement && window.innerWidth < 640) {
-        goFull(searchElement);
-      }
     } // Update search results
   };
 
@@ -179,29 +123,49 @@ const SearchBar: React.FC<SearchBarProps> = ({ games }) => {
     element.style.margin = "";
     element.style.padding = "";
     element.style.right = "";
+    element.style.position = "relative";
   };
-  const goFull = (element: HTMLElement) => {
-    element.style.width = "100vw"; // Set width to 100vw
-    element.style.margin = "0";
-    element.style.right = "0";
-    element.style.padding = "0 30px 0 15px";
+
+  const expandWidth = (element: HTMLElement) => {
+    element.style.position = "absolute";
+    element.style.width = "100vw"; // Example width for when typing
+    element.style.zIndex = "20";
+    element.style.padding = "0 20px 0 15px";
   };
 
   const handleResize = () => {
     const searchElement = document.querySelector(".search") as HTMLElement;
-    if (window.innerWidth >= 640) {
+    if (!searchElement) return;
+
+    if (window.innerWidth >= 1300) {
       resetSearchElementStyles(searchElement);
+    } else if (window.innerWidth < 1300) {
+      if (isTyping) {
+        expandWidth(searchElement);
+      } else {
+        resetSearchElementStyles(searchElement);
+      }
     } else if (inputValue) {
-      goFull(searchElement);
+      expandWidth(searchElement);
     }
   };
 
   useEffect(() => {
+    const searchElement = document.querySelector(".search") as HTMLElement;
+
+    if (window.innerWidth < 1300) {
+      if (isTyping) {
+        expandWidth(searchElement);
+      } else {
+        resetSearchElementStyles(searchElement);
+      }
+    }
+
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [inputValue]);
+  }, [inputValue, isTyping]);
 
   //check if clicked outside of input container
   useEffect(() => {
@@ -308,8 +272,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ games }) => {
               visible && search.length > 0
                 ? `${
                     search.length === 1
-                      ? 7
-                      : search.length * (window.innerWidth < 550 ? 4.3 : 6.5)
+                      ? 8.5
+                      : search.length * (window.innerWidth < 550 ? 4.3 : 8.2)
                   }rem`
                 : "0",
             transition: "height 0.2s ease-in-out",

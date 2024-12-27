@@ -226,21 +226,23 @@ const NavBar = () => {
               style={{ transitionProperty: "transform" }}
               className={` items-center transition-all duration-300 ease-in-out flex gap-2 flex-row mt-0`}
             >
-              {logos.map((logo) => (
-                <Link key={logo.key} href={`/Games/${logo.slug}/page/1`}>
-                  <div
-                    className="text-stone-200 sm:text-3xl text-2xl transition delay-50 p-2 rounded-full hover:scale-110"
-                    onClick={closeDropdown}
-                  >
-                    {logo.component}
-                  </div>
+              <div className="lg:flex gap-2 hidden items-center">
+                {logos.map((logo) => (
+                  <Link key={logo.key} href={`/Games/${logo.slug}/page/1`}>
+                    <div
+                      className="text-stone-200 sm:text-3xl text-2xl transition delay-50 p-2 rounded-full hover:scale-110"
+                      onClick={closeDropdown}
+                    >
+                      {logo.component}
+                    </div>
+                  </Link>
+                ))}
+                <Link href={"/Games/page/1"}>
+                  <button className="font-black italic text-white uppercase sm:text-lg text-lg transition delay-50 p-2 rounded-full hover:scale-110">
+                    All Games
+                  </button>
                 </Link>
-              ))}
-              <Link href={"/Games/page/1"}>
-                <button className="font-black italic text-white uppercase sm:text-lg text-lg transition delay-50 p-2 rounded-full hover:scale-110">
-                  All Games
-                </button>
-              </Link>
+              </div>
               <button
                 className={`text-white lg:hidden block rounded-full p-2 hover:bg-neutral-800 transition-all duration-200 ease-in-out text-5xl w-16 py-2 px-2 `}
                 onClick={toggleMenu}

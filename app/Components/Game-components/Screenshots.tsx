@@ -5,10 +5,10 @@ const Screenshots = async ({ params }: { params: any }) => {
   const screenshots = await getScreenshots(params.name);
 
   return (
-    <div className="relative lg:w-[20vw] w-[90vw] lg:h-[80vh] h-auto lg:-translate-y-4 -translate-y-0 flex items-center flex-col gap-2 lg:pr-12 pr-0 lg:pb-0 pb-20">
+    <div className="relative lg:w-[25rem] w-[90vw] lg:h-[45rem] h-auto lg:-translate-y-6 -translate-y-0 flex items-center flex-col gap-2 lg:pr-12 pr-0 lg:pb-0 pb-20">
       <span className="font-bold text-white text-2xl pb-2">Screenshots</span>
       <div
-        className={`flex ${styles.scrollbar} items-center overflow-x-auto lg:overflow-auto w-full lg:flex-col min-[480px]:flex-row flex-col gap-2 text-balance transition-all duration-200 text-white`}
+        className={`flex ${styles.scrollbar} items-center overflow-x-auto lg:overflow-auto w-full lg:flex-col min-[480px]:flex-row flex-col gap-[1px] text-balance transition-all duration-200 text-white`}
       >
         {screenshots && screenshots.length > 0 ? (
           screenshots.map((item: any) => (
@@ -18,7 +18,7 @@ const Screenshots = async ({ params }: { params: any }) => {
               src={item.image}
               // Make the image display full width
               width={240}
-              height={300}
+              height={240}
               className="transition-smooth object-cover duration-200 ease-in-out"
             />
           ))

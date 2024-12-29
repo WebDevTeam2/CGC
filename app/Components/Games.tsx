@@ -7,7 +7,7 @@ const senuaImagePath = "/assets/images/senua.jpg";
 function Games() {
   return (
     <Link
-      href={`/Games/construction`}
+      href={`/Games/page/1`}
       className="relative group text-6xl hover:scale-105 justify-center flex lg:w-2/4 w-full h-screen overflow-hidden transition duration-500 ease-in-out cursor-pointer"
     >
       <img

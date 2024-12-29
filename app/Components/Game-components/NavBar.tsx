@@ -174,13 +174,13 @@ const NavBar = () => {
                   alt="image"
                   height={120}
                   width={45}
-                  className="rounded-full object-cover"
+                  className="rounded-full max-w-max object-cover"
                 />
                 <IoIosArrowDown className="text-white text-2xl" />
               </div>
               <div
                 ref={profileRef}
-                className={`pointer-events-auto absolute flex flex-col overflow-hidden right-0 top-14 w-24 bg-white rounded-md shadow-lg transition-all duration-200 ${
+                className={`pointer-events-auto absolute flex flex-col overflow-hidden -left-6 top-14 w-24 bg-white rounded-md shadow-lg transition-all duration-200 ${
                   showProfile ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                 }`}
                 style={{ transitionProperty: "max-height, opacity" }}
@@ -283,18 +283,18 @@ const NavBar = () => {
                   <div className="hidden"></div>
                 )}
                 <Link href={"/Games/page/1"}>
-                  <button className="font-black italic text-white uppercase sm:text-lg text-lg transition delay-50 p-2 rounded-full hover:scale-110">
+                  <button className="font-black italic text-white uppercase text-lg transition delay-50 p-2 rounded-full hover:scale-110">
                     All Games
                   </button>
                 </Link>
                 {session && (
                   <div className="min-[900px]:hidden flex flex-col items-center gap-5">
                     <Link href={`/Account/info`}>
-                      <button className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
+                      <button className="text-cyan-400 uppercase italic font-black text-lg transition delay-50 p-2 rounded-full hover:scale-110">
                         My Profile
                       </button>
                     </Link>
-                    <div className="text-stone-200 sm:text-xl text-lg transition delay-50 p-2 rounded-full hover:scale-110">
+                    <div className="text-stone-200 text-lg transition delay-50 p-2 rounded-full hover:scale-110">
                       <Logout />
                     </div>
                   </div>
@@ -316,7 +316,7 @@ const NavBar = () => {
             {/* Conditional rendering of the ul based on isOpen state */}
 
             <div
-              className={`bg-black w-full gap-3 p-2 flex items-center justify-center flex-wrap text-slate-100 order-1 transition-all duration-500 ease-in-out ${
+              className={`bg-black w-full gap-3 p-2 flex items-center justify-center flex-wrap text-slate-100 order-1 transition-all duration-300 ease-in-out ${
                 openMenu ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
               } overflow-hidden`}
             >
@@ -354,7 +354,7 @@ const NavBar = () => {
               {session && (
                 <div className="min-[900px]:hidden flex gap-3">
                   <Link href={`/Account/info`}>
-                    <button className="text-orange-600 text-md transition delay-50 rounded-full hover:scale-110">
+                    <button className="text-cyan-400 italic font-black text-md transition delay-50 rounded-full hover:scale-110">
                       My Profile
                     </button>
                   </Link>

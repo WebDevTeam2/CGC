@@ -45,7 +45,7 @@ const UserReviews = async ({ params }: { params: any }) => {
             </div>
           ) : (
             <div className="my-4 mb-10 flex w-full justify-center items-center">
-              <span className="bg-neutral-600 sm:text-lg text-md text-slate-200 z-20 py-3 px-6 rounded-lg">
+              <span className="bg-neutral-800 sm:text-lg text-md text-slate-200 z-20 py-3 px-6 rounded-lg">
                 No reviews at this moment.
               </span>
             </div>

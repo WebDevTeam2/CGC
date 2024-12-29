@@ -29,7 +29,7 @@ const convertToStars = (rating: number) => {
   // Define colors based on rating range
   const getColor = (rating: number) => {
     if (rating < 3) return "darkorange";
-    if (rating < 4) return "#32CD32";
+    if (rating < 4) return "#C4B454";
     return "darkgreen";
   };
 

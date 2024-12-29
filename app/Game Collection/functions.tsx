@@ -450,102 +450,53 @@ export const roundNum = (rating_count: number) => {
 
 //FUNCTION THAT CONVERTS RATING TO STARS (USED ON GAME DETAILS)
 export const convertToStars = (rating: number) => {
-  const newR: JSX.Element[] = [];
-  const whole = Math.floor(rating); //2
-  const remainder = rating - whole; // 2.35
-  let percentage_r = remainder * 100 + "%"; //35%
-  let counter = 0;
+  const stars: JSX.Element[] = [];
+  const whole = Math.floor(rating);
+  const remainder = rating - whole;
+  const percentage_r = `${remainder * 100}%`;
 
-  if (rating < 3) {
-    for (let i = 0; i < whole; i++) {
-      newR.push(
-        <IoStarSharp
-          key={i}
-          style={{
-            background: "darkorange",
-            fontSize: "24px",
-            padding: "2px",
-          }}
-        />
-      );
-      counter++;
-    }
+  // Define colors based on rating range
+  const getColor = (rating: number) => {
+    if (rating < 3) return "darkorange";
+    if (rating < 4) return "#C4B454";
+    return "darkgreen";
+  };
 
-    if (remainder > 0) {
-      newR.push(
-        <IoStarSharp
-          key="rest"
-          style={{
-            background: `linear-gradient(to right, darkorange ${percentage_r}, grey 15%)`,
-            fontSize: "24px",
-            padding: "2px",
-          }}
-        />
-      );
-      counter++;
-    }
-  } else if (rating >= 3 && rating < 4) {
-    for (let i = 0; i < whole; i++) {
-      newR.push(
-        <IoStarSharp
-          key={i}
-          style={{
-            background: "#32CD32",
-            fontSize: "24px",
-            padding: "2px",
-          }}
-        />
-      );
-      counter++;
-    }
+  const color = getColor(rating);
 
-    if (remainder > 0) {
-      newR.push(
-        <IoStarSharp
-          key="rest"
-          style={{
-            background: `linear-gradient(to right, #32CD32 ${percentage_r}, grey 15%)`,
-            fontSize: "24px",
-            padding: "2px",
-          }}
-        />
-      );
-      counter++;
-    }
-  } else {
-    for (let i = 0; i < whole; i++) {
-      newR.push(
-        <IoStarSharp
-          key={i}
-          style={{
-            background: "darkgreen",
-            fontSize: "24px",
-            padding: "2px",
-          }}
-        />
-      );
-      counter++;
-    }
-
-    if (remainder > 0) {
-      newR.push(
-        <IoStarSharp
-          key="rest"
-          style={{
-            background: `linear-gradient(to right, darkgreen ${percentage_r}, grey 15%)`,
-            fontSize: "24px",
-            padding: "2px",
-          }}
-        />
-      );
-      counter++;
-    }
-  }
-
-  for (let i = counter; i < 5; i++) {
-    newR.push(
+  // Add full stars
+  for (let i = 0; i < whole; i++) {
+    stars.push(
       <IoStarSharp
         key={i}
+        style={{
+          background: color,
+          fontSize: "24px",
+          padding: "2px",
+        }}
+      />
+    );
+  }
+
+  // Add partial star if there's a remainder
+  if (remainder > 0) {
+    stars.push(
+      <IoStarSharp
+        key="partial"
+        style={{
+          background: `linear-gradient(to right, ${color} ${percentage_r}, grey ${percentage_r})`,
+          fontSize: "24px",
+          padding: "2px",
+        }}
+      />
+    );
+  }
+
+  // Add empty stars to complete 5
+  while (stars.length < 5) {
+    stars.push(
+      <IoStarSharp
+        key={stars.length}
         style={{
           background: "grey",
           fontSize: "24px",
@@ -555,7 +506,7 @@ export const convertToStars = (rating: number) => {
     );
   }
 
-  return newR;
+  return stars;
 };
 
 //FUNCTION TO FETCH GAME INFORMATION (USED ON PAGE UNDER NAME)

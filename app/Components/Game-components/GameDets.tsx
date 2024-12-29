@@ -144,7 +144,7 @@ const GameDets = async ({ params }: { params: any }) => {
       </div>
 
       {game.description_raw ? (
-        <span className="font-inter lg:mb-0 mb-10 lg:mt-0 -mt-10 leading-8 border shadow-xl shadow-gray-600 relative lg:w-1/2 w-4/5 2xl:h-[44rem] xl:h-[38rem] lg:h-[35rem] h-96 overflow-y-auto lg:overflow-y-visible bg-stone-900/60 p-6 rounded-2xl md:text-balance xl:text-center text-white text-lg transition-[width] lg:overflow-hidden ease-in-out duration-300">
+        <span className="lg:mb-0 mb-10 lg:mt-0 -mt-10 capitalize leading-8 border shadow-xl shadow-gray-600 relative lg:w-1/2 w-4/5 lg:h-[43rem] h-96 overflow-y-auto lg:overflow-y-visible bg-stone-900/60 p-6 rounded-2xl text-white text-lg transition-[width] lg:overflow-hidden ease-in-out duration-300">
           {game.description_raw}
         </span>
       ) : (

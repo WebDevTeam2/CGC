@@ -80,6 +80,7 @@ export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
       dateRanges.map(async (dateRange) => {
         try {
           // Query MongoDB for games in this date range
+          const pageSize = 40;
           const gamesInRange = (await games
             ?.find<PostResult>({
               released: {
@@ -87,6 +88,7 @@ export const fetchAndCombineDataSimple = async (): Promise<PostResult[]> => {
                 $lte: `${dateRange.split(",")[1]}`,
               },
             })
+            .limit(pageSize)
             .project({
               id: 1,
               released: 1,

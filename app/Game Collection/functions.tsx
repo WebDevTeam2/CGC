@@ -8,10 +8,16 @@ let client: MongoClient | undefined;
 let db: Db | undefined;
 let games: Collection<Document> | undefined;
 
+//https://api.rawg.io/api/games
 const basePosterUrl = process.env.NEXT_PUBLIC_BASE_POSTER_URL;
+
+//api key for connection to RAWG database
 const apiPosterKey = process.env.NEXT_PUBLIC_API_KEY;
+
+//combining href with api key
 const apiPosterUrl = `${basePosterUrl}?${apiPosterKey}`;
 
+// Ensures the database connection (db) is set up only once.
 async function init(): Promise<void> {
   if (db) return;
   try {
@@ -24,6 +30,7 @@ async function init(): Promise<void> {
   }
 }
 
+//runs as soon as file is loaded (after awaiting initialization)
 (async () => {
   await init();
 })();

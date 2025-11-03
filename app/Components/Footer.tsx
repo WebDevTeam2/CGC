@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { FaFacebook, FaGithub } from "react-icons/fa";
 import { FaSquareInstagram, FaXTwitter } from "react-icons/fa6";
@@ -7,10 +8,11 @@ function Footer() {
     <div className="flex w-full lg:px-44 sm:px-20 px-6 items-center flex-col sticky h-auto bg-black mt-6">
       <div className="w-full pt-4 justify-between flex lg:flex-row flex-col items-center">
         <div className="flex lg:flex-row flex-col w-full lg:justify-normal justify-center items-center lg:gap-3 gap-0">
-          <img
+          <Image
             src="/assets/images/site-logo-cropped.png"
             alt="site_logo"
             className="sm:h-20 h-16 object-cover mb-2 rounded-2xl"
+            priority
           />
           <span className="title text-white sm:text-xl text-lg mb-2 font-black pointer-events-auto italic font-sans">
             CineGame Critic

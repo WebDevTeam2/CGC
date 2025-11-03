@@ -7,6 +7,7 @@ import { UploadButton } from "@/app/Uploadthing/uploadthing";
 import { useSession, signOut } from "next-auth/react";
 import Footer from "../Footer";
 import Link from "next/link";
+import Image from "next/image";
 
 const AccountInfo = () => {
   const { data: session } = useSession();
@@ -199,10 +200,13 @@ const AccountInfo = () => {
             {hasProvider ? (
               <>
                 <div className="relative w-20 h-20 rounded-full overflow-hidden">
-                  <img
-                    src={user.profilePicture || "/assets/images/default_avatar.jpg"}
+                  <Image
+                    src={
+                      user.profilePicture || "/assets/images/default_avatar.jpg"
+                    }
                     alt="User Avatar"
                     className="object-cover"
+                    priority
                   />
                 </div>
                 <form className="flex flex-col gap-4 mt-8 sm:w-80 w-60">
@@ -256,10 +260,14 @@ const AccountInfo = () => {
               <>
                 <div className="flex flex-col items-center">
                   <div className="relative w-20 h-20 rounded-full overflow-hidden">
-                    <img
-                      src={user?.profilePicture || "/assets/images/default_avatar.jpg"}
+                    <Image
+                      src={
+                        user?.profilePicture ||
+                        "/assets/images/default_avatar.jpg"
+                      }
                       alt="User Avatar"
                       className="object-cover"
+                      priority
                     />
                   </div>
                   <div className="mt-2">

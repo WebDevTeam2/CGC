@@ -10,6 +10,7 @@ import {
   roundNum,
   getGameInfoByName,
 } from "@/app/Game Collection/functions";
+import Image from "next/image";
 
 const GameDets = async ({ params }: { params: any }) => {
   const game = await getGameInfoByName(params.name);
@@ -25,10 +26,11 @@ const GameDets = async ({ params }: { params: any }) => {
     <div className="flex pt-20 items-center lg:items-stretch flex-col lg:flex-row h-full justify-evenly xl:gap-20 gap-10 pl-0">
       <div className="flex lg:w-[50vw] h-full w-[85vw] flex-col relative lg:pl-10 pl-0">
         <div className="relative  h-auto  w-full">
-          <img
+          <Image
             src={game.background_image}
             alt={game.name}
             className="object-cover rounded-t-lg"
+            priority
           />
         </div>
         <div className="relative flex flex-col -top-10">

@@ -1,6 +1,6 @@
 "use client"; // Ensure this component is treated as a Client Component
 import { FormEvent, useEffect, useState, Suspense } from "react";
-import { FaGoogle, FaGithub, FaFacebook } from "react-icons/fa";
+import { FaGoogle, FaGithub } from "react-icons/fa";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";

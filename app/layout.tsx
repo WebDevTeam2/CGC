@@ -1,7 +1,8 @@
 // import type { Metadata } from "next";
+import "./globals.css";
 import { Inter } from "next/font/google";
 import { Roboto } from "next/font/google";
-import "./globals.css";
+import NextTopLoader from "nextjs-toploader";
 import SessionWrapper from "./Components/SessionWrapper";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
@@ -114,6 +115,20 @@ export default function RootLayout({
             routerConfig={extractRouterConfig(ourFileRouter)}
           />
           {children}
+          <NextTopLoader
+            color="#2299DD"
+            initialPosition={0.08}
+            crawlSpeed={200}
+            height={3}
+            crawl={true}
+            showSpinner={false}
+            easing="ease"
+            speed={200}
+            shadow="0 0 10px #2299DD,0 0 5px #2299DD"
+            template='<div class="bar" role="bar"><div class="peg"></div></div>'
+            zIndex={1600}
+            showAtBottom={false}
+          />
         </body>
       </html>
     </SessionWrapper>

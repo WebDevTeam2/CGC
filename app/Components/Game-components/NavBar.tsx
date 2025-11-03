@@ -11,6 +11,7 @@ import { useSession } from "next-auth/react";
 import defaultAvatar from "@/public/assets/images/default_avatar.jpg";
 import SearchBar from "./SearchBar";
 import { PostResult } from "@/app/Constants/constants";
+import Image from "next/image";
 
 const logos = [
   { component: <FaXbox />, key: 3, slug: "xbox" },
@@ -169,11 +170,12 @@ const NavBar = () => {
                 className="pointer-events-auto flex flex-row items-center justify-center gap-1 hover:cursor-pointer hover:brightness-75 w-auto h-auto"
                 onClick={toggleProfile}
               >
-                <img
+                <Image
                   src={user?.profilePicture || defaultAvatar.src}
                   alt="image"
-                  height={120}
-                  width={45}
+                  width={50}
+                  height={50}
+                  priority
                   className="rounded-full max-w-max object-cover"
                 />
                 <IoIosArrowDown className="text-white text-2xl" />

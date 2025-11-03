@@ -170,6 +170,7 @@ const AccountGames = () => {
                 alt="User Avatar"
                 className="object-cover"
                 priority
+                fill
               />
             </div>
             <div className="flex flex-col gap-4 mt-8 min-[540px]:w-[30rem] w-auto">
@@ -313,6 +314,7 @@ const AccountGames = () => {
                                 src={list.gamePic}
                                 alt={list.gameName}
                                 className="md:border-r-4 w-full h-full object-cover border-none sm:rounded-l-lg border-white transition duration-500 ease-in-out"
+                                fill
                               />
                             </div>
                             <span className="sm:mt-0 sm:ml-4 -mt-4 text-sm font-black">

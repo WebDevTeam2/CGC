@@ -1,3 +1,4 @@
+import Image from "next/image";
 import styles from "../../Games/style.module.css";
 import { getScreenshots } from "@/app/Game Collection/functions";
 
@@ -12,7 +13,7 @@ const Screenshots = async ({ params }: { params: any }) => {
       >
         {screenshots && screenshots.length > 0 ? (
           screenshots.map((item: any) => (
-            <img
+            <Image
               key={item.id}
               alt={`game_screenshot_${item.id}`}
               src={item.image}

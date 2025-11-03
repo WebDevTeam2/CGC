@@ -3,6 +3,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import { IoStarSharp } from "react-icons/io5";
+import Image from "next/image";
 
 interface PostResult {
   id: number;
@@ -288,10 +289,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ games }) => {
               className="flex flex-row transition-all duration-300 ease-in-out hover:scale-[1.02] pl-6 hover:text-stone-400"
             >
               <div className="relative overflow-hidden sm:w-44 sm:h-32 min-[420px]:w-40 min-[420px]:h-28 w-36 h-24 flex-shrink-0 flex-grow-0">
-                <img
+                <Image
                   src={result.background_image}
                   alt={result.name}
                   className="w-full h-full object-contain"
+                  fill
                 />
               </div>
               <div className="flex flex-col">

@@ -206,6 +206,8 @@ const AccountInfo = () => {
                     }
                     alt="User Avatar"
                     className="object-cover"
+                    width={100}
+                    height={100}
                     priority
                   />
                 </div>
@@ -267,6 +269,8 @@ const AccountInfo = () => {
                       }
                       alt="User Avatar"
                       className="object-cover"
+                      width={100}
+                      height={100}
                       priority
                     />
                   </div>

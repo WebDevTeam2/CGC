@@ -12,7 +12,8 @@ function Footer() {
             src="/assets/images/site-logo-cropped.png"
             alt="site_logo"
             className="sm:h-20 h-16 object-cover mb-2 rounded-2xl"
-            priority
+            width={80}
+            height={80}
           />
           <span className="title text-white sm:text-xl text-lg mb-2 font-black pointer-events-auto italic font-sans">
             CineGame Critic

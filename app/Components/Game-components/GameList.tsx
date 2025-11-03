@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { FaStar } from "react-icons/fa";
@@ -47,10 +48,11 @@ const GameList: React.FC<GameListProps> = ({ paginatedGames }) => {
                 >
                   <div className="bg-black overflow-hidden rounded-lg bg-opacity-[.7] relative flex flex-col md:flex-row md:gap-0 gap-0 transition-all duration-400">
                     <div className="relative md:w-[25rem] md:h-[15rem] w-full h-[20rem] max-[550px]:h-[15rem] max-[416px]:h-[10rem] flex-shrink-0 flex-grow-0">
-                      <img
+                      <Image
                         src={item.background_image}
                         alt={item.name}
                         className="w-full h-full md:border-r-4 object-cover border-none rounded-l-lg border-white transition duration-500 ease-in-out"
+                        fill
                       />
                     </div>
                     {/* Item name on hover */}

@@ -30,7 +30,8 @@ const GameDets = async ({ params }: { params: any }) => {
             src={game.background_image}
             alt={game.name}
             className="object-cover rounded-t-lg"
-            priority
+            width={700}
+            height={700}
           />
         </div>
         <div className="relative flex flex-col -top-10">

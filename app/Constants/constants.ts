@@ -132,58 +132,6 @@ export interface Metadata {
   robots?: string;
 }
 
-interface Post {
-  page: number;
-  results: PostResult[];
-  onSearch: (name: string) => void;
-}
-
-export interface PostPage {
-  id: number; //use
-  slug: string; //use
-  name: string; //use
-  playtime: number;
-  ratings_count: number;
-  next: string;
-  previous: string;
-  count: number;
-  results: [
-    {
-      id: number;
-      image: string;
-      width: number;
-      height: number;
-      is_deleted: boolean;
-      name: string;
-      preview: string;
-      data: {
-        480: string;
-        max: string;
-      };
-    }
-  ];
-  platforms: [
-    {
-      platform: {
-        name: string;
-        slug: string;
-      };
-    }
-  ];
-  genres: [
-    {
-      id: number;
-      name: string;
-      slug: string;
-    }
-  ];
-  released: string;
-  background_image: string;
-  rating: number;
-  rating_top: number;
-  description_raw: string;
-}
-
 //interfaces used throught the movie pages
 export interface MovieProps {
   movieData?: Movie;

@@ -61,7 +61,8 @@ export const authOptions: NextAuthOptions = {
     signIn: "/Signin", // Customize the sign-in page URL if needed
   },
   session: {
-    strategy: "jwt", // Use JWT to manage sessions
+    strategy: "jwt",
+    //JWTs(JSON web tokens) are used to store and verify user session data without saving anything on the server.
   },
   callbacks: {
     async session({ session, token }) {

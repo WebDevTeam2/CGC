@@ -6,6 +6,7 @@ const senuaImagePath = "/assets/images/senua.jpg";
 
 function Games() {
   return (
+    // Link is instant (no full page reload) as it transition inside the App Router
     <Link
       href={`/Games/page/1`}
       className="relative group text-6xl hover:scale-105 justify-center flex lg:w-2/4 w-full h-screen overflow-hidden transition duration-500 ease-in-out cursor-pointer"

@@ -1,3 +1,4 @@
+//this file starts the authentication session handling
 import { authOptions } from "@/authDbConnection/authOptions";
 import nextAuth from "next-auth/next";
 const handler = nextAuth(authOptions);

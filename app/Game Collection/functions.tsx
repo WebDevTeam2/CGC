@@ -266,23 +266,6 @@ export const fetchByGenreRating = async (name: string) => {
   return sortedGames;
 };
 
-export const fetchByGenreRelease = async (name: string) => {
-  // Get all games fetched by the first function
-  const allGames = await fetchByGenre(name);
-
-  // Filter games to return newest first
-  const filteredGames = allGames.sort((a, b) => {
-    const dateA = new Date(a.released);
-    const dateB = new Date(b.released);
-    // console.log(dateA);
-    // console.log(dateB.getTime() - dateA.getTime());
-    return dateB.getTime() - dateA.getTime();
-  });
-
-  // console.log(filteredGames);
-  return filteredGames;
-};
-
 export const fetchByGenreConsole = async (name: string, slug: string) => {
   // Get all games fetched by the first function
   const allGames = await fetchAndCombineData(name);
@@ -317,38 +300,6 @@ export const fetchByGenreConsoleRating = async (name: string, slug: string) => {
   return sortedGames;
 };
 
-export const fetchByGenreConsoleRelease = async (
-  name: string,
-  slug: string
-) => {
-  // Get all games fetched by the first function
-  const allGames = await fetchByGenreConsole(name, slug);
-
-  // Filter games to return newest first
-  const filteredGames = allGames.sort((a, b) => {
-    const dateA = new Date(a.released);
-    const dateB = new Date(b.released);
-    return dateB.getTime() - dateA.getTime();
-  });
-
-  // console.log(filteredGames);
-  return filteredGames;
-};
-
-//this function is for the newely released games
-export const fetchByRelease = async () => {
-  // Get all games fetched by the first function
-  const allGames = await fetchAndCombineDataSimple();
-
-  // Filter games to return newest first
-  const filteredGames = allGames.sort((a, b) => {
-    const dateA = new Date(b.released);
-    const dateB = new Date(a.released);
-    return dateB.getTime() - dateA.getTime();
-  });
-  return filteredGames;
-};
-
 //this function sorts the greatest games first
 export const fetchByRating = async () => {
   // Get all games fetched by the first function
@@ -371,24 +322,6 @@ export const fetchByName = async () => {
 
   // Return the sorted games
   return sortedGames;
-};
-
-//this function is for the newely released games
-export const fetchByReleaseConsole = async (name: string) => {
-  // Get all games fetched by the first function
-  const allGames = await fetchAndCombineData(name);
-
-  // Filter games to return newest first
-  const filteredGames = allGames.sort((a, b) => {
-    const dateA = new Date(a.released);
-    const dateB = new Date(b.released);
-    // console.log(dateA);
-    // console.log(dateB.getTime() - dateA.getTime());
-    return dateB.getTime() - dateA.getTime();
-  });
-
-  // console.log(filteredGames);
-  return filteredGames;
 };
 
 //this function sorts the greatest games first

@@ -3,8 +3,8 @@ import React, { MouseEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import UserOptions from "./UserOptions";
 import PopupForLib from "../Game-components/PopupForLib";
-import { User } from "@/app/Constants/constants";
 import Footer from "../Footer";
+import Image from "next/image";
 import { useSession } from "next-auth/react";
 
 type GameData = {
@@ -165,10 +165,11 @@ const AccountGames = () => {
           {/* option content */}
           <div className="flex flex-col items-center min-[912px]:mx-12 mx-0 gap-0 mt-8 mb-10">
             <div className="relative min-[912px]:w-20 min-[912px]:h-20 w-16 h-16 rounded-full overflow-hidden group">
-              <img
+              <Image
                 src={user.profilePicture || "/assets/images/default_avatar.jpg"}
                 alt="User Avatar"
                 className="object-cover"
+                priority
               />
             </div>
             <div className="flex flex-col gap-4 mt-8 min-[540px]:w-[30rem] w-auto">
@@ -308,7 +309,7 @@ const AccountGames = () => {
                               />
                             )}
                             <div className="relative w-full h-full">
-                              <img
+                              <Image
                                 src={list.gamePic}
                                 alt={list.gameName}
                                 className="md:border-r-4 w-full h-full object-cover border-none sm:rounded-l-lg border-white transition duration-500 ease-in-out"
